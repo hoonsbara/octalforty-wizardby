@@ -2,11 +2,11 @@ deployment:
     environment development
         platform			=> sqlserver 
         host				=> "(local)\sqlexpress"
-        database			=> dev
+        database			=> blog
         integrated-security	=> true
 		
 	environment staging
 		platform			=> sqlserver 
 		host				=> "(local)\sqlexpress"
-		database			=> staging
+		database			=> blog_staging
 		integrated-security	=> true

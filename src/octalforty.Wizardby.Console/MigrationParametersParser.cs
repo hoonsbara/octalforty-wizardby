@@ -69,13 +69,15 @@ namespace octalforty.Wizardby.Console
 
         private static void ParseMigrationParameter(MigrationParameters parameters, string argument)
         {
-            if(argument.ToLower().StartsWith("/c"))
+            string arg = argument.ToLowerInvariant();
+
+            if(arg.StartsWith("/c"))
                 parameters.ConnectionString = ExtractArgumentValue(argument).Trim('"');
-            else if(argument.ToLower().StartsWith("/p"))
+            else if(arg.StartsWith("/p"))
                 parameters.PlatformAlias = ExtractArgumentValue(argument);
-            else if(argument.ToLower().StartsWith("/m"))
+            else if(arg.StartsWith("/m"))
                 parameters.MdlFileName = ExtractArgumentValue(argument);
-            else if(argument.ToLowerInvariant().StartsWith("/e"))
+            else if(arg.StartsWith("/e"))
                 parameters.Environment = ExtractArgumentValue(argument);
         }
 
