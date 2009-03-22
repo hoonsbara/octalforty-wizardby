@@ -1,6 +1,6 @@
 migration "Blog" revision => 1:
     type-aliases:
-	    type-alias N type => String, length => 200, nullable => false, default => ""
+	    type-alias N type => String, length => 200, nullable => false
     	
     defaults:
 	    default-primary-key ID type => Int32, nullable => false, identity => true
