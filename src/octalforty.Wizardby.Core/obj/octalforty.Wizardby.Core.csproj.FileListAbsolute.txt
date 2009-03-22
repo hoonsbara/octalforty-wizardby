@@ -1,8 +1,0 @@
-D:\w\octalforty.Wizardby\src\octalforty.Wizardby.Core\bin\Debug\octalforty.Wizardby.Core.dll
-D:\w\octalforty.Wizardby\src\octalforty.Wizardby.Core\bin\Debug\octalforty.Wizardby.Core.pdb
-D:\w\octalforty.Wizardby\src\octalforty.Wizardby.Core\obj\Debug\ResolveAssemblyReference.cache
-D:\w\octalforty.Wizardby\src\octalforty.Wizardby.Core\obj\Debug\octalforty.Wizardby.Core.Resources.BindingCompilerStage.resources
-D:\w\octalforty.Wizardby\src\octalforty.Wizardby.Core\obj\Debug\octalforty.Wizardby.Core.Resources.MdlParser.resources
-D:\w\octalforty.Wizardby\src\octalforty.Wizardby.Core\obj\Debug\octalforty.Wizardby.Core.csproj.GenerateResource.Cache
-D:\w\octalforty.Wizardby\src\octalforty.Wizardby.Core\obj\Debug\octalforty.Wizardby.Core.dll
-D:\w\octalforty.Wizardby\src\octalforty.Wizardby.Core\obj\Debug\octalforty.Wizardby.Core.pdb
