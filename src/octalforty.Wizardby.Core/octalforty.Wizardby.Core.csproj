@@ -1,0 +1,421 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{31A1F1A5-E685-4C89-929D-FDC93CD12BB0}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>octalforty.Wizardby.Core</RootNamespace>
+    <AssemblyName>octalforty.Wizardby.Core</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Compiler\Ast\AstUtil.cs" />
+    <Compile Include="Compiler\Ast\AstVisitorBase.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Compiler\Ast\IIndexNode.cs" />
+    <Compile Include="Compiler\Ast\Impl\ColumnNodeBase.cs" />
+    <Compile Include="Compiler\Ast\IAddColumnNode.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Compiler\Ast\IAddIndexNode.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Compiler\Ast\IAddReferenceNode.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Compiler\Ast\IAddTableNode.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Compiler\Ast\IAlterColumnNode.cs" />
+    <Compile Include="Compiler\Ast\IAlterTableNode.cs" />
+    <Compile Include="Compiler\Ast\IAstNode.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Compiler\Ast\IAstNodeProperty.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Compiler\Ast\IAstNodePropertyCollection.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Compiler\Ast\IAstVisitor.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Compiler\Ast\IBaselineNode.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Compiler\Ast\IColumnNode.cs" />
+    <Compile Include="Compiler\Ast\IDefaultPrimaryKeyNode.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Compiler\Ast\IDefaultsNode.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Compiler\Ast\IDeploymentNode.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Compiler\Ast\IDowngradeNode.cs" />
+    <Compile Include="Compiler\Ast\IEnvironmentNode.cs" />
+    <Compile Include="Compiler\Ast\IMigrationNode.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Compiler\Ast\Impl\AddColumnNode.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Compiler\Ast\Impl\AddIndexNode.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Compiler\Ast\Impl\AddReferenceNode.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Compiler\Ast\Impl\AddTableNode.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Compiler\Ast\Impl\AlterColumnNode.cs" />
+    <Compile Include="Compiler\Ast\Impl\AlterTableNode.cs" />
+    <Compile Include="Compiler\Ast\Impl\AstNode.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Compiler\Ast\Impl\AstNodeProperty.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Compiler\Ast\Impl\AstNodePropertyCollection.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Compiler\Ast\Impl\BaselineNode.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Compiler\Ast\Impl\DefaultPrimaryKeyNode.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Compiler\Ast\Impl\DefaultsNode.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Compiler\Ast\Impl\DeploymentNode.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Compiler\Ast\Impl\DowngradeNode.cs" />
+    <Compile Include="Compiler\Ast\Impl\EnvironmentNode.cs" />
+    <Compile Include="Compiler\Ast\Impl\IndexNodeBase.cs" />
+    <Compile Include="Compiler\Ast\Impl\MigrationNode.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Compiler\Ast\Impl\RefactorNode.cs" />
+    <Compile Include="Compiler\Ast\Impl\ReferenceNode.cs" />
+    <Compile Include="Compiler\Ast\Impl\RemoveColumnNode.cs" />
+    <Compile Include="Compiler\Ast\Impl\RemoveIndexNode.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Compiler\Ast\Impl\RemoveReferenceNode.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Compiler\Ast\Impl\RemoveTableNode.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Compiler\Ast\Impl\TableNodeBase.cs" />
+    <Compile Include="Compiler\Ast\Impl\TableTemplateNode.cs" />
+    <Compile Include="Compiler\Ast\Impl\TemplatesNode.cs" />
+    <Compile Include="Compiler\Ast\Impl\TypeAliasesNode.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Compiler\Ast\Impl\TypeAliasNode.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Compiler\Ast\Impl\UpgradeNode.cs" />
+    <Compile Include="Compiler\Ast\Impl\VersionNode.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Compiler\Ast\IRefactorNode.cs" />
+    <Compile Include="Compiler\Ast\IReferenceNode.cs" />
+    <Compile Include="Compiler\Ast\IRemoveColumnNode.cs" />
+    <Compile Include="Compiler\Ast\IRemoveIndexNode.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Compiler\Ast\IRemoveReferenceNode.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Compiler\Ast\IRemoveTableNode.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Compiler\Ast\ISchemaElementNode.cs" />
+    <Compile Include="Compiler\Ast\ITableNode.cs" />
+    <Compile Include="Compiler\Ast\ITableTemplateNode.cs" />
+    <Compile Include="Compiler\Ast\ITemplatesNode.cs" />
+    <Compile Include="Compiler\Ast\ITypeAliasesNode.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Compiler\Ast\ITypeAliasNode.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Compiler\Ast\IUpgradeNode.cs" />
+    <Compile Include="Compiler\Ast\IVersionNode.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Compiler\CodeGeneratorBase.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Compiler\Environment.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Compiler\ICodeGenerator.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Compiler\IMdlCompiler.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Compiler\IMdlCompilerStage.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Compiler\IMdlParser.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Compiler\IMdlScanner.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Compiler\Impl\AstFlattenerCompilerStage.cs" />
+    <Compile Include="Compiler\Impl\BindingCompilerStage.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Compiler\Impl\DowngradeGenerationStage.cs" />
+    <Compile Include="Compiler\Impl\MdlGeneratorAstVisitor.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Compiler\Impl\NamingCompilerStage.cs" />
+    <Compile Include="Compiler\Impl\PrimaryKeyResolutionCompilerStage.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Compiler\Impl\RefactoringStage.cs" />
+    <Compile Include="Compiler\Impl\SchemaBuilderCompilerStageBase.cs" />
+    <Compile Include="Compiler\Impl\SchemaInfoBuilderCompilerStage.cs" />
+    <Compile Include="Compiler\Impl\ShortcutResolutionCompilerStage.cs" />
+    <Compile Include="Compiler\Impl\TemplateSubstitutionCompilerStage.cs" />
+    <Compile Include="Compiler\Impl\TypeAliasResolutionCompilerStage.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Compiler\Impl\TypeInferenceCompilerStage.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Compiler\Impl\UpgradeGenerationStage.cs" />
+    <Compile Include="Compiler\Location.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Compiler\MdlCompilationOptions.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Compiler\MdlCompiler.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Compiler\MdlCompilerException.cs" />
+    <Compile Include="Compiler\MdlCompilerStageBase.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Compiler\MdlGenerator.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Compiler\MdlParser.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Compiler\MdlParserException.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Compiler\MdlScanner.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Compiler\MdlSyntax.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Compiler\SchemaDefinitionBuilderVisitor.cs" />
+    <Compile Include="Compiler\SourceReader.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Compiler\Token.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Compiler\TokenSequence.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Compiler\TokenType.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Compiler\XmdlGenerator.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Compiler\XmdlScanner.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Db\DbConnectionStringBuilderBase.cs" />
+    <Compile Include="Db\DbDialectBase.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Db\DbPlatformAttribute.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Db\DbPlatformBase.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Db\DbPlatformDependencyBase.cs" />
+    <Compile Include="Db\DbPlatformRegistry.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Db\DbScriptGeneratorBase.cs" />
+    <Compile Include="Db\DbTypeMapperBase.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Db\DefaultDbNamingStrategy.cs" />
+    <Compile Include="Db\IDbCommandExecutive.cs" />
+    <Compile Include="Db\IDbConnectionStringBuilder.cs" />
+    <Compile Include="Db\IDbDialect.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Db\IDbNamingStrategy.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Db\IDbPlatform.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Db\IDbPlatformDependency.cs" />
+    <Compile Include="Db\IDbScriptGenerator.cs" />
+    <Compile Include="Db\IDbTypeMapper.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Deployment\EnvironmentCollection.cs" />
+    <Compile Include="Deployment\IDeploymentInfo.cs" />
+    <Compile Include="Deployment\IEnvironment.cs" />
+    <Compile Include="Deployment\IEnvironmentCollection.cs" />
+    <Compile Include="Deployment\DeploymentInfoParser.cs" />
+    <Compile Include="Deployment\Impl\DeploymentInfo.cs" />
+    <Compile Include="Deployment\Impl\Environment.cs" />
+    <Compile Include="Migration\IMigrationService.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Migration\IMigrationVersionInfoManager.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Migration\Impl\DbMigrationScriptExecutive.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Migration\Impl\DbMigrationVersionInfoManager.cs" />
+    <Compile Include="Migration\Impl\DbNamingCompilerStage.cs" />
+    <Compile Include="Migration\Impl\IMigrationScriptExecutive.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Migration\Impl\MigrationScript.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Migration\Impl\MigrationScriptCollection.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Migration\Impl\MigrationScriptsCodeGenerator.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Migration\Impl\MigrationService.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Migration\Impl\NullDbTransaction.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Migration\MigrationException.cs" />
+    <Compile Include="Migration\MigrationMode.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Refactoring\AddAuditTableRefactoring.cs" />
+    <Compile Include="Refactoring\IRefactoring.cs" />
+    <Compile Include="Refactoring\RefactoringAttribute.cs" />
+    <Compile Include="Resources\BindingCompilerStage.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BindingCompilerStage.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\MdlParser.Designer.cs">
+      <DependentUpon>MdlParser.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="SemanticModel\ColumnDefinition.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SemanticModel\ConstraintDefinition.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SemanticModel\IColumnDefinition.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SemanticModel\IIndexColumnDefinition.cs" />
+    <Compile Include="SemanticModel\IIndexDefinition.cs" />
+    <Compile Include="SemanticModel\IndexColumnDefinition.cs" />
+    <Compile Include="SemanticModel\IndexDefinition.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SemanticModel\IReferenceDefinition.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SemanticModel\ISchemaElementDefinitionCollection.cs" />
+    <Compile Include="SemanticModel\ISchemaElementDefinition.cs" />
+    <Compile Include="SemanticModel\ITableDefinition.cs" />
+    <Compile Include="SemanticModel\ReferenceDefinition.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SemanticModel\SchemaDefinition.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SemanticModel\SchemaElementCollection.cs" />
+    <Compile Include="SemanticModel\SchemaElementDefinitionBase.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SemanticModel\SortDirection.cs" />
+    <Compile Include="SemanticModel\TableDefinition.cs" />
+    <Compile Include="Util\Algorithms.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\BindingCompilerStage.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>BindingCompilerStage.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\MdlParser.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>MdlParser.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Compiler\Ast\Ast.cd" />
+    <None Include="Db\Db.cd" />
+    <None Include="SemanticModel\SemanticModel.cd" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

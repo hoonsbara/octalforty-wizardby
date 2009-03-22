@@ -1,0 +1,117 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{D092FE85-5D18-42DE-A131-90086BBF9005}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>octalforty.Wizardby.Tests</RootNamespace>
+    <AssemblyName>octalforty.Wizardby.Tests</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="nunit.framework, Version=2.4.8.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\NUnit\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="Rhino.Mocks, Version=3.5.0.1337, Culture=neutral, PublicKeyToken=0b3305902db7183f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\Rhino.Mocks\Rhino.Mocks.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Console\MigrationParametersParserTestFixture.cs" />
+    <Compile Include="Core\Compiler\EnvironmentTestFixture.cs" />
+    <Compile Include="Core\Compiler\Impl\AstFlattenerCompilerStageTestFixture.cs" />
+    <Compile Include="Core\Compiler\Impl\AstTestFixtureBase.cs" />
+    <Compile Include="Core\Compiler\Impl\BindingCompilerStageTestFixture.cs" />
+    <Compile Include="Core\Compiler\Impl\DowngradeGenerationStageTestFixture.cs" />
+    <Compile Include="Core\Compiler\Impl\PrimaryKeyResolutionCompilerStageTestFixture.cs" />
+    <Compile Include="Core\Compiler\Impl\SchemaInfoBuilderCompilerStageTestFixture.cs" />
+    <Compile Include="Core\Compiler\Impl\ShortcutResolutionCompilerStageTestFixture.cs" />
+    <Compile Include="Core\Compiler\Impl\TemplateSubstitutionCompilerStageTestFixture.cs" />
+    <Compile Include="Core\Compiler\Impl\TypeAliasResolutionCompilerStageTestFixture.cs" />
+    <Compile Include="Core\Compiler\Impl\UpgradeGenerationStageTestFixture.cs" />
+    <Compile Include="Core\Compiler\MdlCompilerTestFixture.cs" />
+    <Compile Include="Core\Compiler\MdlGeneratorTestFixture.cs" />
+    <Compile Include="Core\Compiler\MdlParserTestFixture.cs" />
+    <Compile Include="Core\Compiler\MdlScannerTestFixture.cs" />
+    <Compile Include="Core\Compiler\NullCodeGenerator.cs" />
+    <Compile Include="Core\Compiler\SourceReaderTestFixture.cs" />
+    <Compile Include="Core\Compiler\TokenSequenceTestFixture.cs" />
+    <Compile Include="Core\Db\DbTypeMapperBaseTestFixture.cs" />
+    <Compile Include="Core\Deployment\DeploymentInfoParserTestFixture.cs" />
+    <Compile Include="Core\Migration\Impl\DbMigrationVersionInfoManagerTestFixture.cs" />
+    <Compile Include="Core\Migration\Impl\MigrationScriptExecutive.cs" />
+    <Compile Include="Core\Migration\Impl\MigrationServiceTestFixture.cs" />
+    <Compile Include="Core\Migration\Impl\MigrationVersionInfoManager.cs" />
+    <Compile Include="Core\SemanticModel\SchemaDefinitionTestFixture.cs" />
+    <Compile Include="Core\SemanticModel\TableDefinitionTestFixture.cs" />
+    <Compile Include="Db\Jet\JetTransformerTestFixture.cs" />
+    <Compile Include="Db\SqlServer\SqlServerConnectionStringBuilderTestFixture.cs" />
+    <Compile Include="Db\SqlServer\SqlServerDialectTestFixture.cs" />
+    <Compile Include="Db\SqlServer\SqlServerScriptGeneratorTestFixture.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\octalforty.Wizardby.Console\octalforty.Wizardby.Console.csproj">
+      <Project>{CA07D421-EC04-4D9F-8936-CACF513500D9}</Project>
+      <Name>octalforty.Wizardby.Console</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\octalforty.Wizardby.Core\octalforty.Wizardby.Core.csproj">
+      <Project>{31A1F1A5-E685-4C89-929D-FDC93CD12BB0}</Project>
+      <Name>octalforty.Wizardby.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\octalforty.Wizardby.Db\octalforty.Wizardby.Db.csproj">
+      <Project>{735ADA03-27DA-4C9F-BDAF-21DEEC2DD5C8}</Project>
+      <Name>octalforty.Wizardby.Db</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Waffle.mdl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\Waffle.xmdl.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Blog.mdl" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <EmbeddedResource Include="Resources\BlogWithTemplates.mdl" />
+    <EmbeddedResource Include="Resources\BlogWithSchemas.mdl" />
+    <EmbeddedResource Include="Resources\Database.wdi">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

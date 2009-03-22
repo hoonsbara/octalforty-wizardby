@@ -1,0 +1,94 @@
+migration "Waffle" revision => 1:
+	deployment:
+		database "Waffle"
+		
+	type-aliases:
+		type-alias ndt type => DateTime, nullable => true
+		
+	defaults:
+		default-primary-key ID type => Int32, nullable => false, identity => true
+		
+	baseline:
+		add table User:
+			Login type => String, length => 200, nullable => false
+				index unique => true
+			
+			index IX_Login columns => Login, unique => true
+			
+	version 1:		
+		add index IX_User_ID table => User, columns => ID, unique => true
+		remove index IX_User_ID table => User
+		
+		alter table User:
+			remove index IX_User_ID
+			add index IX_User_ID columns => ID
+			remove index IX_Login
+			remove column Login
+			
+		remove table User
+
+Intro
+-----
+
+Migration Definition is a simple text file. Here's a quick glimpse:
+
+migration "Waffle" revision => 1:		
+	defaults:		
+		default-primary-key ID type => Int32, nullable => false
+			
+	version 1:
+		create table User:
+			Login type => String, length => 200, nullable => false
+			Password type => Binary, length => 64, nullable => false
+			
+			index IX_Login column-names => Login, unique => true
+	
+		create table Forum:
+			Name type => String, length => 200, nullable => false
+
+Lexical structure
+-----------------
+
+MDL file is divided into lines. The end of the line is, well, the end of line marker.
+
+There are no special single-line comment structure in MDL. Instead, use traditional C-style multiline comments (/* this is a comment */). Comments can be nested
+(i.e. /* this is /* perfectly */ accessible */).
+
+Blank lines are ignored.
+			
+The layout is indentation-based, spaces as block delimiters are recommended. Leading whitespace at the beginning of a line is used to determine the grouping of constructs.
+
+Identifiers, symbols and keywords
+---------------------------------
+
+An identifier is a sequence of characters which starts with a letter and is followed by any number of letters or digits. Underscore and '-' sign are also allowed.
+
+The following identifiers are actually reserved keywords of the language and can only be used as such.
+
+migration, deployment, database, type-aliases, type-alias, defaults, default-primary-key, baseline, create, add, remove, drop, alter, table, column, index,
+reference, version
+
+Everything else is a symbol.
+
+String literals
+---------------
+
+String literal is enclosed in '"' characters (just "like this").
+
+Integer literals
+----------------
+
+Just plain numbers.
+
+Syntax reference
+================
+
+Basically, MDL file is a collection of constructs, which follow the following simple rules:
+
+* Every construct starts with construct specifier (one or several keywords; there are exceptions though)
+* ...optionally followed by a symbol or string literal, the meaning of which depends on the exact construct
+* ...optionally followed by properties (like "revision => 1" in the example above)
+* ...and followed by either a new line (which indicates the end of the construct) or by colon (":"), which indicates the beginning of a new block
+			
+'migration' element
+Every Migration starts with

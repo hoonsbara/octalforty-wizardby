@@ -1,0 +1,63 @@
+﻿migration "Waffle" revision => 1:			
+	type-aliases:
+		type-alias ndt type => DateTime, nullable => false
+		dt type => DateTime, nullable => true
+		
+	defaults:		
+		default-primary-key ID type => Int32, nullable => false
+			
+	baseline:
+		add table "User":
+			Login type => String, length => 200, nullable => false
+			Password type => Binary, length => 64, nullable => false
+			
+			index IX_Login columns => [ID, Login], unique => true
+
+	version 1:		
+		Forum:
+			Name type => String, length => 200, nullable => false
+				
+	version 2:
+	    alter table User:
+            remove column Password
+            remove index IX_Login
+	        
+	    alter table User:
+	        add column Password type => Binary, length => 64, nullable => false
+	        
+	    add index IX_Login table => User, columns => [ID, [Login, asc]], unique => true
+	        
+		remove table Forum
+		
+		alter table User:
+			alter column Login length => 100
+			
+		add table Forum:
+		    Name type => String, length => 200, nullable => false
+			
+		alter table Forum:
+			add column ModeratorUserID nullable => false, default-value => 1:
+				reference pk-table => User
+				
+	version 3:
+		add table Discussion:
+			Name type => String, length => 400, nullable => false:
+				index unique => true
+		
+		add table DiscussionPost:
+			add column Contents type => String, nullable => false
+			add column PostedOn type => ndt
+			add column DiscussionID:
+				add reference pk-table => Discussion
+				
+	version 4:			
+		add table Feed:
+			add column Contents type => String, mssql-type => Xml
+			add column Weight type => Decimal, scale => 20, precision => 10
+			
+	version 5:
+		alter table Feed:
+			add column ForumID references => Forum
+			
+	version 20090209162045:
+		remove table Feed

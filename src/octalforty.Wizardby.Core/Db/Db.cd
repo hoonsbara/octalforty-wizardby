@@ -1,0 +1,139 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Font Name="Tahoma" Size="8.25" />
+  <Class Name="octalforty.Wizardby.Core.Db.DbConnectionStringBuilderBase">
+    <Position X="5" Y="7.5" Width="2.25" />
+    <TypeIdentifier>
+      <FileName>Db\DbConnectionStringBuilderBase.cs</FileName>
+      <HashCode>AAAAAAAAAAgAAAAEAAAAAAAIAAAACBAAAAAAAAAAAAI=</HashCode>
+    </TypeIdentifier>
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="octalforty.Wizardby.Core.Db.DbDialectBase">
+    <Position X="8" Y="7.5" Width="1.75" />
+    <TypeIdentifier>
+      <FileName>Db\DbDialectBase.cs</FileName>
+      <HashCode>AAAAAAAACAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="octalforty.Wizardby.Core.Db.DbPlatformAttribute" Collapsed="true">
+    <Position X="21.75" Y="1.5" Width="1.75" />
+    <TypeIdentifier>
+      <FileName>Db\DbPlatformAttribute.cs</FileName>
+      <HashCode>AAAAAgAAAAIAAAAAAAAAAAQAAAAEAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="octalforty.Wizardby.Core.Db.DbPlatformBase&lt;TDbDialect, TDbConnectionStringBuilder, TDbNamingStrategy, TDbTypeMapper&gt;" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="23.5" Y="1.5" Width="6.25" />
+    <TypeIdentifier>
+      <FileName>Db\DbPlatformBase.cs</FileName>
+      <HashCode>gAAAAgAgAAAAAEAEAAAABAAAAAAAAAAAICAAACAAQAA=</HashCode>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="octalforty.Wizardby.Core.Db.DbPlatformDependencyBase">
+    <Position X="9.25" Y="5.5" Width="2.25" />
+    <TypeIdentifier>
+      <FileName>Db\DbPlatformDependencyBase.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAgAAAA=</HashCode>
+    </TypeIdentifier>
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="octalforty.Wizardby.Core.Db.DbPlatformRegistry" Collapsed="true">
+    <Position X="21.75" Y="2.5" Width="1.75" />
+    <TypeIdentifier>
+      <FileName>Db\DbPlatformRegistry.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAgAAAAAAAAAAAACAAAAAAgAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="octalforty.Wizardby.Core.Db.DbScriptGeneratorBase" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="23.5" Y="2.5" Width="2" />
+    <TypeIdentifier>
+      <FileName>Db\DbScriptGeneratorBase.cs</FileName>
+      <HashCode>EAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAACCAAAAggAAA=</HashCode>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="octalforty.Wizardby.Core.Db.DbTypeMapperBase">
+    <Position X="10.5" Y="7.5" Width="2.5" />
+    <TypeIdentifier>
+      <FileName>Db\DbTypeMapperBase.cs</FileName>
+      <HashCode>EAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAQAAAhIAA=</HashCode>
+    </TypeIdentifier>
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="octalforty.Wizardby.Core.Db.DefaultDbNamingStrategy">
+    <Position X="13.75" Y="7.5" Width="2" />
+    <TypeIdentifier>
+      <FileName>Db\DefaultDbNamingStrategy.cs</FileName>
+      <HashCode>AAAAAAAEAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="octalforty.Wizardby.Core.Db.IDbTypeMapper">
+    <Position X="8" Y="3.25" Width="2.25" />
+    <TypeIdentifier>
+      <FileName>Db\IDbTypeMapper.cs</FileName>
+      <HashCode>EAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="octalforty.Wizardby.Core.Db.IDbCommandExecutive">
+    <Position X="5.25" Y="3.25" Width="2" />
+    <TypeIdentifier>
+      <FileName>Db\IDbCommandExecutive.cs</FileName>
+      <HashCode>AAAAAAAAAAAAACAAAAAAAEAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="octalforty.Wizardby.Core.Db.IDbConnectionStringBuilder">
+    <Position X="11" Y="3.25" Width="2.25" />
+    <TypeIdentifier>
+      <FileName>Db\IDbConnectionStringBuilder.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAI=</HashCode>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="octalforty.Wizardby.Core.Db.IDbDialect">
+    <Position X="16.5" Y="3.25" Width="1.75" />
+    <TypeIdentifier>
+      <FileName>Db\IDbDialect.cs</FileName>
+      <HashCode>AAAAAAAACAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="octalforty.Wizardby.Core.Db.IDbNamingStrategy">
+    <Position X="19" Y="3.25" Width="1.75" />
+    <TypeIdentifier>
+      <FileName>Db\IDbNamingStrategy.cs</FileName>
+      <HashCode>AAAAAAAEAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="octalforty.Wizardby.Core.Db.IDbPlatform">
+    <Position X="21.75" Y="3.75" Width="2.25" />
+    <TypeIdentifier>
+      <FileName>Db\IDbPlatform.cs</FileName>
+      <HashCode>gAAAAgAAAAAAAEAEAAAAAAAAAAAAAAAAACAAACAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="octalforty.Wizardby.Core.Db.IDbPlatformDependency">
+    <Position X="12" Y="1.5" Width="2" />
+    <TypeIdentifier>
+      <FileName>Db\IDbPlatformDependency.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="octalforty.Wizardby.Core.Db.IDbScriptGenerator">
+    <Position X="14" Y="3.25" Width="1.75" />
+    <TypeIdentifier>
+      <FileName>Db\IDbScriptGenerator.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Interface>
+</ClassDiagram>

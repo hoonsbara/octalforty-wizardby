@@ -1,0 +1,22 @@
+Environment: development
+Connection string: data source=(local)\sqlexpress;initial catalog=dev;integrated security=true;
+alter table [BlogPostComment] drop constraint [FK_BlogPostComment_BlogPost];
+drop table [BlogPostComment];
+
+Migrated to version 20090226100408
+alter table [BlogPostTagJunction] drop constraint [FK_BlogPostTagJunction_Tag];
+alter table [BlogPostTagJunction] drop constraint [FK_BlogPostTagJunction_BlogPost];
+alter table [BlogPost] drop constraint [FK_BlogPost_Author];
+alter table [BlogPost] drop constraint [FK_BlogPost_Blog];
+drop index [UQ_LoginEmailAddress] on [Author];
+drop index [UQ_Login] on [Author];
+drop index [UQ_EmailAddress] on [Author];
+drop index [UQ_Version] on [SchemaInfo];
+drop table [BlogPostTagJunction];
+drop table [BlogPost];
+drop table [Blog];
+drop table [Tag];
+drop table [Author];
+drop table [SchemaInfo];
+
+Migrated to version 20090226100407

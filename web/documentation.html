@@ -1,0 +1,218 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="cs" lang="cs">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta http-equiv="content-language" content="cs" />
+    <meta name="author" lang="cs" content="David Kohout; http://www.davidkohout.cz" />
+    <meta name="copyright" lang="cs" content="David Kohout; http://www.davidkohout.cz" />
+    <meta name="description" content="..." />
+    <meta name="keywords" content="..." />
+    <meta name="robots" content="all,follow" />
+    <link href="css/screen.css" type="text/css" rel="stylesheet" media="screen,projection" />
+    <title>octalforty Wizardby &mdash; Home</title>
+</head>
+<body>
+    <div id="layout">
+        <div id="header">
+            <h1 id="logo">
+                <a href="#" title="#">octalforty&nbsp;<span>Wizardby</span></a></h1>
+            <hr class="noscreen" />
+            <div id="navigation">
+                <ul>
+                    <li><a href="#" title="#">HOME</a></li>
+                    <li><a href="#" title="#">DOCUMENTATION</a></li>
+                    <li><a href="#" title="#">DOWNLOAD</a></li>
+                </ul>
+            </div>
+            <hr class="noscreen" />
+        </div>
+        <div class="rbroundbox">
+            <div class="rbtop">
+                <div>
+                </div>
+            </div>
+            <div class="rbcontent">
+                <div class="content">
+                    <h2>
+                        Wizardby 1.0 Alpha available</h2>
+                    Proceed to <a href="/" class="light">documentation</a> and then <a href="/" class="light">
+                        download</a>
+                </div>
+                <!--div id="panel-right"><div id="panel-right-inside">
+              <p><span>21. July 2008</span><br />Lorem ipsum dolor sit amet, consectetur adipisicing elit sed.</p>
+              <p><span>21. July 2008</span><br />Lorem ipsum dolor sit amet, consectetur adipisicing elit sed.</p>
+              </div></div-->
+            </div>
+            <div class="rbbot">
+                <div>
+                </div>
+            </div>
+        </div>
+        <div id="main">
+            <h2>
+                Documentation</h2>
+            <p>
+                Migration Definition is a simple text file. Here's a quick glimpse:</p>
+            <pre><code>migration "Waffle" revision => 1:
+	default:		
+		primary-key type => Int32, nullable => false, name => ID
+		nullability nullable => false
+		
+	version 1:
+		create table User:
+			Login type => String, length => 200
+			EmailAddress type => String, length => 200
+			Password type => Blob, length => 64
+			
+			index [Login, EmailAddress], unique => true
+			
+		create table Forum:
+			Name type => String, length => 200:
+			
+			index Name unique => true
+				
+	version 2:
+		alter table User:
+			Login length => 100
+			
+		alter table Forum:
+			add column ModeratorUserID default-value => 1:
+				add reference User</code></pre>
+            <h2>
+                Lexical structure</h2>
+            <p>
+                MDL file is divided into lines. The end of the line is, well, the end of line marker.</p>
+            <p>
+                There are no special single-line comment structure in MDL. Instead, use traditional
+                C-style multiline comments (<code>/* this is a comment */</code>). Comments can
+                be nested (i.e. <code>/* this is /* perfectly */ accessible */</code>).</p>
+            <p>
+                Blank lines are ignored.</p>
+            <p>
+                The layout is indentation-based, spaces as block delimiters are recommended. Leading
+                whitespace at the beginning of a line is used to determine the grouping of constructs.</p>
+            <h3>Identifiers, symbols and keywords</h3>
+            <p>
+                An identifier is a sequence of characters which starts with a letter and is followed
+                by any number of letters or digits. Underscore and '-' sign are also allowed.</p>
+            <p>
+                The following identifiers are actually reserved keywords of the language and can
+                only be used as such.</p>
+            <blockquote>
+                migration, deployment, database, type-aliases, type-alias, defaults, default-primary-key,
+                baseline, create, add, remove, drop, alter, table, column, index, reference, version</blockquote>
+            <p>
+                Everything else is a symbol.</p>
+            <h3>String literals</h3>
+            <p>
+                String literal is enclosed in '"' characters (just <code>"like this"</code>).</p>
+            <h3>Integer literals</h3>
+            <p>Just plain numbers.</p>
+            <h2>Syntax reference</h2>
+            <p>Basically, MDL file is a collection of constructs, which follow the following simple rules:</p>
+            <ul>
+                <li>Every construct starts with construct specifier (one or several keywords; there are exceptions though)</li>
+                <li>...optionally followed by a symbol or string literal, the meaning of which depends on the exact construct</li>
+                <li>...optionally followed by properties (like <code>revision => 1</code> in the example above)</li>
+                <li>...and followed by either a new line (which indicates the end of the construct) or by colon ("<code>:</code>"), which indicates the beginning of a new block</li>
+            </ul>
+            <h3><code>migration</code> element</h3>
+            <p>Every Migration Definition starts with <code>migration</code> element. It must contain the name of the migration (can be symbol or string), and 
+            <code>revision</code> property, which indicates the revision number of MDL format (current revision number is 1).</p>
+            <blockquote><code>migration "Waffle" revision => 1</code></blockquote>
+            <p>All other elements are either direct or indirect children of <code>migration</code> construct.</p>
+            <h3><code>type-aliases</code> element</h3>            
+            <p>Child elements of this element (that is, <code>type-alias</code> constructs) define DRY aliases for types.</p>
+            <h3><code>type-alias</code> element</h3>            
+            <p>This element specifies an alias for the type, which can later be used in constructs which requre <code>type</code> property to be defined. The construct must
+            contain the name of the type (string or symbol) and a set of properties, of which only five are of interest: <code>type</code>,
+            <code>nullable</code>, <code>length</code>, <code>scale</code> and <code>precision</code>. All other properties are ignored.</p>
+            <h3><code>baseline</code> element</h3>
+            <p>Child of <code>migration</code> element. This element is used to specifiy the schema of an already existing database for Wizardby to be able to infer types and resolve FK and PK references.</p>
+            <p>Only <code>create table</code> and <code>add index</code> elements are allowed as child constructs.</p>
+            <h3><code>version</code> element</h3>
+            <p>Child of <code>migration</code> element. </p>
+            <p>
+                Wizardby parser is smart enough to infer stuff like FK column types, names of PK
+                columns and more. And as far as code generation is concerned, Wizardby compiler
+                can produce SQL DDL for various database dialects.</p>
+            <p>
+                Although primarily targeted at .NET developers, Wizardby can be used in pretty much
+                any environment.</p>
+            <h2>
+                Key Features</h2>
+            <ul>
+                <li>Minimalistic and human-readable DSL</li>
+            </ul>
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+                incidi dunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+                exercita tion ullamco laboris nisi ut aliquip ex ea commodo. cidi dunt ut labore
+                et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercita tion ullamco
+                laboris nisi ut aliquip ex ea commodo. Lorem ipsum dolor sit amet, consectetur adipisicing
+                elit, sed do eiusmod tempor incidi dunt ut labore et dolore magna aliqua.</p>
+            <table>
+                <tr class="table-top">
+                    <td>
+                        Sample table</td>
+                    <td>
+                        Sample table</td>
+                    <td>
+                        Sample table</td>
+                    <td>
+                        Sample table</td>
+                </tr>
+                <tr>
+                    <td>
+                        Lorem ipsum</td>
+                    <td>
+                        Lorem ipsum</td>
+                    <td>
+                        Lorem ipsum</td>
+                    <td>
+                        Lorem ipsum</td>
+                </tr>
+                <tr>
+                    <td>
+                        Lorem ipsum</td>
+                    <td>
+                        Lorem ipsum</td>
+                    <td>
+                        Lorem ipsum</td>
+                    <td>
+                        Lorem ipsum</td>
+                </tr>
+                <tr>
+                    <td>
+                        Lorem ipsum</td>
+                    <td>
+                        Lorem ipsum</td>
+                    <td>
+                        Lorem ipsum</td>
+                    <td>
+                        Lorem ipsum</td>
+                </tr>
+            </table>
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+                incidi dunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+                exercita tion ullamco laboris nisi ut aliquip ex ea commodo. cidi dunt ut labore
+                et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercita tion ullamco
+                laboris nisi ut aliquip ex ea commodo. Lorem ipsum dolor sit amet, consectetur adipisicing
+                elit, sed do eiusmod tempor incidi dunt ut labore et dolore magna aliqua.</p>
+        </div>
+    </div>
+    <div id="footer">
+        <div id="footer-inside">
+            <p id="copyright">
+                &copy; 2008 <a href="http://www.octalfortystudios.com">octalforty studios</a></p>
+            <!-- Please don't delete this. You can use this template for free and this is the only way that you can say thanks to me -->
+            <p id="dont-delete-this">
+                Design by <a href="http://www.davidkohout.cz">David Kohout</a></p>
+            <!-- Thank you :) -->
+        </div>
+        <div style="clear: both;">
+        </div>
+    </div>
+</body>
+</html>

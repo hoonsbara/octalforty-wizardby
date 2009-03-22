@@ -1,0 +1,222 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Font Name="Tahoma" Size="8.25" />
+  <Class Name="octalforty.Wizardby.Core.Compiler.Ast.AstVisitorBase" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="50" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>Compiler\Ast\AstVisitorBase.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAQAgAAAAAAAABAAAgAAAAACAQAAAAA=</HashCode>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Interface Name="octalforty.Wizardby.Core.Compiler.Ast.IVersionNode">
+    <Position X="5" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>Compiler\Ast\IVersionNode.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="octalforty.Wizardby.Core.Compiler.Ast.IAddColumnNode">
+    <Position X="47.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>Compiler\Ast\IAddColumnNode.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="octalforty.Wizardby.Core.Compiler.Ast.IAddIndexNode">
+    <Position X="33.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>Compiler\Ast\IAddIndexNode.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="octalforty.Wizardby.Core.Compiler.Ast.IAddReferenceNode">
+    <Position X="28.5" Y="6.5" Width="1.75" />
+    <TypeIdentifier>
+      <FileName>Compiler\Ast\IAddReferenceNode.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="octalforty.Wizardby.Core.Compiler.Ast.IAddTableNode">
+    <Position X="38" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>Compiler\Ast\IAddTableNode.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="octalforty.Wizardby.Core.Compiler.Ast.IAlterColumnNode">
+    <Position X="45.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>Compiler\Ast\IAlterColumnNode.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="octalforty.Wizardby.Core.Compiler.Ast.IAlterTableNode">
+    <Position X="35.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>Compiler\Ast\IAlterTableNode.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="octalforty.Wizardby.Core.Compiler.Ast.IAstNode">
+    <Position X="24" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>Compiler\Ast\IAstNode.cs</FileName>
+      <HashCode>AIAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAACAAAACAAA=</HashCode>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="octalforty.Wizardby.Core.Compiler.Ast.IAstNodeProperty" Collapsed="true">
+    <Position X="50" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>Compiler\Ast\IAstNodeProperty.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAgAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="octalforty.Wizardby.Core.Compiler.Ast.IAstNodePropertyCollection" Collapsed="true">
+    <Position X="51.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>Compiler\Ast\IAstNodePropertyCollection.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAACAAAAAQAAAAACAAIAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="octalforty.Wizardby.Core.Compiler.Ast.IAstVisitor" Collapsed="true">
+    <Position X="50" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>Compiler\Ast\IAstVisitor.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="octalforty.Wizardby.Core.Compiler.Ast.IBaselineNode">
+    <Position X="7.25" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>Compiler\Ast\IBaselineNode.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="octalforty.Wizardby.Core.Compiler.Ast.IColumnNode">
+    <Position X="45.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>Compiler\Ast\IColumnNode.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="octalforty.Wizardby.Core.Compiler.Ast.IEnvironmentNode">
+    <Position X="14" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>Compiler\Ast\IEnvironmentNode.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="octalforty.Wizardby.Core.Compiler.Ast.IDefaultPrimaryKeyNode">
+    <Position X="16.25" Y="3" Width="2" />
+    <TypeIdentifier>
+      <FileName>Compiler\Ast\IDefaultPrimaryKeyNode.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="octalforty.Wizardby.Core.Compiler.Ast.IDefaultsNode">
+    <Position X="21.25" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>Compiler\Ast\IDefaultsNode.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="octalforty.Wizardby.Core.Compiler.Ast.IDeploymentNode">
+    <Position X="0.5" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>Compiler\Ast\IDeploymentNode.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="octalforty.Wizardby.Core.Compiler.Ast.IMigrationNode">
+    <Position X="9.5" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>Compiler\Ast\IMigrationNode.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="octalforty.Wizardby.Core.Compiler.Ast.IRemoveIndexNode">
+    <Position X="31" Y="6.5" Width="1.75" />
+    <TypeIdentifier>
+      <FileName>Compiler\Ast\IRemoveIndexNode.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="octalforty.Wizardby.Core.Compiler.Ast.IRemoveReferenceNode">
+    <Position X="25.75" Y="6.5" Width="2" />
+    <TypeIdentifier>
+      <FileName>Compiler\Ast\IRemoveReferenceNode.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="octalforty.Wizardby.Core.Compiler.Ast.IRemoveTableNode">
+    <Position X="40.25" Y="6.5" Width="1.75" />
+    <TypeIdentifier>
+      <FileName>Compiler\Ast\IRemoveTableNode.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="octalforty.Wizardby.Core.Compiler.Ast.ISchemaElementNode">
+    <Position X="36.5" Y="3" Width="1.75" />
+    <TypeIdentifier>
+      <FileName>Compiler\Ast\ISchemaElementNode.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="octalforty.Wizardby.Core.Compiler.Ast.ITypeAliasesNode">
+    <Position X="2.75" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>Compiler\Ast\ITypeAliasesNode.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="octalforty.Wizardby.Core.Compiler.Ast.ITypeAliasNode">
+    <Position X="11.75" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>Compiler\Ast\ITypeAliasNode.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="octalforty.Wizardby.Core.Compiler.Ast.IReferenceNode">
+    <Position X="27.25" Y="4.5" Width="1.75" />
+    <TypeIdentifier>
+      <FileName>Compiler\Ast\IReferenceNode.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="octalforty.Wizardby.Core.Compiler.Ast.IDowngradeNode">
+    <Position X="19" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>Compiler\Ast\IDowngradeNode.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="octalforty.Wizardby.Core.Compiler.Ast.IIndexNode">
+    <Position X="32.25" Y="4.5" Width="1.75" />
+    <TypeIdentifier>
+      <FileName>Compiler\Ast\IIndexNode.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="octalforty.Wizardby.Core.Compiler.Ast.ITableNode">
+    <Position X="38" Y="4.5" Width="1.75" />
+    <TypeIdentifier>
+      <FileName>Compiler\Ast\ITableNode.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="octalforty.Wizardby.Core.Compiler.Ast.IUpgradeNode">
+    <Position X="23.5" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>Compiler\Ast\IUpgradeNode.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="octalforty.Wizardby.Core.Compiler.Ast.IRemoveColumnNode">
+    <Position X="42.75" Y="6.5" Width="1.75" />
+    <TypeIdentifier>
+      <FileName>Compiler\Ast\IRemoveColumnNode.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Interface>
+</ClassDiagram>

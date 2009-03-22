@@ -1,0 +1,7 @@
+D:\w\octalforty.Wizardby\src\octalforty.Wizardby.Db\bin\Debug\octalforty.Wizardby.Db.dll
+D:\w\octalforty.Wizardby\src\octalforty.Wizardby.Db\bin\Debug\octalforty.Wizardby.Db.pdb
+D:\w\octalforty.Wizardby\src\octalforty.Wizardby.Db\bin\Debug\octalforty.Wizardby.Core.dll
+D:\w\octalforty.Wizardby\src\octalforty.Wizardby.Db\bin\Debug\octalforty.Wizardby.Core.pdb
+D:\w\octalforty.Wizardby\src\octalforty.Wizardby.Db\obj\Debug\ResolveAssemblyReference.cache
+D:\w\octalforty.Wizardby\src\octalforty.Wizardby.Db\obj\Debug\octalforty.Wizardby.Db.dll
+D:\w\octalforty.Wizardby\src\octalforty.Wizardby.Db\obj\Debug\octalforty.Wizardby.Db.pdb

@@ -1,0 +1,74 @@
+Usage: 
+    wizardby <command> <version-or-step> [/mdl:<mdl-file>] 
+        [/connection:<connection-string>] [/platform:<platform-alias>] 
+        [/environment:<environment-name>]
+				
+    /mdl or /m          - Specifies the name of a MDL file	 
+    /connection or /c   - Specifies the connection string
+    /platform or /p     - Specifies the platform alias
+    /environment or /e  - Specifies the environment name or prefix 
+                          within a "database.wdi" file.
+	
+    If "/m" is not specified, Wizardby searches for the first MDL
+    file in the current directory.
+    
+    If "/c" is not specified, connection string is built up using
+    "database.wdi".
+    
+    If "/p" is not specified, platform alias is taken from
+    "database.wdi".
+    
+    If "/e" is not specified, environment defaults to "development".
+	
+Commands:
+    wizardby info [/c:<connection-string>]
+        
+        Displays information about current database schema version and all 
+        registered migrations.
+        
+    wizardby upgrade [/m:<mdl-file>] [/c:<connection-string>]
+        [/p:<platform-alias>] [/e:<environment-name>]
+        
+        Upgrades the database schema from the current version to
+        the most recent one.
+        
+    wizardby downgrade [/m:<mdl-file>] [/c:<connection-string>]
+        [/p:<platform-alias>] [/e:<environment-name>]
+        
+        Downgrades the database schema from the current version to
+        version 0, effectively reverting all changes.
+      
+    wizardby migrate <version> [/m:<mdl-file>] [/c:<connection-string>]
+        [/p:<platform-alias>] [/e:<environment-name>]
+        
+        Migrates the database schema to the given "<version>".
+        
+    wizardby rollback [<step>] [/m:<mdl-file>] [/c:<connection-string>]
+        [/p:<platform-alias>] [/e:<environment-name>]
+        
+        Rolls back at most "<step>" previous versions.
+        
+        If "<step>" is not specified, only the last version is 
+        rolled back.
+        
+    wizardby redo [<step>] [/m:<mdl-file>] [/c:<connection-string>]
+        [/p:<platform-alias>] [/e:<environment-name>]
+        
+        Rolls back "<step>" previous versions and then reapplies
+        "<step>" following versions.
+        
+        If "<step>" is not specified, only the last version is redone.
+        
+Abbreviations:
+    All commands and command-line keys can be abbreviated to the shortest
+    unambiguous prefix. For example, "/connection" can be shortened 
+    to just "/c"; "upgrade" can be abbreviated to "u". However,
+    "rollback" cannot be shortened to "r" since this can be
+    either "rollback" or "redo". Thus, "rollback" can be abbreviated
+    to "ro" and "redo" - to "re".
+    
+    Environment name can also be abbreviated to the shortest
+    unambiguous prefix. For example "/e:d" and "/e:development"
+    refer to the same "development" environment provided there are
+    no environments specified in the "database.wdi" with names
+    starting with "d".

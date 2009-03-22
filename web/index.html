@@ -1,0 +1,131 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="cs" lang="cs">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta http-equiv="content-language" content="cs" />
+    <meta name="author" lang="cs" content="David Kohout; http://www.davidkohout.cz" />
+    <meta name="copyright" lang="cs" content="David Kohout; http://www.davidkohout.cz" />
+    <meta name="description" content="..." />
+    <meta name="keywords" content="..." />
+    <meta name="robots" content="all,follow" />
+    <link href="css/screen.css" type="text/css" rel="stylesheet" media="screen,projection" />
+
+    <title>octalforty Wizardby &mdash; Home</title>
+  </head>
+  <body>
+
+    <div id="layout">
+      
+      <div id="header">
+        
+        <h1 id="logo"><a href="#" title="#">octalforty&nbsp;<span>Wizardby</span></a></h1>
+        <hr class="noscreen" />   
+          
+              
+        <div id="navigation">
+        <ul>
+          <li><a href="#" title="#">HOME</a></li>
+          <li><a href="#" title="#">DOCUMENTATION</a></li>
+          <li><a href="#" title="#">DOWNLOAD</a></li>
+        </ul>
+        </div>
+        <hr class="noscreen" />  
+    
+      </div>
+      
+        <div class="rbroundbox">
+	         <div class="rbtop"><div></div></div>
+		          <div class="rbcontent">
+              			
+          		<div class="content">
+            <h2>Wizardby 1.0 Alpha available</h2>  
+              Proceed to <a href="/" class="light">documentation</a> and then <a href="/" class="light">download</a>
+              </div>
+              <!--div id="panel-right"><div id="panel-right-inside">
+              <p><span>21. July 2008</span><br />Lorem ipsum dolor sit amet, consectetur adipisicing elit sed.</p>
+              <p><span>21. July 2008</span><br />Lorem ipsum dolor sit amet, consectetur adipisicing elit sed.</p>
+              </div></div-->	
+          			
+        		  </div>
+	         <div class="rbbot"><div></div></div>
+        </div>
+          
+        <div id="main">
+        <h2>What is Wizardby?</h2>
+              <p>octalforty Wizardby is a humane database migration toolkit, which makes migrations much less of a pain. Using a specially crafted DSL, Wizardby provides a simple solution to problems of upgrading and downgrading databases.</p>
+              <p>In contrast with existing migration tools, Wizardby does not use neither SQL DDL scripts, nor imperative code in any programming language, nor XML definitions. Instead it utilizes a special DSL with minimalistic, DRY and human-readable syntax.</p>
+              <pre><code>migration "Waffle" revision => 1:
+	default:		
+		primary-key type => Int32, nullable => false, name => ID
+		nullability nullable => false
+		
+	version 1:
+		create table User:
+			Login type => String, length => 200
+			EmailAddress type => String, length => 200
+			Password type => Blob, length => 64
+			
+			index [Login, EmailAddress], unique => true
+			
+		create table Forum:
+			Name type => String, length => 200:
+			    index Name unique => true
+				
+	version 2:
+		alter table User:
+			Login length => 100
+			
+		alter table Forum:
+			add column ModeratorUserID default-value => 1:
+				add reference User</code></pre>
+		<p>Wizardby parser is smart enough to infer stuff like FK column types, names of PK columns and more. And as far as code generation is concerned, Wizardby compiler can produce SQL DDL for various database dialects.</p>
+		<p>Although primarily targeted at .NET developers, Wizardby can be used in pretty much any environment.</p>               
+        <h2>Key Features</h2>
+        <ul>
+            <li>Minimalistic and human-readable DSL</li>
+        </ul>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incidi dunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercita tion ullamco laboris nisi ut aliquip ex ea commodo. cidi dunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercita tion ullamco laboris nisi ut aliquip ex ea commodo. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incidi dunt ut labore et dolore magna aliqua.</p>
+        
+        <table>
+          <tr class="table-top">
+            <td>Sample table</td>
+            <td>Sample table</td>
+            <td>Sample table</td>
+            <td>Sample table</td>
+          </tr>
+          <tr>
+            <td>Lorem ipsum</td>
+            <td>Lorem ipsum</td>
+            <td>Lorem ipsum</td>
+            <td>Lorem ipsum</td>
+          </tr>
+          <tr>
+            <td>Lorem ipsum</td>
+            <td>Lorem ipsum</td>
+            <td>Lorem ipsum</td>
+            <td>Lorem ipsum</td>
+          </tr>
+          <tr>
+            <td>Lorem ipsum</td>
+            <td>Lorem ipsum</td>
+            <td>Lorem ipsum</td>
+            <td>Lorem ipsum</td>
+          </tr>
+          </table>
+          
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incidi dunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercita tion ullamco laboris nisi ut aliquip ex ea commodo. cidi dunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercita tion ullamco laboris nisi ut aliquip ex ea commodo. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incidi dunt ut labore et dolore magna aliqua.</p>
+        
+        
+        </div>
+        </div>
+        <div id="footer">
+        <div id="footer-inside">
+        <p id="copyright">&copy; 2008 <a href="http://www.octalfortystudios.com">octalforty studios</a></p>
+        
+        <!-- Please don't delete this. You can use this template for free and this is the only way that you can say thanks to me -->
+          <p id="dont-delete-this">Design by <a href="http://www.davidkohout.cz">David Kohout</a></p>
+        <!-- Thank you :) -->
+        
+        </div><div style="clear: both;"></div></div>
+  </body>
+</html>

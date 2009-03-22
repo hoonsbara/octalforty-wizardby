@@ -1,0 +1,12 @@
+deployment:
+    environment development
+        platform			=> sqlserver 
+        host				=> "(local)\sqlexpress"
+        database			=> dev
+        integrated-security	=> true
+		
+	environment staging
+		platform			=> sqlserver 
+		host				=> "(local)\sqlexpress"
+		database			=> staging
+		integrated-security	=> true

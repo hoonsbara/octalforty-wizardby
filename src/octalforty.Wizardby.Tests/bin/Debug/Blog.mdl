@@ -1,0 +1,95 @@
+migration "Blog" revision => 1:
+    type-aliases:
+	    type-alias N type => String, length => 200, nullable => false, default => ""
+    	
+    defaults:
+	    default-primary-key ID type => Int32, nullable => false, identity => true
+    	
+    version 20090226100407:
+	    add table Author:
+		    FirstName type => N
+		    LastName type => N
+		    EmailAddress type => N:
+			    index "IX_EmailAddress" unique => true
+		    Login type => N:
+			    index "IX_Login" unique => true
+		    Password type => Binary, length => 64, nullable => true
+    		
+	    add table Tag:
+		    Name type => N		    
+    		
+	    add table Blog:
+		    Name type => N
+		    Description type => String, nullable => false
+    		
+	    add table BlogPost:
+		    Title type => N
+		    Slug type => N
+		    BlogID:
+			    reference "FK1" pk-table => Blog
+		    AuthorID:
+			    reference "FK2" pk-table => Author
+    			
+	    add table BlogPostTagJunction primary-key => false:
+		    BlogPostID type => Int32:
+			    reference "FK3" pk-table => BlogPost
+		    TagID:
+			    reference "FK4" pk-table => Tag
+    			
+    version 20090226100408:
+	    add table BlogPostComment:
+		    BlogPostID:
+			    reference "FK5" pk-table => BlogPost
+		    AuthorEmailAddress type => N
+		    Content type => String, nullable => false
+    		
+    version 20090226100409:
+	    add table Media:
+		    TypeID type => Int32
+		    Name type => N
+		    MimeType type => N, default => "'text/xml'"
+		    Length type => Int32
+		    BlogPostID type => Int32, nullable => true:
+		        reference "FK10" pk-table => BlogPost
+		    BlogPostCommentID type => Int32, nullable => true:
+		        reference "FK11" pk-table => BlogPostComment
+    		
+	    add table User:
+		    Login type => String, length => 200, nullable => false
+		    Password type => Binary, length => 64, nullable => false
+    		
+		    index IX_Login columns => [ID, [Login, desc]], unique => true
+    		
+    version 20090226100411:
+        add table Forum:
+	        Name type => String, length => 200, nullable => false
+		    add column ModeratorUserID nullable => false:
+		        reference "FK_FOO" pk-table => User	
+    		    
+    version 20090226100554:
+        remove index IX_Login table => User
+        
+    version 20090226100609:
+        add index IX_Login table => User, columns => [ID, [Login, desc]], unique => true
+        
+    version 20090226100617:
+        BlogAuthorJunction primary-key => false:
+            BlogID:
+                reference "FK12" pk-table => Blog
+            AuthorID:
+                reference "FK13" pk-table => Author
+                
+    version 20090226103435:
+        alter table Forum:
+            add column Slug type => N
+            remove column Slug
+            add column Slug type => N
+            alter column Slug nullable => true
+            remove reference "FK_FOO"            
+            
+    version 20090227103435:
+        remove table Forum
+        
+    version 20090257133435:
+        remove reference FK4 fk-table => BlogPostTagJunction 
+        remove table Tag

@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<migration name="Waffle" revision="1">
+	<deployment>
+		<database name="Waffle" recreate-on-deploy="true" />
+	</deployment>
+
+	<type-aliases>
+		<type-alias name="ndt" type="DateTime" nullable="false" />
+	</type-aliases>
+
+	<defaults>
+		<default-primary-key name="ID" type="Int32" nullable="false" />
+	</defaults>
+
+	<baseline>
+		<create-table name="User">
+			<column name="Login" type="String" length="200" nullable="false" />
+			<column name="Password" type="Binary" length="64" nullable="false" />
+			<index name="IX_Login" column-names="Login" unique="true" />
+		</create-table>
+	</baseline>
+</migration>

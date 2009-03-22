@@ -1,0 +1,63 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "octalforty.Wizardby.Core", "octalforty.Wizardby.Core\octalforty.Wizardby.Core.csproj", "{31A1F1A5-E685-4C89-929D-FDC93CD12BB0}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "octalforty.Wizardby.Tests", "octalforty.Wizardby.Tests\octalforty.Wizardby.Tests.csproj", "{D092FE85-5D18-42DE-A131-90086BBF9005}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "octalforty.Wizardby.Db", "octalforty.Wizardby.Db\octalforty.Wizardby.Db.csproj", "{735ADA03-27DA-4C9F-BDAF-21DEEC2DD5C8}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "octalforty.Wizardby.Console", "octalforty.Wizardby.Console\octalforty.Wizardby.Console.csproj", "{CA07D421-EC04-4D9F-8936-CACF513500D9}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{552D932C-95ED-440A-8CCD-51EE9CA8BF08}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
+	ProjectSection(SolutionItems) = preProject
+		Mdl Syntax Reference.txt = Mdl Syntax Reference.txt
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{31A1F1A5-E685-4C89-929D-FDC93CD12BB0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31A1F1A5-E685-4C89-929D-FDC93CD12BB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31A1F1A5-E685-4C89-929D-FDC93CD12BB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31A1F1A5-E685-4C89-929D-FDC93CD12BB0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D092FE85-5D18-42DE-A131-90086BBF9005}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D092FE85-5D18-42DE-A131-90086BBF9005}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D092FE85-5D18-42DE-A131-90086BBF9005}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D092FE85-5D18-42DE-A131-90086BBF9005}.Release|Any CPU.Build.0 = Release|Any CPU
+		{735ADA03-27DA-4C9F-BDAF-21DEEC2DD5C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{735ADA03-27DA-4C9F-BDAF-21DEEC2DD5C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{735ADA03-27DA-4C9F-BDAF-21DEEC2DD5C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{735ADA03-27DA-4C9F-BDAF-21DEEC2DD5C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA07D421-EC04-4D9F-8936-CACF513500D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA07D421-EC04-4D9F-8936-CACF513500D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA07D421-EC04-4D9F-8936-CACF513500D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA07D421-EC04-4D9F-8936-CACF513500D9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
