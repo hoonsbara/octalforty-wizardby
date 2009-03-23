@@ -23,8 +23,14 @@
 #endregion
 namespace octalforty.Wizardby.Core.Db
 {
+    /// <summary>
+    /// Declares a dependency on the <see cref="IDbPlatform"/>.
+    /// </summary>
     public interface IDbPlatformDependency
     {
+        /// <summary>
+        /// Gets or sets a reference to the <see cref="IDbPlatform"/>.
+        /// </summary>
         IDbPlatform Platform
         { get; set; }
     }

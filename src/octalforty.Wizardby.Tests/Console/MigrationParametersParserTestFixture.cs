@@ -37,13 +37,15 @@ namespace octalforty.Wizardby.Tests.Console
                 {
                     "downgrade", 
                     "/c:\"data source=GOGOLEV_A\\SQLEXPRESS;initial catalog=test;integrated security=SSPI;\"", 
-                    "/p:sqlserver"
+                    "/p:sqlserver",
+                    "/o:downgrade.sql"
                 });
 
             Assert.AreEqual(MigrationCommand.Downgrade, parameters.Command);
             Assert.IsNull(parameters.VersionOrStep);
             Assert.AreEqual("data source=GOGOLEV_A\\SQLEXPRESS;initial catalog=test;integrated security=SSPI;", parameters.ConnectionString);
             Assert.AreEqual("sqlserver", parameters.PlatformAlias);
+            Assert.AreEqual("downgrade.sql", parameters.OutputFileName);
 
             parameters = parametersParser.ParseMigrationParameters(new string[]
                 {
@@ -59,6 +61,7 @@ namespace octalforty.Wizardby.Tests.Console
             Assert.AreEqual("data source=GOGOLEV_A\\SQLEXPRESS;initial catalog=test;integrated security=SSPI;", parameters.ConnectionString);
             Assert.AreEqual("sqlserver", parameters.PlatformAlias);
             Assert.AreEqual("dev", parameters.Environment);
+            Assert.IsNull(parameters.OutputFileName);
         }
 
         [Test()]

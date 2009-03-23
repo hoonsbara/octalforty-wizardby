@@ -109,7 +109,9 @@ namespace octalforty.Wizardby.Core.Migration.Impl
                     (long?)registeredMigrationVersions[
                         step > registeredMigrationVersions.Count ? 0 : registeredMigrationVersions.Count - step - 1];
 
-            Migrate(dbPlatform, connectionString, targetVersion, migrationDefinition, migrationVersionInfoManager, migrationScriptExecutive);
+            MigrateDb(dbPlatform, MigrationMode.Downgrade, connectionString, migrationVersionInfoManager, 
+                CompileMigrationScripts(dbPlatform, migrationDefinition, MigrationMode.Downgrade), 
+                migrationScriptExecutive, GetCurrentVersion(dbPlatform, connectionString, migrationVersionInfoManager), null);
         }
 
         /// <summary>

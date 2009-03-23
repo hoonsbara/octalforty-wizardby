@@ -34,6 +34,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FileDbCommandExecutive.cs" />
     <Compile Include="MigrationCommand.cs" />
     <Compile Include="MigrationParameters.cs" />
     <Compile Include="MigrationParametersParser.cs" />

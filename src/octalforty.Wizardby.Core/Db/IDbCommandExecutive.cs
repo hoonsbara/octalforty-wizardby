@@ -25,10 +25,23 @@ using System.Data;
 
 namespace octalforty.Wizardby.Core.Db
 {
+    /// <summary>
+    /// Encapsulates execution logic of <see cref="IDbCommand"/> objects.
+    /// </summary>
     public interface IDbCommandExecutive : IDbPlatformDependency
     {
+        /// <summary>
+        /// Executes the given <paramref name="dbCommand"/> and returns a <see cref="IDataReader"/>.
+        /// </summary>
+        /// <param name="dbCommand"></param>
+        /// <returns></returns>
         IDataReader ExecuteReader(IDbCommand dbCommand);
 
+        /// <summary>
+        /// Executes the given <paramref name="dbCommand"/> and returns the number of rows affected.
+        /// </summary>
+        /// <param name="dbCommand"></param>
+        /// <returns></returns>
         int ExecuteNonQuery(IDbCommand dbCommand);
     }
 }

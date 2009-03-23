@@ -39,6 +39,8 @@
     <Compile Include="Jet\JetScriptGenerator.cs" />
     <Compile Include="Jet\JetTypeMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SqlServer\Impl\Action.cs" />
+    <Compile Include="SqlServer\SqlServerCommandExecutive.cs" />
     <Compile Include="SqlServer\SqlServerConnectionStringBuilder.cs" />
     <Compile Include="SqlServer\SqlServerDialect.cs" />
     <Compile Include="SqlServer\SqlServerNamingStrategy.cs" />

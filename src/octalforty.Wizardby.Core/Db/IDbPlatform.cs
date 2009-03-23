@@ -50,5 +50,8 @@ namespace octalforty.Wizardby.Core.Db
 
         DbProviderFactory ProviderFactory
         { get; }
+
+        IDbCommandExecutive CommandExecutive
+        { get; set; }
     }
 }

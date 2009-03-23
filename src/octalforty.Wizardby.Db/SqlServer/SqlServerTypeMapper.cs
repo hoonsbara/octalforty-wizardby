@@ -33,6 +33,7 @@ namespace octalforty.Wizardby.Db.SqlServer
         public SqlServerTypeMapper()
         {
             RegisterTypeMapping(DbType.Boolean, "bit");
+            RegisterTypeMapping(DbType.Byte, "tinyint");
             RegisterTypeMapping(DbType.Int32, "int");
             RegisterTypeMapping(DbType.Int64, "bigint");
             RegisterTypeMapping(DbType.Guid, "uniqueidentifier");

@@ -27,6 +27,10 @@ namespace octalforty.Wizardby.Core.Migration.Impl
 {
     public interface IMigrationScriptExecutive
     {
+        event MigrationScriptExecutionEventHandler Migrating;
+        
+        event MigrationScriptExecutionEventHandler Migrated;
+
         void ExecuteMigrationScripts(IDbPlatform dbPlatform, IMigrationVersionInfoManager migrationVersionInfoManager, 
             string connectionString, MigrationScriptCollection migrationScripts, 
             long? currentVersion, long? targetVersion, MigrationMode migrationMode);

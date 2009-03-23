@@ -33,6 +33,7 @@ namespace octalforty.Wizardby.Console
         private string mdlFileName;
         private string platformAlias;
         private string connectionString;
+        private string outputFileName;
 
         public string Environment
         {
@@ -82,18 +83,27 @@ namespace octalforty.Wizardby.Console
             set { connectionString = value; }
         }
 
+        public string OutputFileName
+        {
+            [DebuggerStepThrough]
+            get { return outputFileName; }
+            [DebuggerStepThrough]
+            set { outputFileName = value; }
+        }
+
         public MigrationParameters()
         {
         }
 
         public MigrationParameters(MigrationCommand command, int? versionOrStep, string mdlFileName, 
-            string platformAlias, string connectionString)
+            string platformAlias, string connectionString, string outputFileName)
         {
             this.command = command;
             this.versionOrStep = versionOrStep;
             this.mdlFileName = mdlFileName;
             this.platformAlias = platformAlias;
             this.connectionString = connectionString;
+            this.outputFileName = outputFileName;
         }
     }
 }

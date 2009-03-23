@@ -54,6 +54,9 @@ namespace octalforty.Wizardby.Tests.Core.Migration.Impl
             get { return migrationMode; }
         }
 
+        public event MigrationScriptExecutionEventHandler Migrating;
+        public event MigrationScriptExecutionEventHandler Migrated;
+
         public void ExecuteMigrationScripts(IDbPlatform dbPlatform, IMigrationVersionInfoManager migrationVersionInfoManager, 
             string connectionString, MigrationScriptCollection migrationScripts, 
             long? currentVersion, long? targetVersion, MigrationMode migrationMode)

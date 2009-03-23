@@ -32,6 +32,22 @@ namespace octalforty.Wizardby.Core.Migration.Impl
 {
     public class DbMigrationScriptExecutive : IMigrationScriptExecutive
     {
+        public event MigrationScriptExecutionEventHandler Migrating;
+
+        private void InvokeMigrating(MigrationScriptExecutionEventArgs args)
+        {
+            MigrationScriptExecutionEventHandler migratingHandler = Migrating;
+            if(migratingHandler != null) migratingHandler(this, args);
+        }
+
+        public event MigrationScriptExecutionEventHandler Migrated;
+
+        private void InvokeMigrated(MigrationScriptExecutionEventArgs args)
+        {
+            MigrationScriptExecutionEventHandler migratedHandler = Migrated;
+            if(migratedHandler != null) migratedHandler(this, args);
+        }
+
         public void ExecuteMigrationScripts(IDbPlatform dbPlatform, IMigrationVersionInfoManager migrationVersionInfoManager, 
             string connectionString, MigrationScriptCollection migrationScripts, 
             long? currentVersion, long? targetVersion, MigrationMode migrationMode)
@@ -57,20 +73,22 @@ namespace octalforty.Wizardby.Core.Migration.Impl
                             if(!(ddlTransaction is NullDbTransaction))
                                 dbCommand.Transaction = ddlTransaction;
 
-                            Console.WriteLine(dbCommand.CommandText);
+                            //Console.WriteLine(dbCommand.CommandText);
 
-                            dbCommand.ExecuteNonQuery();
+                            InvokeMigrating(new MigrationScriptExecutionEventArgs(migrationScript.MigrationVersion));
+
+                            dbPlatform.CommandExecutive.ExecuteNonQuery(dbCommand);
+
+                            InvokeMigrated(new MigrationScriptExecutionEventArgs(migrationScript.MigrationVersion));
                         } // using
 
                         //
                         // If we're downgrading all way down, do not register it, since SchemaInfo
                         // will be deleted too.
-                        if(!(migrationMode == MigrationMode.    Downgrade && targetVersion == 0 && effectiveMigrationScripts.IndexOf(migrationScript) ==
+                        if(!(migrationMode == MigrationMode.Downgrade && targetVersion == 0 && effectiveMigrationScripts.IndexOf(migrationScript) ==
                             effectiveMigrationScripts.Count - 1))
                             migrationVersionInfoManager.RegisterMigrationVersion(ddlTransaction, migrationMode,
                                 migrationScript.MigrationVersion);
-
-                        Console.WriteLine("Migrated to version {0}", migrationScript.MigrationVersion);
 
                         ddlTransaction.Commit();
                     } // using

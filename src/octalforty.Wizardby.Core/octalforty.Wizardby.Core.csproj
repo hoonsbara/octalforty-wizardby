@@ -267,6 +267,7 @@
     <Compile Include="Compiler\XmdlScanner.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Db\DbCommandExecutiveBase.cs" />
     <Compile Include="Db\DbConnectionStringBuilderBase.cs" />
     <Compile Include="Db\DbDialectBase.cs">
       <SubType>Code</SubType>
@@ -278,6 +279,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Db\DbPlatformDependencyBase.cs" />
+    <Compile Include="Db\DbPlatformException.cs" />
     <Compile Include="Db\DbPlatformRegistry.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -329,6 +331,8 @@
     <Compile Include="Migration\Impl\MigrationScriptCollection.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Migration\Impl\MigrationScriptExecutionEventArgs.cs" />
+    <Compile Include="Migration\Impl\MigrationScriptExecutionEventHandler.cs" />
     <Compile Include="Migration\Impl\MigrationScriptsCodeGenerator.cs">
       <SubType>Code</SubType>
     </Compile>

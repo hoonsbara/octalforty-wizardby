@@ -449,8 +449,15 @@ namespace octalforty.Wizardby.Core.Compiler.Impl
             //
             // Type aliases have already been resolved, so we can freely parse textual type representation.
             if(columnNode.Properties.ContainsProperty(MdlSyntax.Type))
+            {
+                string textualType = columnNode.Properties[MdlSyntax.Type].Value.ToString();
+
+                if(!Enum.IsDefined(typeof(DbType), textualType))
+                    throw new MdlCompilerException(string.Format(Resources.BindingCompilerStage.UnknownType, textualType));
+
                 columnNode.Type = columnDefinition.Type =
-                    (DbType)Enum.Parse(typeof(DbType), columnNode.Properties[MdlSyntax.Type].Value.ToString());
+                    (DbType)Enum.Parse(typeof(DbType), textualType);
+            } // if
 
             if(columnNode.Properties.ContainsProperty(MdlSyntax.Scale))
                 columnNode.Scale = columnDefinition.Scale =

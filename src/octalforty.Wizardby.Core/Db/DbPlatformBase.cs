@@ -32,22 +32,25 @@ namespace octalforty.Wizardby.Core.Db
     /// <typeparam name="TDbDialect"></typeparam>
     /// <typeparam name="TDbNamingStrategy"></typeparam>
     /// <typeparam name="TDbTypeMapper"></typeparam>
-    public abstract class DbPlatformBase<TDbDialect, TDbConnectionStringBuilder, TDbNamingStrategy, TDbTypeMapper> : IDbPlatform
+    /// <typeparam name="TDbCommandExecutive"></typeparam>
+    public abstract class DbPlatformBase<TDbDialect, TDbConnectionStringBuilder, TDbNamingStrategy, TDbTypeMapper, TDbCommandExecutive> : IDbPlatform
         where TDbDialect : IDbDialect, new()
         where TDbConnectionStringBuilder : IDbConnectionStringBuilder, new()
         where TDbNamingStrategy : IDbNamingStrategy, new()
         where TDbTypeMapper : IDbTypeMapper, new()
+        where TDbCommandExecutive : IDbCommandExecutive, new()
     {
         #region Private Fields
         private readonly bool supportsTransactionalDdl;
         private readonly IDbTypeMapper typeMapper;
         private readonly IDbDialect dialect;
         private readonly IDbNamingStrategy namingStrategy;
+        private IDbCommandExecutive commandExecutive;
         #endregion
 
         /// <summary>
         /// Initializes a new instance of the 
-        /// <see cref="DbPlatformBase{TDbDialect, IDbConnectionStringBuilder, TDbNamingStrategy, TDbTypeMapper}"/> class.
+        /// <see cref="DbPlatformBase{TDbDialect, IDbConnectionStringBuilder, TDbNamingStrategy, TDbTypeMapper, TDbCommandExecutive}"/> class.
         /// </summary>
         /// <param name="supportsTransactionalDdl"></param>
         protected DbPlatformBase(bool supportsTransactionalDdl)
@@ -62,6 +65,9 @@ namespace octalforty.Wizardby.Core.Db
 
             namingStrategy = new TDbNamingStrategy();
             namingStrategy.Platform = this;
+
+            commandExecutive = new TDbCommandExecutive();
+            commandExecutive.Platform = this;
         }
 
         #region IDbPlatform Members
@@ -99,6 +105,12 @@ namespace octalforty.Wizardby.Core.Db
 
         public abstract DbProviderFactory ProviderFactory
         { get; }
+
+        public IDbCommandExecutive CommandExecutive
+        {
+            get { return commandExecutive; }
+            set { commandExecutive = value; }
+        }
         #endregion
     }
 }

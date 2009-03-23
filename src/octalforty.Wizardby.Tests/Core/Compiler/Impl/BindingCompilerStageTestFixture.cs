@@ -59,9 +59,9 @@ namespace octalforty.Wizardby.Tests.Core.Compiler.Impl
         remove table BlogPost
 
     version 3:
-        add table BlogPost:
-            ID type => Int32, primary-key => true
+        add table BlogPost:            
             Version type => Int32
+            ID type => Int32, primary-key => true
 
         alter table BlogPost:
             add column PublishedOn type => DateTime
@@ -191,6 +191,22 @@ namespace octalforty.Wizardby.Tests.Core.Compiler.Impl
 
             Assert.AreEqual(DbType.Int32, addColumnBlogPostIDNode.Type);
             Assert.AreEqual(true, addColumnBlogPostIDNode.Nullable);
+        }
+
+        [Test()]
+        [ExpectedException(typeof(MdlCompilerException), ExpectedMessage = "Unknown type 'Int128'.")]
+        public void InferUnknownType()
+        {
+            IMdlCompilerStage bindingStage = new BindingCompilerStage();
+            bindingStage.SetEnvironment(new Environment());
+
+            IAstNode astNode = new MdlParser(MdlParserTestFixture.CreateScanner(
+@"migration ""Waffle"" revision => 1:
+    version 1:    
+        add table BlogPost:
+            ID type => Int128, primary-key => true")).Parse();
+
+            astNode.Accept(bindingStage);
         }
 
         [Test()]

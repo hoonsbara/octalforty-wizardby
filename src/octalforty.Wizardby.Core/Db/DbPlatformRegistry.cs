@@ -43,6 +43,13 @@ namespace octalforty.Wizardby.Core.Db
                 null;
         }
 
+        public string GetPlatformName(IDbPlatform dbPlatform)
+        {
+            DbPlatformAttribute dbPlatformAttribute =
+                (DbPlatformAttribute)Attribute.GetCustomAttribute(dbPlatform.GetType(), typeof(DbPlatformAttribute));
+            return dbPlatformAttribute.Name;
+        }
+
         private void RegisterPlatform(Type platformType, IDbPlatform platform)
         {
             DbPlatformAttribute dbPlatformAttribute =

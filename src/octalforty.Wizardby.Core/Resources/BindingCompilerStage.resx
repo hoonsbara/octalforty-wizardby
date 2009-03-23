@@ -132,4 +132,7 @@
   <data name="CouldNotResolveTableForRemoveIndex" xml:space="preserve">
     <value>Could not resolve Table for Remove Index '{0}'. You might be missing a 'table' property or 'remove index' is nested incorrectly.</value>
   </data>
+  <data name="UnknownType" xml:space="preserve">
+    <value>Unknown type '{0}'.</value>
+  </data>
 </root>

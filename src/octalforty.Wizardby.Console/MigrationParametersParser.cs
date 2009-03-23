@@ -79,6 +79,8 @@ namespace octalforty.Wizardby.Console
                 parameters.MdlFileName = ExtractArgumentValue(argument);
             else if(arg.StartsWith("/e"))
                 parameters.Environment = ExtractArgumentValue(argument);
+            else if(arg.StartsWith("/o"))
+                parameters.OutputFileName = ExtractArgumentValue(argument);
         }
 
         private static string ExtractArgumentValue(string argument)

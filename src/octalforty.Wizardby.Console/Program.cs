@@ -25,6 +25,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using System.Text;
 
 using octalforty.Wizardby.Console.Properties;
 using octalforty.Wizardby.Core.Compiler;
@@ -150,6 +151,8 @@ namespace octalforty.Wizardby.Console
             IMigrationVersionInfoManager migrationVersionInfoManager =
                 new DbMigrationVersionInfoManager(dbPlatform, "SchemaInfo");
             IMigrationScriptExecutive migrationScriptExecutive = new DbMigrationScriptExecutive();
+            migrationScriptExecutive.Migrated += delegate(object sender, MigrationScriptExecutionEventArgs args1)
+                { System.Console.WriteLine("Migrated to version {0}", args1.Version); };
 
             if(parameters.Command == MigrationCommand.Info)
             {
@@ -171,6 +174,13 @@ namespace octalforty.Wizardby.Console
 
             long? effectiveVersionOrStep = null;
             effectiveVersionOrStep = GetEffectiveVersionOrStep(parameters);
+
+            StreamWriter writer = null;
+            if(!string.IsNullOrEmpty(parameters.OutputFileName))
+            {
+                writer = new StreamWriter(parameters.OutputFileName, false, Encoding.ASCII);
+                dbPlatform.CommandExecutive = new FileDbCommandExecutive(writer, dbPlatform.CommandExecutive);
+            } // if
 
             try
             {
@@ -202,6 +212,14 @@ namespace octalforty.Wizardby.Console
             {
                 System.Console.WriteLine("Couldn't parse '{0}': {1}", parameters.MdlFileName, e.Message);
             } // catch
+
+            catch(DbPlatformException e)
+            {
+                System.Console.WriteLine("{0} Exception: {1}", dbPlatformRegistry.GetPlatformName(dbPlatform), e.Message);
+            } // catch
+
+            if(writer != null)
+                writer.Close();
         }
 
         private static long? GetEffectiveVersionOrStep(MigrationParameters parameters)
