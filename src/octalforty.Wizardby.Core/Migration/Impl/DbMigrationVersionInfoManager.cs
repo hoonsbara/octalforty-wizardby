@@ -33,10 +33,6 @@ namespace octalforty.Wizardby.Core.Migration.Impl
     /// Implementation of the <see cref="IMigrationVersionInfoManager"/> which uses a table to track
     /// version information.
     /// </summary>
-    /// <remarks>
-    /// The table name supplied must be properly escaped (see <see cref="IDbDialect.EscapeIdentifier"/>) 
-    /// prior to using in <see cref="DbMigrationVersionInfoManager"/>.
-    /// </remarks>
     public class DbMigrationVersionInfoManager : IMigrationVersionInfoManager
     {
         #region Private Fields

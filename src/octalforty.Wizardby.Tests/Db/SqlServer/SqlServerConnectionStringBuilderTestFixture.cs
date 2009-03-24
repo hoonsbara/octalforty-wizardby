@@ -40,6 +40,7 @@ namespace octalforty.Wizardby.Tests.Db.SqlServer
             connectionStringBuilder.AppendKeyValuePair("Integrated-Security", "true");
             connectionStringBuilder.AppendKeyValuePair("host", "(local)");
             connectionStringBuilder.AppendKeyValuePair("database", "dev");
+            connectionStringBuilder.AppendKeyValuePair("foo", "bar");
 
             Assert.AreEqual(
                 "integrated security=true;data source=(local);initial catalog=dev;", 

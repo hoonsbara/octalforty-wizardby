@@ -21,7 +21,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 
 namespace octalforty.Wizardby.Core.Db
@@ -32,6 +34,7 @@ namespace octalforty.Wizardby.Core.Db
     public abstract class DbConnectionStringBuilderBase : DbPlatformDependencyBase, IDbConnectionStringBuilder
     {
         #region Private Fields
+        private bool ignoreUnmappedKeys;
         private readonly StringBuilder connectionStringBuilder = new StringBuilder();
         private readonly IDictionary<string, string> keyMappings = new Dictionary<string, string>();
         #endregion
@@ -46,11 +49,34 @@ namespace octalforty.Wizardby.Core.Db
         }
         #endregion
 
+        #region Public Properties
+        /// <summary>
+        /// Gets or sets a flag which indicates whether to ignore unmapped keys while
+        /// building the connection string. 
+        /// </summary>
+        public bool IgnoreUnmappedKeys
+        {
+            [DebuggerStepThrough]
+            get { return ignoreUnmappedKeys; }
+            [DebuggerStepThrough]
+            set { ignoreUnmappedKeys = value; }
+        }
+        #endregion
+
         /// <summary>
         /// Initializes a new instance of <see cref="DbConnectionStringBuilderBase"/> class.
         /// </summary>
         protected DbConnectionStringBuilderBase()
         {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of <see cref="DbConnectionStringBuilderBase"/> class.
+        /// </summary>
+        /// <param name="ignoreUnmappedKeys"></param>
+        protected DbConnectionStringBuilderBase(bool ignoreUnmappedKeys)
+        {
+            this.ignoreUnmappedKeys = ignoreUnmappedKeys;
         }
 
         /// <summary>
@@ -60,10 +86,10 @@ namespace octalforty.Wizardby.Core.Db
         /// <param name="mappedKey"></param>
         public void RegisterKeyMapping(string key, string mappedKey)
         {
-            keyMappings[key.ToLower()] = mappedKey;
+            keyMappings[GetKeyMap(key)] = mappedKey;
         }
 
-        #region Implementation of IDbConnectionStringBuilder
+        #region IDbConnectionStringBuilder Members
         /// <summary>
         /// Appends a <paramref name="key"/>-<paramref name="value"/> pair to the connection string.
         /// </summary>
@@ -71,9 +97,12 @@ namespace octalforty.Wizardby.Core.Db
         /// <param name="value"></param>
         public virtual void AppendKeyValuePair(string key, string value)
         {
+            if(!IsKeyMapped(key) && IgnoreUnmappedKeys)
+                return;
+
             ConnectionStringBuilder.AppendFormat("{0}={1};", 
-                keyMappings.ContainsKey(key.ToLower()) ?
-                    keyMappings[key.ToLower()] :
+                IsKeyMapped(key) ?
+                    GetMappedKey(key) :
                     key, value);
         }
 
@@ -86,5 +115,25 @@ namespace octalforty.Wizardby.Core.Db
             return ConnectionStringBuilder.ToString();
         }
         #endregion
+
+        #region Overridables
+        protected virtual bool IsKeyMapped(string key)
+        {
+            return keyMappings.ContainsKey(GetKeyMap(key));
+        }
+
+        protected virtual string GetMappedKey(string key)
+        {
+            if(!IsKeyMapped(key))
+                throw new InvalidOperationException();
+
+            return keyMappings[GetKeyMap(key)];
+        }
+        #endregion
+
+        private static string GetKeyMap(string key)
+        {
+            return key.ToUpperInvariant();
+        }
     }
 }

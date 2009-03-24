@@ -33,7 +33,8 @@ namespace octalforty.Wizardby.Db.SqlServer
         /// <summary>
         /// Initializes a new instance of the <see cref="SqlServerConnectionStringBuilder"/>.
         /// </summary>
-        public SqlServerConnectionStringBuilder()
+        public SqlServerConnectionStringBuilder() :
+            base(true)
         {
             RegisterKeyMapping("integrated-security", "integrated security");
             RegisterKeyMapping("host", "data source");

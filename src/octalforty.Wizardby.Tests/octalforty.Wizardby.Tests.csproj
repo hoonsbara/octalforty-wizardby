@@ -42,6 +42,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Console\InfoMigrationCommandTestFixture.cs" />
+    <Compile Include="Console\MigrationCommandRegistryTestFixture.cs" />
     <Compile Include="Console\MigrationParametersParserTestFixture.cs" />
     <Compile Include="Core\Compiler\EnvironmentTestFixture.cs" />
     <Compile Include="Core\Compiler\Impl\AstFlattenerCompilerStageTestFixture.cs" />

@@ -75,11 +75,11 @@ namespace octalforty.Wizardby.Core.Migration.Impl
 
                             //Console.WriteLine(dbCommand.CommandText);
 
-                            InvokeMigrating(new MigrationScriptExecutionEventArgs(migrationScript.MigrationVersion));
+                            InvokeMigrating(new MigrationScriptExecutionEventArgs(migrationMode, migrationScript.MigrationVersion));
 
                             dbPlatform.CommandExecutive.ExecuteNonQuery(dbCommand);
 
-                            InvokeMigrated(new MigrationScriptExecutionEventArgs(migrationScript.MigrationVersion));
+                            InvokeMigrated(new MigrationScriptExecutionEventArgs(migrationMode, migrationScript.MigrationVersion));
                         } // using
 
                         //

@@ -33,7 +33,6 @@ using octalforty.Wizardby.Core.Db;
 using octalforty.Wizardby.Core.Deployment;
 using octalforty.Wizardby.Core.Migration;
 using octalforty.Wizardby.Core.Migration.Impl;
-
 using octalforty.Wizardby.Db.Jet;
 using octalforty.Wizardby.Db.SqlServer;
 
@@ -50,8 +49,14 @@ namespace octalforty.Wizardby.Console
             {
                 System.Console.WriteLine();
                 System.Console.WriteLine(Resources.UsageInformation);
+
                 return;
             } // if
+
+            //
+            // Parse parameters
+            MigrationParametersParser parametersParser = new MigrationParametersParser();
+            MigrationParameters parameters = parametersParser.ParseMigrationParameters(args);
 
             //
             // Preparing platform registry
@@ -60,9 +65,16 @@ namespace octalforty.Wizardby.Console
             dbPlatformRegistry.RegisterPlatform<SqlServerPlatform>();
 
             //
-            // Parse parameters
-            MigrationParametersParser parametersParser = new MigrationParametersParser();
-            MigrationParameters parameters = parametersParser.ParseMigrationParameters(args);
+            // Prepare Migration Command Registry...
+            MigrationCommandRegistry migrationCommandRegistry = new MigrationCommandRegistry();
+            migrationCommandRegistry.RegisterAssembly(typeof(Program).Assembly);
+
+            //
+            // ...and execute whatever command we need
+            /*IMigrationCommand migrationCommand = migrationCommandRegistry.ResolveCommand(parameters.Command);
+            migrationCommand.Execute(dbPlatformRegistry, parameters);*/
+
+            
             IDbPlatform dbPlatform = null;
 
             //
@@ -152,7 +164,11 @@ namespace octalforty.Wizardby.Console
                 new DbMigrationVersionInfoManager(dbPlatform, "SchemaInfo");
             IMigrationScriptExecutive migrationScriptExecutive = new DbMigrationScriptExecutive();
             migrationScriptExecutive.Migrated += delegate(object sender, MigrationScriptExecutionEventArgs args1)
-                { System.Console.WriteLine("Migrated to version {0}", args1.Version); };
+                { 
+                    System.Console.WriteLine(args1.Mode == MigrationMode.Upgrade ?
+                        "Upgraded to version {0}" :
+                        "Downgraded from version {0}", args1.Version); 
+                };
 
             if(parameters.Command == MigrationCommand.Info)
             {
@@ -211,6 +227,11 @@ namespace octalforty.Wizardby.Console
             catch(MdlParserException e)
             {
                 System.Console.WriteLine("Couldn't parse '{0}': {1}", parameters.MdlFileName, e.Message);
+            } // catch
+
+            catch(MigrationException e)
+            {
+                System.Console.WriteLine("Migration Exception: {0}", e.Message);
             } // catch
 
             catch(DbPlatformException e)

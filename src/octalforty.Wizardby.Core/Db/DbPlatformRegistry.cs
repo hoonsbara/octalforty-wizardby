@@ -38,6 +38,9 @@ namespace octalforty.Wizardby.Core.Db
 
         public IDbPlatform ResolvePlatform(string alias)
         {
+            if(alias == null) 
+                throw new ArgumentNullException("alias");
+
             return platforms.ContainsKey(alias) ?
                 platforms[alias] :
                 null;
@@ -45,6 +48,9 @@ namespace octalforty.Wizardby.Core.Db
 
         public string GetPlatformName(IDbPlatform dbPlatform)
         {
+            if(dbPlatform == null) 
+                throw new ArgumentNullException("dbPlatform");
+
             DbPlatformAttribute dbPlatformAttribute =
                 (DbPlatformAttribute)Attribute.GetCustomAttribute(dbPlatform.GetType(), typeof(DbPlatformAttribute));
             return dbPlatformAttribute.Name;

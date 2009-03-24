@@ -121,6 +121,12 @@
     <value>octalforty Wizardby {0} Alpha 1.
 Copyright (c) 2009 octalforty studios</value>
   </data>
+  <data name="CouldNotResolvePlatformAlias" xml:space="preserve">
+    <value>Could not resolve Platform Alias '{0}'.</value>
+  </data>
+  <data name="DatabaseIsNotVersioned" xml:space="preserve">
+    <value>Database is not versioned or no migrations were applied yet.</value>
+  </data>
   <data name="MdlTemplate" xml:space="preserve">
     <value>migration "{0}" revision =&gt; 1:
     defaults:
