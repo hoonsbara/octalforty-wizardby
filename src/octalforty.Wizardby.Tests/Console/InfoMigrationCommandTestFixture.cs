@@ -14,6 +14,7 @@ namespace octalforty.Wizardby.Tests.Console
         public void ExecuteCommand()
         {
             MigrationParameters parameters = new MigrationParameters();
+            parameters.Environment = "dev";
             parameters.PlatformAlias = "foodb";
 
             IMigrationCommand migrationCommand = new InfoMigrationCommand();

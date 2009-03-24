@@ -17,7 +17,7 @@ namespace octalforty.Wizardby.Tests.Db.SqlServer
         [ExpectedException(typeof(DbPlatformException))]
         public void ExecuteReader()
         {
-            SqlServerCommandExecutive dbCommandExecutive = new SqlServerCommandExecutive();
+            SqlServerExecutive dbCommandExecutive = new SqlServerExecutive();
             dbCommandExecutive.ExceptionFilter = delegate(Exception exception)
                 { return exception is ApplicationException; };
 
@@ -40,7 +40,7 @@ namespace octalforty.Wizardby.Tests.Db.SqlServer
         [ExpectedException(typeof(DbPlatformException))]
         public void ExecuteNonQuery()
         {
-            SqlServerCommandExecutive dbCommandExecutive = new SqlServerCommandExecutive();
+            SqlServerExecutive dbCommandExecutive = new SqlServerExecutive();
             dbCommandExecutive.ExceptionFilter = delegate(Exception exception)
                 { return exception is ApplicationException; };
 

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 using octalforty.Wizardby.Console.Properties;
@@ -17,14 +18,12 @@ namespace octalforty.Wizardby.Console
         /// <summary>
         /// Executes the current command.
         /// </summary>
-        /// <param name="platformRegistry"></param>
         /// <param name="parameters"></param>
-        protected override void InternalExecute(DbPlatformRegistry platformRegistry, MigrationParameters parameters)
+        /// <param name="dbPlatform"></param>
+        protected override void InternalExecute(MigrationParameters parameters, IDbPlatform dbPlatform)
         {
-            IDbPlatform platform = ResolveDbPlatform(platformRegistry, parameters);
-
             IMigrationVersionInfoManager migrationVersionInfoManager = 
-                new DbMigrationVersionInfoManager(platform, "SchemaInfo");
+                new DbMigrationVersionInfoManager(dbPlatform, "SchemaInfo");
 
             long? currentMigrationVersion = 
                 migrationVersionInfoManager.GetCurrentMigrationVersion(parameters.ConnectionString);
@@ -32,18 +31,25 @@ namespace octalforty.Wizardby.Console
                 migrationVersionInfoManager.GetAllRegisteredMigrationVersions(parameters.ConnectionString);
 
             if(!currentMigrationVersion.HasValue)
-                System.Console.WriteLine(Resources.DatabaseIsNotVersioned);
+            {
+                using(new ConsoleStylingScope(ConsoleColor.Yellow))
+                    System.Console.WriteLine(Environment.NewLine + Resources.DatabaseIsNotVersioned);
+
+                return;
+            } // if
+
+            using(new ConsoleStylingScope(ConsoleColor.Green))
+            {
+                System.Console.WriteLine(Environment.NewLine + Resources.CurrentDatabaseVersionInfo, currentMigrationVersion.Value);
+
+                if(registeredMigrationVersions.Count == 0)
+                    return;
+
+                System.Console.WriteLine(Resources.RegisteredDatabaseVersionsInfo);
+                foreach(long registeredVersion in registeredMigrationVersions)
+                    System.Console.WriteLine(Resources.RegisteredDatabaseVersionInfo, registeredVersion);
+            } // using
         }
         #endregion
-        
-        private static IDbPlatform ResolveDbPlatform(DbPlatformRegistry platformRegistry, MigrationParameters parameters)
-        {
-            IDbPlatform platform = platformRegistry.ResolvePlatform(parameters.PlatformAlias);
-            if(platform == null)
-                throw new MigrationException(
-                    string.Format(Resources.CouldNotResolvePlatformAlias, parameters.PlatformAlias));
-            
-            return platform;
-        }
     }
 }

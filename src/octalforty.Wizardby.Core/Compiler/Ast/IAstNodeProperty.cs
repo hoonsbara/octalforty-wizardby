@@ -39,5 +39,12 @@ namespace octalforty.Wizardby.Core.Compiler.Ast
         /// </summary>
         object Value
         { get; }
+
+        /// <summary>
+        /// Gets or sets a reference to the <see cref="Compiler.Location"/> of this property
+        /// in a source file.
+        /// </summary>
+        Location Location
+        { get; set; }
     }
 }

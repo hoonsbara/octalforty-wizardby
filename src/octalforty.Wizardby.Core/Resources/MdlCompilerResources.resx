@@ -126,6 +126,9 @@
   <data name="CouldNotResolvePkTableForAddReference" xml:space="preserve">
     <value>Could not resolve Primary Key Table for Add Reference '{0}'. You might be missing a 'pk-table' property.</value>
   </data>
+  <data name="CouldNotResolveReferenceDefinition" xml:space="preserve">
+    <value>Could not resolve Reference Definition '{0}' from '{1}' to '{2}'.</value>
+  </data>
   <data name="CouldNotResolveTableForAddIndex" xml:space="preserve">
     <value>Could not resolve Table for Add Index '{0}'. You might be missing a 'table' property or 'add index' is nested incorrectly.</value>
   </data>

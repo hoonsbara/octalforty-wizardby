@@ -32,7 +32,7 @@ namespace octalforty.Wizardby.Db.Jet
     /// A <see cref="IDbPlatform"/> implementation for the Microsoft Jet database.
     /// </summary>
     [DbPlatform("Microsoft Jet", "jet")]
-    public class JetPlatform : DbPlatformBase<JetDialect, JetConnectionStringBuilder, DefaultDbNamingStrategy, JetTypeMapper, DbCommandExecutiveBase>
+    public class JetPlatform : DbPlatformBase<JetDialect, JetConnectionStringBuilder, DefaultDbNamingStrategy, JetTypeMapper, DbExecutiveBase>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="JetPlatform"/> class.

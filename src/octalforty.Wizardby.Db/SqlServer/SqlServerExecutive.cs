@@ -8,9 +8,9 @@ using octalforty.Wizardby.Core.Db;
 namespace octalforty.Wizardby.Db.SqlServer
 {
     /// <summary>
-    /// Microsoft SQL Server specific implementation of the <see cref="IDbCommandExecutive"/>.
+    /// Microsoft SQL Server specific implementation of the <see cref="IDbExecutive"/>.
     /// </summary>
-    public class SqlServerCommandExecutive : IDbCommandExecutive
+    public class SqlServerExecutive : IDbExecutive
     {
         #region Private Fields
         private IDbPlatform platform;
@@ -32,9 +32,9 @@ namespace octalforty.Wizardby.Db.SqlServer
         #endregion
         
         /// <summary>
-        /// Initializes a new instance of the <see cref="SqlServerCommandExecutive"/> class.
+        /// Initializes a new instance of the <see cref="SqlServerExecutive"/> class.
         /// </summary>
-        public SqlServerCommandExecutive()
+        public SqlServerExecutive()
         {
             exceptionFilter = delegate(Exception exception)
                 { return exception is SqlException; };
@@ -50,6 +50,17 @@ namespace octalforty.Wizardby.Db.SqlServer
             get { return platform; }
             [DebuggerStepThrough]
             set { platform = value; }
+        }
+
+        /// <summary>
+        /// Executes the given <paramref name="dbOperation"/>.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="dbOperation"></param>
+        /// <returns></returns>
+        public T Execute<T>(DbOperation<T> dbOperation)
+        {
+            return InternalExecute(dbOperation);
         }
 
         /// <summary>
@@ -75,11 +86,11 @@ namespace octalforty.Wizardby.Db.SqlServer
         }
         #endregion
 
-        private T Execute<T>(Impl.Action<T> action)
+        private T InternalExecute<T>(DbOperation<T> dbOperation)
         {
             try
             {
-                return action();
+                return dbOperation();
             } // try
 
             catch(Exception e)

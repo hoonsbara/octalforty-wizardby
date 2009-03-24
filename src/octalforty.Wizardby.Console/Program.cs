@@ -69,13 +69,48 @@ namespace octalforty.Wizardby.Console
             MigrationCommandRegistry migrationCommandRegistry = new MigrationCommandRegistry();
             migrationCommandRegistry.RegisterAssembly(typeof(Program).Assembly);
 
-            //
-            // ...and execute whatever command we need
-            /*IMigrationCommand migrationCommand = migrationCommandRegistry.ResolveCommand(parameters.Command);
-            migrationCommand.Execute(dbPlatformRegistry, parameters);*/
+            try
+            {
+                //
+                // ...and execute whatever command we need
+                IMigrationCommand migrationCommand = migrationCommandRegistry.ResolveCommand(parameters.Command);
+                migrationCommand.Execute(dbPlatformRegistry, parameters);
+            } // try
 
+            catch(MdlParserException e)
+            {
+                using(new ConsoleStylingScope(ConsoleColor.Red))
+                    System.Console.WriteLine(System.Environment.NewLine + "Compilation Exception: {0}", e.Message);
+            } // catch
+
+            catch(MdlCompilerException e)
+            {
+                using(new ConsoleStylingScope(ConsoleColor.Red))
+                    System.Console.WriteLine(System.Environment.NewLine + "Compilation Exception: {0} ({1})", e.Message,
+                        e.Location);
+            } // catch
+
+            catch(MigrationException e)
+            {
+                using(new ConsoleStylingScope(ConsoleColor.Red))
+                    System.Console.WriteLine(System.Environment.NewLine + "Migration Exception: {0}", e.Message);
+            } // catch
+
+            catch(DbPlatformException e)
+            {
+                IDbPlatform dbPlatform = dbPlatformRegistry.ResolvePlatform(parameters.PlatformAlias);
+                using(new ConsoleStylingScope(ConsoleColor.Red))
+                    System.Console.WriteLine(System.Environment.NewLine + "{0} Exception: {1}", dbPlatformRegistry.GetPlatformName(dbPlatform), e.Message);
+            } // catch
+
+            catch(Exception e)
+            {
+                using(new ConsoleStylingScope(ConsoleColor.Red))
+                    System.Console.WriteLine(System.Environment.NewLine + "Unknown Exception: {0}", e.ToString());
+            } // catch
+            return;
             
-            IDbPlatform dbPlatform = null;
+            /*IDbPlatform dbPlatform = null;
 
             //
             // If environment was specified (or either /c or /p were omitted), look for "database.wdi" in the current
@@ -240,7 +275,7 @@ namespace octalforty.Wizardby.Console
             } // catch
 
             if(writer != null)
-                writer.Close();
+                writer.Close();*/
         }
 
         private static long? GetEffectiveVersionOrStep(MigrationParameters parameters)

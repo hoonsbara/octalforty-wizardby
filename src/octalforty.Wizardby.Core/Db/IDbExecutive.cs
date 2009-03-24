@@ -26,10 +26,18 @@ using System.Data;
 namespace octalforty.Wizardby.Core.Db
 {
     /// <summary>
-    /// Encapsulates execution logic of <see cref="IDbCommand"/> objects.
+    /// Encapsulates execution logic of database operations.
     /// </summary>
-    public interface IDbCommandExecutive : IDbPlatformDependency
+    public interface IDbExecutive : IDbPlatformDependency
     {
+        /// <summary>
+        /// Executes the given <paramref name="dbOperation"/>.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="dbOperation"></param>
+        /// <returns></returns>
+        T Execute<T>(DbOperation<T> dbOperation);
+
         /// <summary>
         /// Executes the given <paramref name="dbCommand"/> and returns a <see cref="IDataReader"/>.
         /// </summary>

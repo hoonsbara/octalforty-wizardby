@@ -61,7 +61,16 @@ namespace octalforty.Wizardby.Console.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to octalforty Wizardby {0} Alpha 1.
+        ///   Looks up a localized string similar to Connection string: {0}.
+        /// </summary>
+        internal static string ConnectionStringInformation {
+            get {
+                return ResourceManager.GetString("ConnectionStringInformation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to octalforty Wizardby {0} Alpha 1
         ///Copyright (c) 2009 octalforty studios.
         /// </summary>
         internal static string CopyrightInformation {
@@ -80,11 +89,29 @@ namespace octalforty.Wizardby.Console.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Current database version: {0}.
+        /// </summary>
+        internal static string CurrentDatabaseVersionInfo {
+            get {
+                return ResourceManager.GetString("CurrentDatabaseVersionInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Database is not versioned or no migrations were applied yet..
         /// </summary>
         internal static string DatabaseIsNotVersioned {
             get {
                 return ResourceManager.GetString("DatabaseIsNotVersioned", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Environment: {0}.
+        /// </summary>
+        internal static string EnvironmentInformation {
+            get {
+                return ResourceManager.GetString("EnvironmentInformation", resourceCulture);
             }
         }
         
@@ -99,6 +126,33 @@ namespace octalforty.Wizardby.Console.Properties {
         internal static string MdlTemplate {
             get {
                 return ResourceManager.GetString("MdlTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Migration Definition: {0}.
+        /// </summary>
+        internal static string MigrationDefinitionInformation {
+            get {
+                return ResourceManager.GetString("MigrationDefinitionInformation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to     {0}.
+        /// </summary>
+        internal static string RegisteredDatabaseVersionInfo {
+            get {
+                return ResourceManager.GetString("RegisteredDatabaseVersionInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Registered versions:.
+        /// </summary>
+        internal static string RegisteredDatabaseVersionsInfo {
+            get {
+                return ResourceManager.GetString("RegisteredDatabaseVersionsInfo", resourceCulture);
             }
         }
         

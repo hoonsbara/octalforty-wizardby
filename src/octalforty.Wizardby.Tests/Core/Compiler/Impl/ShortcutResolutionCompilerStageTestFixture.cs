@@ -21,8 +21,6 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
-using System.Data;
-
 using NUnit.Framework;
 
 using octalforty.Wizardby.Core.Compiler;
@@ -54,9 +52,11 @@ namespace octalforty.Wizardby.Tests.Core.Compiler.Impl
 
             IAddReferenceNode addReferenceNode = (IAddReferenceNode)astNode.ChildNodes[0].ChildNodes[0];
             Assert.AreEqual("Bar", addReferenceNode.Properties["pk-table"].Value.ToString());
+            Assert.IsNotNull(addReferenceNode.Location);
 
             IAddIndexNode addIndexNode = (IAddIndexNode)astNode.ChildNodes[0].ChildNodes[1];
             Assert.AreEqual("true", addIndexNode.Properties["unique"].Value.ToString());
+            Assert.IsNotNull(addIndexNode.Location);
         }
     }
 }

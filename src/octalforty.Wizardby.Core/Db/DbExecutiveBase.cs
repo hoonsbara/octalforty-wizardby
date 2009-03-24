@@ -3,9 +3,9 @@ using System.Data;
 namespace octalforty.Wizardby.Core.Db
 {
     /// <summary>
-    /// Standard implementation of the <see cref="IDbCommandExecutive"/>.
+    /// Standard implementation of the <see cref="IDbExecutive"/>.
     /// </summary>
-    public class DbCommandExecutiveBase : IDbCommandExecutive
+    public class DbExecutiveBase : IDbExecutive
     {
         #region Private Fields
         private IDbPlatform platform;
@@ -22,11 +22,22 @@ namespace octalforty.Wizardby.Core.Db
         }
 
         /// <summary>
+        /// Executes the given <paramref name="dbOperation"/>.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="dbOperation"></param>
+        /// <returns></returns>
+        public virtual T Execute<T>(DbOperation<T> dbOperation)
+        {
+            return dbOperation();
+        }
+
+        /// <summary>
         /// Executes the given <paramref name="dbCommand"/> and returns a <see cref="IDataReader"/>.
         /// </summary>
         /// <param name="dbCommand"></param>
         /// <returns></returns>
-        public IDataReader ExecuteReader(IDbCommand dbCommand)
+        public virtual IDataReader ExecuteReader(IDbCommand dbCommand)
         {
             return dbCommand.ExecuteReader();
         }
@@ -36,7 +47,7 @@ namespace octalforty.Wizardby.Core.Db
         /// </summary>
         /// <param name="dbCommand"></param>
         /// <returns></returns>
-        public int ExecuteNonQuery(IDbCommand dbCommand)
+        public virtual int ExecuteNonQuery(IDbCommand dbCommand)
         {
             return dbCommand.ExecuteNonQuery();
         }

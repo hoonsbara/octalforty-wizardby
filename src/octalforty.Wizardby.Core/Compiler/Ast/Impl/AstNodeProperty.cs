@@ -34,6 +34,7 @@ namespace octalforty.Wizardby.Core.Compiler.Ast.Impl
         #region Private Fields
         private readonly string name;
         private readonly object value;
+        private Location location;
         #endregion
 
         /// <summary>
@@ -45,6 +46,19 @@ namespace octalforty.Wizardby.Core.Compiler.Ast.Impl
         {
             this.name = name;
             this.value = value;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AstNodeProperty"/> class.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="value"></param>
+        /// <param name="location"></param>
+        public AstNodeProperty(string name, object value, Location location)
+        {
+            this.name = name;
+            this.value = value;
+            this.location = location;
         }
 
         #region IAstNodeProperty Members
@@ -62,6 +76,16 @@ namespace octalforty.Wizardby.Core.Compiler.Ast.Impl
         public object Value
         {
             get { return value; }
+        }
+
+        /// <summary>
+        /// Gets or sets a reference to the <see cref="Compiler.Location"/> of this property
+        /// in a source file.
+        /// </summary>
+        public Location Location
+        {
+            get { return location; }
+            set { location = value; }
         }
         #endregion
     }

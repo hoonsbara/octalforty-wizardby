@@ -22,14 +22,14 @@ namespace octalforty.Wizardby.Core.Resources {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "2.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class BindingCompilerStage {
+    internal class MdlCompilerResources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal BindingCompilerStage() {
+        internal MdlCompilerResources() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace octalforty.Wizardby.Core.Resources {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("octalforty.Wizardby.Core.Resources.BindingCompilerStage", typeof(BindingCompilerStage).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("octalforty.Wizardby.Core.Resources.MdlCompilerResources", typeof(MdlCompilerResources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -84,6 +84,15 @@ namespace octalforty.Wizardby.Core.Resources {
         internal static string CouldNotResolvePkTableForAddReference {
             get {
                 return ResourceManager.GetString("CouldNotResolvePkTableForAddReference", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Could not resolve Reference Definition &apos;{0}&apos; from &apos;{1}&apos; to &apos;{2}&apos;..
+        /// </summary>
+        internal static string CouldNotResolveReferenceDefinition {
+            get {
+                return ResourceManager.GetString("CouldNotResolveReferenceDefinition", resourceCulture);
             }
         }
         

@@ -267,11 +267,12 @@
     <Compile Include="Compiler\XmdlScanner.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Db\DbCommandExecutiveBase.cs" />
     <Compile Include="Db\DbConnectionStringBuilderBase.cs" />
     <Compile Include="Db\DbDialectBase.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Db\DbExecutiveBase.cs" />
+    <Compile Include="Db\DbOperation.cs" />
     <Compile Include="Db\DbPlatformAttribute.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -288,11 +289,11 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Db\DefaultDbNamingStrategy.cs" />
-    <Compile Include="Db\IDbCommandExecutive.cs" />
     <Compile Include="Db\IDbConnectionStringBuilder.cs" />
     <Compile Include="Db\IDbDialect.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Db\IDbExecutive.cs" />
     <Compile Include="Db\IDbNamingStrategy.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -350,10 +351,10 @@
     <Compile Include="Refactoring\AddAuditTableRefactoring.cs" />
     <Compile Include="Refactoring\IRefactoring.cs" />
     <Compile Include="Refactoring\RefactoringAttribute.cs" />
-    <Compile Include="Resources\BindingCompilerStage.Designer.cs">
+    <Compile Include="Resources\MdlCompilerResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>BindingCompilerStage.resx</DependentUpon>
+      <DependentUpon>MdlCompilerResources.resx</DependentUpon>
     </Compile>
     <Compile Include="Resources\MdlParser.Designer.cs">
       <DependentUpon>MdlParser.resx</DependentUpon>
@@ -398,10 +399,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\BindingCompilerStage.resx">
+    <EmbeddedResource Include="Resources\MdlCompilerResources.resx">
       <SubType>Designer</SubType>
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>BindingCompilerStage.Designer.cs</LastGenOutput>
+      <LastGenOutput>MdlCompilerResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\MdlParser.resx">
       <SubType>Designer</SubType>

@@ -98,6 +98,7 @@ namespace octalforty.Wizardby.Tests.Core.Compiler
             Assert.AreEqual(new Location(0, 0), migrationNode.Location);
 
             Assert.AreEqual("Waffle", migrationNode.Name);
+            Assert.AreEqual(new Location(0, 5), migrationNode.Properties["revision"].Location);
             Assert.AreEqual(1, migrationNode.Properties["revision"].Value);
             Assert.AreEqual("Debug", migrationNode.Properties["configuration"].Value);
             Assert.IsInstanceOfType(typeof(string), migrationNode.Properties["configuration"].Value);

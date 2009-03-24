@@ -788,10 +788,12 @@ namespace octalforty.Wizardby.Core.Compiler
 
         private static IAstNodeProperty ParsePropertyCore(TokenSequence tokens)
         {
-            string propertyName = Parse(tokens, TokenType.Symbol, TokenType.Keyword).Lexeme;
+            Token propertyNameToken = Parse(tokens, TokenType.Symbol, TokenType.Keyword);
+            string propertyName = propertyNameToken.Lexeme;
+            
             Parse(tokens, TokenType.PropertyAssignment);
 
-            return new AstNodeProperty(propertyName, ParsePropertyValue(tokens));
+            return new AstNodeProperty(propertyName, ParsePropertyValue(tokens), propertyNameToken.Location);
         }
 
         private static object ParsePropertyValue(TokenSequence tokens)

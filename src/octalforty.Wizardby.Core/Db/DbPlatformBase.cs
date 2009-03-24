@@ -38,14 +38,14 @@ namespace octalforty.Wizardby.Core.Db
         where TDbConnectionStringBuilder : IDbConnectionStringBuilder, new()
         where TDbNamingStrategy : IDbNamingStrategy, new()
         where TDbTypeMapper : IDbTypeMapper, new()
-        where TDbCommandExecutive : IDbCommandExecutive, new()
+        where TDbCommandExecutive : IDbExecutive, new()
     {
         #region Private Fields
         private readonly bool supportsTransactionalDdl;
         private readonly IDbTypeMapper typeMapper;
         private readonly IDbDialect dialect;
         private readonly IDbNamingStrategy namingStrategy;
-        private IDbCommandExecutive commandExecutive;
+        private IDbExecutive commandExecutive;
         #endregion
 
         /// <summary>
@@ -106,7 +106,7 @@ namespace octalforty.Wizardby.Core.Db
         public abstract DbProviderFactory ProviderFactory
         { get; }
 
-        public IDbCommandExecutive CommandExecutive
+        public IDbExecutive CommandExecutive
         {
             get { return commandExecutive; }
             set { commandExecutive = value; }

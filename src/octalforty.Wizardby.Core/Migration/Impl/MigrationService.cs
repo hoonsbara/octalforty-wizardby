@@ -240,11 +240,14 @@ namespace octalforty.Wizardby.Core.Migration.Impl
         {
             using(IDbConnection dbConnection = dbPlatform.ProviderFactory.CreateConnection())
             {
-                dbConnection.ConnectionString = connectionString;
-                dbConnection.Open();
+                return dbPlatform.CommandExecutive.Execute<T>(delegate
+                    {
+                        dbConnection.ConnectionString = connectionString;
+                        dbConnection.Open();
 
-                using(IDbTransaction dbTransaction = dbConnection.BeginTransaction())
-                    return action(dbTransaction);
+                        using (IDbTransaction dbTransaction = dbConnection.BeginTransaction())
+                            return action(dbTransaction);
+                    });
             } // using
         }
     }

@@ -25,6 +25,7 @@ using System;
 using System.Data;
 
 using octalforty.Wizardby.Core.Compiler.Ast;
+using octalforty.Wizardby.Core.Resources;
 using octalforty.Wizardby.Core.SemanticModel;
 
 namespace octalforty.Wizardby.Core.Compiler.Impl
@@ -169,7 +170,7 @@ namespace octalforty.Wizardby.Core.Compiler.Impl
                     ((ITableNode)addIndexNode.Parent).Name;
             } // else if
             else
-                throw CreateMdlCompilerException(Resources.BindingCompilerStage.CouldNotResolveTableForAddIndex,
+                throw CreateMdlCompilerException(MdlCompilerResources.CouldNotResolveTableForAddIndex,
                     addIndexNode.Name);
 
             ITableDefinition table = Environment.Schema.GetTable(indexDefinition.Table);
@@ -233,7 +234,7 @@ namespace octalforty.Wizardby.Core.Compiler.Impl
             } // else if
             else
                 throw CreateMdlCompilerException(
-                    Resources.BindingCompilerStage.CouldNotResolveTableForRemoveIndex, removeIndexNode.Name);
+                    MdlCompilerResources.CouldNotResolveTableForRemoveIndex, removeIndexNode.Name);
         }
 
         /// <summary>
@@ -334,7 +335,7 @@ namespace octalforty.Wizardby.Core.Compiler.Impl
                 return;
             } // if
 
-            throw CreateMdlCompilerException(Resources.BindingCompilerStage.CouldNotResolvePkTableForAddReference, 
+            throw CreateMdlCompilerException(MdlCompilerResources.CouldNotResolvePkTableForAddReference, 
                 addReferenceNode.Name);
         }
 
@@ -386,7 +387,7 @@ namespace octalforty.Wizardby.Core.Compiler.Impl
                 return;
             } // if
 
-            throw CreateMdlCompilerException(Resources.BindingCompilerStage.CouldNotResolveFkColumnForAddReference, addReferenceNode.Name);
+            throw CreateMdlCompilerException(MdlCompilerResources.CouldNotResolveFkColumnForAddReference, addReferenceNode.Name);
         }
 
         private void BindForeignKeyTable(IAddReferenceNode addReferenceNode, IReferenceDefinition reference)
@@ -421,7 +422,7 @@ namespace octalforty.Wizardby.Core.Compiler.Impl
                 return;
             } // if
 
-            throw CreateMdlCompilerException(Resources.BindingCompilerStage.CouldNotResolveFkTableForAddReference,
+            throw CreateMdlCompilerException(MdlCompilerResources.CouldNotResolveFkTableForAddReference,
                 addReferenceNode.Name);
         }
 
@@ -453,7 +454,7 @@ namespace octalforty.Wizardby.Core.Compiler.Impl
                 string textualType = columnNode.Properties[MdlSyntax.Type].Value.ToString();
 
                 if(!Enum.IsDefined(typeof(DbType), textualType))
-                    throw new MdlCompilerException(string.Format(Resources.BindingCompilerStage.UnknownType, textualType));
+                    throw new MdlCompilerException(string.Format(MdlCompilerResources.UnknownType, textualType));
 
                 columnNode.Type = columnDefinition.Type =
                     (DbType)Enum.Parse(typeof(DbType), textualType);

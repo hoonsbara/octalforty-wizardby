@@ -48,11 +48,12 @@ namespace octalforty.Wizardby.Core.Compiler.Impl
             // Create an "IAddReferenceNode" for "references" property
             if(addColumnNode.Properties.ContainsProperty(MdlSyntax.References))
             {
-                IAddReferenceNode addReferenceNode = new AddReferenceNode(addColumnNode, "");
-                string references = addColumnNode.Properties[MdlSyntax.References].Value.ToString();
+                IAstNodeProperty referencesProperty = addColumnNode.Properties[MdlSyntax.References];
+                string references = referencesProperty.Value.ToString();
 
-                addReferenceNode.Properties.AddProperty(new AstNodeProperty(MdlSyntax.PkTable, 
-                    references));
+                IAddReferenceNode addReferenceNode = new AddReferenceNode(addColumnNode, "");
+                addReferenceNode.Location = referencesProperty.Location;
+                addReferenceNode.Properties.AddProperty(new AstNodeProperty(MdlSyntax.PkTable, references));
 
                 addColumnNode.ChildNodes.Add(addReferenceNode);
             } // if
@@ -61,7 +62,10 @@ namespace octalforty.Wizardby.Core.Compiler.Impl
             // Create an 'IAddIndexNode" for "unique" property
             if(addColumnNode.Properties.ContainsProperty(MdlSyntax.Unique))
             {
+                IAstNodeProperty uniqueProperty = addColumnNode.Properties[MdlSyntax.Unique];
+
                 IAddIndexNode addIndexNode = new AddIndexNode(addColumnNode, "");
+                addIndexNode.Location = uniqueProperty.Location;
                 addIndexNode.Properties.AddProperty(new AstNodeProperty(MdlSyntax.Unique, "true"));
 
                 addColumnNode.ChildNodes.Add(addIndexNode);

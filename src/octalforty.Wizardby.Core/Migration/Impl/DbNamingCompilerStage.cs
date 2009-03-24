@@ -24,6 +24,7 @@
 using octalforty.Wizardby.Core.Compiler;
 using octalforty.Wizardby.Core.Compiler.Ast;
 using octalforty.Wizardby.Core.Db;
+using octalforty.Wizardby.Core.Resources;
 using octalforty.Wizardby.Core.SemanticModel;
 
 namespace octalforty.Wizardby.Core.Migration.Impl
@@ -37,6 +38,7 @@ namespace octalforty.Wizardby.Core.Migration.Impl
             this.namingStrategy = namingStrategy;
         }
 
+        #region MdlCompilerStageBase Members
         /// <summary>
         /// Visits the given <paramref name="addIndexNode"/>.
         /// </summary>
@@ -47,6 +49,9 @@ namespace octalforty.Wizardby.Core.Migration.Impl
                 return;
 
             ITableDefinition table = Environment.Schema.GetTable(addIndexNode.Table);
+            /*if(table == null)
+                throw new MdlCompilerException();*/
+
             IIndexDefinition index = table.GetIndex(addIndexNode.Name);
 
             //
@@ -72,7 +77,17 @@ namespace octalforty.Wizardby.Core.Migration.Impl
                 return;
 
             ITableDefinition table = Environment.Schema.GetTable(addReferenceNode.FkTable);
+            if(table == null)
+                throw new MdlCompilerException(
+                    string.Format(MdlCompilerResources.CouldNotResolveFkTableForAddReference, addReferenceNode.FkTable), 
+                    addReferenceNode.Location);
+
             IReferenceDefinition reference = table.GetReference(addReferenceNode.Name);
+            if(reference == null)
+                throw new MdlCompilerException(
+                    string.Format(MdlCompilerResources.CouldNotResolveReferenceDefinition, addReferenceNode.Name,
+                        addReferenceNode.FkTable, addReferenceNode.PkTable),
+                    addReferenceNode.Location);
 
             //
             // Remove reference
@@ -86,5 +101,7 @@ namespace octalforty.Wizardby.Core.Migration.Impl
             // And readd
             table.AddReference(reference);
         }
+        #endregion
+
     }
 }

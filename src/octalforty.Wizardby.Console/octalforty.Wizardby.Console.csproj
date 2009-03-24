@@ -34,6 +34,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConsoleStylingScope.cs" />
+    <Compile Include="DowngradeMigrationCommand.cs" />
     <Compile Include="FileDbCommandExecutive.cs" />
     <Compile Include="IMigrationCommand.cs" />
     <Compile Include="InfoMigrationCommand.cs" />
@@ -51,6 +53,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="RedoMigrationCommand.cs" />
+    <Compile Include="RollbackMigrationCommand.cs" />
+    <Compile Include="UpgradeMigrationCommand.cs" />
     <Compile Include="Util\ReflectionUtil.cs" />
   </ItemGroup>
   <ItemGroup>

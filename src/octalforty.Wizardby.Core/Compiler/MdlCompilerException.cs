@@ -22,14 +22,29 @@
 // THE SOFTWARE.
 #endregion
 using System;
+using System.Diagnostics;
 
 namespace octalforty.Wizardby.Core.Compiler
 {
     public class MdlCompilerException : ApplicationException
     {
+        private readonly Location location;
+
+        public Location Location
+        {
+            [DebuggerStepThrough]
+            get { return location; }
+        }
+
         public MdlCompilerException(string message) : 
             base(message)
         {
+        }
+
+        public MdlCompilerException(string message, Location location) : 
+            base(message)
+        {
+            this.location = location;
         }
     }
 }
