@@ -32,10 +32,10 @@ using octalforty.Wizardby.Core.Migration.Impl;
 namespace octalforty.Wizardby.Console
 {
     /// <summary>
-    /// Implements <see cref="MigrationCommand.Downgrade"/> command logic.
+    /// Implements <see cref="MigrationCommand.Migrate"/> command logic.
     /// </summary>
-    [MigrationCommand(MigrationCommand.Downgrade)]
-    public class DowngradeMigrationCommand : MigrationCommandBase
+    [MigrationCommand(MigrationCommand.Migrate)]
+    public class MigrateMigrationCommand : MigrationCommandBase
     {
         protected override void InternalExecute(MigrationParameters parameters, IDbPlatform dbPlatform)
         {
@@ -47,23 +47,31 @@ namespace octalforty.Wizardby.Console
 
             migrationScriptExecutive.Migrating += delegate(object sender, MigrationScriptExecutionEventArgs args1)
                 {
-                    using(new ConsoleStylingScope(ConsoleColor.Yellow))
-                        System.Console.WriteLine("Downgrading from version {0}", args1.Version);
+                    if(args1.Mode == MigrationMode.Upgrade)
+                        using(new ConsoleStylingScope(ConsoleColor.Green))
+                            System.Console.WriteLine("Upgrading to version {0}", args1.Version);
+                    else
+                        using (new ConsoleStylingScope(ConsoleColor.Yellow))
+                            System.Console.WriteLine("Downgrading from version {0}", args1.Version);
 
                     stopwatch = Stopwatch.StartNew();
                 };
 
             migrationScriptExecutive.Migrated += delegate(object sender, MigrationScriptExecutionEventArgs args1)
                 {
-                    using(new ConsoleStylingScope(ConsoleColor.Yellow))
-                        System.Console.WriteLine("Downgraded from version {0} ({1:N2} sec.)", args1.Version, stopwatch.Elapsed.TotalSeconds);
+                    if(args1.Mode == MigrationMode.Upgrade)
+                        using(new ConsoleStylingScope(ConsoleColor.Green))
+                            System.Console.WriteLine("Upgraded to version {0} ({1:N2} sec.)", args1.Version, stopwatch.Elapsed.TotalSeconds);
+                    else
+                        using(new ConsoleStylingScope(ConsoleColor.Yellow))
+                            System.Console.WriteLine("Downgraded from version {0} ({1:N2} sec.)", args1.Version, stopwatch.Elapsed.TotalSeconds);
                 };
 
             IMigrationService migrationService = new MigrationService();
 
             System.Console.WriteLine();
             using(StreamReader streamReader = new StreamReader(parameters.MdlFileName, true))
-                migrationService.Migrate(dbPlatform, parameters.ConnectionString, 0, streamReader, 
+                migrationService.Migrate(dbPlatform, parameters.ConnectionString, parameters.VersionOrStep.Value, streamReader, 
                     migrationVersionInfoManager, migrationScriptExecutive);
         }
     }

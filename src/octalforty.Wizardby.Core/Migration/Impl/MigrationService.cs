@@ -104,14 +104,14 @@ namespace octalforty.Wizardby.Core.Migration.Impl
                 return;
 
             long? targetVersion =
-                registeredMigrationVersions.Count == 1 ?
-                    null :
+                registeredMigrationVersions.Count <= step ?
+                    0 :
                     (long?)registeredMigrationVersions[
                         step > registeredMigrationVersions.Count ? 0 : registeredMigrationVersions.Count - step - 1];
 
             MigrateDb(dbPlatform, MigrationMode.Downgrade, connectionString, migrationVersionInfoManager, 
                 CompileMigrationScripts(dbPlatform, migrationDefinition, MigrationMode.Downgrade), 
-                migrationScriptExecutive, GetCurrentVersion(dbPlatform, connectionString, migrationVersionInfoManager), null);
+                migrationScriptExecutive, GetCurrentVersion(dbPlatform, connectionString, migrationVersionInfoManager), targetVersion);
         }
 
         /// <summary>
@@ -138,8 +138,8 @@ namespace octalforty.Wizardby.Core.Migration.Impl
             // Save original version
             long originalVersion = registeredMigrationVersions[registeredMigrationVersions.Count - 1];
             long? targetVersion =
-                registeredMigrationVersions.Count == 1 ?
-                    null :
+                registeredMigrationVersions.Count <= step ?
+                    0 :
                     (long?)registeredMigrationVersions[
                         step > registeredMigrationVersions.Count ? 0 : registeredMigrationVersions.Count - step - 1];
 

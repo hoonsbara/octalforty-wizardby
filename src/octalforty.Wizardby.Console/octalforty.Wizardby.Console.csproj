@@ -37,8 +37,10 @@
     <Compile Include="ConsoleStylingScope.cs" />
     <Compile Include="DowngradeMigrationCommand.cs" />
     <Compile Include="FileDbCommandExecutive.cs" />
+    <Compile Include="GenerateMigrationCommand.cs" />
     <Compile Include="IMigrationCommand.cs" />
     <Compile Include="InfoMigrationCommand.cs" />
+    <Compile Include="MigrateMigrationCommand.cs" />
     <Compile Include="MigrationCommand.cs" />
     <Compile Include="MigrationCommandAttribute.cs" />
     <Compile Include="MigrationCommandBase.cs" />
