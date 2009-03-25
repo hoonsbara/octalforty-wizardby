@@ -64,13 +64,12 @@ namespace octalforty.Wizardby.Tests.Core.Migration.Impl
             IMigrationScriptExecutive migrationScriptExecutive =
                 mockRepository.StrictMock<IMigrationScriptExecutive>();
 
-            IMigrationService migrationService = new MigrationService();
+            IMigrationService migrationService = new MigrationService(dbPlatform, migrationVersionInfoManager, migrationScriptExecutive);
 
             using(Stream resourceStream =
                 Assembly.GetExecutingAssembly().GetManifestResourceStream("octalforty.Wizardby.Tests.Resources.Waffle.mdl"))
             {
-                migrationService.Migrate(new SqlServerPlatform(), 
-                    connectionString, null, new StreamReader(resourceStream, Encoding.UTF8), migrationVersionInfoManager, migrationScriptExecutive);
+                migrationService.Migrate(connectionString, null, new StreamReader(resourceStream, Encoding.UTF8));
             } // using
         }
 
@@ -83,10 +82,9 @@ namespace octalforty.Wizardby.Tests.Core.Migration.Impl
             using(Stream resourceStream =
                 Assembly.GetExecutingAssembly().GetManifestResourceStream("octalforty.Wizardby.Tests.Resources.Waffle.mdl"))
             {
-                IMigrationService migrationService = new MigrationService();
+                IMigrationService migrationService = new MigrationService(dbPlatform, versionInfoManager, scriptExecutive);
 
-                migrationService.Migrate(new SqlServerPlatform(), 
-                    "data source=(local)\\sqlexpress;initial catalog=test;integrated security=sspi", null, new StreamReader(resourceStream, Encoding.UTF8), versionInfoManager, scriptExecutive);
+                migrationService.Migrate("data source=(local)\\sqlexpress;initial catalog=test;integrated security=sspi", null, new StreamReader(resourceStream, Encoding.UTF8));
             } // using
 
             Assert.AreEqual(3, scriptExecutive.CurrentVersion.Value);

@@ -25,23 +25,36 @@ using NUnit.Framework;
 
 using octalforty.Wizardby.Console;
 using octalforty.Wizardby.Core.Db;
-using octalforty.Wizardby.Core.Migration;
+using octalforty.Wizardby.Db.SqlServer;
 
 namespace octalforty.Wizardby.Tests.Console
 {
     [TestFixture()]
-    public class InfoMigrationCommandTestFixture
+    public class ServiceProviderTestFixture
     {
         [Test()]
-        [ExpectedException(typeof(MigrationException), ExpectedMessage = "Could not resolve Platform Alias 'foodb'.")]
-        public void ExecuteCommand()
+        public void GetService()
         {
-            MigrationParameters parameters = new MigrationParameters();
-            parameters.Environment = "dev";
-            parameters.PlatformAlias = "foodb";
+            SqlServerPlatform sqlServerPlatform = new SqlServerPlatform();
 
-            IMigrationCommand migrationCommand = new InfoMigrationCommand();
-            migrationCommand.Execute(parameters);
+            IServiceProvider serviceProvider = new ServiceProvider();
+            serviceProvider.RegisterService(sqlServerPlatform);
+
+            Assert.AreSame(sqlServerPlatform, serviceProvider.GetService<IDbPlatform>());
+            Assert.AreSame(sqlServerPlatform, serviceProvider.GetService(typeof(IDbPlatform)));
+            Assert.AreSame(sqlServerPlatform, serviceProvider.GetService<SqlServerPlatform>());
+
+            serviceProvider.RegisterService(typeof(IDbTypeMapper), delegate { return new SqlServerTypeMapper(); });
+
+            IDbTypeMapper dbTypeMapper = serviceProvider.GetService<IDbTypeMapper>();
+            Assert.IsNotNull(dbTypeMapper);
+            Assert.AreNotSame(dbTypeMapper, serviceProvider.GetService<IDbTypeMapper>());
+
+            serviceProvider.RegisterService<IDbNamingStrategy>(delegate { return new SqlServerNamingStrategy(); });
+
+            IDbNamingStrategy dbNamingStrategy = serviceProvider.GetService<IDbNamingStrategy>();
+            Assert.IsNotNull(dbNamingStrategy);
+            Assert.AreNotSame(dbNamingStrategy, serviceProvider.GetService<IDbNamingStrategy>());
         }
     }
 }

@@ -23,22 +23,5 @@
 #endregion
 namespace octalforty.Wizardby.Console
 {
-    /// <summary>
-    /// Represents a migration command.
-    /// </summary>
-    public interface IMigrationCommand
-    {
-        /// <summary>
-        /// Set or sets a reference to the <see cref="IServiceProvider"/> which is
-        /// used to retrieve service objects.
-        /// </summary>
-        IServiceProvider ServiceProvider
-        { get; set; }
-
-        /// <summary>
-        /// Executes the current command.
-        /// </summary>
-        /// <param name="parameters"></param>
-        void Execute(MigrationParameters parameters);
-    }
+    public delegate object ServiceBuilder(IServiceProvider serviceProvider);
 }

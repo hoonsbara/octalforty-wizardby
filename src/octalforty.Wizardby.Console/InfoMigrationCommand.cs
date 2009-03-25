@@ -37,16 +37,20 @@ namespace octalforty.Wizardby.Console
     [MigrationCommand(MigrationCommand.Info)]
     public class InfoMigrationCommand : MigrationCommandBase
     {
+        public InfoMigrationCommand() :
+            base(true, false, false, true)
+        {
+        }
+
         #region MigrationCommandBase Members
         /// <summary>
         /// Executes the current command.
         /// </summary>
         /// <param name="parameters"></param>
-        /// <param name="dbPlatform"></param>
-        protected override void InternalExecute(MigrationParameters parameters, IDbPlatform dbPlatform)
+        protected override void InternalExecute(MigrationParameters parameters)
         {
-            IMigrationVersionInfoManager migrationVersionInfoManager = 
-                new DbMigrationVersionInfoManager(dbPlatform, "SchemaInfo");
+            IMigrationVersionInfoManager migrationVersionInfoManager =
+                ServiceProvider.GetService<IMigrationVersionInfoManager>();
 
             long? currentMigrationVersion = 
                 migrationVersionInfoManager.GetCurrentMigrationVersion(parameters.ConnectionString);

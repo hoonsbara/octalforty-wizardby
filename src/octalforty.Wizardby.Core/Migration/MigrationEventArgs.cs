@@ -21,7 +21,32 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
-namespace octalforty.Wizardby.Db.SqlServer.Impl
+using System;
+using System.Diagnostics;
+
+namespace octalforty.Wizardby.Core.Migration
 {
-    internal delegate T Action<T>();
+    public class MigrationEventArgs : EventArgs
+    {
+        private readonly long version;
+        private readonly MigrationMode mode;
+
+        public long Version
+        {
+            [DebuggerStepThrough]
+            get { return version; }
+        }
+
+        public MigrationMode Mode
+        {
+            [DebuggerStepThrough]
+            get { return mode; }
+        }
+
+        public MigrationEventArgs(long version, MigrationMode mode)
+        {
+            this.version = version;
+            this.mode = mode;
+        }
+    }
 }

@@ -45,6 +45,7 @@
     <Compile Include="Console\InfoMigrationCommandTestFixture.cs" />
     <Compile Include="Console\MigrationCommandRegistryTestFixture.cs" />
     <Compile Include="Console\MigrationParametersParserTestFixture.cs" />
+    <Compile Include="Console\ServiceProviderTestFixture.cs" />
     <Compile Include="Core\Compiler\EnvironmentTestFixture.cs" />
     <Compile Include="Core\Compiler\Impl\AstFlattenerCompilerStageTestFixture.cs" />
     <Compile Include="Core\Compiler\Impl\AstTestFixtureBase.cs" />

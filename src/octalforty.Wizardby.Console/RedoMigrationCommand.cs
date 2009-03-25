@@ -37,10 +37,10 @@ namespace octalforty.Wizardby.Console
     [MigrationCommand(MigrationCommand.Redo)]
     public class RedoMigrationCommand : MigrationCommandBase
     {
-        protected override void InternalExecute(MigrationParameters parameters, IDbPlatform dbPlatform)
+        protected override void InternalExecute(MigrationParameters parameters)
         {
             IMigrationVersionInfoManager migrationVersionInfoManager =
-                new DbMigrationVersionInfoManager(dbPlatform, "SchemaInfo");
+                new DbMigrationVersionInfoManager(ServiceProvider.GetService<IDbPlatform>(), "SchemaInfo");
             IMigrationScriptExecutive migrationScriptExecutive = new DbMigrationScriptExecutive();
 
             Stopwatch stopwatch = null;
@@ -71,8 +71,7 @@ namespace octalforty.Wizardby.Console
 
             System.Console.WriteLine();
             using(StreamReader streamReader = new StreamReader(parameters.MdlFileName, true))
-                migrationService.Redo(dbPlatform, parameters.ConnectionString, (int)(parameters.VersionOrStep ?? 1), streamReader, 
-                    migrationVersionInfoManager, migrationScriptExecutive);
+                migrationService.Redo(parameters.ConnectionString, (int)(parameters.VersionOrStep ?? 1), streamReader);
         }
     }
 }

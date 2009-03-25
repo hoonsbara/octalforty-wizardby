@@ -343,6 +343,8 @@
     <Compile Include="Migration\Impl\NullDbTransaction.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Migration\MigrationEventArgs.cs" />
+    <Compile Include="Migration\MigrationEventHandler.cs" />
     <Compile Include="Migration\MigrationException.cs" />
     <Compile Include="Migration\MigrationMode.cs">
       <SubType>Code</SubType>

@@ -21,24 +21,42 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
+using System;
+
 namespace octalforty.Wizardby.Console
 {
     /// <summary>
-    /// Represents a migration command.
+    /// Defines a contract for an object which provides services to other objects.
     /// </summary>
-    public interface IMigrationCommand
+    public interface IServiceProvider : System.IServiceProvider
     {
         /// <summary>
-        /// Set or sets a reference to the <see cref="IServiceProvider"/> which is
-        /// used to retrieve service objects.
+        /// Registers service object <paramref name="service"/> within current
+        /// service provider.
         /// </summary>
-        IServiceProvider ServiceProvider
-        { get; set; }
+        /// <param name="service"></param>
+        void RegisterService(object service);
 
         /// <summary>
-        /// Executes the current command.
+        /// Registers prototype service object which is created using <see cref="serviceBuilder"/>
+        /// for every call to <see cref="GetService{T}"/> or <see cref="System.IServiceProvider.GetService"/>.
         /// </summary>
-        /// <param name="parameters"></param>
-        void Execute(MigrationParameters parameters);
+        /// <param name="type"></param>
+        /// <param name="serviceBuilder"></param>
+        void RegisterService(Type type, ServiceBuilder serviceBuilder);
+
+        /// <summary>
+        /// Registers prototype service object which is created using <see cref="serviceBuilder"/>
+        /// for every call to <see cref="GetService{T}"/> or <see cref="System.IServiceProvider.GetService"/>.
+        /// </summary>
+        /// <param name="serviceBuilder"></param>
+        void RegisterService<T>(ServiceBuilder serviceBuilder);
+
+        /// <summary>
+        /// Returns the service object of type <typeparamref name="T"/>.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        T GetService<T>();
     }
 }

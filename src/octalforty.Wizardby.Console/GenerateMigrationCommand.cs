@@ -30,14 +30,18 @@ using octalforty.Wizardby.Core.Db;
 namespace octalforty.Wizardby.Console
 {
     [MigrationCommand(MigrationCommand.Generate)]
-    public class GenerateMigrationCommand : IMigrationCommand
+    public class GenerateMigrationCommand : MigrationCommandBase
     {
+        public GenerateMigrationCommand() :
+            base(false, true, false, false)
+        {
+        }
+
         /// <summary>
         /// Executes the current command.
         /// </summary>
-        /// <param name="platformRegistry"></param>
         /// <param name="parameters"></param>
-        public void Execute(DbPlatformRegistry platformRegistry, MigrationParameters parameters)
+        protected override void InternalExecute(MigrationParameters parameters)
         {
             //
             // If no MDL file specified, grab the first in the current directory
@@ -49,19 +53,31 @@ namespace octalforty.Wizardby.Console
             if (string.IsNullOrEmpty(Path.GetExtension(parameters.MdlFileName)))
                 parameters.MdlFileName = parameters.MdlFileName + ".mdl";
 
+            DateTime timestamp = DateTime.Now;
             if(!File.Exists(parameters.MdlFileName))
             {
                 using(StreamWriter streamWriter = new StreamWriter(parameters.MdlFileName, false))
                     streamWriter.Write(Resources.MdlTemplate,
-                        Path.GetFileNameWithoutExtension(parameters.MdlFileName), DateTime.Now);
+                        Path.GetFileNameWithoutExtension(parameters.MdlFileName), timestamp);
+
+                using(new ConsoleStylingScope(ConsoleColor.Green))
+                    System.Console.WriteLine(Environment.NewLine + Resources.GeneratedFile, Path.GetFullPath(parameters.MdlFileName));
 
                 using(StreamWriter streamWriter = new StreamWriter("database.wdi", false))
                     streamWriter.Write(Resources.WdiTemplate,
                         Path.GetFileNameWithoutExtension(parameters.MdlFileName).ToLowerInvariant());
+
+                using (new ConsoleStylingScope(ConsoleColor.Green))
+                    System.Console.WriteLine(Resources.GeneratedFile, Path.GetFullPath("database.wdi"));
             } // if
             else
+            {
                 using(StreamWriter streamWriter = new StreamWriter(parameters.MdlFileName, true))
-                    streamWriter.Write("{0}{0}    version {1:yyyyMMddHHmmss}:", System.Environment.NewLine, DateTime.Now);
+                    streamWriter.Write("{0}{0}    version {1:yyyyMMddHHmmss}:", System.Environment.NewLine, timestamp);
+
+                using(new ConsoleStylingScope(ConsoleColor.Green))
+                    System.Console.WriteLine(Environment.NewLine + Resources.GeneratedVersion, timestamp);
+            } // else
         }
     }
 }

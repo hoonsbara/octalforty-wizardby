@@ -124,6 +124,9 @@
     <value>octalforty Wizardby {0} Alpha 1
 Copyright (c) 2009 octalforty studios</value>
   </data>
+  <data name="CouldNotFindDatabaseWdi" xml:space="preserve">
+    <value>Could not find 'database.wdi' in '{0}'.</value>
+  </data>
   <data name="CouldNotResolvePlatformAlias" xml:space="preserve">
     <value>Could not resolve Platform Alias '{0}'.</value>
   </data>
@@ -136,6 +139,12 @@ Copyright (c) 2009 octalforty studios</value>
   <data name="EnvironmentInformation" xml:space="preserve">
     <value>Environment: {0}</value>
   </data>
+  <data name="GeneratedFile" xml:space="preserve">
+    <value>Generated '{0}'.</value>
+  </data>
+  <data name="GeneratedVersion" xml:space="preserve">
+    <value>Generated version {0:yyyyMMddHHmmss}.</value>
+  </data>
   <data name="MdlTemplate" xml:space="preserve">
     <value>migration "{0}" revision =&gt; 1:
     defaults:
@@ -146,6 +155,9 @@ Copyright (c) 2009 octalforty studios</value>
   </data>
   <data name="MigrationDefinitionInformation" xml:space="preserve">
     <value>Migration Definition: {0}</value>
+  </data>
+  <data name="NoMigrationDefinition" xml:space="preserve">
+    <value>No Migration Definition found in '{0}'.</value>
   </data>
   <data name="RegisteredDatabaseVersionInfo" xml:space="preserve">
     <value>    {0}</value>

@@ -40,6 +40,7 @@
     <Compile Include="GenerateMigrationCommand.cs" />
     <Compile Include="IMigrationCommand.cs" />
     <Compile Include="InfoMigrationCommand.cs" />
+    <Compile Include="IServiceProvider.cs" />
     <Compile Include="MigrateMigrationCommand.cs" />
     <Compile Include="MigrationCommand.cs" />
     <Compile Include="MigrationCommandAttribute.cs" />
@@ -57,6 +58,8 @@
     </Compile>
     <Compile Include="RedoMigrationCommand.cs" />
     <Compile Include="RollbackMigrationCommand.cs" />
+    <Compile Include="ServiceBuilder.cs" />
+    <Compile Include="ServiceProvider.cs" />
     <Compile Include="UpgradeMigrationCommand.cs" />
     <Compile Include="Util\ReflectionUtil.cs" />
   </ItemGroup>

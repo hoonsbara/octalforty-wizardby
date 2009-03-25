@@ -24,6 +24,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.IO;
 
 using octalforty.Wizardby.Core.Compiler;
@@ -37,6 +38,34 @@ namespace octalforty.Wizardby.Core.Migration.Impl
     /// </summary>
     public class MigrationService : IMigrationService
     {
+        private IDbPlatform dbPlatform;
+        private IMigrationVersionInfoManager migrationVersionInfoManager;
+        private IMigrationScriptExecutive migrationScriptExecutive;
+
+        public IDbPlatform DbPlatform
+        {
+            [DebuggerStepThrough]
+            get { return dbPlatform; }
+            [DebuggerStepThrough]
+            set { dbPlatform = value; }
+        }
+
+        public IMigrationVersionInfoManager MigrationVersionInfoManager
+        {
+            [DebuggerStepThrough]
+            get { return migrationVersionInfoManager; }
+            [DebuggerStepThrough]
+            set { migrationVersionInfoManager = value; }
+        }
+
+        public IMigrationScriptExecutive MigrationScriptExecutive
+        {
+            [DebuggerStepThrough]
+            get { return migrationScriptExecutive; }
+            [DebuggerStepThrough]
+            set { migrationScriptExecutive = value; }
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="MigrationService"/> class.
         /// </summary>
@@ -44,59 +73,41 @@ namespace octalforty.Wizardby.Core.Migration.Impl
         {
         }
 
-        #region IMigrationService Members
         /// <summary>
-        /// Migrates the database using <paramref name="dbPlatform"/>, <paramref name="connectionString"/> and
-        /// <paramref name="migrationDefinition"/> to version <paramref name="targetVersion"/>.
+        /// Initializes a new instance of the <see cref="MigrationService"/> class.
         /// </summary>
-        /// <param name="dbPlatform">The <see cref="IDbPlatform"/>.</param>
-        /// <param name="connectionString">The connection string used to connect to the database</param>
-        /// <param name="targetVersion">Required version of the database schema</param>
-        /// <param name="migrationDefinition">Migration definition</param>
-        /// <param name="migrationVersionInfoManager">The <see cref="IMigrationVersionInfoManager"/> which provides
-        /// tracks database version.</param>
-        /// <param name="migrationScriptExecutive">The <see cref="IMigrationScriptExecutive"/> which executes
-        /// migration scripts.</param>
-        public void Migrate(IDbPlatform dbPlatform, string connectionString, long? targetVersion, 
-            TextReader migrationDefinition, IMigrationVersionInfoManager migrationVersionInfoManager, 
+        /// <param name="dbPlatform"></param>
+        /// <param name="migrationVersionInfoManager"></param>
+        /// <param name="migrationScriptExecutive"></param>
+        public MigrationService(IDbPlatform dbPlatform, IMigrationVersionInfoManager migrationVersionInfoManager,
             IMigrationScriptExecutive migrationScriptExecutive)
         {
-            if(dbPlatform == null) 
-                throw new ArgumentNullException("dbPlatform");
+            this.dbPlatform = dbPlatform;
+            this.migrationVersionInfoManager = migrationVersionInfoManager;
+            this.migrationScriptExecutive = migrationScriptExecutive;
+        }
 
+        #region IMigrationService Members
+
+        public event MigrationEventHandler Migrating;
+
+        public event MigrationEventHandler Migrated;
+
+        public void Migrate(string connectionString, long? targetVersion, TextReader migrationDefinition)
+        {
             if(connectionString == null) 
                 throw new ArgumentNullException("connectionString");
 
             if(migrationDefinition == null) 
                 throw new ArgumentNullException("migrationDefinition");
 
-            if(migrationVersionInfoManager == null) 
-                throw new ArgumentNullException("migrationVersionInfoManager");
-
-            if(migrationScriptExecutive == null) 
-                throw new ArgumentNullException("migrationScriptExecutive");
-
             long? currentVersion = GetCurrentVersion(dbPlatform, connectionString, migrationVersionInfoManager);
 
-            MigrateDb(dbPlatform, migrationVersionInfoManager, migrationScriptExecutive, connectionString, migrationDefinition,
+            MigrateDb(connectionString, migrationDefinition,
                 currentVersion, targetVersion, GetMigrationMode(currentVersion, targetVersion));
         }
 
-        /// <summary>
-        /// Rolls back <paramref name="step"/> last version of the the database using <paramref name="dbPlatform"/>, 
-        /// <paramref name="connectionString"/> and <paramref name="migrationDefinition"/>.
-        /// </summary>
-        /// <param name="dbPlatform">The <see cref="IDbPlatform"/>.</param>
-        /// <param name="connectionString">The connection string used to connect to the database</param>
-        /// <param name="step">Number of versions to roll back</param>
-        /// <param name="migrationDefinition">Migration definition</param>
-        /// <param name="migrationVersionInfoManager">The <see cref="IMigrationVersionInfoManager"/> which provides
-        /// tracks database version.</param>
-        /// <param name="migrationScriptExecutive">The <see cref="IMigrationScriptExecutive"/> which executes
-        /// migration scripts.</param>
-        public void Rollback(IDbPlatform dbPlatform, string connectionString, int step, 
-            TextReader migrationDefinition, IMigrationVersionInfoManager migrationVersionInfoManager, 
-            IMigrationScriptExecutive migrationScriptExecutive)
+        public void Rollback(string connectionString, int step, TextReader migrationDefinition)
         {
             IList<long> registeredMigrationVersions = 
                 GetRegisteredMigrationVersions(dbPlatform, connectionString, migrationVersionInfoManager);
@@ -109,25 +120,11 @@ namespace octalforty.Wizardby.Core.Migration.Impl
                     (long?)registeredMigrationVersions[
                         step > registeredMigrationVersions.Count ? 0 : registeredMigrationVersions.Count - step - 1];
 
-            MigrateDb(dbPlatform, MigrationMode.Downgrade, connectionString, migrationVersionInfoManager, 
-                CompileMigrationScripts(dbPlatform, migrationDefinition, MigrationMode.Downgrade), 
-                migrationScriptExecutive, GetCurrentVersion(dbPlatform, connectionString, migrationVersionInfoManager), targetVersion);
+            MigrateDb(MigrationMode.Downgrade, connectionString, 
+                CompileMigrationScripts(dbPlatform, migrationDefinition, MigrationMode.Downgrade), GetCurrentVersion(dbPlatform, connectionString, migrationVersionInfoManager), targetVersion);
         }
 
-        /// <summary>
-        /// Redoes <paramref name="step"/> last version of the the database using <paramref name="dbPlatform"/>, 
-        /// <paramref name="connectionString"/> and <paramref name="migrationDefinition"/>.
-        /// </summary>
-        /// <param name="dbPlatform">The <see cref="IDbPlatform"/>.</param>
-        /// <param name="connectionString">The connection string used to connect to the database</param>
-        /// <param name="step">Number of versions to reapply</param>
-        /// <param name="migrationDefinition">Migration definition</param>
-        /// <param name="migrationVersionInfoManager">The <see cref="IMigrationVersionInfoManager"/> which provides
-        /// tracks database version.</param>
-        /// <param name="migrationScriptExecutive">The <see cref="IMigrationScriptExecutive"/> which executes
-        /// migration scripts.</param>
-        public void Redo(IDbPlatform dbPlatform, string connectionString, int step, TextReader migrationDefinition, 
-            IMigrationVersionInfoManager migrationVersionInfoManager, IMigrationScriptExecutive migrationScriptExecutive)
+        public void Redo(string connectionString, int step, TextReader migrationDefinition)
         {
             IList<long> registeredMigrationVersions = 
                 GetRegisteredMigrationVersions(dbPlatform, connectionString, migrationVersionInfoManager);
@@ -145,14 +142,12 @@ namespace octalforty.Wizardby.Core.Migration.Impl
 
             string readToEnd = migrationDefinition.ReadToEnd();
 
-            Migrate(dbPlatform, connectionString, targetVersion, new StringReader(readToEnd), migrationVersionInfoManager, migrationScriptExecutive);
-            Migrate(dbPlatform, connectionString, originalVersion, new StringReader(readToEnd), migrationVersionInfoManager, migrationScriptExecutive);
+            Migrate(connectionString, targetVersion, new StringReader(readToEnd));
+            Migrate(connectionString, originalVersion, new StringReader(readToEnd));
         }
         #endregion
 
-        private void MigrateDb(IDbPlatform dbPlatform, IMigrationVersionInfoManager migrationVersionInfoManager,
-            IMigrationScriptExecutive migrationScriptExecutive, string connectionString, 
-            TextReader migrationDefinition, long? currentVersion, long? targetVersion, MigrationMode migrationMode)
+        private void MigrateDb(string connectionString, TextReader migrationDefinition, long? currentVersion, long? targetVersion, MigrationMode migrationMode)
         {
             //
             // First off, compile migrations
@@ -163,13 +158,13 @@ namespace octalforty.Wizardby.Core.Migration.Impl
             /*if(migrationMode == MigrationMode.Downgrade && targetVersion.HasValue)
                 migrationScripts.RemoveAt(migrationScripts.Count - 1);*/
 
-            MigrateDb(dbPlatform, migrationMode, connectionString, migrationVersionInfoManager, 
-                migrationScripts, migrationScriptExecutive, currentVersion, targetVersion);
+            MigrateDb(migrationMode, connectionString, 
+                migrationScripts, currentVersion, targetVersion);
         }
 
-        private void MigrateDb(IDbPlatform dbPlatform, MigrationMode migrationMode, string connectionString, IMigrationVersionInfoManager migrationVersionInfoManager, MigrationScriptCollection migrationScripts, IMigrationScriptExecutive migrationScriptExecutive, long? currentVersion, long? targetVersion)
+        private void MigrateDb(MigrationMode migrationMode, string connectionString, MigrationScriptCollection migrationScripts, long? currentVersion, long? targetVersion)
         {
-//
+            //
             // 
             IList<long> registeredMigrationVersions =
                 GetRegisteredMigrationVersions(dbPlatform, connectionString, migrationVersionInfoManager);

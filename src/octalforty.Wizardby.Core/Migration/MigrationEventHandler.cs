@@ -21,24 +21,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
-namespace octalforty.Wizardby.Console
+namespace octalforty.Wizardby.Core.Migration
 {
-    /// <summary>
-    /// Represents a migration command.
-    /// </summary>
-    public interface IMigrationCommand
-    {
-        /// <summary>
-        /// Set or sets a reference to the <see cref="IServiceProvider"/> which is
-        /// used to retrieve service objects.
-        /// </summary>
-        IServiceProvider ServiceProvider
-        { get; set; }
-
-        /// <summary>
-        /// Executes the current command.
-        /// </summary>
-        /// <param name="parameters"></param>
-        void Execute(MigrationParameters parameters);
-    }
+    public delegate void MigrationEventHandler(object sender, MigrationEventArgs args);
 }

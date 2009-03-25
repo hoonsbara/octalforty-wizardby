@@ -80,6 +80,15 @@ namespace octalforty.Wizardby.Console.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Could not find &apos;database.wdi&apos; in &apos;{0}&apos;..
+        /// </summary>
+        internal static string CouldNotFindDatabaseWdi {
+            get {
+                return ResourceManager.GetString("CouldNotFindDatabaseWdi", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Could not resolve Platform Alias &apos;{0}&apos;..
         /// </summary>
         internal static string CouldNotResolvePlatformAlias {
@@ -116,6 +125,24 @@ namespace octalforty.Wizardby.Console.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Generated &apos;{0}&apos;..
+        /// </summary>
+        internal static string GeneratedFile {
+            get {
+                return ResourceManager.GetString("GeneratedFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Generated version {0:yyyyMMddHHmmss}..
+        /// </summary>
+        internal static string GeneratedVersion {
+            get {
+                return ResourceManager.GetString("GeneratedVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to migration &quot;{0}&quot; revision =&gt; 1:
         ///    defaults:
         ///        default-primary-key ID type =&gt; Int32, primary-key =&gt; true, nullable =&gt; false
@@ -135,6 +162,15 @@ namespace octalforty.Wizardby.Console.Properties {
         internal static string MigrationDefinitionInformation {
             get {
                 return ResourceManager.GetString("MigrationDefinitionInformation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No Migration Definition found in &apos;{0}&apos;..
+        /// </summary>
+        internal static string NoMigrationDefinition {
+            get {
+                return ResourceManager.GetString("NoMigrationDefinition", resourceCulture);
             }
         }
         

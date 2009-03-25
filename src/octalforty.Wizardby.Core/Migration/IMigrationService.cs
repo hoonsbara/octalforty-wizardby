@@ -33,6 +33,10 @@ namespace octalforty.Wizardby.Core.Migration
     /// </summary>
     public interface IMigrationService
     {
+        event MigrationEventHandler Migrating;
+
+        event MigrationEventHandler Migrated;
+
         /// <summary>
         /// Migrates the database using <paramref name="dbPlatform"/>, <paramref name="connectionString"/> and
         /// <paramref name="migrationDefinition"/> to version <paramref name="targetVersion"/>.
@@ -45,9 +49,7 @@ namespace octalforty.Wizardby.Core.Migration
         /// tracks database version.</param>
         /// <param name="migrationScriptExecutive">The <see cref="IMigrationScriptExecutive"/> which executes
         /// migration scripts.</param>
-        void Migrate(IDbPlatform dbPlatform, string connectionString, long? targetVersion, 
-            TextReader migrationDefinition, IMigrationVersionInfoManager migrationVersionInfoManager, 
-            IMigrationScriptExecutive migrationScriptExecutive);
+        void Migrate(string connectionString, long? targetVersion, TextReader migrationDefinition);
 
         /// <summary>
         /// Rolls back <paramref name="step"/> last version of the the database using <paramref name="dbPlatform"/>, 
@@ -61,9 +63,7 @@ namespace octalforty.Wizardby.Core.Migration
         /// tracks database version.</param>
         /// <param name="migrationScriptExecutive">The <see cref="IMigrationScriptExecutive"/> which executes
         /// migration scripts.</param>
-        void Rollback(IDbPlatform dbPlatform, string connectionString, int step,
-            TextReader migrationDefinition, IMigrationVersionInfoManager migrationVersionInfoManager,
-            IMigrationScriptExecutive migrationScriptExecutive);
+        void Rollback(string connectionString, int step, TextReader migrationDefinition);
 
         /// <summary>
         /// Redoes <paramref name="step"/> last version of the the database using <paramref name="dbPlatform"/>, 
@@ -77,8 +77,6 @@ namespace octalforty.Wizardby.Core.Migration
         /// tracks database version.</param>
         /// <param name="migrationScriptExecutive">The <see cref="IMigrationScriptExecutive"/> which executes
         /// migration scripts.</param>
-        void Redo(IDbPlatform dbPlatform, string connectionString, int step,
-            TextReader migrationDefinition, IMigrationVersionInfoManager migrationVersionInfoManager,
-            IMigrationScriptExecutive migrationScriptExecutive);
+        void Redo(string connectionString, int step, TextReader migrationDefinition);
     }
 }
