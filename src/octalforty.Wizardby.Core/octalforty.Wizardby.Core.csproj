@@ -301,6 +301,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Db\IDbPlatformDependency.cs" />
+    <Compile Include="Db\IDbSchemaProvider.cs" />
     <Compile Include="Db\IDbScriptGenerator.cs" />
     <Compile Include="Db\IDbTypeMapper.cs">
       <SubType>Code</SubType>

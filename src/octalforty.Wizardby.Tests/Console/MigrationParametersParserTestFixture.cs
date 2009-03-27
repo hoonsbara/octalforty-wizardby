@@ -23,6 +23,7 @@
 #endregion
 using NUnit.Framework;
 using octalforty.Wizardby.Console;
+using octalforty.Wizardby.Core.Migration;
 
 namespace octalforty.Wizardby.Tests.Console
 {
@@ -98,6 +99,17 @@ namespace octalforty.Wizardby.Tests.Console
                 });
 
             Assert.AreEqual(MigrationCommand.Redo, parameters.Command);
+        }
+
+        [Test()]
+        [ExpectedException(typeof(MigrationException), ExpectedMessage = "Unknown command 'foo'.")]
+        public void ParseUnknownCommand()
+        {
+            MigrationParametersParser parametersParser = new MigrationParametersParser();
+            MigrationParameters parameters = parametersParser.ParseMigrationParameters(new string[]
+                {
+                    "foo"
+                });
         }
     }
 }

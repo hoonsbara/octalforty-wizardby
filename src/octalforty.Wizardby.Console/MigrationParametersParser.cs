@@ -23,6 +23,8 @@
 #endregion
 using System;
 using System.Collections.Generic;
+using octalforty.Wizardby.Console.Properties;
+using octalforty.Wizardby.Core.Migration;
 
 namespace octalforty.Wizardby.Console
 {
@@ -64,7 +66,7 @@ namespace octalforty.Wizardby.Console
                 if(commandName.ToLower().StartsWith(command.ToLower()))
                     return (MigrationCommand)Enum.Parse(typeof(MigrationCommand), commandName, true);
 
-            throw new ArgumentOutOfRangeException("command");
+            throw new MigrationException(string.Format(Resources.UnknownCommand, command));
         }
 
         private static void ParseMigrationParameter(MigrationParameters parameters, string argument)

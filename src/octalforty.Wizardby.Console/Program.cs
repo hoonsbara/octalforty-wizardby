@@ -64,19 +64,21 @@ namespace octalforty.Wizardby.Console
                 });
             serviceProvider.RegisterService(new DbMigrationScriptExecutive());
 
-            //
-            // Parse parameters
-            MigrationParametersParser parametersParser = new MigrationParametersParser();
-            MigrationParameters parameters = parametersParser.ParseMigrationParameters(args);
-
             
             //
             // Prepare Migration Command Registry...
             MigrationCommandRegistry migrationCommandRegistry = new MigrationCommandRegistry();
             migrationCommandRegistry.RegisterAssembly(typeof(Program).Assembly);
 
+            MigrationParameters parameters = null;
+
             try
             {
+                //
+                // Parse parameters
+                MigrationParametersParser parametersParser = new MigrationParametersParser();
+                parameters = parametersParser.ParseMigrationParameters(args);
+
                 //
                 // ...and execute whatever command we need
                 IMigrationCommand migrationCommand = migrationCommandRegistry.ResolveCommand(parameters.Command);
