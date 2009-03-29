@@ -23,6 +23,7 @@
 #endregion
 using System;
 using System.Data.Common;
+using System.Diagnostics;
 using System.Reflection;
 
 using octalforty.Wizardby.Console.Properties;
@@ -37,6 +38,8 @@ namespace octalforty.Wizardby.Console
 {
     class Program
     {
+        private static Stopwatch stopwatch;
+
         static void Main(string[] args)
         {
             System.Console.WriteLine(Resources.CopyrightInformation, 
@@ -54,10 +57,15 @@ namespace octalforty.Wizardby.Console
             serviceProvider.RegisterService(BuildDbPlatformRegistry());
             serviceProvider.RegisterService<IMigrationService>(delegate(IServiceProvider sp)
                 {
-                    return new MigrationService(
+                    MigrationService migrationService = new MigrationService(
                         sp.GetService<IDbPlatform>(),
                         sp.GetService<IMigrationVersionInfoManager>(),
                         sp.GetService<IMigrationScriptExecutive>());
+
+                    migrationService.Migrating += MigrationServiceMigrating;
+                    migrationService.Migrated += MigrationServiceMigrated;
+                
+                    return migrationService;
                 });
             serviceProvider.RegisterService<IMigrationVersionInfoManager>(delegate(IServiceProvider sp)
                 {
@@ -127,6 +135,28 @@ namespace octalforty.Wizardby.Console
                 using(new ConsoleStylingScope(ConsoleColor.Red))
                     System.Console.WriteLine(System.Environment.NewLine + "Unknown Exception: {0}", e.ToString());
             } // catch
+        }
+
+        private static void MigrationServiceMigrated(object sender, MigrationEventArgs args)
+        {
+            if (args.Mode == MigrationMode.Upgrade)
+                using (new ConsoleStylingScope(ConsoleColor.Green))
+                    System.Console.WriteLine("Upgraded to version {0} ({1:N2} sec.)", args.Version, stopwatch.Elapsed.TotalSeconds);
+            else
+                using (new ConsoleStylingScope(ConsoleColor.Yellow))
+                    System.Console.WriteLine("Downgraded from version {0} ({1:N2} sec.)", args.Version, stopwatch.Elapsed.TotalSeconds);
+        }
+
+        private static void MigrationServiceMigrating(object sender, MigrationEventArgs args)
+        {
+            stopwatch = Stopwatch.StartNew();
+
+            if (args.Mode == MigrationMode.Upgrade)
+                using(new ConsoleStylingScope(ConsoleColor.Green))
+                    System.Console.WriteLine("Upgrading to version {0}", args.Version);
+            else
+                using(new ConsoleStylingScope(ConsoleColor.Yellow))
+                    System.Console.WriteLine("Downgrading from version {0}", args.Version);
         }
 
         private static DbPlatformRegistry BuildDbPlatformRegistry()

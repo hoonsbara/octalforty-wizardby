@@ -25,7 +25,6 @@ using System;
 using System.IO;
 
 using octalforty.Wizardby.Console.Properties;
-using octalforty.Wizardby.Core.Db;
 
 namespace octalforty.Wizardby.Console
 {

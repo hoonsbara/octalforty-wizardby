@@ -25,9 +25,7 @@ using System;
 using System.Collections.Generic;
 
 using octalforty.Wizardby.Console.Properties;
-using octalforty.Wizardby.Core.Db;
 using octalforty.Wizardby.Core.Migration;
-using octalforty.Wizardby.Core.Migration.Impl;
 
 namespace octalforty.Wizardby.Console
 {

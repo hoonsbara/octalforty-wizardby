@@ -89,6 +89,13 @@ namespace octalforty.Wizardby.Core.Migration.Impl
             this.dbPlatform = dbPlatform;
             this.migrationVersionInfoManager = migrationVersionInfoManager;
             this.migrationScriptExecutive = migrationScriptExecutive;
+
+            this.migrationScriptExecutive.Migrating +=
+                delegate(object sender, MigrationScriptExecutionEventArgs args)
+                    { InvokeMigrating(new MigrationEventArgs(args.Version, args.Mode)); };
+            this.migrationScriptExecutive.Migrated +=
+                delegate(object sender, MigrationScriptExecutionEventArgs args)
+                    { InvokeMigrated(new MigrationEventArgs(args.Version, args.Mode)); };
         }
 
         #region IMigrationService Members

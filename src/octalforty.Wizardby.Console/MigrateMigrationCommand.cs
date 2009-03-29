@@ -21,12 +21,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
-using System;
-using System.Diagnostics;
 using System.IO;
 
 using octalforty.Wizardby.Core.Migration;
-using octalforty.Wizardby.Core.Migration.Impl;
 
 namespace octalforty.Wizardby.Console
 {
@@ -38,31 +35,6 @@ namespace octalforty.Wizardby.Console
     {
         protected override void InternalExecute(MigrationParameters parameters)
         {
-            Stopwatch stopwatch = null;
-
-            ServiceProvider.GetService<IMigrationScriptExecutive>().Migrating += delegate(object sender, MigrationScriptExecutionEventArgs args1)
-                {
-                    if(args1.Mode == MigrationMode.Upgrade)
-                        using(new ConsoleStylingScope(ConsoleColor.Green))
-                            System.Console.WriteLine("Upgrading to version {0}", args1.Version);
-                    else
-                        using (new ConsoleStylingScope(ConsoleColor.Yellow))
-                            System.Console.WriteLine("Downgrading from version {0}", args1.Version);
-
-                    stopwatch = Stopwatch.StartNew();
-                };
-
-            ServiceProvider.GetService<IMigrationScriptExecutive>().Migrated += delegate(object sender, MigrationScriptExecutionEventArgs args1)
-                {
-                    if(args1.Mode == MigrationMode.Upgrade)
-                        using(new ConsoleStylingScope(ConsoleColor.Green))
-                            System.Console.WriteLine("Upgraded to version {0} ({1:N2} sec.)", args1.Version, stopwatch.Elapsed.TotalSeconds);
-                    else
-                        using(new ConsoleStylingScope(ConsoleColor.Yellow))
-                            System.Console.WriteLine("Downgraded from version {0} ({1:N2} sec.)", args1.Version, stopwatch.Elapsed.TotalSeconds);
-                };
-
-            System.Console.WriteLine();
             using(StreamReader streamReader = new StreamReader(parameters.MdlFileName, true))
                 ServiceProvider.GetService<IMigrationService>().Migrate(parameters.ConnectionString, parameters.VersionOrStep.Value, streamReader);
         }
