@@ -65,7 +65,7 @@ namespace octalforty.Wizardby.Core.Migration.Impl
             try
             {
                 using(IDbCommand dbCommand = PrepareGetAllRegisteredMigrationVersionsCommand(dbTransaction))
-                    using(IDataReader dataReader = dbPlatform.CommandExecutive.ExecuteReader(dbCommand))
+                    using(IDataReader dataReader = dbCommand.ExecuteReader())
                         while(dataReader.Read())
                         {
                             int ordinal = dataReader.GetOrdinal("Version");
@@ -148,14 +148,11 @@ namespace octalforty.Wizardby.Core.Migration.Impl
         {
             using(IDbConnection dbConnection = dbPlatform.ProviderFactory.CreateConnection())
             {
-                return dbPlatform.CommandExecutive.Execute<T>(delegate
-                    {
-                        dbConnection.ConnectionString = connectionString;
-                        dbConnection.Open();
+                dbConnection.ConnectionString = connectionString;
+                dbConnection.Open();
 
-                        using(IDbTransaction dbTransaction = dbConnection.BeginTransaction())
-                            return action(dbTransaction);
-                    });
+                using(IDbTransaction dbTransaction = dbConnection.BeginTransaction())
+                    return action(dbTransaction);
             } // using
         }
 
@@ -173,7 +170,7 @@ namespace octalforty.Wizardby.Core.Migration.Impl
 
         private void ExecuteRegisterMigrationVersionCommand(IDbCommand dbCommand)
         {
-            dbPlatform.CommandExecutive.ExecuteNonQuery(dbCommand);
+            dbCommand.ExecuteNonQuery();
         }
 
         private IDbCommand PrepareRegisterDowngradeMigrationVersionCommand(IDbTransaction dbTransaction, long version)

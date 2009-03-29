@@ -32,7 +32,7 @@ namespace octalforty.Wizardby.Db.SqlServer
     /// A <see cref="IDbPlatform"/> implementation for the Microsoft SQL Server.
     /// </summary>
     [DbPlatform("Microsoft SQL Server", "sqlserver")]
-    public class SqlServerPlatform : DbPlatformBase<SqlServerDialect, SqlServerConnectionStringBuilder, SqlServerNamingStrategy, SqlServerTypeMapper, SqlServerExecutive>
+    public class SqlServerPlatform : DbPlatformBase<SqlServerDialect, SqlServerConnectionStringBuilder, SqlServerNamingStrategy, SqlServerTypeMapper>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="SqlServerPlatform"/> class.

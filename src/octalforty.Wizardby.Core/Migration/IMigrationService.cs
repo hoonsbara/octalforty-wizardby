@@ -33,8 +33,14 @@ namespace octalforty.Wizardby.Core.Migration
     /// </summary>
     public interface IMigrationService
     {
+        /// <summary>
+        /// Occurs when starting migrating to a version <see cref="MigrationEventArgs.Version"/>.
+        /// </summary>
         event MigrationEventHandler Migrating;
 
+        /// <summary>
+        /// Occurs when successfully completed migrating to a version <see cref="MigrationEventArgs.Version"/>.
+        /// </summary>
         event MigrationEventHandler Migrated;
 
         /// <summary>

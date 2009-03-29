@@ -22,6 +22,7 @@
 // THE SOFTWARE.
 #endregion
 using System;
+using System.Data.Common;
 using System.Reflection;
 
 using octalforty.Wizardby.Console.Properties;
@@ -63,7 +64,6 @@ namespace octalforty.Wizardby.Console
                     return new DbMigrationVersionInfoManager(sp.GetService<IDbPlatform>(), "SchemaInfo");
                 });
             serviceProvider.RegisterService(new DbMigrationScriptExecutive());
-
             
             //
             // Prepare Migration Command Registry...
@@ -111,6 +111,14 @@ namespace octalforty.Wizardby.Console
                 IDbPlatform dbPlatform = serviceProvider.GetService<DbPlatformRegistry>().ResolvePlatform(parameters.PlatformAlias);
                 using(new ConsoleStylingScope(ConsoleColor.Red))
                     System.Console.WriteLine(System.Environment.NewLine + "{0} Exception: {1}", 
+                        serviceProvider.GetService<DbPlatformRegistry>().GetPlatformName(dbPlatform), e.Message);
+            } // catch
+
+            catch(DbException e)
+            {
+                IDbPlatform dbPlatform = serviceProvider.GetService<DbPlatformRegistry>().ResolvePlatform(parameters.PlatformAlias);
+                using (new ConsoleStylingScope(ConsoleColor.Red))
+                    System.Console.WriteLine(System.Environment.NewLine + "{0} Exception: {1}",
                         serviceProvider.GetService<DbPlatformRegistry>().GetPlatformName(dbPlatform), e.Message);
             } // catch
 

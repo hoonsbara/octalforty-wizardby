@@ -77,7 +77,7 @@ namespace octalforty.Wizardby.Core.Migration.Impl
 
                             InvokeMigrating(new MigrationScriptExecutionEventArgs(migrationMode, migrationScript.MigrationVersion));
 
-                            dbPlatform.CommandExecutive.ExecuteNonQuery(dbCommand);
+                            dbCommand.ExecuteNonQuery();
 
                             InvokeMigrated(new MigrationScriptExecutionEventArgs(migrationMode, migrationScript.MigrationVersion));
                         } // using

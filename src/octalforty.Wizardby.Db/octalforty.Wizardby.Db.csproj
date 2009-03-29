@@ -41,7 +41,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SqlServer\SqlServerConnectionStringBuilder.cs" />
     <Compile Include="SqlServer\SqlServerDialect.cs" />
-    <Compile Include="SqlServer\SqlServerExecutive.cs" />
     <Compile Include="SqlServer\SqlServerNamingStrategy.cs" />
     <Compile Include="SqlServer\SqlServerPlatform.cs">
       <SubType>Code</SubType>

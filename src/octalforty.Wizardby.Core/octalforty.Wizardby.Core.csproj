@@ -271,7 +271,6 @@
     <Compile Include="Db\DbDialectBase.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Db\DbExecutiveBase.cs" />
     <Compile Include="Db\DbOperation.cs" />
     <Compile Include="Db\DbPlatformAttribute.cs">
       <SubType>Code</SubType>
@@ -293,7 +292,6 @@
     <Compile Include="Db\IDbDialect.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Db\IDbExecutive.cs" />
     <Compile Include="Db\IDbNamingStrategy.cs">
       <SubType>Code</SubType>
     </Compile>

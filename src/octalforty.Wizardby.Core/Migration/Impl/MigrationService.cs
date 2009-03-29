@@ -38,10 +38,13 @@ namespace octalforty.Wizardby.Core.Migration.Impl
     /// </summary>
     public class MigrationService : IMigrationService
     {
+        #region Private Fields
         private IDbPlatform dbPlatform;
         private IMigrationVersionInfoManager migrationVersionInfoManager;
         private IMigrationScriptExecutive migrationScriptExecutive;
-
+        #endregion
+        
+        #region Public Properties
         public IDbPlatform DbPlatform
         {
             [DebuggerStepThrough]
@@ -65,6 +68,7 @@ namespace octalforty.Wizardby.Core.Migration.Impl
             [DebuggerStepThrough]
             set { migrationScriptExecutive = value; }
         }
+        #endregion
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MigrationService"/> class.
@@ -89,8 +93,14 @@ namespace octalforty.Wizardby.Core.Migration.Impl
 
         #region IMigrationService Members
 
+        /// <summary>
+        /// Occurs when starting migrating to a version <see cref="MigrationEventArgs.Version"/>.
+        /// </summary>
         public event MigrationEventHandler Migrating;
 
+        /// <summary>
+        /// Occurs when successfully completed migrating to a version <see cref="MigrationEventArgs.Version"/>.
+        /// </summary>
         public event MigrationEventHandler Migrated;
 
         public void Migrate(string connectionString, long? targetVersion, TextReader migrationDefinition)
@@ -145,6 +155,7 @@ namespace octalforty.Wizardby.Core.Migration.Impl
             Migrate(connectionString, targetVersion, new StringReader(readToEnd));
             Migrate(connectionString, originalVersion, new StringReader(readToEnd));
         }
+
         #endregion
 
         private void MigrateDb(string connectionString, TextReader migrationDefinition, long? currentVersion, long? targetVersion, MigrationMode migrationMode)
@@ -235,15 +246,24 @@ namespace octalforty.Wizardby.Core.Migration.Impl
         {
             using(IDbConnection dbConnection = dbPlatform.ProviderFactory.CreateConnection())
             {
-                return dbPlatform.CommandExecutive.Execute<T>(delegate
-                    {
-                        dbConnection.ConnectionString = connectionString;
-                        dbConnection.Open();
+                dbConnection.ConnectionString = connectionString;
+                dbConnection.Open();
 
-                        using (IDbTransaction dbTransaction = dbConnection.BeginTransaction())
-                            return action(dbTransaction);
-                    });
+                using (IDbTransaction dbTransaction = dbConnection.BeginTransaction())
+                    return action(dbTransaction);
             } // using
+        }
+
+        private void InvokeMigrated(MigrationEventArgs args)
+        {
+            MigrationEventHandler migratedHandler = Migrated;
+            if (migratedHandler != null) migratedHandler(this, args);
+        }
+
+        private void InvokeMigrating(MigrationEventArgs args)
+        {
+            MigrationEventHandler migratingHandler = Migrating;
+            if (migratingHandler != null) migratingHandler(this, args);
         }
     }
 }
