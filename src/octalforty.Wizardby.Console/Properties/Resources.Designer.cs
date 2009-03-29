@@ -116,6 +116,24 @@ namespace octalforty.Wizardby.Console.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Downgraded to version {0} ({1:N2} sec.).
+        /// </summary>
+        internal static string DowngradedToVersion {
+            get {
+                return ResourceManager.GetString("DowngradedToVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Downgrading from version {0}.
+        /// </summary>
+        internal static string DowngradingFromVersion {
+            get {
+                return ResourceManager.GetString("DowngradingFromVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Environment: {0}.
         /// </summary>
         internal static string EnvironmentInformation {
@@ -198,6 +216,24 @@ namespace octalforty.Wizardby.Console.Properties {
         internal static string UnknownCommand {
             get {
                 return ResourceManager.GetString("UnknownCommand", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Upgraded to version {0} ({1:N2} sec.).
+        /// </summary>
+        internal static string UpgradedToVersion {
+            get {
+                return ResourceManager.GetString("UpgradedToVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Upgrading to version {0}.
+        /// </summary>
+        internal static string UpgradingToVersion {
+            get {
+                return ResourceManager.GetString("UpgradingToVersion", resourceCulture);
             }
         }
         

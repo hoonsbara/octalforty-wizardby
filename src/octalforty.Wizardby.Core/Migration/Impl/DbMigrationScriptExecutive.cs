@@ -78,8 +78,6 @@ namespace octalforty.Wizardby.Core.Migration.Impl
                             InvokeMigrating(new MigrationScriptExecutionEventArgs(migrationMode, migrationScript.MigrationVersion));
 
                             dbCommand.ExecuteNonQuery();
-
-                            InvokeMigrated(new MigrationScriptExecutionEventArgs(migrationMode, migrationScript.MigrationVersion));
                         } // using
 
                         //
@@ -91,6 +89,8 @@ namespace octalforty.Wizardby.Core.Migration.Impl
                                 migrationScript.MigrationVersion);
 
                         ddlTransaction.Commit();
+
+                        InvokeMigrated(new MigrationScriptExecutionEventArgs(migrationMode, migrationScript.MigrationVersion));
                     } // using
                 } // foreach
             } // foreach

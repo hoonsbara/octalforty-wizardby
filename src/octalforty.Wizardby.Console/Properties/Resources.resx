@@ -136,6 +136,12 @@ Copyright (c) 2009 octalforty studios</value>
   <data name="DatabaseIsNotVersioned" xml:space="preserve">
     <value>Database is not versioned or no migrations were applied yet.</value>
   </data>
+  <data name="DowngradedToVersion" xml:space="preserve">
+    <value>Downgraded to version {0} ({1:N2} sec.)</value>
+  </data>
+  <data name="DowngradingFromVersion" xml:space="preserve">
+    <value>Downgrading from version {0}</value>
+  </data>
   <data name="EnvironmentInformation" xml:space="preserve">
     <value>Environment: {0}</value>
   </data>
@@ -167,6 +173,12 @@ Copyright (c) 2009 octalforty studios</value>
   </data>
   <data name="UnknownCommand" xml:space="preserve">
     <value>Unknown command '{0}'.</value>
+  </data>
+  <data name="UpgradedToVersion" xml:space="preserve">
+    <value>Upgraded to version {0} ({1:N2} sec.)</value>
+  </data>
+  <data name="UpgradingToVersion" xml:space="preserve">
+    <value>Upgrading to version {0}</value>
   </data>
   <data name="UsageInformation" xml:space="preserve">
     <value>Usage: 

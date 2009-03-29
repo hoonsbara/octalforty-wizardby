@@ -39,6 +39,8 @@ namespace octalforty.Wizardby.Console
     class Program
     {
         private static Stopwatch stopwatch;
+        private static IServiceProvider serviceProvider;
+        private static MigrationParameters parameters;
 
         static void Main(string[] args)
         {
@@ -53,7 +55,7 @@ namespace octalforty.Wizardby.Console
                 return;
             } // if
 
-            IServiceProvider serviceProvider = new ServiceProvider();
+            serviceProvider = new ServiceProvider();
             serviceProvider.RegisterService(BuildDbPlatformRegistry());
             serviceProvider.RegisterService<IMigrationService>(delegate(IServiceProvider sp)
                 {
@@ -77,8 +79,6 @@ namespace octalforty.Wizardby.Console
             // Prepare Migration Command Registry...
             MigrationCommandRegistry migrationCommandRegistry = new MigrationCommandRegistry();
             migrationCommandRegistry.RegisterAssembly(typeof(Program).Assembly);
-
-            MigrationParameters parameters = null;
 
             try
             {
@@ -141,10 +141,12 @@ namespace octalforty.Wizardby.Console
         {
             if (args.Mode == MigrationMode.Upgrade)
                 using (new ConsoleStylingScope(ConsoleColor.Green))
-                    System.Console.WriteLine("Upgraded to version {0} ({1:N2} sec.)", args.Version, stopwatch.Elapsed.TotalSeconds);
+                    System.Console.WriteLine(Resources.UpgradedToVersion, args.Version, stopwatch.Elapsed.TotalSeconds);
             else
                 using (new ConsoleStylingScope(ConsoleColor.Yellow))
-                    System.Console.WriteLine("Downgraded from version {0} ({1:N2} sec.)", args.Version, stopwatch.Elapsed.TotalSeconds);
+                    System.Console.WriteLine(Resources.DowngradedToVersion, 
+                        serviceProvider.GetService<IMigrationVersionInfoManager>().GetCurrentMigrationVersion(parameters.ConnectionString) ?? 0,  
+                        stopwatch.Elapsed.TotalSeconds);
         }
 
         private static void MigrationServiceMigrating(object sender, MigrationEventArgs args)
@@ -153,10 +155,10 @@ namespace octalforty.Wizardby.Console
 
             if (args.Mode == MigrationMode.Upgrade)
                 using(new ConsoleStylingScope(ConsoleColor.Green))
-                    System.Console.WriteLine("Upgrading to version {0}", args.Version);
+                    System.Console.WriteLine(Resources.UpgradingToVersion, args.Version);
             else
                 using(new ConsoleStylingScope(ConsoleColor.Yellow))
-                    System.Console.WriteLine("Downgrading from version {0}", args.Version);
+                    System.Console.WriteLine(Resources.DowngradingFromVersion, args.Version);
         }
 
         private static DbPlatformRegistry BuildDbPlatformRegistry()
