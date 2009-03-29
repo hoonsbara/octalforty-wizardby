@@ -31,6 +31,6 @@ namespace octalforty.Wizardby.Console
         Migrate,
         Rollback,
         Redo,
-        Generate,
+        Generate
     }
 }

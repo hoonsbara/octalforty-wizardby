@@ -153,12 +153,12 @@ namespace octalforty.Wizardby.Console
         {
             stopwatch = Stopwatch.StartNew();
 
-            if (args.Mode == MigrationMode.Upgrade)
+            /*if (args.Mode == MigrationMode.Upgrade)
                 using(new ConsoleStylingScope(ConsoleColor.Green))
                     System.Console.WriteLine(Resources.UpgradingToVersion, args.Version);
             else
                 using(new ConsoleStylingScope(ConsoleColor.Yellow))
-                    System.Console.WriteLine(Resources.DowngradingFromVersion, args.Version);
+                    System.Console.WriteLine(Resources.DowngradingFromVersion, args.Version);*/
         }
 
         private static DbPlatformRegistry BuildDbPlatformRegistry()
