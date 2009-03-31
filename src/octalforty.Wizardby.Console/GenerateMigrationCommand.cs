@@ -53,6 +53,8 @@ namespace octalforty.Wizardby.Console
                 parameters.MdlFileName = parameters.MdlFileName + ".mdl";
 
             DateTime timestamp = DateTime.Now;
+            System.Console.WriteLine();
+
             if(!File.Exists(parameters.MdlFileName))
             {
                 using(StreamWriter streamWriter = new StreamWriter(parameters.MdlFileName, false))
@@ -60,7 +62,7 @@ namespace octalforty.Wizardby.Console
                         Path.GetFileNameWithoutExtension(parameters.MdlFileName), timestamp);
 
                 using(new ConsoleStylingScope(ConsoleColor.Green))
-                    System.Console.WriteLine(Environment.NewLine + Resources.GeneratedFile, Path.GetFullPath(parameters.MdlFileName));
+                    System.Console.WriteLine(Resources.GeneratedFile, Path.GetFullPath(parameters.MdlFileName));
 
                 using(StreamWriter streamWriter = new StreamWriter("database.wdi", false))
                     streamWriter.Write(Resources.WdiTemplate,
@@ -75,7 +77,7 @@ namespace octalforty.Wizardby.Console
                     streamWriter.Write("{0}{0}    version {1:yyyyMMddHHmmss}:", System.Environment.NewLine, timestamp);
 
                 using(new ConsoleStylingScope(ConsoleColor.Green))
-                    System.Console.WriteLine(Environment.NewLine + Resources.GeneratedVersion, timestamp);
+                    System.Console.WriteLine(Resources.GeneratedVersion, timestamp);
             } // else
         }
     }

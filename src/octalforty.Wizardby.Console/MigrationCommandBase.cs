@@ -92,31 +92,36 @@ namespace octalforty.Wizardby.Console
         private void ResolveDbPlatform(MigrationParameters parameters)
         {
             IDbPlatform dbPlatform;
-            if(!string.IsNullOrEmpty(parameters.Environment) || 
+            if (!string.IsNullOrEmpty(parameters.Environment) ||
                (string.IsNullOrEmpty(parameters.ConnectionString) || string.IsNullOrEmpty(parameters.PlatformAlias)))
             {
                 //
                 // Environment name defaults to "development".
-                if(string.IsNullOrEmpty(parameters.Environment))
+                if (string.IsNullOrEmpty(parameters.Environment))
                     parameters.Environment = DefaultEnvironmentName;
 
                 string databaseWdiFilePath = Path.Combine(Directory.GetCurrentDirectory(), "database.wdi");
-                if(!File.Exists(databaseWdiFilePath))
+                if (!File.Exists(databaseWdiFilePath))
                     throw new MigrationException(string.Format(Resources.CouldNotFindDatabaseWdi, Directory.GetCurrentDirectory()));
-                    
-                using(StreamReader streamReader = new StreamReader(databaseWdiFilePath))
+
+                using (StreamReader streamReader = new StreamReader(databaseWdiFilePath))
                 {
                     DeploymentInfoParser deploymentInfoParser = new DeploymentInfoParser();
 
                     IDeploymentInfo deploymentInfo = deploymentInfoParser.ParseDeploymentInfo(streamReader);
                     IEnvironment environment = GetEnvironment(parameters, deploymentInfo);
 
-                    parameters.PlatformAlias = environment.Properties["platform"];
+                    if(string.IsNullOrEmpty(parameters.PlatformAlias))
+                        parameters.PlatformAlias = environment.Properties["platform"];
+                    
                     dbPlatform = ServiceProvider.GetService<DbPlatformRegistry>().ResolvePlatform(parameters.PlatformAlias);
+
+                    EnsurePlatformResolved(parameters, dbPlatform);
+
                     //
                     // Build connection string
                     IDbConnectionStringBuilder connectionStringBuilder = dbPlatform.CreateConnectionStringBuilder();
-                    foreach(string key in environment.Properties.AllKeys)
+                    foreach (string key in environment.Properties.AllKeys)
                     {
                         connectionStringBuilder.AppendKeyValuePair(key, environment.Properties[key]);
                     } // foreach
@@ -125,13 +130,19 @@ namespace octalforty.Wizardby.Console
                 } // using
             } // if
             else
+            {
                 dbPlatform = ServiceProvider.GetService<DbPlatformRegistry>().ResolvePlatform(parameters.PlatformAlias);
+                EnsurePlatformResolved(parameters, dbPlatform);
+            } // else
 
+            ServiceProvider.RegisterService(dbPlatform);
+        }
+
+        private void EnsurePlatformResolved(MigrationParameters parameters, IDbPlatform dbPlatform)
+        {
             if(dbPlatform == null)
                 throw new MigrationException(
                     string.Format(Resources.CouldNotResolvePlatformAlias, parameters.PlatformAlias));
-
-            ServiceProvider.RegisterService(dbPlatform);
         }
 
         private static IEnvironment GetEnvironment(MigrationParameters parameters, IDeploymentInfo deploymentInfo)

@@ -29,7 +29,7 @@ migration "Blog" revision => 1:
 		    AuthorID references => "a.Author"
     			
 	    add table "bptj.BlogPostTagJunction" primary-key => false:
-		    BlogPostID type => Int32:
+		    BlogPostID type => Int32, nullable => false:
 			    reference "FK3" pk-table => "bp.BlogPost"
 		    TagID:
 			    reference "FK4" pk-table => "t.Tag"

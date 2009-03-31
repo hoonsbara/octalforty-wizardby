@@ -94,12 +94,12 @@ create table [BlogPost] (
 [ID] int not null identity primary key,
 [Title] nvarchar(200) not null,
 [Slug] nvarchar(200) not null,
-[BlogID] int ,
-[AuthorID] int ,
+[BlogID] int not null,
+[AuthorID] int not null,
 );
 create table [BlogPostTagJunction] (
-[BlogPostID] int ,
-[TagID] int ,
+[BlogPostID] int not null,
+[TagID] int not null,
 );
 create unique nonclustered index [UQ_Version] on [SchemaInfo] ([Version]);
 create unique nonclustered index [IX_EmailAddress] on [Author] ([EmailAddress]);
@@ -110,7 +110,7 @@ alter table [BlogPostTagJunction] add constraint [FK3] foreign key ([BlogPostID]
 alter table [BlogPostTagJunction] add constraint [FK4] foreign key ([TagID]) references [Tag] ([ID]);
 create table [BlogPostComment] (
 [ID] int not null identity primary key,
-[BlogPostID] int ,
+[BlogPostID] int not null,
 [AuthorEmailAddress] nvarchar(200) not null,
 [Content] nvarchar(max) not null,
 );
@@ -141,8 +141,8 @@ alter table [Forum] add constraint [FK_FOO] foreign key ([ModeratorUserID]) refe
 drop index [IX_Login] on [User];
 create unique nonclustered index [IX_Login] on [User] ([ID], [Login] desc);
 create table [BlogAuthorJunction] (
-[BlogID] int ,
-[AuthorID] int ,
+[BlogID] int not null,
+[AuthorID] int not null,
 );
 alter table [BlogAuthorJunction] add constraint [FK12] foreign key ([BlogID]) references [Blog] ([ID]);
 alter table [BlogAuthorJunction] add constraint [FK13] foreign key ([AuthorID]) references [Author] ([ID]);
@@ -208,12 +208,12 @@ create table [bp].[BlogPost] (
 [ID] int not null identity primary key,
 [Title] nvarchar(200) not null,
 [Slug] nvarchar(200) not null,
-[BlogID] int ,
-[AuthorID] int ,
+[BlogID] int not null,
+[AuthorID] int not null,
 );
 create table [bptj].[BlogPostTagJunction] (
-[BlogPostID] int ,
-[TagID] int ,
+[BlogPostID] int not null,
+[TagID] int not null,
 );
 create unique nonclustered index [UQ_Version] on [SchemaInfo] ([Version]);
 create unique nonclustered index [IX_EmailAddress] on [a].[Author] ([EmailAddress]);
@@ -224,7 +224,7 @@ alter table [bptj].[BlogPostTagJunction] add constraint [FK3] foreign key ([Blog
 alter table [bptj].[BlogPostTagJunction] add constraint [FK4] foreign key ([TagID]) references [t].[Tag] ([ID]);
 create table [bpc].[BlogPostComment] (
 [ID] int not null identity primary key,
-[BlogPostID] int ,
+[BlogPostID] int not null,
 [AuthorEmailAddress] nvarchar(200) not null,
 [Content] nvarchar(max) not null,
 );
@@ -255,8 +255,8 @@ alter table [f].[Forum] add constraint [FK_FOO] foreign key ([ModeratorUserID]) 
 drop index [IX_Login] on [u].[User];
 create unique nonclustered index [IX_Login] on [u].[User] ([ID], [Login] desc);
 create table [baj].[BlogAuthorJunction] (
-[BlogID] int ,
-[AuthorID] int ,
+[BlogID] int not null,
+[AuthorID] int not null,
 );
 alter table [baj].[BlogAuthorJunction] add constraint [FK12] foreign key ([BlogID]) references [b].[Blog] ([ID]);
 alter table [baj].[BlogAuthorJunction] add constraint [FK13] foreign key ([AuthorID]) references [a].[Author] ([ID]);
@@ -322,12 +322,12 @@ create table [BlogPost] (
 [ID] int not null identity primary key,
 [Title] nvarchar(200) not null,
 [Slug] nvarchar(200) not null,
-[AuthorID] int ,
-[BlogID] int ,
+[AuthorID] int not null,
+[BlogID] int not null,
 );
 create table [BlogPostTagJunction] (
-[BlogPostID] int ,
-[TagID] int ,
+[BlogPostID] int not null,
+[TagID] int not null,
 );
 create unique nonclustered index [UQ_Version] on [SchemaInfo] ([Version]);
 create unique nonclustered index [IX_EmailAddress] on [Author] ([EmailAddress]);
@@ -338,7 +338,7 @@ alter table [BlogPostTagJunction] add constraint [FK3] foreign key ([BlogPostID]
 alter table [BlogPostTagJunction] add constraint [FK4] foreign key ([TagID]) references [Tag] ([ID]);
 create table [BlogPostComment] (
 [ID] int not null identity primary key,
-[BlogPostID] int ,
+[BlogPostID] int not null,
 [AuthorEmailAddress] nvarchar(200) not null,
 [Content] nvarchar(max) not null,
 );
@@ -369,8 +369,8 @@ alter table [Forum] add constraint [FK_FOO] foreign key ([ModeratorUserID]) refe
 drop index [IX_Login] on [User];
 create unique nonclustered index [IX_Login] on [User] ([ID], [Login] desc);
 create table [BlogAuthorJunction] (
-[BlogID] int ,
-[AuthorID] int ,
+[BlogID] int not null,
+[AuthorID] int not null,
 );
 alter table [BlogAuthorJunction] add constraint [FK12] foreign key ([BlogID]) references [Blog] ([ID]);
 alter table [BlogAuthorJunction] add constraint [FK13] foreign key ([AuthorID]) references [Author] ([ID]);

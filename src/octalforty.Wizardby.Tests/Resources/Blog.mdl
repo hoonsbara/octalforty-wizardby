@@ -13,8 +13,8 @@ migration "Blog" revision => 1:
 			    index "IX_EmailAddress" unique => true
 		    Login type => N:
 			    index "IX_Login" unique => true
-		    Password type => Binary, length => 64, nullable => true
-    		
+		    Password type => Binary, length => 64, nullable => true		    
+		    		
 	    add table Tag:
 		    Name type => N		    
     		
@@ -31,7 +31,7 @@ migration "Blog" revision => 1:
 			    reference "FK2" pk-table => Author
     			
 	    add table BlogPostTagJunction primary-key => false:
-		    BlogPostID type => Int32:
+		    BlogPostID type => Int32, nullable => false:
 			    reference "FK3" pk-table => BlogPost
 		    TagID:
 			    reference "FK4" pk-table => Tag

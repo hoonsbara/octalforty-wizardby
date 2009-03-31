@@ -181,7 +181,9 @@ namespace octalforty.Wizardby.Tests.Core.Compiler.Impl
         add table BlogPostApproval:
             BlogPostID nullable => true:
                 reference ""FK0"" pk-table => BlogPost
-            ApprovedOn type => DateTime")).Parse();
+            ApprovedOn type => DateTime
+            BlogPostID2: 
+                reference ""FK1"" pk-table => BlogPost")).Parse();
 
             astNode.Accept(bindingStage);
 
@@ -191,6 +193,11 @@ namespace octalforty.Wizardby.Tests.Core.Compiler.Impl
 
             Assert.AreEqual(DbType.Int32, addColumnBlogPostIDNode.Type);
             Assert.AreEqual(true, addColumnBlogPostIDNode.Nullable);
+
+            IAddColumnNode addColumnBlogPostID2Node = (IAddColumnNode)addTableBlogPostApprovalNode.ChildNodes[2];
+
+            Assert.AreEqual(DbType.Int32, addColumnBlogPostID2Node.Type);
+            Assert.AreEqual(false, addColumnBlogPostID2Node.Nullable);
         }
 
         [Test()]

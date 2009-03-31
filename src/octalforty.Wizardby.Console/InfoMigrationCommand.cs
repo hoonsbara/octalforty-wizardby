@@ -63,9 +63,11 @@ namespace octalforty.Wizardby.Console
                 return;
             } // if
 
+
+            System.Console.WriteLine();
             using(new ConsoleStylingScope(ConsoleColor.Green))
             {
-                System.Console.WriteLine(Environment.NewLine + Resources.CurrentDatabaseVersionInfo, currentMigrationVersion.Value);
+                System.Console.WriteLine(Resources.CurrentDatabaseVersionInfo, currentMigrationVersion.Value);
 
                 if(registeredMigrationVersions.Count == 0)
                     return;

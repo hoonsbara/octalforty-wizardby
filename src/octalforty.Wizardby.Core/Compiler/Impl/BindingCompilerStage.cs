@@ -253,12 +253,15 @@ namespace octalforty.Wizardby.Core.Compiler.Impl
                 IAddReferenceNode addReferenceNode = GetFirst<IAddReferenceNode>(addColumnNode.ChildNodes);
                 if(addReferenceNode != null)
                 {
-                    ITableDefinition table = Environment.Schema.GetTable(addReferenceNode.PkTable);
-                    IColumnDefinition column = table.GetColumn(addReferenceNode.PkColumns[0]);
-                    IColumnDefinition column2 =
+                    ITableDefinition pkTable = Environment.Schema.GetTable(addReferenceNode.PkTable);
+                    IColumnDefinition pkColumn = pkTable.GetColumn(addReferenceNode.PkColumns[0]);
+                    IColumnDefinition fkColumn =
                         Environment.Schema.GetTable(((ITableNode)addColumnNode.Parent).Name).GetColumn(addColumnNode.Name);
 
-                    addColumnNode.Type = column2.Type = column.Type;
+                    addColumnNode.Type = fkColumn.Type = pkColumn.Type;
+
+                    if(!addColumnNode.Nullable.HasValue || !fkColumn.Nullable.HasValue)
+                        addColumnNode.Nullable = fkColumn.Nullable = false;
                 } // if
             } // if
         }

@@ -40,7 +40,12 @@ namespace octalforty.Wizardby.Tests.Console
             parameters.Environment = "dev";
             parameters.PlatformAlias = "foodb";
 
+            IServiceProvider serviceProvider = new ServiceProvider();
+            serviceProvider.RegisterService(new DbPlatformRegistry());
+
             IMigrationCommand migrationCommand = new InfoMigrationCommand();
+            migrationCommand.ServiceProvider = serviceProvider;
+
             migrationCommand.Execute(parameters);
         }
     }

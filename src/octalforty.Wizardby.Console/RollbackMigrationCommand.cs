@@ -35,6 +35,8 @@ namespace octalforty.Wizardby.Console
     {
         protected override void InternalExecute(MigrationParameters parameters)
         {
+            System.Console.WriteLine();
+
             using(StreamReader streamReader = new StreamReader(parameters.MdlFileName, true))
                 ServiceProvider.GetService<IMigrationService>().Rollback(parameters.ConnectionString, (int)(parameters.VersionOrStep ?? 1), streamReader);
         }
