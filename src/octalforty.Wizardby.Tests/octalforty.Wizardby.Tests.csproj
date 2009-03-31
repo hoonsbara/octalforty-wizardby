@@ -76,6 +76,7 @@
     <Compile Include="Db\SqlServer\SqlServerConnectionStringBuilderTestFixture.cs" />
     <Compile Include="Db\SqlServer\SqlServerDialectTestFixture.cs" />
     <Compile Include="Db\SqlServer\SqlServerScriptGeneratorTestFixture.cs" />
+    <Compile Include="Db\SqlServer\SqlServerTypeMapperTestFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

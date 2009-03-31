@@ -25,19 +25,35 @@ using System;
 using System.Data;
 
 using octalforty.Wizardby.Core.Db;
+using octalforty.Wizardby.Db.Properties;
 
 namespace octalforty.Wizardby.Db.SqlServer
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <remarks>
+    /// See http://msdn.microsoft.com/en-us/library/cc716729.aspx for information on mapping.
+    /// </remarks>
     public class SqlServerTypeMapper : DbTypeMapperBase
     {
         public SqlServerTypeMapper()
         {
             RegisterTypeMapping(DbType.Boolean, "bit");
             RegisterTypeMapping(DbType.Byte, "tinyint");
+            RegisterTypeMapping(DbType.Currency, "money");
+            RegisterTypeMapping(DbType.Date, "datetime");
+            RegisterTypeMapping(DbType.DateTime, "datetime");
+            RegisterTypeMapping(DbType.Decimal, "decimal");
+            RegisterTypeMapping(DbType.Double, "float");
+            RegisterTypeMapping(DbType.Guid, "uniqueidentifier");
+            RegisterTypeMapping(DbType.Int16, "smallint");
             RegisterTypeMapping(DbType.Int32, "int");
             RegisterTypeMapping(DbType.Int64, "bigint");
-            RegisterTypeMapping(DbType.Guid, "uniqueidentifier");
+            RegisterTypeMapping(DbType.Object, "sql_variant");
+            RegisterTypeMapping(DbType.Single, "real");
             RegisterTypeMapping(DbType.Time, "rowversion");
+            RegisterTypeMapping(DbType.Xml, "xml");
         }
 
         #region DbTypeMapperBase Members
@@ -66,6 +82,11 @@ namespace octalforty.Wizardby.Db.SqlServer
                 return string.Format("{0}(max)", bareNativeType);
 
             return base.FormatBareNativeType(bareNativeType, length);
+        }
+
+        protected override string MapToNativeType(DbType logicalType)
+        {
+            throw new DbPlatformException(string.Format(Resources.UnknownDataType, logicalType));
         }
         #endregion
     }
