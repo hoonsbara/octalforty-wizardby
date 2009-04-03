@@ -21,27 +21,35 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
-namespace octalforty.Wizardby.Core.Migration.Impl
+using System.Data;
+
+using octalforty.Wizardby.Db.SqlServer;
+
+namespace octalforty.Wizardby.Db.SqlCe
 {
-    public class MigrationScript
+    public class SqlCeTypeMapper : SqlServerTypeMapper
     {
-        private readonly long migrationVersion;
-        private readonly string[] ddlScripts;
-
-        public long MigrationVersion
+        public SqlCeTypeMapper()
         {
-            get { return migrationVersion; }
         }
 
-        public string[] DdlScripts
+        protected override string MapToNativeTypeCore(DbType logicalType, int? length)
         {
-            get { return ddlScripts; }
+            if(logicalType == DbType.AnsiString)
+                return "nvarchar";
+
+            if(logicalType == DbType.Binary)
+                return "image";
+
+            if(logicalType == DbType.String)
+                return "ntext";
+
+            return base.MapToNativeTypeCore(logicalType, length);
         }
 
-        public MigrationScript(long migrationVersion, string[] ddlScripts)
+        protected override string FormatBareNativeType(string bareNativeType, int? length)
         {
-            this.migrationVersion = migrationVersion;
-            this.ddlScripts = ddlScripts;
+            return bareNativeType;
         }
     }
 }

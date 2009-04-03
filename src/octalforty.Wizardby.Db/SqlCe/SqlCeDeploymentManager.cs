@@ -21,27 +21,20 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
-namespace octalforty.Wizardby.Core.Migration.Impl
+using System.Data.SqlServerCe;
+
+using octalforty.Wizardby.Core.Db;
+
+namespace octalforty.Wizardby.Db.SqlCe
 {
-    public class MigrationScript
+    public class SqlCeDeploymentManager : DbPlatformDependencyBase, IDbDeploymentManager
     {
-        private readonly long migrationVersion;
-        private readonly string[] ddlScripts;
-
-        public long MigrationVersion
+        public void Deploy(string connectionString)
         {
-            get { return migrationVersion; }
-        }
-
-        public string[] DdlScripts
-        {
-            get { return ddlScripts; }
-        }
-
-        public MigrationScript(long migrationVersion, string[] ddlScripts)
-        {
-            this.migrationVersion = migrationVersion;
-            this.ddlScripts = ddlScripts;
+            using(SqlCeEngine sqlCeEngine = new SqlCeEngine(connectionString))
+            {
+                sqlCeEngine.CreateDatabase();
+            }
         }
     }
 }

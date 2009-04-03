@@ -184,12 +184,18 @@ namespace octalforty.Wizardby.Console
                 parameters.MdlFileName = parameters.MdlFileName + ".mdl";
         }
 
-        private static void DisplayEnvironmentInformation(MigrationParameters parameters)
+        private void DisplayEnvironmentInformation(MigrationParameters parameters)
         {
             System.Console.WriteLine();
             System.Console.WriteLine(Resources.MigrationDefinitionInformation, parameters.MdlFileName);
             System.Console.WriteLine(Resources.EnvironmentInformation, parameters.Environment);
             System.Console.WriteLine(Resources.ConnectionStringInformation, parameters.ConnectionString);
+            
+            DbPlatformRegistry dbPlatformRegistry = ServiceProvider.GetService<DbPlatformRegistry>();
+            
+            System.Console.WriteLine(Resources.PlatformInformation, resolveDbPlatform ?
+                dbPlatformRegistry.GetPlatformName(dbPlatformRegistry.ResolvePlatform(parameters.PlatformAlias)) :
+                "");
         }
     }
 }

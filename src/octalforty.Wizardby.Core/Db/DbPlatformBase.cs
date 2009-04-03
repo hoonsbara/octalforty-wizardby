@@ -82,6 +82,11 @@ namespace octalforty.Wizardby.Core.Db
             return connectionStringBuilder;
         }
 
+        public virtual IDbDeploymentManager DeploymentManager
+        {
+            get { return null; }
+        }
+
         public virtual IDbTypeMapper TypeMapper
         {
             get { return typeMapper; }

@@ -29,9 +29,11 @@ using System.Reflection;
 using octalforty.Wizardby.Console.Properties;
 using octalforty.Wizardby.Core.Compiler;
 using octalforty.Wizardby.Core.Db;
+using octalforty.Wizardby.Core.Deployment.Impl;
 using octalforty.Wizardby.Core.Migration;
 using octalforty.Wizardby.Core.Migration.Impl;
 using octalforty.Wizardby.Db.Jet;
+using octalforty.Wizardby.Db.SqlCe;
 using octalforty.Wizardby.Db.SqlServer;
 
 namespace octalforty.Wizardby.Console
@@ -74,6 +76,7 @@ namespace octalforty.Wizardby.Console
                     return new DbMigrationVersionInfoManager(sp.GetService<IDbPlatform>(), "SchemaInfo");
                 });
             serviceProvider.RegisterService(new DbMigrationScriptExecutive());
+            serviceProvider.RegisterService(new DeploymentService());
             
             //
             // Prepare Migration Command Registry...
@@ -166,6 +169,7 @@ namespace octalforty.Wizardby.Console
             DbPlatformRegistry dbPlatformRegistry = new DbPlatformRegistry();
             dbPlatformRegistry.RegisterPlatform<JetPlatform>();
             dbPlatformRegistry.RegisterPlatform<SqlServerPlatform>();
+            dbPlatformRegistry.RegisterPlatform<SqlCePlatform>();
 
             return dbPlatformRegistry;
         }

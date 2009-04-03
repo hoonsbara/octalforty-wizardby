@@ -165,6 +165,9 @@ Copyright (c) 2009 octalforty studios</value>
   <data name="NoMigrationDefinition" xml:space="preserve">
     <value>No Migration Definition found in '{0}'.</value>
   </data>
+  <data name="PlatformInformation" xml:space="preserve">
+    <value>Platform: {0}</value>
+  </data>
   <data name="RegisteredDatabaseVersionInfo" xml:space="preserve">
     <value>    {0}</value>
   </data>

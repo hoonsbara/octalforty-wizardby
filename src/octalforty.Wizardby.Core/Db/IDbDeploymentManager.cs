@@ -21,27 +21,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
-namespace octalforty.Wizardby.Core.Migration.Impl
+namespace octalforty.Wizardby.Core.Db
 {
-    public class MigrationScript
+    public interface IDbDeploymentManager : IDbPlatformDependency
     {
-        private readonly long migrationVersion;
-        private readonly string[] ddlScripts;
-
-        public long MigrationVersion
-        {
-            get { return migrationVersion; }
-        }
-
-        public string[] DdlScripts
-        {
-            get { return ddlScripts; }
-        }
-
-        public MigrationScript(long migrationVersion, string[] ddlScripts)
-        {
-            this.migrationVersion = migrationVersion;
-            this.ddlScripts = ddlScripts;
-        }
+        void Deploy(string connectionString);
     }
 }

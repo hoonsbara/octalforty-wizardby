@@ -30,6 +30,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.SqlServerCe, Version=3.5.1.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
@@ -44,6 +45,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="SqlCe\SqlCeConnectionStringBuilder.cs" />
+    <Compile Include="SqlCe\SqlCeDeploymentManager.cs" />
+    <Compile Include="SqlCe\SqlCeDialect.cs" />
+    <Compile Include="SqlCe\SqlCePlatform.cs" />
+    <Compile Include="SqlCe\SqlCeScriptGenerator.cs" />
+    <Compile Include="SqlCe\SqlCeTypeMapper.cs" />
     <Compile Include="SqlServer\SqlServerConnectionStringBuilder.cs" />
     <Compile Include="SqlServer\SqlServerDialect.cs" />
     <Compile Include="SqlServer\SqlServerNamingStrategy.cs" />
@@ -68,7 +75,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Firebird\" />
-    <Folder Include="SqlCe\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -65,19 +65,23 @@ namespace octalforty.Wizardby.Core.Migration.Impl
                     {
                         using(IDbCommand dbCommand = dbConnection.CreateCommand())
                         {
-                            dbCommand.CommandText = migrationScript.DdlScript;
-                            dbCommand.CommandType = CommandType.Text;
-
-                            //
-                            // Workaround for Jet
-                            if(!(ddlTransaction is NullDbTransaction))
-                                dbCommand.Transaction = ddlTransaction;
-
-                            //Console.WriteLine(dbCommand.CommandText);
-
                             InvokeMigrating(new MigrationScriptExecutionEventArgs(migrationMode, migrationScript.MigrationVersion));
 
-                            dbCommand.ExecuteNonQuery();
+                            foreach(string ddlScript in migrationScript.DdlScripts)
+                            {
+                                dbCommand.CommandText = ddlScript;
+                                dbCommand.CommandType = CommandType.Text;
+
+                                //
+                                // Workaround for Jet
+                                if (!(ddlTransaction is NullDbTransaction))
+                                    dbCommand.Transaction = ddlTransaction;
+
+                                //Console.WriteLine(dbCommand.CommandText);
+
+
+                                dbCommand.ExecuteNonQuery();
+                            }
                         } // using
 
                         //

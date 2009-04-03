@@ -21,27 +21,29 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
-namespace octalforty.Wizardby.Core.Migration.Impl
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Text;
+
+using octalforty.Wizardby.Core.Db;
+using octalforty.Wizardby.Db.SqlServer;
+
+namespace octalforty.Wizardby.Db.SqlCe
 {
-    public class MigrationScript
+    public class SqlCeDialect : SqlServerDialect
     {
-        private readonly long migrationVersion;
-        private readonly string[] ddlScripts;
-
-        public long MigrationVersion
+        public override string EscapeIdentifier(string identifier)
         {
-            get { return migrationVersion; }
+            return identifier;
         }
 
-        public string[] DdlScripts
+        public override IDbScriptGenerator CreateScriptGenerator(TextWriter textWriter)
         {
-            get { return ddlScripts; }
-        }
+            SqlCeScriptGenerator sqlCeScriptGenerator = new SqlCeScriptGenerator(textWriter);
+            sqlCeScriptGenerator.Platform = Platform;
 
-        public MigrationScript(long migrationVersion, string[] ddlScripts)
-        {
-            this.migrationVersion = migrationVersion;
-            this.ddlScripts = ddlScripts;
+            return sqlCeScriptGenerator;
         }
     }
 }

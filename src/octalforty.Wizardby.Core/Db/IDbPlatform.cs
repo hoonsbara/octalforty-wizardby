@@ -48,6 +48,9 @@ namespace octalforty.Wizardby.Core.Db
 
         IDbConnectionStringBuilder CreateConnectionStringBuilder();
 
+        IDbDeploymentManager DeploymentManager
+        { get; }
+
         DbProviderFactory ProviderFactory
         { get; }
     }

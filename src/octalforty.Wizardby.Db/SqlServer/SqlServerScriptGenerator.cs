@@ -171,7 +171,7 @@ namespace octalforty.Wizardby.Db.SqlServer
                 yield return Platform.Dialect.EscapeIdentifier(identifier);
         }
 
-        private string Join(string separator, IEnumerable<string> strings)
+        protected string Join(string separator, IEnumerable<string> strings)
         {
             StringBuilder joinBuilder = new StringBuilder();
 
@@ -186,7 +186,7 @@ namespace octalforty.Wizardby.Db.SqlServer
             return joinBuilder.ToString();
         }
 
-        private IEnumerable<string> GetIndexColumns(IList<IIndexColumnDefinition> columns)
+        protected IEnumerable<string> GetIndexColumns(IList<IIndexColumnDefinition> columns)
         {
             foreach(IIndexColumnDefinition indexColumnDefinition in columns)
             {

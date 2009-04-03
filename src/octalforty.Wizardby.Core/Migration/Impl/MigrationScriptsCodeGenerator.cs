@@ -21,6 +21,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
@@ -59,18 +60,21 @@ namespace octalforty.Wizardby.Core.Migration.Impl
 
             foreach(IVersionNode versionNode in Filter<IVersionNode>(migrationNode.ChildNodes))
             {
-                using(TextWriter tw = new StringWriter(sb))
+                List<string> ddlScripts = new List<string>();
+
+                foreach(IAstNode upgradeNode in GetNode(versionNode, migrationMode).ChildNodes)
                 {
-                    foreach(IAstNode upgradeNode in GetNode(versionNode, migrationMode).ChildNodes)
+                    using (TextWriter tw = new StringWriter(sb))
                     {
                         IDbScriptGenerator scriptGenerator = dbPlatform.Dialect.CreateScriptGenerator(tw);
                         upgradeNode.Accept(scriptGenerator);
-                    }
+                    } // using
 
-                    migrationScripts.Add(new MigrationScript(versionNode.Number, sb.ToString()));
-
+                    ddlScripts.Add(sb.ToString());
                     sb.Length = 0;
-                } // using
+                }
+
+                migrationScripts.Add(new MigrationScript(versionNode.Number, ddlScripts.ToArray()));
             } // foreach
         }
 

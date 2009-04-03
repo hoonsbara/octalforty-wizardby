@@ -21,27 +21,30 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
-namespace octalforty.Wizardby.Core.Migration.Impl
+using System.Data.Common;
+using System.Data.SqlServerCe;
+
+using octalforty.Wizardby.Core.Db;
+using octalforty.Wizardby.Db.SqlServer;
+
+namespace octalforty.Wizardby.Db.SqlCe
 {
-    public class MigrationScript
+    [DbPlatform("Microsoft SQL Server Compact Edition", "sqlserverce")]
+    public class SqlCePlatform : DbPlatformBase<SqlCeDialect, SqlCeConnectionStringBuilder, SqlServerNamingStrategy, SqlCeTypeMapper>
     {
-        private readonly long migrationVersion;
-        private readonly string[] ddlScripts;
-
-        public long MigrationVersion
+        public SqlCePlatform() : 
+            base(true)
         {
-            get { return migrationVersion; }
         }
 
-        public string[] DdlScripts
+        public override DbProviderFactory ProviderFactory
         {
-            get { return ddlScripts; }
+            get { return SqlCeProviderFactory.Instance; }
         }
 
-        public MigrationScript(long migrationVersion, string[] ddlScripts)
+        public override IDbDeploymentManager DeploymentManager
         {
-            this.migrationVersion = migrationVersion;
-            this.ddlScripts = ddlScripts;
+            get { return new SqlCeDeploymentManager(); }
         }
     }
 }

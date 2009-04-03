@@ -35,6 +35,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConsoleStylingScope.cs" />
+    <Compile Include="DeployMigrationCommand.cs" />
     <Compile Include="DowngradeMigrationCommand.cs" />
     <Compile Include="GenerateMigrationCommand.cs" />
     <Compile Include="IMigrationCommand.cs" />

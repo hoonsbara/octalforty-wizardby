@@ -21,27 +21,27 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
-namespace octalforty.Wizardby.Core.Migration.Impl
+using System;
+
+using octalforty.Wizardby.Core.Db;
+using octalforty.Wizardby.Core.Deployment;
+
+namespace octalforty.Wizardby.Console
 {
-    public class MigrationScript
+    [MigrationCommand(MigrationCommand.Deploy)]
+    public class DeployMigrationCommand : MigrationCommandBase
     {
-        private readonly long migrationVersion;
-        private readonly string[] ddlScripts;
-
-        public long MigrationVersion
+        public DeployMigrationCommand() :
+            base(true, false, false, true)
         {
-            get { return migrationVersion; }
         }
 
-        public string[] DdlScripts
+        protected override void InternalExecute(MigrationParameters parameters)
         {
-            get { return ddlScripts; }
-        }
+            using(new ConsoleStylingScope(ConsoleColor.Yellow))
+                System.Console.WriteLine("Deploying '{0}'", parameters.ConnectionString);
 
-        public MigrationScript(long migrationVersion, string[] ddlScripts)
-        {
-            this.migrationVersion = migrationVersion;
-            this.ddlScripts = ddlScripts;
+            ServiceProvider.GetService<IDeploymentService>().Deploy(ServiceProvider.GetService<IDbPlatform>(), parameters.ConnectionString);
         }
     }
 }
