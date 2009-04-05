@@ -280,9 +280,6 @@
     </Compile>
     <Compile Include="Db\DbPlatformDependencyBase.cs" />
     <Compile Include="Db\DbPlatformException.cs" />
-    <Compile Include="Db\DbPlatformRegistry.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Db\DbScriptGeneratorBase.cs" />
     <Compile Include="Db\DbTypeMapperBase.cs">
       <SubType>Code</SubType>

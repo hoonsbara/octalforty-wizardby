@@ -23,8 +23,9 @@
 #endregion
 using System;
 using System.Collections.Generic;
+using octalforty.Wizardby.Core.Db;
 
-namespace octalforty.Wizardby.Core.Db
+namespace octalforty.Wizardby.Console
 {
     public class DbPlatformRegistry
     {

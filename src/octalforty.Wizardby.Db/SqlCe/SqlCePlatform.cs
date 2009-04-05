@@ -29,7 +29,7 @@ using octalforty.Wizardby.Db.SqlServer;
 
 namespace octalforty.Wizardby.Db.SqlCe
 {
-    [DbPlatform("Microsoft SQL Server Compact Edition", "sqlserverce")]
+    [DbPlatform("Microsoft SQL Server Compact Edition", "sqlce")]
     public class SqlCePlatform : DbPlatformBase<SqlCeDialect, SqlCeConnectionStringBuilder, SqlServerNamingStrategy, SqlCeTypeMapper>
     {
         public SqlCePlatform() : 
