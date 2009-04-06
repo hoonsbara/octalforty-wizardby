@@ -23,28 +23,14 @@
 #endregion
 using System;
 using System.Collections.Generic;
-using System.Reflection;
-
-using octalforty.Wizardby.Console.Util;
 
 namespace octalforty.Wizardby.Console
 {
-    public class MigrationCommandRegistry
+    public class MigrationCommandRegistry : AttributeAwareTypeRegistry<MigrationCommandAttribute>
     {
+        #region Private Fields
         private readonly IDictionary<MigrationCommand, Type> migrationCommandTypes = new Dictionary<MigrationCommand, Type>();
-
-        public void RegisterAssembly(Assembly assembly)
-        {
-            foreach(Type exportedType in assembly.GetExportedTypes())
-            {
-                if(!ReflectionUtil.IsDefined<MigrationCommandAttribute>(exportedType)) 
-                    continue;
-                
-                MigrationCommandAttribute migrationCommand =
-                    ReflectionUtil.GetCustomAttribute<MigrationCommandAttribute>(exportedType);
-                migrationCommandTypes[migrationCommand.Command] = exportedType;
-            } // foreach
-        }
+        #endregion
 
         public IMigrationCommand ResolveCommand(MigrationCommand command)
         {
@@ -52,5 +38,12 @@ namespace octalforty.Wizardby.Console
                 (IMigrationCommand)Activator.CreateInstance(migrationCommandTypes[command]) :
                 null;
         }
+
+        #region AttributeAwareTypeRegistry<MigrationCommandAttribute> Members
+        protected override void RegisterType(Type type, MigrationCommandAttribute attribute)
+        {
+            migrationCommandTypes[attribute.Command] = type;
+        }
+        #endregion
     }
 }

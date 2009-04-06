@@ -23,13 +23,16 @@
 #endregion
 using System;
 using System.Collections.Generic;
+
 using octalforty.Wizardby.Core.Db;
 
 namespace octalforty.Wizardby.Console
 {
-    public class DbPlatformRegistry
+    public class DbPlatformRegistry : AttributeAwareTypeRegistry<DbPlatformAttribute>
     {
+        #region Private Fields
         private readonly IDictionary<string, IDbPlatform> platforms = new Dictionary<string, IDbPlatform>();
+        #endregion
 
         public void RegisterPlatform<TDbPlatform>()
             where TDbPlatform : IDbPlatform, new()
@@ -61,7 +64,19 @@ namespace octalforty.Wizardby.Console
         {
             DbPlatformAttribute dbPlatformAttribute =
                 (DbPlatformAttribute)Attribute.GetCustomAttribute(platformType, typeof(DbPlatformAttribute));
+            RegisterPlatform(platform, dbPlatformAttribute);
+        }
+
+        private void RegisterPlatform(IDbPlatform platform, DbPlatformAttribute dbPlatformAttribute)
+        {
             platforms[dbPlatformAttribute.Alias] = platform;
         }
+
+        #region AttributeAwareTypeRegistry<DbPlatformAttribute> Memberss
+        protected override void RegisterType(Type type, DbPlatformAttribute attribute)
+        {
+            RegisterPlatform((IDbPlatform)Activator.CreateInstance(type), attribute);
+        }
+        #endregion
     }
 }

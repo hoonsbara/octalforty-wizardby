@@ -24,6 +24,7 @@
 using System;
 using System.Data.Common;
 using System.Diagnostics;
+using System.IO;
 using System.Reflection;
 
 using octalforty.Wizardby.Console.Properties;
@@ -32,9 +33,6 @@ using octalforty.Wizardby.Core.Db;
 using octalforty.Wizardby.Core.Deployment.Impl;
 using octalforty.Wizardby.Core.Migration;
 using octalforty.Wizardby.Core.Migration.Impl;
-using octalforty.Wizardby.Db.Jet;
-using octalforty.Wizardby.Db.SqlCe;
-using octalforty.Wizardby.Db.SqlServer;
 
 namespace octalforty.Wizardby.Console
 {
@@ -155,21 +153,15 @@ namespace octalforty.Wizardby.Console
         private static void MigrationServiceMigrating(object sender, MigrationEventArgs args)
         {
             stopwatch = Stopwatch.StartNew();
-
-            /*if (args.Mode == MigrationMode.Upgrade)
-                using(new ConsoleStylingScope(ConsoleColor.Green))
-                    System.Console.WriteLine(Resources.UpgradingToVersion, args.Version);
-            else
-                using(new ConsoleStylingScope(ConsoleColor.Yellow))
-                    System.Console.WriteLine(Resources.DowngradingFromVersion, args.Version);*/
         }
 
         private static DbPlatformRegistry BuildDbPlatformRegistry()
         {
             DbPlatformRegistry dbPlatformRegistry = new DbPlatformRegistry();
-            dbPlatformRegistry.RegisterPlatform<JetPlatform>();
-            dbPlatformRegistry.RegisterPlatform<SqlServerPlatform>();
-            dbPlatformRegistry.RegisterPlatform<SqlCePlatform>();
+            foreach(FileInfo file in new DirectoryInfo(AppDomain.CurrentDomain.SetupInformation.ApplicationBase).GetFiles("*.dll"))
+            {
+                dbPlatformRegistry.RegisterAssembly(Assembly.LoadFrom(file.FullName));
+            } // foreach
 
             return dbPlatformRegistry;
         }
