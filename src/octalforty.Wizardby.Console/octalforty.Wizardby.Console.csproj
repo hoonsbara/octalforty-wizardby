@@ -37,6 +37,13 @@
     <Compile Include="AttributeAwareTypeRegistry.cs" />
     <Compile Include="ConsoleStylingScope.cs" />
     <Compile Include="DbPlatformRegistry.cs" />
+    <Compile Include="Deployment\DeploymentInfoParser.cs" />
+    <Compile Include="Deployment\EnvironmentCollection.cs" />
+    <Compile Include="Deployment\IDeploymentInfo.cs" />
+    <Compile Include="Deployment\IEnvironment.cs" />
+    <Compile Include="Deployment\IEnvironmentCollection.cs" />
+    <Compile Include="Deployment\Impl\DeploymentInfo.cs" />
+    <Compile Include="Deployment\Impl\Environment.cs" />
     <Compile Include="DeployMigrationCommand.cs" />
     <Compile Include="DowngradeMigrationCommand.cs" />
     <Compile Include="GenerateMigrationCommand.cs" />

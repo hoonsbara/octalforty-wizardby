@@ -21,20 +21,16 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
-namespace octalforty.Wizardby.Core.Deployment.Impl
+using System.Collections.Specialized;
+
+namespace octalforty.Wizardby.Console.Deployment
 {
-    public class DeploymentInfo : IDeploymentInfo
+    public interface IEnvironment
     {
-        private readonly IEnvironmentCollection environments;
+        string Name
+        { get; }
 
-        public DeploymentInfo(IEnvironmentCollection environments)
-        {
-            this.environments = environments;
-        }
-
-        public IEnvironmentCollection Environments
-        {
-            get { return environments; }
-        }
+        NameValueCollection Properties
+        { get; }
     }
 }

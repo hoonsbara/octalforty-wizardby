@@ -23,10 +23,9 @@
 #endregion
 using System;
 using System.IO;
-
+using octalforty.Wizardby.Console.Deployment;
 using octalforty.Wizardby.Console.Properties;
 using octalforty.Wizardby.Core.Db;
-using octalforty.Wizardby.Core.Deployment;
 using octalforty.Wizardby.Core.Migration;
 
 namespace octalforty.Wizardby.Console

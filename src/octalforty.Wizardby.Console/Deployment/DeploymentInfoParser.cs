@@ -23,12 +23,11 @@
 #endregion
 using System.Collections.Specialized;
 using System.IO;
-
+using octalforty.Wizardby.Console.Deployment.Impl;
 using octalforty.Wizardby.Core.Compiler;
 using octalforty.Wizardby.Core.Compiler.Ast;
-using octalforty.Wizardby.Core.Deployment.Impl;
 
-namespace octalforty.Wizardby.Core.Deployment
+namespace octalforty.Wizardby.Console.Deployment
 {
     public class DeploymentInfoParser
     {

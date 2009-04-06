@@ -21,31 +21,24 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
-using System.Collections.Specialized;
-using System.Diagnostics;
+using System.Collections.Generic;
 
-namespace octalforty.Wizardby.Core.Deployment.Impl
+namespace octalforty.Wizardby.Console.Deployment
 {
-    [DebuggerDisplay("{Name}")]
-    public class Environment : IEnvironment
+    public interface IEnvironmentCollection : IEnumerable<IEnvironment>
     {
-        private readonly string name;
-        private readonly NameValueCollection properties;
+        /// <summary>
+        /// Gets the number of elements in the collection.
+        /// </summary>
+        int Count
+        { get; }
 
-        public Environment(string name, NameValueCollection properties)
-        {
-            this.name = name;
-            this.properties = properties;
-        }
-
-        public string Name
-        {
-            get { return name; }
-        }
-
-        public NameValueCollection Properties
-        {
-            get { return properties; }
-        }
+        /// <summary>
+        /// Gets a reference to the element of the collection.
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        IEnvironment this[int index]
+        { get; }
     }
 }

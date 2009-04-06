@@ -21,24 +21,20 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
-using System.Collections.Generic;
-
-namespace octalforty.Wizardby.Core.Deployment
+namespace octalforty.Wizardby.Console.Deployment.Impl
 {
-    public interface IEnvironmentCollection : IEnumerable<IEnvironment>
+    public class DeploymentInfo : IDeploymentInfo
     {
-        /// <summary>
-        /// Gets the number of elements in the collection.
-        /// </summary>
-        int Count
-        { get; }
+        private readonly IEnvironmentCollection environments;
 
-        /// <summary>
-        /// Gets a reference to the element of the collection.
-        /// </summary>
-        /// <param name="index"></param>
-        /// <returns></returns>
-        IEnvironment this[int index]
-        { get; }
+        public DeploymentInfo(IEnvironmentCollection environments)
+        {
+            this.environments = environments;
+        }
+
+        public IEnvironmentCollection Environments
+        {
+            get { return environments; }
+        }
     }
 }

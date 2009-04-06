@@ -22,15 +22,30 @@
 // THE SOFTWARE.
 #endregion
 using System.Collections.Specialized;
+using System.Diagnostics;
 
-namespace octalforty.Wizardby.Core.Deployment
+namespace octalforty.Wizardby.Console.Deployment.Impl
 {
-    public interface IEnvironment
+    [DebuggerDisplay("{Name}")]
+    public class Environment : IEnvironment
     {
-        string Name
-        { get; }
+        private readonly string name;
+        private readonly NameValueCollection properties;
 
-        NameValueCollection Properties
-        { get; }
+        public Environment(string name, NameValueCollection properties)
+        {
+            this.name = name;
+            this.properties = properties;
+        }
+
+        public string Name
+        {
+            get { return name; }
+        }
+
+        public NameValueCollection Properties
+        {
+            get { return properties; }
+        }
     }
 }

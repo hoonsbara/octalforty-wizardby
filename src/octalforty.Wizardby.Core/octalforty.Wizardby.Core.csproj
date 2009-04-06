@@ -302,15 +302,8 @@
     <Compile Include="Db\IDbTypeMapper.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Deployment\EnvironmentCollection.cs" />
-    <Compile Include="Deployment\IDeploymentInfo.cs" />
     <Compile Include="Deployment\IDeploymentService.cs" />
-    <Compile Include="Deployment\IEnvironment.cs" />
-    <Compile Include="Deployment\IEnvironmentCollection.cs" />
-    <Compile Include="Deployment\DeploymentInfoParser.cs" />
-    <Compile Include="Deployment\Impl\DeploymentInfo.cs" />
     <Compile Include="Deployment\Impl\DeploymentService.cs" />
-    <Compile Include="Deployment\Impl\Environment.cs" />
     <Compile Include="Migration\IMigrationService.cs">
       <SubType>Code</SubType>
     </Compile>
