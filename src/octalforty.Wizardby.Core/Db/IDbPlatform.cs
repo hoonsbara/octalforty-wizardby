@@ -51,6 +51,9 @@ namespace octalforty.Wizardby.Core.Db
         IDbDeploymentManager DeploymentManager
         { get; }
 
+        IDbExceptionTranslator ExceptionTranslator
+        { get; }
+
         DbProviderFactory ProviderFactory
         { get; }
     }

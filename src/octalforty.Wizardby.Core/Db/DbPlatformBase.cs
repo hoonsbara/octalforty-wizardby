@@ -87,6 +87,17 @@ namespace octalforty.Wizardby.Core.Db
             get { return null; }
         }
 
+        public virtual IDbExceptionTranslator ExceptionTranslator
+        {
+            get
+            {
+                DbExceptionTranslator exceptionTranslator = new DbExceptionTranslator();
+                exceptionTranslator.Platform = this;
+
+                return exceptionTranslator;
+            }
+        }
+
         public virtual IDbTypeMapper TypeMapper
         {
             get { return typeMapper; }
