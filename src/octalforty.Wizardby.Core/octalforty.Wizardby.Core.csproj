@@ -282,7 +282,6 @@
     </Compile>
     <Compile Include="Db\DbPlatformDependencyBase.cs" />
     <Compile Include="Db\DbPlatformException.cs" />
-    <Compile Include="Db\DbPlatformExceptionTranslator.cs" />
     <Compile Include="Db\DbScriptGeneratorBase.cs" />
     <Compile Include="Db\DbTypeMapperBase.cs">
       <SubType>Code</SubType>
@@ -314,11 +313,13 @@
     <Compile Include="Migration\IMigrationVersionInfoManager.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Migration\Impl\DbCommandExecutionStrategy.cs" />
     <Compile Include="Migration\Impl\DbMigrationScriptExecutive.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Migration\Impl\DbMigrationVersionInfoManager.cs" />
     <Compile Include="Migration\Impl\DbNamingCompilerStage.cs" />
+    <Compile Include="Migration\Impl\IDbCommandExecutionStrategy.cs" />
     <Compile Include="Migration\Impl\IMigrationScriptExecutive.cs">
       <SubType>Code</SubType>
     </Compile>

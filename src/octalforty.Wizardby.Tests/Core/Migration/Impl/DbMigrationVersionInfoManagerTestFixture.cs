@@ -55,7 +55,7 @@ namespace octalforty.Wizardby.Tests.Core.Migration.Impl
         public void GetAllRegisteredMigrationVersionsWithMissingTable()
         {
             IMigrationVersionInfoManager migrationVersionInfoManager =
-                new DbMigrationVersionInfoManager(dbPlatform, "SchemaInfo");
+                new DbMigrationVersionInfoManager(dbPlatform, new DbCommandExecutionStrategy(), "SchemaInfo");
             
             Assert.AreEqual(0, migrationVersionInfoManager.GetAllRegisteredMigrationVersions(connectionString).Count);
         }
@@ -64,7 +64,7 @@ namespace octalforty.Wizardby.Tests.Core.Migration.Impl
         public void GetCurrentMigrationVersionWithMissingTable()
         {
             IMigrationVersionInfoManager migrationVersionInfoManager =
-                new DbMigrationVersionInfoManager(dbPlatform, "SchemaInfo");
+                new DbMigrationVersionInfoManager(dbPlatform, new DbCommandExecutionStrategy(), "SchemaInfo");
 
             Assert.IsNull(migrationVersionInfoManager.GetCurrentMigrationVersion(connectionString));
         }
@@ -73,7 +73,7 @@ namespace octalforty.Wizardby.Tests.Core.Migration.Impl
         public void GetAllRegisteredMigrationVersions()
         {
             IMigrationVersionInfoManager migrationVersionInfoManager =
-                new DbMigrationVersionInfoManager(dbPlatform, "SchemaInfo");
+                new DbMigrationVersionInfoManager(dbPlatform, new DbCommandExecutionStrategy(), "SchemaInfo");
 
             ExecuteInTransaction(delegate(IDbTransaction dbTransaction)
                 {
@@ -102,7 +102,7 @@ namespace octalforty.Wizardby.Tests.Core.Migration.Impl
         public void GetCurrentMigrationVersion()
         {
             IMigrationVersionInfoManager migrationVersionInfoManager =
-                new DbMigrationVersionInfoManager(dbPlatform, "SchemaInfo");
+                new DbMigrationVersionInfoManager(dbPlatform, new DbCommandExecutionStrategy(), "SchemaInfo");
 
             ExecuteInTransaction(delegate(IDbTransaction dbTransaction)
                 {
@@ -124,7 +124,7 @@ namespace octalforty.Wizardby.Tests.Core.Migration.Impl
         public void RegisterMigrationVersion()
         {
             IMigrationVersionInfoManager migrationVersionInfoManager =
-                new DbMigrationVersionInfoManager(dbPlatform, "SchemaInfo");
+                new DbMigrationVersionInfoManager(dbPlatform, new DbCommandExecutionStrategy(), "SchemaInfo");
 
             ExecuteInTransaction(delegate(IDbTransaction dbTransaction)
                 {

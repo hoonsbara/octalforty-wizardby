@@ -1,4 +1,4 @@
-﻿#region The MIT License
+#region The MIT License
 // The MIT License
 // 
 // Copyright (c) 2009 octalforty studios
@@ -21,23 +21,15 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
-using System.Data.Common;
+using System.Data;
 
-namespace octalforty.Wizardby.Core.Db
+namespace octalforty.Wizardby.Core.Migration.Impl
 {
-    public class DbExceptionTranslator : DbPlatformDependencyBase, IDbExceptionTranslator
+    public class DbCommandExecutionStrategy : IDbCommandExecutionStrategy
     {
-        public T Execute<T>(DbAction<T> dbAction)
+        public void Execute(IDbCommand dbCommand)
         {
-            try
-            {
-                return dbAction();
-            } // try
-
-            catch(DbException e)
-            {
-                throw new DbPlatformException(e.Message, e);
-            } // catch
+            dbCommand.ExecuteNonQuery();
         }
     }
 }

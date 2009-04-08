@@ -32,6 +32,13 @@ namespace octalforty.Wizardby.Core.Migration.Impl
 {
     public class DbMigrationScriptExecutive : IMigrationScriptExecutive
     {
+        private readonly IDbCommandExecutionStrategy dbCommandExecutionStrategy;
+
+        public DbMigrationScriptExecutive(IDbCommandExecutionStrategy dbCommandExecutionStrategy)
+        {
+            this.dbCommandExecutionStrategy = dbCommandExecutionStrategy;
+        }
+
         public event MigrationScriptExecutionEventHandler Migrating;
 
         private void InvokeMigrating(MigrationScriptExecutionEventArgs args)
@@ -74,14 +81,11 @@ namespace octalforty.Wizardby.Core.Migration.Impl
 
                                 //
                                 // Workaround for Jet
-                                if (!(ddlTransaction is NullDbTransaction))
+                                if(!(ddlTransaction is NullDbTransaction))
                                     dbCommand.Transaction = ddlTransaction;
 
-                                //Console.WriteLine(dbCommand.CommandText);
-
-
-                                dbCommand.ExecuteNonQuery();
-                            }
+                                dbCommandExecutionStrategy.Execute(dbCommand);
+                            } // foreach
                         } // using
 
                         //

@@ -38,16 +38,19 @@ namespace octalforty.Wizardby.Core.Migration.Impl
         #region Private Fields
         private readonly IDbPlatform dbPlatform;
         private readonly string tableName;
+        private readonly IDbCommandExecutionStrategy dbCommandExecutionStrategy;
         #endregion
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DbMigrationVersionInfoManager"/> class.
         /// </summary>
         /// <param name="dbPlatform"></param>
+        /// <param name="dbCommandExecutionStrategy"></param>
         /// <param name="tableName"></param>
-        public DbMigrationVersionInfoManager(IDbPlatform dbPlatform, string tableName)
+        public DbMigrationVersionInfoManager(IDbPlatform dbPlatform, IDbCommandExecutionStrategy dbCommandExecutionStrategy, string tableName)
         {
             this.dbPlatform = dbPlatform;
+            this.dbCommandExecutionStrategy = dbCommandExecutionStrategy;
             this.tableName = tableName;
         }
 
@@ -170,26 +173,26 @@ namespace octalforty.Wizardby.Core.Migration.Impl
 
         private void ExecuteRegisterMigrationVersionCommand(IDbCommand dbCommand)
         {
-            dbCommand.ExecuteNonQuery();
+            dbCommandExecutionStrategy.Execute(dbCommand);
         }
 
         private IDbCommand PrepareRegisterDowngradeMigrationVersionCommand(IDbTransaction dbTransaction, long version)
         {
-            string commandText = string.Format("delete from {0} where {1} = {2}",
+            string commandText = string.Format("delete from {0} where {1} = {2};",
                 dbPlatform.Dialect.EscapeIdentifier(tableName), "Version", version);
             return PrepareDbCommand(dbTransaction, commandText);
         }
 
         private IDbCommand PrepareRegisterUpgradeMigrationVersionCommand(IDbTransaction dbTransaction, long version)
         {
-            string commandText = string.Format("insert into {0} ({1}) values ({2})",
+            string commandText = string.Format("insert into {0} ({1}) values ({2});",
                 dbPlatform.Dialect.EscapeIdentifier(tableName), "Version", version);
             return PrepareDbCommand(dbTransaction, commandText);
         }
 
         private IDbCommand PrepareGetAllRegisteredMigrationVersionsCommand(IDbTransaction dbTransaction)
         {
-            string commandText = string.Format("select {0} from {1}",
+            string commandText = string.Format("select {0} from {1};",
                 dbPlatform.Dialect.EscapeIdentifier("Version"), tableName);
             return PrepareDbCommand(dbTransaction, commandText);
         }

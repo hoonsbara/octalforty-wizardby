@@ -71,9 +71,16 @@ namespace octalforty.Wizardby.Console
                 });
             serviceProvider.RegisterService<IMigrationVersionInfoManager>(delegate(IServiceProvider sp)
                 {
-                    return new DbMigrationVersionInfoManager(sp.GetService<IDbPlatform>(), "SchemaInfo");
+                    return new DbMigrationVersionInfoManager(
+                        sp.GetService<IDbPlatform>(), 
+                        sp.GetService<IDbCommandExecutionStrategy>(),
+                        "SchemaInfo");
                 });
-            serviceProvider.RegisterService(new DbMigrationScriptExecutive());
+            serviceProvider.RegisterService<IMigrationScriptExecutive>(delegate(IServiceProvider sp)
+                {
+                    return new DbMigrationScriptExecutive(
+                        sp.GetService<IDbCommandExecutionStrategy>());
+                });
             serviceProvider.RegisterService(new DeploymentService());
             
             //
@@ -87,6 +94,13 @@ namespace octalforty.Wizardby.Console
                 // Parse parameters
                 MigrationParametersParser parametersParser = new MigrationParametersParser();
                 parameters = parametersParser.ParseMigrationParameters(args);
+
+                //
+                // If we have an output file name specified, use special IDbCommandExecutionStrategy
+                if(!string.IsNullOrEmpty(parameters.OutputFileName))
+                    serviceProvider.RegisterService(new FileDbCommandExecutionStrategy(parameters.OutputFileName));
+                else
+                    serviceProvider.RegisterService(new DbCommandExecutionStrategy());
 
                 //
                 // ...and execute whatever command we need

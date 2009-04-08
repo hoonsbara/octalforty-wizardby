@@ -46,6 +46,7 @@
     <Compile Include="Deployment\Impl\Environment.cs" />
     <Compile Include="DeployMigrationCommand.cs" />
     <Compile Include="DowngradeMigrationCommand.cs" />
+    <Compile Include="FileDbCommandExecutionStrategy.cs" />
     <Compile Include="GenerateMigrationCommand.cs" />
     <Compile Include="IMigrationCommand.cs" />
     <Compile Include="InfoMigrationCommand.cs" />
