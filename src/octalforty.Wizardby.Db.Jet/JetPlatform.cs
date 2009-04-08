@@ -46,5 +46,16 @@ namespace octalforty.Wizardby.Db.Jet
         {
             get { return OleDbFactory.Instance; }
         }
+
+        public override IDbDeploymentManager DeploymentManager
+        {
+            get 
+            { 
+                IDbDeploymentManager deploymentManager = new JetDeploymentManager();
+                deploymentManager.Platform = this;
+
+                return deploymentManager;
+            }
+        }
     }
 }

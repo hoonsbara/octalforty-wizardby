@@ -32,8 +32,6 @@ using NUnit.Framework;
 using octalforty.Wizardby.Core.Db;
 using octalforty.Wizardby.Core.SemanticModel;
 
-using octalforty.Wizardby.Db.Jet;
-
 namespace octalforty.Wizardby.Tests.Db.Jet
 {
     [TestFixture()]
