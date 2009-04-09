@@ -126,7 +126,7 @@ namespace octalforty.Wizardby.Console
             catch(MigrationException e)
             {
                 using(new ConsoleStylingScope(ConsoleColor.Red))
-                    System.Console.WriteLine(System.Environment.NewLine + "Migration Exception: {0}", e.Message);
+                    System.Console.WriteLine(System.Environment.NewLine + "Migration Exception: {0} ({1})", e.Message, e.SqlStatement);
             } // catch
 
             catch(DbPlatformException e)

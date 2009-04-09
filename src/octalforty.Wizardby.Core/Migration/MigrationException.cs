@@ -27,6 +27,13 @@ namespace octalforty.Wizardby.Core.Migration
 {
     public class MigrationException : Exception
     {
+        private readonly string sqlStatement;
+
+        public string SqlStatement
+        {
+            get { return sqlStatement; }
+        }
+
         public MigrationException()
         {
         }
@@ -34,6 +41,12 @@ namespace octalforty.Wizardby.Core.Migration
         public MigrationException(string message) : 
             base(message)
         {
+        }
+
+        public MigrationException(string message, string sqlStatement, Exception innerException) :
+            this(message, innerException)
+        {
+            this.sqlStatement = sqlStatement;
         }
 
         public MigrationException(string message, Exception innerException) : 

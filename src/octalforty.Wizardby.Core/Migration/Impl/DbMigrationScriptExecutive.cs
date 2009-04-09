@@ -84,7 +84,17 @@ namespace octalforty.Wizardby.Core.Migration.Impl
                                 if(!(ddlTransaction is NullDbTransaction))
                                     dbCommand.Transaction = ddlTransaction;
 
-                                dbCommandExecutionStrategy.Execute(dbCommand);
+                                try
+                                {
+                                    dbCommandExecutionStrategy.Execute(dbCommand);
+                                } // try
+
+                                // TOOD: Replace with DbPlatformException or something
+                                catch(Exception e)
+                                {
+                                    throw new MigrationException(e.Message, ddlScript, e);
+                                } // catch
+                                
                             } // foreach
                         } // using
 
