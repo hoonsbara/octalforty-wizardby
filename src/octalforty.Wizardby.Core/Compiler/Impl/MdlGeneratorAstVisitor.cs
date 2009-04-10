@@ -102,7 +102,7 @@ namespace octalforty.Wizardby.Core.Compiler.Impl
 
         public override void Visit(IAddTableNode addTableNode)
         {
-            textWriter.Write("add table {0}", addTableNode.Name);
+            textWriter.Write("add table \"{0}\"", addTableNode.Name);
             
             WriteProperties(addTableNode);
             VisitBlock(addTableNode);
@@ -110,7 +110,7 @@ namespace octalforty.Wizardby.Core.Compiler.Impl
 
         public override void Visit(IAddColumnNode addColumnNode)
         {
-            textWriter.Write("add column {0}", addColumnNode.Name);
+            textWriter.Write("add column \"{0}\"", addColumnNode.Name);
 
             WriteProperties(addColumnNode);
             VisitBlock(addColumnNode);

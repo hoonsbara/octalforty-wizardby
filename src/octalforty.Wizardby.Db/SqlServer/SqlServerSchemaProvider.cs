@@ -52,7 +52,7 @@ on t.table_catalog = c.table_catalog and t.table_schema = c.table_schema and t.t
 order by t.table_name, c.ordinal_position", 
                 delegate(IDataReader dr)
                     {
-                        string tableName = As<string>(dr, "table_name");
+                        string tableName = string.Format("{0}.{1}", As<string>(dr, "table_schema"), As<string>(dr, "table_name")); 
 
                         if(schemaDefinition.GetTable(tableName) == null)
                             schemaDefinition.AddTable(new TableDefinition(tableName));

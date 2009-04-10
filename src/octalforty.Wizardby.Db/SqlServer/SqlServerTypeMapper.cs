@@ -41,9 +41,13 @@ namespace octalforty.Wizardby.Db.SqlServer
         private const string Tinyint = "tinyint";
         private const string Varchar = "varchar";
         private const string Char = "char";
+        private const string Binary = "binary";
         private const string Varbinary = "varbinary";
         private const string Nvarchar = "nvarchar";
         private const string Nchar = "nchar";
+        private const string Timestamp = "timestamp";
+        private const string Smalldatetime = "smalldatetime";
+        private const string Numeric = "numeric";
 
         public SqlServerTypeMapper()
         {
@@ -111,12 +115,19 @@ namespace octalforty.Wizardby.Db.SqlServer
                     return DbType.AnsiString;
                 case Char:
                     return DbType.AnsiStringFixedLength;
+                case Binary:
                 case Varbinary:
                     return DbType.Binary;
                 case Nvarchar:
                     return DbType.String;
                 case Nchar:
                     return DbType.StringFixedLength;
+                case Timestamp:
+                    return DbType.Time;
+                case Smalldatetime:
+                    return DbType.DateTime;
+                case Numeric:
+                    return DbType.Decimal;
             } // switch
 
             return base.MapToDbType(nativeType, length);

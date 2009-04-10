@@ -360,6 +360,8 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
     </Compile>
+    <Compile Include="ReverseEngineering\Impl\ReverseEngineeringService.cs" />
+    <Compile Include="ReverseEngineering\IReverseEngineeringService.cs" />
     <Compile Include="SemanticModel\ColumnDefinition.cs">
       <SubType>Code</SubType>
     </Compile>

@@ -22,6 +22,7 @@
 // THE SOFTWARE.
 #endregion
 using octalforty.Wizardby.Core.Compiler.Ast.Impl;
+using octalforty.Wizardby.Core.SemanticModel;
 
 namespace octalforty.Wizardby.Core.Compiler.Ast
 {
@@ -30,16 +31,7 @@ namespace octalforty.Wizardby.Core.Compiler.Ast
         public static IAddColumnNode Clone(IAddColumnNode addColumnNode)
         {
             IAddColumnNode node = new AddColumnNode(addColumnNode.Parent, addColumnNode.Name);
-            node.Default = addColumnNode.Default;
-            node.Identity = addColumnNode.Identity;
-            node.Length = addColumnNode.Length;
-            node.Location = addColumnNode.Location;
-            node.Nullable = addColumnNode.Nullable;
-            node.Precision = addColumnNode.Precision;
-            node.PrimaryKey = addColumnNode.PrimaryKey;
-            node.Scale = addColumnNode.Scale;
-            node.Table = addColumnNode.Table;
-            node.Type = addColumnNode.Type;
+            Copy(addColumnNode, node);
 
             foreach(IAstNodeProperty property in addColumnNode.Properties)
                 node.Properties.AddProperty(new AstNodeProperty(property.Name, property.Value));
@@ -53,6 +45,34 @@ namespace octalforty.Wizardby.Core.Compiler.Ast
                 return Clone((IAddColumnNode)astNode);
 
             return null;
-        } 
+        }
+
+        public static void Copy(IColumnDefinition sourceColumn, IColumnDefinition targetColumn)
+        {
+            targetColumn.Default = sourceColumn.Default;
+            targetColumn.Identity = sourceColumn.Identity;
+            targetColumn.Length = sourceColumn.Length;
+            targetColumn.Name = sourceColumn.Name;
+            targetColumn.Nullable = sourceColumn.Nullable;
+            targetColumn.Precision = sourceColumn.Precision;
+            targetColumn.PrimaryKey = sourceColumn.PrimaryKey;
+            targetColumn.Scale = sourceColumn.Scale;
+            targetColumn.Type = sourceColumn.Type;
+            targetColumn.Table = sourceColumn.Table;
+        }
+
+        public static void CopyToProperties(IColumnNode columnNode)
+        {
+            if(!string.IsNullOrEmpty(columnNode.Default))
+                AddProperty(columnNode, MdlSyntax.Default, columnNode.Default);
+
+            if(columnNode.Type != null)
+                AddProperty(columnNode, MdlSyntax.Type, columnNode.Type.Value.ToString());
+        }
+
+        private static void AddProperty(IAstNode node, string name, object value)
+        {
+            node.Properties.AddProperty(new AstNodeProperty(name, value));
+        }
     }
 }

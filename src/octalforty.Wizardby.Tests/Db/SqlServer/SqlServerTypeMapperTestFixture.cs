@@ -76,10 +76,12 @@ namespace octalforty.Wizardby.Tests.Db.SqlServer
             Assert.AreEqual(DbType.AnsiString, typeMapper.MapToDbType("varchar", 100));
             Assert.AreEqual(DbType.AnsiStringFixedLength, typeMapper.MapToDbType("char", 100));
             Assert.AreEqual(DbType.Binary, typeMapper.MapToDbType("varbinary", 100));
+            Assert.AreEqual(DbType.Binary, typeMapper.MapToDbType("binary", null));
             Assert.AreEqual(DbType.Boolean, typeMapper.MapToDbType("bit", null));
             Assert.AreEqual(DbType.Byte, typeMapper.MapToDbType("tinyint", null));
             Assert.AreEqual(DbType.Currency, typeMapper.MapToDbType("money", null));
             Assert.AreEqual(DbType.DateTime, typeMapper.MapToDbType("datetime", null));
+            Assert.AreEqual(DbType.DateTime, typeMapper.MapToDbType("smalldatetime", null));
             Assert.AreEqual(DbType.Decimal, typeMapper.MapToDbType("decimal", null));
             Assert.AreEqual(DbType.Double, typeMapper.MapToDbType("float", null));
             Assert.AreEqual(DbType.Guid, typeMapper.MapToDbType("uniqueidentifier", null));
@@ -89,7 +91,9 @@ namespace octalforty.Wizardby.Tests.Db.SqlServer
             Assert.AreEqual(DbType.Object, typeMapper.MapToDbType("sql_variant", null));
             Assert.AreEqual(DbType.Single, typeMapper.MapToDbType("real", null));
             Assert.AreEqual(DbType.Time, typeMapper.MapToDbType("rowversion", null));
+            Assert.AreEqual(DbType.Time, typeMapper.MapToDbType("timestamp", null));
             Assert.AreEqual(DbType.Xml, typeMapper.MapToDbType("xml", null));
+            Assert.AreEqual(DbType.Decimal, typeMapper.MapToDbType("numeric", null));
         }
 
         [Test()]

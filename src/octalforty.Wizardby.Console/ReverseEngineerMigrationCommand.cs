@@ -22,6 +22,13 @@
 // THE SOFTWARE.
 #endregion
 using System;
+using System.IO;
+using System.Text;
+
+using octalforty.Wizardby.Core.Compiler;
+using octalforty.Wizardby.Core.Compiler.Ast;
+using octalforty.Wizardby.Core.Db;
+using octalforty.Wizardby.Core.ReverseEngineering;
 
 namespace octalforty.Wizardby.Console
 {
@@ -42,6 +49,16 @@ namespace octalforty.Wizardby.Console
 
             using(new ConsoleStylingScope(ConsoleColor.Green))
                 System.Console.WriteLine("Reverse engineering '{0}'", parameters.ConnectionString);
+
+            IReverseEngineeringService reverseEngineeringService = ServiceProvider.GetService<IReverseEngineeringService>();
+            IDbPlatform dbPlatform = ServiceProvider.GetService<IDbPlatform>();
+
+            IAstNode astNode = reverseEngineeringService.ReverseEngineer(dbPlatform, parameters.ConnectionString);
+
+            MdlGenerator mdlGenerator = new MdlGenerator();
+
+            using(FileStream fs = new FileStream("baseline.mdl", FileMode.Create))
+                mdlGenerator.Generate(astNode, new StreamWriter(fs, Encoding.UTF8));
         }
     }
 }

@@ -33,6 +33,7 @@ using octalforty.Wizardby.Core.Db;
 using octalforty.Wizardby.Core.Deployment.Impl;
 using octalforty.Wizardby.Core.Migration;
 using octalforty.Wizardby.Core.Migration.Impl;
+using octalforty.Wizardby.Core.ReverseEngineering.Impl;
 
 namespace octalforty.Wizardby.Console
 {
@@ -82,6 +83,7 @@ namespace octalforty.Wizardby.Console
                         sp.GetService<IDbCommandExecutionStrategy>());
                 });
             serviceProvider.RegisterService(new DeploymentService());
+            serviceProvider.RegisterService(new ReverseEngineeringService());
             
             //
             // Prepare Migration Command Registry...
