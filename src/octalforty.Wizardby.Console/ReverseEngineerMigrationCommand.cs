@@ -23,15 +23,15 @@
 #endregion
 using System;
 
-using octalforty.Wizardby.Core.Db;
-using octalforty.Wizardby.Core.Deployment;
-
 namespace octalforty.Wizardby.Console
 {
-    [MigrationCommand(MigrationCommand.Deploy)]
-    public class DeployMigrationCommand : MigrationCommandBase
+    /// <summary>
+    /// Implements <see cref="MigrationCommand.ReverseEngineer"/> command logic.
+    /// </summary>
+    [MigrationCommand(MigrationCommand.ReverseEngineer)]
+    public class ReverseEngineerMigrationCommand : MigrationCommandBase
     {
-        public DeployMigrationCommand() :
+        public ReverseEngineerMigrationCommand() :
             base(true, false, false, true)
         {
         }
@@ -40,10 +40,8 @@ namespace octalforty.Wizardby.Console
         {
             System.Console.WriteLine();
 
-            using(new ConsoleStylingScope(ConsoleColor.Yellow))
-                System.Console.WriteLine("Deploying '{0}'", parameters.ConnectionString);
-
-            ServiceProvider.GetService<IDeploymentService>().Deploy(ServiceProvider.GetService<IDbPlatform>(), parameters.ConnectionString);
+            using(new ConsoleStylingScope(ConsoleColor.Green))
+                System.Console.WriteLine("Reverse engineering '{0}'", parameters.ConnectionString);
         }
     }
 }

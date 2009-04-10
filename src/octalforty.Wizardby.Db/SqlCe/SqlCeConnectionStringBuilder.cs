@@ -21,6 +21,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
+using System.IO;
+
 using octalforty.Wizardby.Core.Db;
 
 namespace octalforty.Wizardby.Db.SqlCe
@@ -31,6 +33,28 @@ namespace octalforty.Wizardby.Db.SqlCe
             base(true)
         {
             RegisterKeyMapping("database", "data source");
+        }
+
+        /// <summary>
+        /// Appends a <paramref name="key"/>-<paramref name="value"/> pair to the connection string.
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        public override void AppendKeyValuePair(string key, string value)
+        {
+            //
+            // If we have a "database" key, append ".sdf" extension to "value" 
+            // if it's not already there.
+            if(key.ToLowerInvariant() == "database")
+            {
+                if(Path.GetExtension(value).ToLowerInvariant() != ".sdf")
+                {
+                    base.AppendKeyValuePair(key, value + ".sdf");
+                    return;
+                } // if
+            } // if
+
+            base.AppendKeyValuePair(key, value);
         }
     }
 }

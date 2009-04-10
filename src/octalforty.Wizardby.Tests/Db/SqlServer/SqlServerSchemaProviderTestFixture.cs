@@ -1,0 +1,84 @@
+#region The MIT License
+// The MIT License
+// 
+// Copyright (c) 2009 octalforty studios
+// 
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+// 
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+// 
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// THE SOFTWARE.
+#endregion
+using System.Configuration;
+using System.IO;
+using System.Reflection;
+using System.Text;
+
+using NUnit.Framework;
+
+using octalforty.Wizardby.Core.Db;
+using octalforty.Wizardby.Core.Migration;
+using octalforty.Wizardby.Core.Migration.Impl;
+using octalforty.Wizardby.Core.SemanticModel;
+using octalforty.Wizardby.Db.SqlServer;
+
+namespace octalforty.Wizardby.Tests.Db.SqlServer
+{
+    [TestFixture()]
+    public class SqlServerSchemaProviderTestFixture
+    {
+        #region Private Fields
+        private IDbPlatform dbPlatform;
+        private string connectionString;
+        private IMigrationService migrationService;
+        #endregion
+
+        [TestFixtureSetUp()]
+        public void TestFixtureSetUp()
+        {
+            dbPlatform = new SqlServerPlatform();
+            connectionString = ConfigurationManager.AppSettings["connectionString"];
+
+            migrationService = new MigrationService(
+                dbPlatform,
+                new DbMigrationVersionInfoManager(dbPlatform, new DbCommandExecutionStrategy(), "SchemaInfo"),
+                new DbMigrationScriptExecutive(new DbCommandExecutionStrategy()));
+
+            using(Stream resourceStream =
+                Assembly.GetExecutingAssembly().GetManifestResourceStream("octalforty.Wizardby.Tests.Resources.Blog.mdl"))
+            {
+                migrationService.Migrate(connectionString, null, new StreamReader(resourceStream, Encoding.UTF8));
+            } // using
+        }
+        
+        [TestFixtureTearDown()]
+        public void TestFixtureTearDown()
+        {
+            using(Stream resourceStream =
+                Assembly.GetExecutingAssembly().GetManifestResourceStream("octalforty.Wizardby.Tests.Resources.Blog.mdl"))
+            {
+                migrationService.Migrate(connectionString, 0, new StreamReader(resourceStream, Encoding.UTF8));
+            } // using
+        }
+
+        [Test()]
+        public void GetSchemaDefinition()
+        {
+            SchemaDefinition schema = dbPlatform.SchemaProvider.GetSchemaDefinition(connectionString);
+
+            Assert.AreEqual(9, schema.Tables.Count);
+        }
+    }
+}

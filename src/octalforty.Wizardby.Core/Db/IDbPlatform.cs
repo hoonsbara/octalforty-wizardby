@@ -56,5 +56,8 @@ namespace octalforty.Wizardby.Core.Db
 
         DbProviderFactory ProviderFactory
         { get; }
+
+        IDbSchemaProvider SchemaProvider
+        { get; }
     }
 }

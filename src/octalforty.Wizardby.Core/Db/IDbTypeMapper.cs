@@ -56,5 +56,13 @@ namespace octalforty.Wizardby.Core.Db
         /// with scale 30 and precision 10 must return <c>decimal(30,10)</c>.
         /// </remarks>
         string MapToNativeType(DbType logicalType, int? scale, int? precision);
+
+        /// <summary>
+        /// Maps <paramref name="nativeType"/> to an appropriate <see cref="DbType"/> value.
+        /// </summary>
+        /// <param name="nativeType"></param>
+        /// <param name="length"></param>
+        /// <returns></returns>
+        DbType? MapToDbType(string nativeType, int? length);
     }
 }

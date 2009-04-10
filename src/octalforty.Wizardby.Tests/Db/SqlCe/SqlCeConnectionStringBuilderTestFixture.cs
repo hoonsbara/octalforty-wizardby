@@ -21,37 +21,47 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
-using System.Data.Common;
-using System.Data.SqlClient;
+using NUnit.Framework;
 
 using octalforty.Wizardby.Core.Db;
+using octalforty.Wizardby.Db.SqlCe;
 
-namespace octalforty.Wizardby.Db.SqlServer
+namespace octalforty.Wizardby.Tests.Db.SqlCe
 {
-    /// <summary>
-    /// A <see cref="IDbPlatform"/> implementation for the Microsoft SQL Server.
-    /// </summary>
-    [DbPlatform("Microsoft SQL Server", "sqlserver")]
-    public class SqlServerPlatform : DbPlatformBase<SqlServerDialect, SqlServerConnectionStringBuilder, SqlServerNamingStrategy, SqlServerTypeMapper>
+    [TestFixture()]
+    public class SqlCeConnectionStringBuilderTestFixture
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SqlServerPlatform"/> class.
-        /// </summary>
-        public SqlServerPlatform() : 
-            base(true)
+        [Test()]
+        public void BuildConnectionString()
         {
+            IDbConnectionStringBuilder connectionStringBuilder =
+                new SqlCeConnectionStringBuilder();
+
+            connectionStringBuilder.AppendKeyValuePair("database", "oxite");
+
+            Assert.AreEqual("data source=oxite.sdf;", connectionStringBuilder.ToString());
         }
 
-        #region DbPlatformBase<SqlServerTypeMapper, SqlServerDialect> Members
-        public override DbProviderFactory ProviderFactory
+        [Test()]
+        public void BuildConnectionString2()
         {
-            get { return SqlClientFactory.Instance; }
+            IDbConnectionStringBuilder connectionStringBuilder =
+                new SqlCeConnectionStringBuilder();
+
+            connectionStringBuilder.AppendKeyValuePair("database", "d:\\db\\oxite");
+
+            Assert.AreEqual("data source=d:\\db\\oxite.sdf;", connectionStringBuilder.ToString());
         }
 
-        public override IDbSchemaProvider SchemaProvider
+        [Test()]
+        public void BuildConnectionString3()
         {
-            get { return new SqlServerSchemaProvider(this); }
+            IDbConnectionStringBuilder connectionStringBuilder =
+                new SqlCeConnectionStringBuilder();
+
+            connectionStringBuilder.AppendKeyValuePair("database", "d:\\db\\oxite.sdf");
+
+            Assert.AreEqual("data source=d:\\db\\oxite.sdf;", connectionStringBuilder.ToString());
         }
-        #endregion
     }
 }

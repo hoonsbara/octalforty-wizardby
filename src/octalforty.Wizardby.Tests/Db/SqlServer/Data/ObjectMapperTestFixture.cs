@@ -21,29 +21,33 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
-using System;
+using NUnit.Framework;
 
-using octalforty.Wizardby.Core.Db;
-using octalforty.Wizardby.Core.Deployment;
+using octalforty.Wizardby.Core.SemanticModel;
+using octalforty.Wizardby.Db.SqlServer.Data;
 
-namespace octalforty.Wizardby.Console
+namespace octalforty.Wizardby.Tests.Db.SqlServer.Data
 {
-    [MigrationCommand(MigrationCommand.Deploy)]
-    public class DeployMigrationCommand : MigrationCommandBase
+    [TestFixture()]
+    public class ObjectMapperTestFixture
     {
-        public DeployMigrationCommand() :
-            base(true, false, false, true)
+        [Test()]
+        public void MapObjectToObject()
         {
-        }
+            ObjectMapper objectMapper = new ObjectMapper();
 
-        protected override void InternalExecute(MigrationParameters parameters)
-        {
-            System.Console.WriteLine();
+            objectMapper.AddMapping(new Mapping("Table", "Table"));
+            objectMapper.AddMapping(new Mapping("Identity", "Identity"));
 
-            using(new ConsoleStylingScope(ConsoleColor.Yellow))
-                System.Console.WriteLine("Deploying '{0}'", parameters.ConnectionString);
+            IColumnDefinition sourceColumn = new ColumnDefinition("Foo");
+            sourceColumn.Identity = false;
 
-            ServiceProvider.GetService<IDeploymentService>().Deploy(ServiceProvider.GetService<IDbPlatform>(), parameters.ConnectionString);
+            IColumnDefinition targetColumn = new ColumnDefinition();
+
+            objectMapper.Map(sourceColumn, targetColumn);
+
+            Assert.AreEqual(sourceColumn.Table, targetColumn.Table);
+            Assert.AreEqual(sourceColumn.Identity, targetColumn.Identity);
         }
     }
 }

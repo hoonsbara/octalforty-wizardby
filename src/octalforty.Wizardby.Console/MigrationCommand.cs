@@ -32,6 +32,7 @@ namespace octalforty.Wizardby.Console
         Rollback,
         Redo,
         Generate,
-        Deploy
+        Deploy,
+        ReverseEngineer
     }
 }

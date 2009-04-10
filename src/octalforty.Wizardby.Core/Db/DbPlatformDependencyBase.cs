@@ -27,6 +27,15 @@ namespace octalforty.Wizardby.Core.Db
     {
         private IDbPlatform platform;
 
+        protected DbPlatformDependencyBase()
+        {
+        }
+
+        protected DbPlatformDependencyBase(IDbPlatform platform)
+        {
+            this.platform = platform;
+        }
+
         public virtual IDbPlatform Platform
         {
             get { return platform; }

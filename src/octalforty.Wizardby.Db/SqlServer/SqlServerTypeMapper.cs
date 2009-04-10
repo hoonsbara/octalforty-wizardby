@@ -37,13 +37,21 @@ namespace octalforty.Wizardby.Db.SqlServer
     /// </remarks>
     public class SqlServerTypeMapper : DbTypeMapperBase
     {
+        private const string Bit = "bit";
+        private const string Tinyint = "tinyint";
+        private const string Varchar = "varchar";
+        private const string Char = "char";
+        private const string Varbinary = "varbinary";
+        private const string Nvarchar = "nvarchar";
+        private const string Nchar = "nchar";
+
         public SqlServerTypeMapper()
         {
-            RegisterTypeMapping(DbType.Boolean, "bit");
-            RegisterTypeMapping(DbType.Byte, "tinyint");
+            RegisterTypeMapping(DbType.Boolean, Bit);
+            RegisterTypeMapping(DbType.Byte, Tinyint);
             RegisterTypeMapping(DbType.Currency, "money");
-            RegisterTypeMapping(DbType.Date, "datetime");
             RegisterTypeMapping(DbType.DateTime, "datetime");
+            RegisterTypeMapping(DbType.Date, "datetime");
             RegisterTypeMapping(DbType.Decimal, "decimal");
             RegisterTypeMapping(DbType.Double, "float");
             RegisterTypeMapping(DbType.Guid, "uniqueidentifier");
@@ -62,15 +70,15 @@ namespace octalforty.Wizardby.Db.SqlServer
             switch(logicalType)
             {
                 case DbType.AnsiString:
-                    return "varchar";
+                    return Varchar;
                 case DbType.AnsiStringFixedLength:
-                    return "char";
+                    return Char;
                 case DbType.Binary:
-                    return "varbinary";
+                    return Varbinary;
                 case DbType.String:
-                    return "nvarchar";
+                    return Nvarchar;
                 case DbType.StringFixedLength:
-                    return "nchar";
+                    return Nchar;
                 default:
                     return base.MapToNativeTypeCore(logicalType, length);
             } // switch
@@ -78,7 +86,7 @@ namespace octalforty.Wizardby.Db.SqlServer
 
         protected override string FormatBareNativeType(string bareNativeType, int? length)
         {
-            if(Array.IndexOf(new string[] { "varchar", "char", "varbinary", "nvarchar", "nchar" }, bareNativeType) != -1 && !length.HasValue)
+            if(Array.IndexOf(new string[] { Varchar, Char, Varbinary, Nvarchar, Nchar }, bareNativeType) != -1 && !length.HasValue)
                 return string.Format("{0}(max)", bareNativeType);
 
             return base.FormatBareNativeType(bareNativeType, length);
@@ -87,6 +95,31 @@ namespace octalforty.Wizardby.Db.SqlServer
         protected override string MapToNativeType(DbType logicalType)
         {
             throw new DbPlatformException(string.Format(Resources.UnknownDataType, logicalType));
+        }
+
+        /// <summary>
+        /// Maps <paramref name="nativeType"/> to an appropriate <see cref="DbType"/> value.
+        /// </summary>
+        /// <param name="nativeType"></param>
+        /// <param name="length"></param>
+        /// <returns></returns>
+        public override DbType? MapToDbType(string nativeType, int? length)
+        {
+            switch(nativeType.ToLowerInvariant())
+            {
+                case Varchar:
+                    return DbType.AnsiString;
+                case Char:
+                    return DbType.AnsiStringFixedLength;
+                case Varbinary:
+                    return DbType.Binary;
+                case Nvarchar:
+                    return DbType.String;
+                case Nchar:
+                    return DbType.StringFixedLength;
+            } // switch
+
+            return base.MapToDbType(nativeType, length);
         }
         #endregion
     }

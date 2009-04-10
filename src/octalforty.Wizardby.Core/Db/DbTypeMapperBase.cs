@@ -21,6 +21,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
+using System;
 using System.Collections.Generic;
 using System.Data;
 
@@ -86,6 +87,23 @@ namespace octalforty.Wizardby.Core.Db
         {
             string bareNativeType = MapToNativeTypeCore(logicalType, scale, precision);
             return FormatBareNativeType(bareNativeType, scale, precision);
+        }
+
+        /// <summary>
+        /// Maps <paramref name="nativeType"/> to an appropriate <see cref="DbType"/> value.
+        /// </summary>
+        /// <param name="nativeType"></param>
+        /// <param name="length"></param>
+        /// <returns></returns>
+        public virtual DbType? MapToDbType(string nativeType, int? length)
+        {
+            foreach(KeyValuePair<DbType, string> typeMapping in typeMappings)
+            {
+                if(string.Equals(typeMapping.Value, nativeType, StringComparison.InvariantCultureIgnoreCase))
+                    return typeMapping.Key;
+            } // foreach
+
+            return null;
         }
         #endregion
 

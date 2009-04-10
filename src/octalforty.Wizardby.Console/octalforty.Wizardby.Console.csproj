@@ -67,6 +67,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="RedoMigrationCommand.cs" />
+    <Compile Include="ReverseEngineerMigrationCommand.cs" />
     <Compile Include="RollbackMigrationCommand.cs" />
     <Compile Include="ServiceBuilder.cs" />
     <Compile Include="ServiceProvider.cs" />

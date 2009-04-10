@@ -46,6 +46,8 @@
     <Compile Include="SqlCe\SqlCePlatform.cs" />
     <Compile Include="SqlCe\SqlCeScriptGenerator.cs" />
     <Compile Include="SqlCe\SqlCeTypeMapper.cs" />
+    <Compile Include="SqlServer\Data\DbMapper.cs" />
+    <Compile Include="SqlServer\InformationSchema\Table.cs" />
     <Compile Include="SqlServer\SqlServerConnectionStringBuilder.cs" />
     <Compile Include="SqlServer\SqlServerDeploymentManager.cs" />
     <Compile Include="SqlServer\SqlServerDialect.cs" />
@@ -53,6 +55,7 @@
     <Compile Include="SqlServer\SqlServerPlatform.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="SqlServer\SqlServerSchemaProvider.cs" />
     <Compile Include="SqlServer\SqlServerScriptGenerator.cs" />
     <Compile Include="SqlServer\SqlServerTypeMapper.cs" />
   </ItemGroup>

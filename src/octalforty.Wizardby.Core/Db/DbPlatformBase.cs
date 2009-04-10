@@ -115,6 +115,11 @@ namespace octalforty.Wizardby.Core.Db
 
         public abstract DbProviderFactory ProviderFactory
         { get; }
+
+        public virtual IDbSchemaProvider SchemaProvider
+        {
+            get { return null; }
+        }
         #endregion
     }
 }
