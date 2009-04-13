@@ -93,15 +93,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\octalforty.Wizardby.Tests\Resources\Blog.mdl">
-      <Link>Blog.mdl</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="database.wdi">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Usage.txt" />
     <Content Include="Wizardby.ico" />
   </ItemGroup>

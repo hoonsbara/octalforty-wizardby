@@ -1,31 +1,71 @@
-<Project DefaultTargets="BuildDebug" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
     <Import Project="..\lib\MSBuild\MSBuild.Community.Tasks.Targets"/>
 	
-	<PropertyGroup Condition="'$(BuildType)' == ''">
-		<BuildType>Debug</BuildType>
+	<PropertyGroup Condition="'$(Configuration)' == ''">
+		<Configuration>Debug</Configuration>
+	</PropertyGroup>
+    
+    <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+		<Configuration>Release</Configuration>
 	</PropertyGroup>
 
     <PropertyGroup>
-        <ApplicationVersion>1.0</ApplicationVersion>
-        <Milestone>a1</Milestone>
-        <Revision>$Revision$</Revision>
+        <ApplicationVersion>1.0.0</ApplicationVersion>
+        <Milestone>a2</Milestone>
     </PropertyGroup>
-    
-	<Target Name="BuildDebug">
-		<MSBuild Projects="octalforty.Wizardby.sln" Properties="Configuration=$(BuildType)"/>
+
+    <!-- Export -->
+    <Target Name="Export">
+        <RemoveDir Directories="..\octalforty.Wizardby" />        
+        <SvnExport RepositoryPath="https://octalforty-wizardby.googlecode.com/svn/trunk/" 
+            LocalPath="..\octalforty.Wizardby">
+            <Output TaskParameter="Revision" PropertyName="SourceRevision" />
+        </SvnExport>
+    </Target>
+
+
+    <!-- Revision of the working copy -->
+    <Target Name="Revision">
+        <SvnVersion LocalPath="..">
+            <Output TaskParameter="Revision" PropertyName="Revision" />
+        </SvnVersion>
+    </Target>
+
+    <!-- Performs Build -->
+	<Target Name="Build" DependsOnTargets="Revision">
+		<MSBuild Projects="octalforty.Wizardby.sln" Properties="Configuration=$(Configuration)" />
 	</Target>
     
-    <ItemGroup>    
-        <ZipFiles Include="octalforty.Wizardby.Console\bin\Debug\*.*" Exclude="*.zip,*.vshost.exe" />
+    <!-- Zips Binaries -->
+    <ItemGroup>
+        <BuildArtifacts Include="octalforty.Wizardby.Console\bin\$(Configuration)\**\*.*" Exclude="**\*.pdb;**\*.vshost.exe" />
     </ItemGroup>
-    
-    <Target Name="BuildZip" DependsOnTargets="BuildDebug">          
-          <MakeDir Directories="..\builds" Condition="!Exists('..\builds')" />
-          <Zip Files="@(ZipFiles)"
-               WorkingDirectory="octalforty.Wizardby.Console\bin\Debug"
-               ZipFileName="..\builds\octalforty-wizardby-$(ApplicationVersion)-$(Milestone)-r$(Revision).zip"
-               ZipLevel="9" />
+
+    <Target Name="ZipBin" DependsOnTargets="Revision">
+        <MakeDir Directories="..\builds\$(Revision)" Condition="!Exists('..\builds\$(Revision)')" />
+        <Zip Files="@(BuildArtifacts)"
+            WorkingDirectory="octalforty.Wizardby.Console\bin\$(Configuration)"
+            ZipFileName="..\builds\$(Revision)\octalforty-wizardby-$(ApplicationVersion).$(Revision)-$(Milestone)-bin.zip"
+            ZipLevel="9" />
     </Target>
+    
+    <!-- Zips Source -->
+    <ItemGroup>
+        <Source Include="..\octalforty.Wizardby\**\*.*" />
+    </ItemGroup>
+
+    <Target Name="ZipSrc">
+        <MakeDir Directories="..\builds\$(SourceRevision)" Condition="!Exists('..\builds\$(SourceRevision)')" />
+        <Zip Files="@(Source)"
+            WorkingDirectory="octalforty.Wizardby.Console\bin\$(Configuration)"
+            ZipFileName="..\builds\$(SourceRevision)\octalforty-wizardby-$(ApplicationVersion).$(SourceRevision)-$(Milestone)-src.zip"
+            ZipLevel="9" />
+    </Target>
+    
+    <Target Name="PrepareDownloads" DependsOnTargets="Build;ZipBin;Export;ZipSrc">          
+    </Target>
+
+    <!--Target Name="PreparePublish" DependsOnTargets="Build;ZipBin;ZipSrc" /-->
 	
 	<!--Target Name="Test" DependsOnTargets="Build">
 		<MakeDir Directories="build\reports" />

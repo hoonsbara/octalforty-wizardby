@@ -1,0 +1,1 @@
+msbuild octalforty.Wizardby.msbuild /t:Build /p:Configuration=%1 /v:m
