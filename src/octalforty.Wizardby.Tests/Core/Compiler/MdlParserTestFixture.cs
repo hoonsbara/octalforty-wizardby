@@ -424,6 +424,23 @@ namespace octalforty.Wizardby.Tests.Core.Compiler
         }
 
         [Test()]
+        public void ParseAddColumnNodeTree()
+        {
+            IMdlParser mdlParser = new MdlParser(CreateScanner(@"add column Login:
+    constraint ""DF_Foo"" default => ""foo"""));
+            IAstNode astNode = mdlParser.Parse();
+
+            Assert.IsInstanceOfType(typeof(IAddColumnNode), astNode);
+            IAddColumnNode addColumnNode = (IAddColumnNode)astNode;
+            Assert.AreEqual("Login", addColumnNode.Name);
+            
+            Assert.IsInstanceOfType(typeof(IAddConstraintNode), astNode.ChildNodes[0]);
+            IAddConstraintNode addConstraintNode = (IAddConstraintNode)astNode.ChildNodes[0];
+            Assert.AreEqual("DF_Foo", addConstraintNode.Name);
+            Assert.AreEqual("foo", addConstraintNode.Properties["default"].Value);
+        }
+
+        [Test()]
         public void ParseAlterColumnNode()
         {
             IMdlParser mdlParser = new MdlParser(CreateScanner(@"alter column Login nullable => false"));
@@ -684,6 +701,30 @@ namespace octalforty.Wizardby.Tests.Core.Compiler
             IAstNode astNode = mdlParser.Parse();
         }
 
+        [Test()]
+        public void ParseAddConstraintNode()
+        {
+            MdlParser mdlParser = new MdlParser(CreateScanner(@"add constraint ""DF_Foo"" default => ""def"""));
+            IAstNode astNode = mdlParser.Parse();
+
+            Assert.IsInstanceOfType(typeof(IAddConstraintNode), astNode);
+
+            IAddConstraintNode addConstraintNode = (IAddConstraintNode)astNode;
+            Assert.AreEqual("def", addConstraintNode.Properties["default"].Value);
+        }
+
+        [Test()]
+        public void ParseRemoveConstraintNode()
+        {
+            MdlParser mdlParser = new MdlParser(CreateScanner(@"remove constraint DF_Foo"));
+            IAstNode astNode = mdlParser.Parse();
+
+            Assert.IsInstanceOfType(typeof(IRemoveConstraintNode), astNode);
+
+            IRemoveConstraintNode removeConstraintNode = (IRemoveConstraintNode)astNode;
+            Assert.AreEqual("DF_Foo", removeConstraintNode.Name);
+        }
+
         public static IMdlScanner CreateScanner(string source)
         {
             return CreateScanner(new StringReader(source));
@@ -711,6 +752,7 @@ namespace octalforty.Wizardby.Tests.Core.Compiler
             mdlScanner.RegisterKeyword("templates");
             mdlScanner.RegisterKeyword("template");
             mdlScanner.RegisterKeyword("refactor");
+            mdlScanner.RegisterKeyword("constraint");
 
             return mdlScanner;
         }

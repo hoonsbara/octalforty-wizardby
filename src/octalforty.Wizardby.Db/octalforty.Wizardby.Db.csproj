@@ -46,8 +46,6 @@
     <Compile Include="SqlCe\SqlCePlatform.cs" />
     <Compile Include="SqlCe\SqlCeScriptGenerator.cs" />
     <Compile Include="SqlCe\SqlCeTypeMapper.cs" />
-    <Compile Include="SqlServer\Data\DbMapper.cs" />
-    <Compile Include="SqlServer\InformationSchema\Table.cs" />
     <Compile Include="SqlServer\SqlServerConnectionStringBuilder.cs" />
     <Compile Include="SqlServer\SqlServerDeploymentManager.cs" />
     <Compile Include="SqlServer\SqlServerDialect.cs" />

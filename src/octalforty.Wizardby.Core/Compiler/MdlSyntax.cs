@@ -70,5 +70,6 @@ namespace octalforty.Wizardby.Core.Compiler
         public const string Templates = "templates";
         public const string Template = "template";
         public const string Refactor = "refactor";
+        public const string Constraint = "constraint";
     }
 }

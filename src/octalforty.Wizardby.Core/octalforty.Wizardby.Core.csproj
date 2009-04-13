@@ -33,10 +33,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Compiler\Ast\Impl\AddConstraintNode.cs" />
     <Compile Include="Compiler\Ast\AstUtil.cs" />
     <Compile Include="Compiler\Ast\AstVisitorBase.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Compiler\Ast\IAddConstraintNode.cs" />
+    <Compile Include="Compiler\Ast\IConstraintNode.cs" />
     <Compile Include="Compiler\Ast\IIndexNode.cs" />
     <Compile Include="Compiler\Ast\Impl\ColumnNodeBase.cs" />
     <Compile Include="Compiler\Ast\IAddColumnNode.cs">
@@ -127,6 +130,7 @@
     <Compile Include="Compiler\Ast\Impl\RefactorNode.cs" />
     <Compile Include="Compiler\Ast\Impl\ReferenceNode.cs" />
     <Compile Include="Compiler\Ast\Impl\RemoveColumnNode.cs" />
+    <Compile Include="Compiler\Ast\Impl\RemoveConstraintNode.cs" />
     <Compile Include="Compiler\Ast\Impl\RemoveIndexNode.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -152,6 +156,7 @@
     <Compile Include="Compiler\Ast\IRefactorNode.cs" />
     <Compile Include="Compiler\Ast\IReferenceNode.cs" />
     <Compile Include="Compiler\Ast\IRemoveColumnNode.cs" />
+    <Compile Include="Compiler\Ast\IRemoveConstraintNode.cs" />
     <Compile Include="Compiler\Ast\IRemoveIndexNode.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -371,6 +376,7 @@
     <Compile Include="SemanticModel\IColumnDefinition.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="SemanticModel\IConstraintDefinition.cs" />
     <Compile Include="SemanticModel\IIndexColumnDefinition.cs" />
     <Compile Include="SemanticModel\IIndexDefinition.cs" />
     <Compile Include="SemanticModel\IndexColumnDefinition.cs" />

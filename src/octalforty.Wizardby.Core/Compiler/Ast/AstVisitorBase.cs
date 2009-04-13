@@ -135,6 +135,14 @@ namespace octalforty.Wizardby.Core.Compiler.Ast
         {
         }
 
+        public virtual void Visit(IAddConstraintNode tableTemplateNode)
+        {
+        }
+
+        public virtual void Visit(IRemoveConstraintNode removeConstraintNode)
+        {
+        }
+
         protected virtual void Visit(IList<IAstNode> astNodes)
         {
             List<IAstNode> nodes = new List<IAstNode>(astNodes);

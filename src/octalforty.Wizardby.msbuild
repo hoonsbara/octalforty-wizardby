@@ -1,0 +1,37 @@
+<Project DefaultTargets="BuildDebug" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+    <Import Project="..\lib\MSBuild\MSBuild.Community.Tasks.Targets"/>
+	
+	<PropertyGroup Condition="'$(BuildType)' == ''">
+		<BuildType>Debug</BuildType>
+	</PropertyGroup>
+
+    <PropertyGroup>
+        <ApplicationVersion>1.0</ApplicationVersion>
+        <Milestone>a1</Milestone>
+        <Revision>$Revision$</Revision>
+    </PropertyGroup>
+    
+	<Target Name="BuildDebug">
+		<MSBuild Projects="octalforty.Wizardby.sln" Properties="Configuration=$(BuildType)"/>
+	</Target>
+    
+    <ItemGroup>    
+        <ZipFiles Include="octalforty.Wizardby.Console\bin\Debug\*.*" Exclude="*.zip,*.vshost.exe" />
+    </ItemGroup>
+    
+    <Target Name="BuildZip" DependsOnTargets="BuildDebug">          
+          <MakeDir Directories="..\builds" Condition="!Exists('..\builds')" />
+          <Zip Files="@(ZipFiles)"
+               WorkingDirectory="octalforty.Wizardby.Console\bin\Debug"
+               ZipFileName="..\builds\octalforty-wizardby-$(ApplicationVersion)-$(Milestone)-r$(Revision).zip"
+               ZipLevel="9" />
+    </Target>
+	
+	<!--Target Name="Test" DependsOnTargets="Build">
+		<MakeDir Directories="build\reports" />
+		<exec 
+			Command="..\..\tools\ncover\NCover.Console.exe &quot;..\..\tools\xunit\xunit.console.exe&quot; &quot;FluentMigrator.Tests.dll&quot; //w &quot;.&quot; //x &quot;..\reports\Coverage.xml&quot;"
+				WorkingDirectory="build\$(BuildType)\">						
+		</exec>		
+	</Target-->
+</Project>

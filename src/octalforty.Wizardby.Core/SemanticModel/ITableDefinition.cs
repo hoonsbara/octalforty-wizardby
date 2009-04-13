@@ -29,24 +29,31 @@ namespace octalforty.Wizardby.Core.SemanticModel
     public interface ITableDefinition : ISchemaElementDefinition
     {
         /// <summary>
-        /// Gets a reference to the collection if <see cref="IColumnDefinition"/> objects
+        /// Gets a reference to the collection of <see cref="IColumnDefinition"/> objects
         /// for the current table.
         /// </summary>
         ISchemaElementDefinitionCollection<IColumnDefinition> Columns
         { get; }
 
         /// <summary>
-        /// Gets a reference to the collection if <see cref="IIndexDefinition"/> objects
+        /// Gets a reference to the collection of <see cref="IIndexDefinition"/> objects
         /// for the current table.
         /// </summary>
         ISchemaElementDefinitionCollection<IIndexDefinition> Indexes
         { get; }
 
         /// <summary>
-        /// Gets a reference to the collection if <see cref="IReferenceDefinition"/> objects
+        /// Gets a reference to the collection of <see cref="IReferenceDefinition"/> objects
         /// for the current table.
         /// </summary>
         ISchemaElementDefinitionCollection<IReferenceDefinition> References
+        { get; }
+
+        /// <summary>
+        /// Gets a reference to the collection of <see cref="IConstraintDefinition"/> objects
+        /// for the current table.
+        /// </summary>
+        ISchemaElementDefinitionCollection<IConstraintDefinition> Constraints
         { get; }
 
         /// <summary>

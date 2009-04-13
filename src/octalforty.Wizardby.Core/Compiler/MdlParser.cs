@@ -426,6 +426,9 @@ namespace octalforty.Wizardby.Core.Compiler
             if(tokens.First.Equals(Keyword(MdlSyntax.Reference)))
                 return ParseImplicitAddReferenceNode(tokens, parent, null);
 
+            if(tokens.First.Equals(Keyword(MdlSyntax.Constraint)))
+                return ParseAddConstraintNode(tokens, parent, null);
+
             throw CreateMdlParserException(Resources.MdlParser.UnexpectedTokenAt, tokens.First.Lexeme, tokens.First.Type,
                 TranslateLocation(tokens.First.Location));
         }
@@ -456,6 +459,40 @@ namespace octalforty.Wizardby.Core.Compiler
                     });
         }
 
+        private static IAstNode ParseAddConstraintNode(TokenSequence tokens, IAstNode parent, Location location)
+        {
+            return ParseNode(tokens, parent,
+                delegate
+                {
+                    ParseKeyword(tokens, MdlSyntax.Constraint);
+
+                    //
+                    // If parent is an IAddColumnNode the constraint can be anonymous.
+                    Location nameLocation;
+                    string name = ParsePossiblyAnonymousNodeNameAsChildOf<IAddColumnNode>(tokens, parent, out nameLocation);
+
+                    AddConstraintNode addConstraintNode = new AddConstraintNode(parent, name);
+                    addConstraintNode.Location = location ?? nameLocation;
+
+                    return addConstraintNode;
+                });
+        }
+
+        private static IAstNode ParseRemoveConstraintNode(TokenSequence tokens, IAstNode parent, Location location)
+        {
+            return ParseNode(tokens, parent,
+                delegate
+                {
+                    Token index = ParseKeyword(tokens, MdlSyntax.Constraint);
+                    string name = Parse(tokens, TokenType.Symbol, TokenType.StringConstant).Lexeme;
+
+                    RemoveConstraintNode removeConstraintNode = new RemoveConstraintNode(parent, name);
+                    removeConstraintNode.Location = location ?? index.Location;
+
+                    return removeConstraintNode;
+                });
+        }
+
         private static IAstNode ParseAddNode(TokenSequence tokens, IAstNode parent)
         {
             Token add = ParseKeyword(tokens, MdlSyntax.Add);
@@ -472,13 +509,16 @@ namespace octalforty.Wizardby.Core.Compiler
             if(tokens.First.Equals(Keyword(MdlSyntax.Reference)))
                 return ParseImplicitAddReferenceNode(tokens, parent, add.Location);
 
+            if(tokens.First.Equals(Keyword(MdlSyntax.Constraint)))
+                return ParseAddConstraintNode(tokens, parent, add.Location);
+
             throw CreateMdlParserException(Resources.MdlParser.UnexpectedTokenAt, tokens.First.Lexeme, tokens.First.Type,
                 TranslateLocation(tokens.First.Location));
         }
 
         private static IAstNode ParseRemoveNode(TokenSequence tokens, IAstNode parent)
         {
-            Token remove = ParseKeyword(tokens, "remove");
+            Token remove = ParseKeyword(tokens, MdlSyntax.Remove);
 
             if(tokens.First.Equals(Keyword(MdlSyntax.Table)))
                 return ParseRemoveTableNode(tokens, parent, remove.Location);
@@ -491,6 +531,9 @@ namespace octalforty.Wizardby.Core.Compiler
 
             if(tokens.First.Equals(Keyword(MdlSyntax.Reference)))
                 return ParseRemoveReferenceNode(tokens, parent, remove.Location);
+
+            if(tokens.First.Equals(Keyword(MdlSyntax.Constraint)))
+                return ParseRemoveConstraintNode(tokens, parent, remove.Location);
 
             throw CreateMdlParserException(Resources.MdlParser.UnexpectedTokenAt, tokens.First.Lexeme, tokens.First.Type,
                 TranslateLocation(tokens.First.Location));
@@ -542,12 +585,14 @@ namespace octalforty.Wizardby.Core.Compiler
 
         private static IAstNode AddColumnNodeBlockParser(TokenSequence tokens, IAstNode parent)
         {
-            if(tokens.First.Equals(Keyword("index")))
+            if(tokens.First.Equals(Keyword(MdlSyntax.Index)))
                 return ParseImplicitAddIndexNode(tokens, parent, null);
-            if(tokens.First.Equals(Keyword("reference")))
+            if(tokens.First.Equals(Keyword(MdlSyntax.Reference)))
                 return ParseImplicitAddReferenceNode(tokens, parent, null);
-            if(tokens.First.Equals(Keyword("add")))
+            if(tokens.First.Equals(Keyword(MdlSyntax.Add)))
                 return ParseAddNode(tokens, parent);
+            if(tokens.First.Equals(Keyword(MdlSyntax.Constraint)))
+                return ParseAddConstraintNode(tokens, parent, null);
 
             throw CreateMdlParserException(Resources.MdlParser.UnexpectedTokenAt, tokens.First.Lexeme, tokens.First.Type,
                 TranslateLocation(tokens.First.Location));

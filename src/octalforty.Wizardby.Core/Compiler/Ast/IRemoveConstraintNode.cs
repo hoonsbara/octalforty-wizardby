@@ -21,13 +21,12 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
-using octalforty.Wizardby.Core.Compiler.Ast;
-using octalforty.Wizardby.Core.Db;
-
-namespace octalforty.Wizardby.Core.ReverseEngineering
+namespace octalforty.Wizardby.Core.Compiler.Ast
 {
-    public interface IReverseEngineeringService
+    /// <summary>
+    /// Represents a <c>remove constraint</c> node.
+    /// </summary>
+    public interface IRemoveConstraintNode : IConstraintNode
     {
-        IAstNode ReverseEngineer(IDbPlatform dbPlatform, string connectionString);
     }
 }

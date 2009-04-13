@@ -74,7 +74,6 @@
     <Compile Include="Core\SemanticModel\TableDefinitionTestFixture.cs" />
     <Compile Include="Db\Jet\JetTransformerTestFixture.cs" />
     <Compile Include="Db\SqlCe\SqlCeConnectionStringBuilderTestFixture.cs" />
-    <Compile Include="Db\SqlServer\Data\ObjectMapperTestFixture.cs" />
     <Compile Include="Db\SqlServer\SqlServerConnectionStringBuilderTestFixture.cs" />
     <Compile Include="Db\SqlServer\SqlServerDialectTestFixture.cs" />
     <Compile Include="Db\SqlServer\SqlServerSchemaProviderTestFixture.cs" />

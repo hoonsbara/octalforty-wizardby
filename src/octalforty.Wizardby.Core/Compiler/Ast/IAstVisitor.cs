@@ -168,5 +168,17 @@ namespace octalforty.Wizardby.Core.Compiler.Ast
         /// </summary>
         /// <param name="refactorNode"></param>
         void Visit(IRefactorNode refactorNode);
+
+        /// <summary>
+        /// Visits the given <paramref name="addConstraintNode"/>.
+        /// </summary>
+        /// <param name="addConstraintNode"></param>
+        void Visit(IAddConstraintNode addConstraintNode);
+
+        /// <summary>
+        /// Visits the given <paramref name="removeConstraintNode"/>.
+        /// </summary>
+        /// <param name="removeConstraintNode"></param>
+        void Visit(IRemoveConstraintNode removeConstraintNode);
     }
 }

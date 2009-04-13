@@ -37,6 +37,7 @@ namespace octalforty.Wizardby.Core.SemanticModel
         private readonly SchemaElementCollection<IColumnDefinition> columns = new SchemaElementCollection<IColumnDefinition>();
         private readonly SchemaElementCollection<IIndexDefinition> indexes = new SchemaElementCollection<IIndexDefinition>();
         private readonly SchemaElementCollection<IReferenceDefinition> references = new SchemaElementCollection<IReferenceDefinition>();
+        private readonly SchemaElementCollection<IConstraintDefinition> constraints = new SchemaElementCollection<IConstraintDefinition>();
         #endregion
 
         /// <summary>
@@ -81,6 +82,15 @@ namespace octalforty.Wizardby.Core.SemanticModel
         public ISchemaElementDefinitionCollection<IReferenceDefinition> References
         {
             get { return references; }
+        }
+
+        /// <summary>
+        /// Gets a reference to the collection of <see cref="IConstraintDefinition"/> objects
+        /// for the current table.
+        /// </summary>
+        public ISchemaElementDefinitionCollection<IConstraintDefinition> Constraints
+        {
+            get { return constraints; }
         }
 
         /// <summary>
