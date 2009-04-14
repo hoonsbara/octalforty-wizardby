@@ -26,7 +26,7 @@ using System.Diagnostics;
 namespace octalforty.Wizardby.Core.Compiler.Ast.Impl
 {
     [DebuggerDisplay("defaults")]
-    internal class DefaultsNode : AstNode, IDefaultsNode
+    public class DefaultsNode : AstNode, IDefaultsNode
     {
         public DefaultsNode(IAstNode parent) : 
             base(parent)

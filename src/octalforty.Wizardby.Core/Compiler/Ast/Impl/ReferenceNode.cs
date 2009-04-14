@@ -23,7 +23,7 @@
 #endregion
 namespace octalforty.Wizardby.Core.Compiler.Ast.Impl
 {
-    internal abstract class ReferenceNode : AstNode, IReferenceNode
+    public abstract class ReferenceNode : AstNode, IReferenceNode
     {
         private string name;
 

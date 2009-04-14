@@ -26,7 +26,7 @@ using System.Diagnostics;
 namespace octalforty.Wizardby.Core.Compiler.Ast.Impl
 {
     [DebuggerDisplay("remove index {Name} ({Location})")]
-    internal class RemoveIndexNode : IndexNodeBase, IRemoveIndexNode
+    public class RemoveIndexNode : IndexNodeBase, IRemoveIndexNode
     {
         private string table;
 

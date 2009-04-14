@@ -26,7 +26,7 @@ using System.Diagnostics;
 namespace octalforty.Wizardby.Core.Compiler.Ast.Impl
 {
     [DebuggerDisplay("remove column {Name}")]
-    internal class RemoveColumnNode : ColumnNodeBase, IRemoveColumnNode
+    public class RemoveColumnNode : ColumnNodeBase, IRemoveColumnNode
     {
         public RemoveColumnNode(IAstNode parent, string name) : base(parent, name)
         {

@@ -84,6 +84,7 @@ namespace octalforty.Wizardby.Console
                 });
             serviceProvider.RegisterService(new DeploymentService());
             serviceProvider.RegisterService(new ReverseEngineeringService());
+            serviceProvider.RegisterService(new UtcDateTimeTimestampProvider());
             
             //
             // Prepare Migration Command Registry...

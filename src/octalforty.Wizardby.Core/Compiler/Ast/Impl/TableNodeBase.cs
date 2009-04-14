@@ -23,7 +23,7 @@
 #endregion
 namespace octalforty.Wizardby.Core.Compiler.Ast.Impl
 {
-    internal abstract class TableNodeBase : AstNode, ITableNode
+    public abstract class TableNodeBase : AstNode, ITableNode
     {
         private string name;
 

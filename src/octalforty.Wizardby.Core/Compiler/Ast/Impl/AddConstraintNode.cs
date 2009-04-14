@@ -3,7 +3,7 @@ using System.Diagnostics;
 namespace octalforty.Wizardby.Core.Compiler.Ast.Impl
 {
     [DebuggerDisplay("add constraint {Name}")]
-    internal class AddConstraintNode : AstNode, IAddConstraintNode
+    public class AddConstraintNode : AstNode, IAddConstraintNode
     {
         #region Private Fields
         private string name;

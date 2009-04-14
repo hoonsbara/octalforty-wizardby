@@ -29,7 +29,7 @@ namespace octalforty.Wizardby.Core.Compiler.Ast.Impl
     /// Represents an AST Node Property.
     /// </summary>
     [DebuggerDisplay("Name = {Name}, Value = {Value}")]
-    internal class AstNodeProperty : IAstNodeProperty
+    public class AstNodeProperty : IAstNodeProperty
     {
         #region Private Fields
         private readonly string name;

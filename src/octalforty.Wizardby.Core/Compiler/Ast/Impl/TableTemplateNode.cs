@@ -26,7 +26,7 @@ using System.Diagnostics;
 namespace octalforty.Wizardby.Core.Compiler.Ast.Impl
 {
     [DebuggerDisplay("table template {Name}")]
-    internal class TableTemplateNode : AstNode, ITableTemplateNode
+    public class TableTemplateNode : AstNode, ITableTemplateNode
     {
         private readonly string name;
 

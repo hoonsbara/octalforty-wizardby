@@ -26,7 +26,7 @@ using System.Diagnostics;
 namespace octalforty.Wizardby.Core.Compiler.Ast.Impl
 {
     [DebuggerDisplay("alter column {Name} ({Location})")]
-    internal class AlterColumnNode : ColumnNodeBase, IAlterColumnNode
+    public class AlterColumnNode : ColumnNodeBase, IAlterColumnNode
     {
         public AlterColumnNode(IAstNode parent, string name) : base(parent, name)
         {

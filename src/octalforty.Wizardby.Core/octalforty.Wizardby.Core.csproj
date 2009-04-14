@@ -33,6 +33,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Compiler\Ast\AstBuilder.cs" />
     <Compile Include="Compiler\Ast\Impl\AddConstraintNode.cs" />
     <Compile Include="Compiler\Ast\AstUtil.cs" />
     <Compile Include="Compiler\Ast\AstVisitorBase.cs">
@@ -399,6 +400,7 @@
     <Compile Include="SemanticModel\SchemaElementDefinitionBase.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="SemanticModel\SemanticModelUtil.cs" />
     <Compile Include="SemanticModel\SortDirection.cs" />
     <Compile Include="SemanticModel\TableDefinition.cs" />
     <Compile Include="Util\Algorithms.cs">

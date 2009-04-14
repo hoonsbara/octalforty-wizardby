@@ -26,7 +26,7 @@ using System.Diagnostics;
 namespace octalforty.Wizardby.Core.Compiler.Ast.Impl
 {
     [DebuggerDisplay("migration {Name}")]
-    internal class MigrationNode : AstNode, IMigrationNode
+    public class MigrationNode : AstNode, IMigrationNode
     {
         private readonly string name;
 

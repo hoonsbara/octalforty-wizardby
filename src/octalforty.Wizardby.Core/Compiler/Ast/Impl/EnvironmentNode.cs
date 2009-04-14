@@ -26,7 +26,7 @@ using System.Diagnostics;
 namespace octalforty.Wizardby.Core.Compiler.Ast.Impl
 {
     [DebuggerDisplay("environment {Name}")]
-    internal class EnvironmentNode : AstNode, IEnvironmentNode
+    public class EnvironmentNode : AstNode, IEnvironmentNode
     {
         private readonly string name;
 

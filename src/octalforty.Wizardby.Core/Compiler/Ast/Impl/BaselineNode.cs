@@ -26,7 +26,7 @@ using System.Diagnostics;
 namespace octalforty.Wizardby.Core.Compiler.Ast.Impl
 {
     [DebuggerDisplay("baseline")]
-    internal class BaselineNode : AstNode, IBaselineNode
+    public class BaselineNode : AstNode, IBaselineNode
     {
         public BaselineNode(IAstNode parent) : 
             base(parent)

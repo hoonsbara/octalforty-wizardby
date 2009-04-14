@@ -43,7 +43,7 @@ namespace octalforty.Wizardby.Core.ReverseEngineering.Impl
                 foreach(IColumnDefinition column in table.Columns)
                 {
                     IAddColumnNode addColumnNode = new AddColumnNode(addTableNode, column.Name);
-                    AstUtil.Copy(column, addColumnNode);
+                    SemanticModelUtil.Copy(column, addColumnNode);
                     AstUtil.CopyToProperties(addColumnNode);
 
                     addTableNode.ChildNodes.Add(addColumnNode);

@@ -26,7 +26,7 @@ using System.Diagnostics;
 namespace octalforty.Wizardby.Core.Compiler.Ast.Impl
 {
     [DebuggerDisplay("type-alias {Name}")]
-    internal class TypeAliasNode : AstNode, ITypeAliasNode
+    public class TypeAliasNode : AstNode, ITypeAliasNode
     {
         private readonly string name;
 

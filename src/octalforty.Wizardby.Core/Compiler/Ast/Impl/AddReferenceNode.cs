@@ -27,7 +27,7 @@ using System.Diagnostics;
 namespace octalforty.Wizardby.Core.Compiler.Ast.Impl
 {
     [DebuggerDisplay("add reference {Name} ({FkTable} to {PkTable}) ({Location})")]
-    internal class AddReferenceNode : AstNode, IAddReferenceNode
+    public class AddReferenceNode : AstNode, IAddReferenceNode
     {
         #region Private Fields
         private string name;

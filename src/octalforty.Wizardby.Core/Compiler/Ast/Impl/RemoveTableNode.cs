@@ -26,7 +26,7 @@ using System.Diagnostics;
 namespace octalforty.Wizardby.Core.Compiler.Ast.Impl
 {
     [DebuggerDisplay("remove table {Name}")]
-    internal class RemoveTableNode : TableNodeBase, IRemoveTableNode
+    public class RemoveTableNode : TableNodeBase, IRemoveTableNode
     {
         /// <summary>
         /// 

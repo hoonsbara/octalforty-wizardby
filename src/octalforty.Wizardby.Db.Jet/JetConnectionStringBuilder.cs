@@ -21,6 +21,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
+using System.IO;
+
 using octalforty.Wizardby.Core.Db;
 
 namespace octalforty.Wizardby.Db.Jet
@@ -34,12 +36,19 @@ namespace octalforty.Wizardby.Db.Jet
         /// <param name="value"></param>
         public override void AppendKeyValuePair(string key, string value)
         {
-            switch(key.ToLower())
+            //
+            // If we have a "database" key, append ".mdb" extension to "value" 
+            // if it's not already there.
+            if(key.ToLowerInvariant() == "database")
             {
-                case "database":
-                    base.AppendKeyValuePair("data source", value);
-                    break;
-            } // switch
+                if(Path.GetExtension(value).ToLowerInvariant() != ".mdb")
+                {
+                    base.AppendKeyValuePair(key, value + ".mdb");
+                    return;
+                } // if
+            } // if
+
+            base.AppendKeyValuePair(key, value);
         }
 
         /// <summary>

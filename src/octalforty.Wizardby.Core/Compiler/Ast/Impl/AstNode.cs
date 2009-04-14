@@ -28,7 +28,7 @@ namespace octalforty.Wizardby.Core.Compiler.Ast.Impl
     /// <summary>
     /// Provides an abstract base class implementing <see cref="IAstNode"/>.
     /// </summary>
-    internal abstract class AstNode : IAstNode
+    public abstract class AstNode : IAstNode
     {
         #region Private Fields
         private IAstNode parent;

@@ -55,6 +55,18 @@ namespace octalforty.Wizardby.Core.SemanticModel
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="IndexDefinition"/> class.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="columns"></param>
+        public IndexDefinition(string name, params IIndexColumnDefinition[] columns) : 
+            base(name)
+        {
+            foreach(IIndexColumnDefinition column in columns)
+                this.columns.Add(column);
+        }
+
         #region IIndexDefinition Members
         /// <summary>
         /// Get or sets a string which contains the name of the table of index.

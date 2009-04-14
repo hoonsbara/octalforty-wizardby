@@ -31,7 +31,7 @@ namespace octalforty.Wizardby.Core.Compiler.Ast.Impl
     /// Represents an AST Node Property Collection.
     /// </summary>
     [DebuggerDisplay("Count = {Count}")]
-    internal class AstNodePropertyCollection : IAstNodePropertyCollection
+    public class AstNodePropertyCollection : IAstNodePropertyCollection
     {
         #region Private Fields
         private readonly IDictionary<string, IAstNodeProperty> properties = new Dictionary<string, IAstNodeProperty>();

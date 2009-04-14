@@ -21,11 +21,21 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 namespace octalforty.Wizardby.Core.Migration.Impl
 {
     public class MigrationScriptCollection : Collection<MigrationScript>
     {
+        public MigrationScriptCollection()
+        {
+        }
+
+        public MigrationScriptCollection(IEnumerable<MigrationScript> values)
+        {
+            foreach(MigrationScript migrationScript in values)
+                Add(migrationScript);
+        }
     }
 }

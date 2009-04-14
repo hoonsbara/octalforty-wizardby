@@ -26,7 +26,7 @@ using System.Diagnostics;
 namespace octalforty.Wizardby.Core.Compiler.Ast.Impl
 {
     [DebuggerDisplay("add table {Name} ({Location})")]
-    internal class AddTableNode : TableNodeBase, IAddTableNode
+    public class AddTableNode : TableNodeBase, IAddTableNode
     {
 
         /// <summary>

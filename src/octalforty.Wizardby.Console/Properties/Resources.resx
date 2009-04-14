@@ -156,7 +156,7 @@ Copyright (c) 2009 octalforty studios</value>
     defaults:
         default-primary-key ID type =&gt; Int32, primary-key =&gt; true, nullable =&gt; false
 
-    version {1:yyyyMMddHHmmss}:
+    version {1}:
         /* Start writing migrations */</value>
   </data>
   <data name="MigrationDefinitionInformation" xml:space="preserve">

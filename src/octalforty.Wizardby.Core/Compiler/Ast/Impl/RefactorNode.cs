@@ -26,7 +26,7 @@ using System.Diagnostics;
 namespace octalforty.Wizardby.Core.Compiler.Ast.Impl
 {
     [DebuggerDisplay("refactor {Name}")]
-    internal class RefactorNode : AstNode, IRefactorNode
+    public class RefactorNode : AstNode, IRefactorNode
     {
         private string name;
 

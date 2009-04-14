@@ -26,7 +26,7 @@ using System.Diagnostics;
 namespace octalforty.Wizardby.Core.Compiler.Ast.Impl
 {
     [DebuggerDisplay("alter table {Name}")]
-    internal class AlterTableNode : TableNodeBase, IAlterTableNode
+    public class AlterTableNode : TableNodeBase, IAlterTableNode
     {
         public AlterTableNode(IAstNode parent, string name) : 
             base(parent, name)

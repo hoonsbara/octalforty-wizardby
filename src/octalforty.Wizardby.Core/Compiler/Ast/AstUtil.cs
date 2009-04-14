@@ -31,7 +31,7 @@ namespace octalforty.Wizardby.Core.Compiler.Ast
         public static IAddColumnNode Clone(IAddColumnNode addColumnNode)
         {
             IAddColumnNode node = new AddColumnNode(addColumnNode.Parent, addColumnNode.Name);
-            Copy(addColumnNode, node);
+            SemanticModelUtil.Copy(addColumnNode, node);
 
             foreach(IAstNodeProperty property in addColumnNode.Properties)
                 node.Properties.AddProperty(new AstNodeProperty(property.Name, property.Value));
@@ -46,21 +46,7 @@ namespace octalforty.Wizardby.Core.Compiler.Ast
 
             return null;
         }
-
-        public static void Copy(IColumnDefinition sourceColumn, IColumnDefinition targetColumn)
-        {
-            targetColumn.Default = sourceColumn.Default;
-            targetColumn.Identity = sourceColumn.Identity;
-            targetColumn.Length = sourceColumn.Length;
-            targetColumn.Name = sourceColumn.Name;
-            targetColumn.Nullable = sourceColumn.Nullable;
-            targetColumn.Precision = sourceColumn.Precision;
-            targetColumn.PrimaryKey = sourceColumn.PrimaryKey;
-            targetColumn.Scale = sourceColumn.Scale;
-            targetColumn.Type = sourceColumn.Type;
-            targetColumn.Table = sourceColumn.Table;
-        }
-
+        
         public static void CopyToProperties(IColumnNode columnNode)
         {
             if(!string.IsNullOrEmpty(columnNode.Default))

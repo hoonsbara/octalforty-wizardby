@@ -26,7 +26,7 @@ using System.Diagnostics;
 namespace octalforty.Wizardby.Core.Compiler.Ast.Impl
 {
     [DebuggerDisplay("deployment")]
-    internal class DeploymentNode : AstNode, IDeploymentNode
+    public class DeploymentNode : AstNode, IDeploymentNode
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DeploymentNode"/> class.

@@ -26,7 +26,7 @@ using System.Diagnostics;
 namespace octalforty.Wizardby.Core.Compiler.Ast.Impl
 {
     [DebuggerDisplay("default-primary-key {Name}")]
-    internal class DefaultPrimaryKeyNode : AstNode, IDefaultPrimaryKeyNode
+    public class DefaultPrimaryKeyNode : AstNode, IDefaultPrimaryKeyNode
     {
         private readonly string name;
 

@@ -23,7 +23,7 @@
 #endregion
 namespace octalforty.Wizardby.Core.Compiler.Ast.Impl
 {
-    internal class DowngradeNode : AstNode, IDowngradeNode
+    public class DowngradeNode : AstNode, IDowngradeNode
     {
         public DowngradeNode(IAstNode parent) : 
             base(parent)

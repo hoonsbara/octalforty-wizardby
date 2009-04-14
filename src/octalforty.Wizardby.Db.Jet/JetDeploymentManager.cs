@@ -22,6 +22,7 @@
 // THE SOFTWARE.
 #endregion
 using System;
+using System.Runtime.InteropServices;
 
 using ADOX;
 
@@ -33,14 +34,20 @@ namespace octalforty.Wizardby.Db.Jet
     {
         public void Deploy(string connectionString)
         {
-            CatalogClass catalog = new CatalogClass();
-            string adoxConnectionString = connectionString + "Jet OLEDB;Engine Type=5";
+            Catalog catalog = (Catalog)new CatalogClass();
 
-            Console.WriteLine(adoxConnectionString);
+            try
+            {
+                string adoxConnectionString = connectionString + "Jet OLEDB;Engine Type=5";
+                Console.WriteLine(adoxConnectionString);
 
-            catalog.Create(adoxConnectionString);
+                catalog.Create(adoxConnectionString);
+            } // try
 
-            catalog = null;
+            finally
+            {
+                Marshal.ReleaseComObject(catalog);
+            }
         }
     }
 }

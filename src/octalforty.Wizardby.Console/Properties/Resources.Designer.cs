@@ -165,7 +165,7 @@ namespace octalforty.Wizardby.Console.Properties {
         ///    defaults:
         ///        default-primary-key ID type =&gt; Int32, primary-key =&gt; true, nullable =&gt; false
         ///
-        ///    version {1:yyyyMMddHHmmss}:
+        ///    version {1}:
         ///        /* Start writing migrations */.
         /// </summary>
         internal static string MdlTemplate {

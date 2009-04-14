@@ -26,7 +26,7 @@ using System.Diagnostics;
 namespace octalforty.Wizardby.Core.Compiler.Ast.Impl
 {
     [DebuggerDisplay("type-aliases")]
-    internal class TypeAliasesNode : AstNode, ITypeAliasesNode
+    public class TypeAliasesNode : AstNode, ITypeAliasesNode
     {
         public TypeAliasesNode(IAstNode parent) : 
             base(parent)

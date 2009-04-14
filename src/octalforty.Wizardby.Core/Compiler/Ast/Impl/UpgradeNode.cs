@@ -26,7 +26,7 @@ using System.Diagnostics;
 namespace octalforty.Wizardby.Core.Compiler.Ast.Impl
 {
     [DebuggerDisplay("upgrade")]
-    internal class UpgradeNode : AstNode, IUpgradeNode
+    public class UpgradeNode : AstNode, IUpgradeNode
     {
         public UpgradeNode(IAstNode parent) : 
             base(parent)

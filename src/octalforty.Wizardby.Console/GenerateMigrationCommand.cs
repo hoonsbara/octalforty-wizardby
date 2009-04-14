@@ -52,7 +52,8 @@ namespace octalforty.Wizardby.Console
             if (string.IsNullOrEmpty(Path.GetExtension(parameters.MdlFileName)))
                 parameters.MdlFileName = parameters.MdlFileName + ".mdl";
 
-            DateTime timestamp = DateTime.Now;
+
+            long timestamp = ServiceProvider.GetService<ITimestampProvider>().GetTimestamp();
             System.Console.WriteLine();
 
             if(!File.Exists(parameters.MdlFileName))
@@ -74,7 +75,7 @@ namespace octalforty.Wizardby.Console
             else
             {
                 using(StreamWriter streamWriter = new StreamWriter(parameters.MdlFileName, true))
-                    streamWriter.Write("{0}{0}    version {1:yyyyMMddHHmmss}:", System.Environment.NewLine, timestamp);
+                    streamWriter.Write("{0}{0}    version {1}:", Environment.NewLine, timestamp);
 
                 using(new ConsoleStylingScope(ConsoleColor.Green))
                     System.Console.WriteLine(Resources.GeneratedVersion, timestamp);

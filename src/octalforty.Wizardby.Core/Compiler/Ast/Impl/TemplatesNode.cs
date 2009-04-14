@@ -26,7 +26,7 @@ using System.Diagnostics;
 namespace octalforty.Wizardby.Core.Compiler.Ast.Impl
 {
     [DebuggerDisplay("templates")]
-    internal class TemplatesNode : AstNode, ITemplatesNode
+    public class TemplatesNode : AstNode, ITemplatesNode
     {
         public TemplatesNode(IAstNode parent) : 
             base(parent)

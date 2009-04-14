@@ -47,6 +47,9 @@
     <Compile Include="Console\MigrationCommandRegistryTestFixture.cs" />
     <Compile Include="Console\MigrationParametersParserTestFixture.cs" />
     <Compile Include="Console\ServiceProviderTestFixture.cs" />
+    <Compile Include="Console\UtcDateTimeTimestampProviderTestFixture.cs" />
+    <Compile Include="Core\Compiler\Ast\AstBuilderTestFixture.cs" />
+    <Compile Include="Core\Compiler\Ast\AstUtilTestFixture.cs" />
     <Compile Include="Core\Compiler\EnvironmentTestFixture.cs" />
     <Compile Include="Core\Compiler\Impl\AstFlattenerCompilerStageTestFixture.cs" />
     <Compile Include="Core\Compiler\Impl\AstTestFixtureBase.cs" />
@@ -71,6 +74,7 @@
     <Compile Include="Core\Migration\Impl\MigrationServiceTestFixture.cs" />
     <Compile Include="Core\Migration\Impl\MigrationVersionInfoManager.cs" />
     <Compile Include="Core\SemanticModel\SchemaDefinitionTestFixture.cs" />
+    <Compile Include="Core\SemanticModel\SemanticModelUtilTestFixture.cs" />
     <Compile Include="Core\SemanticModel\TableDefinitionTestFixture.cs" />
     <Compile Include="Db\Jet\JetTransformerTestFixture.cs" />
     <Compile Include="Db\SqlCe\SqlCeConnectionStringBuilderTestFixture.cs" />

@@ -26,7 +26,7 @@ using System.Diagnostics;
 namespace octalforty.Wizardby.Core.Compiler.Ast.Impl
 {
     [DebuggerDisplay("version {Number}")]
-    internal class VersionNode : AstNode, IVersionNode
+    public class VersionNode : AstNode, IVersionNode
     {
         #region Private Fields
         private readonly long number;

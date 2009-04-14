@@ -25,7 +25,7 @@ using System.Data;
 
 namespace octalforty.Wizardby.Core.Compiler.Ast.Impl
 {
-    internal abstract class ColumnNodeBase : AstNode, IColumnNode
+    public abstract class ColumnNodeBase : AstNode, IColumnNode
     {
         private DbType? type;
         private bool? nullable;

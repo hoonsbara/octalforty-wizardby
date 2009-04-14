@@ -26,7 +26,7 @@ using System.Diagnostics;
 namespace octalforty.Wizardby.Core.Compiler.Ast.Impl
 {
     [DebuggerDisplay("remove reference {Name}")]
-    internal class RemoveReferenceNode : ReferenceNode, IRemoveReferenceNode
+    public class RemoveReferenceNode : ReferenceNode, IRemoveReferenceNode
     {
         private string table;
 

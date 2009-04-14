@@ -222,7 +222,13 @@ namespace octalforty.Wizardby.Core.Migration.Impl
 
             mdlCompiler.Compile(migrationDefinition, MdlCompilationOptions.All);
 
-            return migrationScriptsCodeGenerator.MigrationScripts;
+            //
+            // Sort migrations in descending order
+            List<MigrationScript> sortedScripts = new List<MigrationScript>(migrationScriptsCodeGenerator.MigrationScripts);
+            sortedScripts.Sort(delegate(MigrationScript x, MigrationScript y)
+                { return x.MigrationVersion.CompareTo(y.MigrationVersion); });
+
+            return new MigrationScriptCollection(sortedScripts);
         }
 
         private static MigrationMode GetMigrationMode(long? currentVersion, long? targetVersion)
