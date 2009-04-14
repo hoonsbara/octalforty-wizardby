@@ -31,19 +31,19 @@ namespace octalforty.Wizardby.Core.Compiler
 {
     public class SchemaDefinitionBuilderVisitor : AstVisitorBase
     {
-        private SchemaDefinition schemaDefinition;
+        private Schema schema;
 
-        public SchemaDefinition SchemaDefinition
+        public Schema Schema
         {
             [DebuggerStepThrough]
-            get { return schemaDefinition; }
+            get { return schema; }
             [DebuggerStepThrough]
-            set { schemaDefinition = value; }
+            set { schema = value; }
         }
 
-        public SchemaDefinitionBuilderVisitor(SchemaDefinition schemaDefinition)
+        public SchemaDefinitionBuilderVisitor(Schema schema)
         {
-            this.schemaDefinition = schemaDefinition;
+            this.schema = schema;
         }
 
         #region AstVisitorBase Members
@@ -54,7 +54,7 @@ namespace octalforty.Wizardby.Core.Compiler
         public override void Visit(IAddTableNode addTableNode)
         {
             TableDefinition tableDefinition = new TableDefinition(addTableNode.Name);
-            schemaDefinition.AddTable(tableDefinition);
+            schema.AddTable(tableDefinition);
 
             Visit(addTableNode.ChildNodes);
         }
@@ -65,7 +65,7 @@ namespace octalforty.Wizardby.Core.Compiler
         /// <param name="addColumnNode"></param>
         public override void Visit(IAddColumnNode addColumnNode)
         {
-            ITableDefinition table = schemaDefinition.GetTable(((ITableNode)addColumnNode.Parent).Name);
+            ITableDefinition table = schema.GetTable(((ITableNode)addColumnNode.Parent).Name);
             table.AddColumn(new ColumnDefinition(addColumnNode.Name, table.Name, addColumnNode.Type, addColumnNode.Nullable, 
                 addColumnNode.Length, addColumnNode.Scale, addColumnNode.Precision, addColumnNode.PrimaryKey, addColumnNode.Identity));
         }
@@ -76,7 +76,7 @@ namespace octalforty.Wizardby.Core.Compiler
         /// <param name="addIndexNode"></param>
         public override void Visit(IAddIndexNode addIndexNode)
         {
-            ITableDefinition table = schemaDefinition.GetTable(addIndexNode.Table);
+            ITableDefinition table = schema.GetTable(addIndexNode.Table);
             table.AddIndex(addIndexNode);
         }
 
@@ -86,7 +86,7 @@ namespace octalforty.Wizardby.Core.Compiler
         /// <param name="addReferenceNode"></param>
         public override void Visit(IAddReferenceNode addReferenceNode)
         {
-            ITableDefinition table = schemaDefinition.GetTable(addReferenceNode.FkTable);
+            ITableDefinition table = schema.GetTable(addReferenceNode.FkTable);
 
             ReferenceDefinition reference = 
                 new ReferenceDefinition(addReferenceNode.Name, addReferenceNode.PkTable, addReferenceNode.FkTable);

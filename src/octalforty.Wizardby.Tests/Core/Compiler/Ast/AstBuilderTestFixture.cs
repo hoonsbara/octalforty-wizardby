@@ -38,14 +38,14 @@ namespace octalforty.Wizardby.Tests.Core.Compiler.Ast
     public class AstBuilderTestFixture : AstTestFixtureBase
     {
         #region Private Fields
-        private SchemaDefinition schemaDefinition;
+        private Schema schema;
         private IndexDefinition uqNameIndex;
         #endregion
 
         [TestFixtureSetUp()]
         public void TestFixtureSetUp()
         {
-            schemaDefinition = new SchemaDefinition();
+            schema = new Schema();
 
             TableDefinition barTable = new TableDefinition("Bar");
             barTable.AddColumn(new ColumnDefinition("ID", "Bar", DbType.Int32, false, null, null, null, true, false));
@@ -61,20 +61,20 @@ namespace octalforty.Wizardby.Tests.Core.Compiler.Ast
             fkBarReference.PkColumns.Add("ID");
             fkBarReference.FkColumns.Add("ParentID");
 
-            schemaDefinition.AddTable(barTable);
+            schema.AddTable(barTable);
         }
 
         [Test()]
         public void BuildAst()
         {
             AstBuilder astBuilder = new AstBuilder();
-            IAstNode astNode = astBuilder.BuildAst(schemaDefinition, new BaselineNode(null));
+            IAstNode astNode = astBuilder.BuildAst(schema, new BaselineNode(null));
 
             Assert.IsInstanceOfType(typeof(IBaselineNode), astNode);
             AssertAddTable(astNode.ChildNodes[0], "Bar",
-                schemaDefinition.Tables[0].Columns[0],
-                schemaDefinition.Tables[0].Columns[1],
-                schemaDefinition.Tables[0].Columns[2]);
+                schema.Tables[0].Columns[0],
+                schema.Tables[0].Columns[1],
+                schema.Tables[0].Columns[2]);
 
             AssertAddIndex(astNode.ChildNodes[1], uqNameIndex.Name, uqNameIndex.Clustered, uqNameIndex.Unique, 
                 new List<IIndexColumnDefinition>(uqNameIndex.Columns).ToArray());

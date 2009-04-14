@@ -40,9 +40,9 @@ namespace octalforty.Wizardby.Db.SqlServer
         {
         }
 
-        public SchemaDefinition GetSchemaDefinition(string connectionString)
+        public Schema GetSchema(string connectionString)
         {
-            SchemaDefinition schemaDefinition = new SchemaDefinition();
+            Schema schema = new Schema();
 
             //
             // Retrieving a list of tables & their columns.
@@ -54,8 +54,8 @@ order by t.table_name, c.ordinal_position",
                     {
                         string tableName = string.Format("{0}.{1}", As<string>(dr, "table_schema"), As<string>(dr, "table_name")); 
 
-                        if(schemaDefinition.GetTable(tableName) == null)
-                            schemaDefinition.AddTable(new TableDefinition(tableName));
+                        if(schema.GetTable(tableName) == null)
+                            schema.AddTable(new TableDefinition(tableName));
 
                         IColumnDefinition columnDefinition = new ColumnDefinition((string)dr["column_name"]);
                         columnDefinition.Default = As<string>(dr, "column_default");
@@ -71,10 +71,10 @@ order by t.table_name, c.ordinal_position",
                         columnDefinition.Scale = As<int?>(dr, "numeric_scale");
                         columnDefinition.Type = Platform.TypeMapper.MapToDbType(As<string>(dr, "data_type"), columnDefinition.Length);
 
-                        schemaDefinition.GetTable(tableName).AddColumn(columnDefinition);
+                        schema.GetTable(tableName).AddColumn(columnDefinition);
                     });
 
-            return schemaDefinition;
+            return schema;
             
         }
 

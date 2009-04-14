@@ -74,9 +74,9 @@ namespace octalforty.Wizardby.Tests.Db.SqlServer
         }
 
         [Test()]
-        public void GetSchemaDefinition()
+        public void GetSchema()
         {
-            SchemaDefinition schema = dbPlatform.SchemaProvider.GetSchemaDefinition(connectionString);
+            Schema schema = dbPlatform.SchemaProvider.GetSchema(connectionString);
 
             Assert.AreEqual(9, schema.Tables.Count);
         }

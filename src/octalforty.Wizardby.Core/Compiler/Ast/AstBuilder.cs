@@ -27,20 +27,20 @@ using octalforty.Wizardby.Core.SemanticModel;
 namespace octalforty.Wizardby.Core.Compiler.Ast
 {
     /// <summary>
-    /// Builds an Abstract Syntax Tree which reflects a <see cref="SchemaDefinition"/>.
+    /// Builds an Abstract Syntax Tree which reflects a <see cref="Schema"/>.
     /// </summary>
     public class AstBuilder
     {
         /// <summary>
-        /// Builds an AST tree for <paramref name="schemaDefinition"/> and uses <paramref name="parent"/>
+        /// Builds an AST tree for <paramref name="schema"/> and uses <paramref name="parent"/>
         /// as a parent for the AST.
         /// </summary>
-        /// <param name="schemaDefinition"></param>
+        /// <param name="schema"></param>
         /// <param name="parent"></param>
         /// <returns></returns>
-        public IAstNode BuildAst(SchemaDefinition schemaDefinition, IAstNode parent)
+        public IAstNode BuildAst(Schema schema, IAstNode parent)
         {
-            foreach(ITableDefinition table in schemaDefinition.Tables)
+            foreach(ITableDefinition table in schema.Tables)
             {
                 BuildAddTableNode(table, parent);
 

@@ -26,7 +26,7 @@ using System.Collections.Generic;
 
 namespace octalforty.Wizardby.Core.SemanticModel
 {
-    public class SchemaDefinition
+    public class Schema
     {
         private readonly List<ITableDefinition> tables = new List<ITableDefinition>();
 

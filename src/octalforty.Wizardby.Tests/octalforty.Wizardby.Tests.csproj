@@ -74,7 +74,7 @@
     <Compile Include="Core\Migration\Impl\MigrationServiceTestFixture.cs" />
     <Compile Include="Core\Migration\Impl\MigrationVersionInfoManager.cs" />
     <Compile Include="Core\ReverseEngineering\Impl\ReverseEngineeringServiceTestFixture.cs" />
-    <Compile Include="Core\SemanticModel\SchemaDefinitionTestFixture.cs" />
+    <Compile Include="Core\SemanticModel\SchemaTestFixture.cs" />
     <Compile Include="Core\SemanticModel\SemanticModelUtilTestFixture.cs" />
     <Compile Include="Core\SemanticModel\TableDefinitionTestFixture.cs" />
     <Compile Include="Db\Jet\JetTransformerTestFixture.cs" />

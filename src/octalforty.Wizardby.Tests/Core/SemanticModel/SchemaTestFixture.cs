@@ -28,12 +28,12 @@ using octalforty.Wizardby.Core.SemanticModel;
 namespace octalforty.Wizardby.Tests.Core.SemanticModel
 {
     [TestFixture()]
-    public class SchemaDefinitionTestFixture
+    public class SchemaTestFixture
     {
         [Test()]
         public void AddTable()
         {
-            SchemaDefinition schema = new SchemaDefinition();
+            Schema schema = new Schema();
             TableDefinition table = new TableDefinition();
 
             schema.AddTable(table);
@@ -44,7 +44,7 @@ namespace octalforty.Wizardby.Tests.Core.SemanticModel
         [Test()]
         public void GetTable()
         {
-            SchemaDefinition schema = new SchemaDefinition();
+            Schema schema = new Schema();
             schema.AddTable(new TableDefinition("Foo"));
             schema.AddTable(new TableDefinition("baR"));
 

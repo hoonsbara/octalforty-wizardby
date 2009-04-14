@@ -393,9 +393,7 @@
     <Compile Include="SemanticModel\ReferenceDefinition.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="SemanticModel\SchemaDefinition.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="SemanticModel\Schema.cs" />
     <Compile Include="SemanticModel\SchemaElementCollection.cs" />
     <Compile Include="SemanticModel\SchemaElementDefinitionBase.cs">
       <SubType>Code</SubType>

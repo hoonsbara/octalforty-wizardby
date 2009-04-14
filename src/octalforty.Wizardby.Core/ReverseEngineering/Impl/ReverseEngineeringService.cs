@@ -32,7 +32,7 @@ namespace octalforty.Wizardby.Core.ReverseEngineering.Impl
     {
         public IAstNode ReverseEngineer(IDbPlatform dbPlatform, string connectionString)
         {
-            SchemaDefinition schema = dbPlatform.SchemaProvider.GetSchemaDefinition(connectionString);
+            Schema schema = dbPlatform.SchemaProvider.GetSchema(connectionString);
 
             IBaselineNode baselineNode = new BaselineNode(null);
 

@@ -27,6 +27,6 @@ namespace octalforty.Wizardby.Core.Db
 {
     public interface IDbSchemaProvider : IDbPlatformDependency
     {
-        SchemaDefinition GetSchemaDefinition(string connectionString);
+        Schema GetSchema(string connectionString);
     }
 }

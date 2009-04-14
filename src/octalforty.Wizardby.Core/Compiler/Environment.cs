@@ -34,10 +34,10 @@ namespace octalforty.Wizardby.Core.Compiler
         #endregion
 
         #region Private Fields
-        private readonly SchemaDefinition schema = new SchemaDefinition();
+        private readonly Schema schema = new Schema();
         #endregion
 
-        public SchemaDefinition Schema
+        public Schema Schema
         {
             get { return schema; }
         }
