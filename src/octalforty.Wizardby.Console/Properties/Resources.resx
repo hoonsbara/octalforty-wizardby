@@ -149,7 +149,7 @@ Copyright (c) 2009 octalforty studios</value>
     <value>Generated '{0}'.</value>
   </data>
   <data name="GeneratedVersion" xml:space="preserve">
-    <value>Generated version {0:yyyyMMddHHmmss}.</value>
+    <value>Generated version {0}.</value>
   </data>
   <data name="MdlTemplate" xml:space="preserve">
     <value>migration "{0}" revision =&gt; 1:

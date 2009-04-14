@@ -152,7 +152,7 @@ namespace octalforty.Wizardby.Console.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Generated version {0:yyyyMMddHHmmss}..
+        ///   Looks up a localized string similar to Generated version {0}..
         /// </summary>
         internal static string GeneratedVersion {
             get {
