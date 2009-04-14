@@ -70,9 +70,7 @@ namespace octalforty.Wizardby.Tests.Console
         {
             MigrationParametersParser parametersParser = new MigrationParametersParser();
             MigrationParameters parameters = parametersParser.ParseMigrationParameters(new string[]
-                {
-                    "downgrade"
-                });
+                { "downgrade" });
 
             Assert.AreEqual(MigrationCommand.Downgrade, parameters.Command);
         }
@@ -82,9 +80,7 @@ namespace octalforty.Wizardby.Tests.Console
         {
             MigrationParametersParser parametersParser = new MigrationParametersParser();
             MigrationParameters parameters = parametersParser.ParseMigrationParameters(new string[]
-                {
-                    "d"
-                });
+                { "d" });
 
             Assert.AreEqual(MigrationCommand.Downgrade, parameters.Command);
         }
@@ -94,9 +90,7 @@ namespace octalforty.Wizardby.Tests.Console
         {
             MigrationParametersParser parametersParser = new MigrationParametersParser();
             MigrationParameters parameters = parametersParser.ParseMigrationParameters(new string[]
-                {
-                    "re"
-                });
+                { "red" });
 
             Assert.AreEqual(MigrationCommand.Redo, parameters.Command);
         }
@@ -107,9 +101,15 @@ namespace octalforty.Wizardby.Tests.Console
         {
             MigrationParametersParser parametersParser = new MigrationParametersParser();
             MigrationParameters parameters = parametersParser.ParseMigrationParameters(new string[]
-                {
-                    "foo"
-                });
+                { "foo" });
+        }
+
+        [Test()]
+        [ExpectedException(typeof(MigrationException), ExpectedMessage = "Abiguous command 'r'. Could be 'redo', 'rollback', 'reverseengineer'.")]
+        public void ParseAmbiguousCommand()
+        {
+            MigrationParametersParser parametersParser = new MigrationParametersParser();
+            MigrationParameters parameters = parametersParser.ParseMigrationParameters(new string[] { "r" });
         }
     }
 }
