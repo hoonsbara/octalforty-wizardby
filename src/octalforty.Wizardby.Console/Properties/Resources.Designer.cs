@@ -61,6 +61,15 @@ namespace octalforty.Wizardby.Console.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ambiguous command &apos;{0}&apos;. Could be &apos;{1}&apos;..
+        /// </summary>
+        internal static string AmbiguousCommand {
+            get {
+                return ResourceManager.GetString("AmbiguousCommand", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Connection string: {0}.
         /// </summary>
         internal static string ConnectionStringInformation {

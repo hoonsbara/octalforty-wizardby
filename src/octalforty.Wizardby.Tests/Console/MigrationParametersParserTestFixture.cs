@@ -80,7 +80,7 @@ namespace octalforty.Wizardby.Tests.Console
         {
             MigrationParametersParser parametersParser = new MigrationParametersParser();
             MigrationParameters parameters = parametersParser.ParseMigrationParameters(new string[]
-                { "d" });
+                { "do" });
 
             Assert.AreEqual(MigrationCommand.Downgrade, parameters.Command);
         }
@@ -105,7 +105,7 @@ namespace octalforty.Wizardby.Tests.Console
         }
 
         [Test()]
-        [ExpectedException(typeof(MigrationException), ExpectedMessage = "Abiguous command 'r'. Could be 'redo', 'rollback', 'reverseengineer'.")]
+        [ExpectedException(typeof(MigrationException), ExpectedMessage = "Ambiguous command 'r'. Could be 'redo', 'reverseengineer', 'rollback'.")]
         public void ParseAmbiguousCommand()
         {
             MigrationParametersParser parametersParser = new MigrationParametersParser();

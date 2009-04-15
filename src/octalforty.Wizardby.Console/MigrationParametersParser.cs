@@ -61,12 +61,20 @@ namespace octalforty.Wizardby.Console
 
         private static MigrationCommand ParseMigrationCommand(string command)
         {
-            string[] commandNames = Enum.GetNames(typeof(MigrationCommand));
-            foreach(string commandName in commandNames)
-                if(commandName.ToLower().StartsWith(command.ToLower()))
-                    return (MigrationCommand)Enum.Parse(typeof(MigrationCommand), commandName, true);
+            string[] matchingNames = Array.FindAll(Enum.GetNames(typeof(MigrationCommand)),
+                delegate(string s) 
+                { return s.ToLowerInvariant().StartsWith(command.ToLowerInvariant()); });
 
-            throw new MigrationException(string.Format(Resources.UnknownCommand, command));
+            if(matchingNames == null || matchingNames.Length == 0)
+                throw new MigrationException(string.Format(Resources.UnknownCommand, command));
+
+            Array.Sort(matchingNames);
+            if(matchingNames.Length > 1)
+                throw new MigrationException(string.Format(Resources.AmbiguousCommand, command.ToLowerInvariant(),
+                    string.Join("', '", Array.ConvertAll<string, string>(matchingNames, 
+                        delegate(string input) { return input.ToLowerInvariant(); }))));
+
+            return (MigrationCommand)Enum.Parse(typeof(MigrationCommand), matchingNames[0]);
         }
 
         private static void ParseMigrationParameter(MigrationParameters parameters, string argument)

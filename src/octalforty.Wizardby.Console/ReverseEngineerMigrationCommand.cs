@@ -58,7 +58,10 @@ namespace octalforty.Wizardby.Console
             MdlGenerator mdlGenerator = new MdlGenerator();
 
             using(FileStream fs = new FileStream("baseline.mdl", FileMode.Create))
+            {
                 mdlGenerator.Generate(astNode, new StreamWriter(fs, Encoding.UTF8));
+                fs.Flush();
+            } // using
         }
     }
 }
