@@ -22,6 +22,7 @@
 // THE SOFTWARE.
 #endregion
 using System.Configuration;
+using System.Data;
 using System.IO;
 using System.Reflection;
 using System.Text;
@@ -79,6 +80,16 @@ namespace octalforty.Wizardby.Tests.Db.SqlServer
             Schema schema = dbPlatform.SchemaProvider.GetSchema(connectionString);
 
             Assert.AreEqual(9, schema.Tables.Count);
+
+            ITableDefinition authorTable = schema.GetTable("dbo", "Author");
+         
+            IColumnDefinition primaryKeyColumn = authorTable.GetPrimaryKeyColumn();
+            
+            Assert.AreSame(authorTable.GetColumn("ID"), primaryKeyColumn);
+            Assert.AreEqual(DbType.Int32, primaryKeyColumn.Type.Value);
+            Assert.IsFalse(primaryKeyColumn.Nullable.Value);
+            Assert.IsTrue(primaryKeyColumn.PrimaryKey.Value);
+            Assert.IsTrue(primaryKeyColumn.Identity.Value);
         }
     }
 }

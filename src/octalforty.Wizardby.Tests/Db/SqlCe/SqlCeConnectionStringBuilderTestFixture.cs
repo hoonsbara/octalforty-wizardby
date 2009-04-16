@@ -56,12 +56,15 @@ namespace octalforty.Wizardby.Tests.Db.SqlCe
         [Test()]
         public void BuildConnectionString3()
         {
+            //
+            // Wikipedia says that ".sdf" extension is not mandatory and
+            // can be changed to anything
             IDbConnectionStringBuilder connectionStringBuilder =
                 new SqlCeConnectionStringBuilder();
 
-            connectionStringBuilder.AppendKeyValuePair("database", "d:\\db\\oxite.sdf");
+            connectionStringBuilder.AppendKeyValuePair("database", "d:\\db\\oxite.db");
 
-            Assert.AreEqual("data source=d:\\db\\oxite.sdf;", connectionStringBuilder.ToString());
+            Assert.AreEqual("data source=d:\\db\\oxite.db;", connectionStringBuilder.ToString());
         }
     }
 }

@@ -2,10 +2,10 @@
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Font Name="Tahoma" Size="8.25" />
   <Class Name="octalforty.Wizardby.Core.SemanticModel.ColumnDefinition">
-    <Position X="2.75" Y="7.75" Width="2.25" />
+    <Position X="3" Y="8.75" Width="2.25" />
     <TypeIdentifier>
       <FileName>SemanticModel\ColumnDefinition.cs</FileName>
-      <HashCode>AAAAAAAAAAAAgABAAMIAQABCAAABAAAAAUCQAABAkAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAgABAAMIAYABiAAABAAAAAUCQAABAkAA=</HashCode>
     </TypeIdentifier>
     <Compartments>
       <Compartment Name="Fields" Collapsed="true" />
@@ -13,10 +13,10 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="octalforty.Wizardby.Core.SemanticModel.TableDefinition">
-    <Position X="5.75" Y="7.75" Width="2.5" />
+    <Position X="6" Y="8.75" Width="2.5" />
     <TypeIdentifier>
       <FileName>SemanticModel\TableDefinition.cs</FileName>
-      <HashCode>AAAAQkABAABCAAQwAAAAAAAAAIAQAAAIGAABAAgAAAI=</HashCode>
+      <HashCode>AAAAQkABAAACABQwAAAAAAAAAIAQADAIGAARAAgAAAI=</HashCode>
     </TypeIdentifier>
     <Compartments>
       <Compartment Name="Fields" Collapsed="true" />
@@ -24,14 +24,14 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="octalforty.Wizardby.Core.SemanticModel.ConstraintDefinition">
-    <Position X="12" Y="7.75" Width="1.75" />
+    <Position X="12.25" Y="8.75" Width="1.75" />
     <TypeIdentifier>
       <FileName>SemanticModel\ConstraintDefinition.cs</FileName>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
     </TypeIdentifier>
   </Class>
   <Class Name="octalforty.Wizardby.Core.SemanticModel.IndexDefinition">
-    <Position X="9" Y="7.75" Width="2.25" />
+    <Position X="9.25" Y="8.75" Width="2.25" />
     <TypeIdentifier>
       <FileName>SemanticModel\IndexDefinition.cs</FileName>
       <HashCode>AAAAAAAAAAACAABAAgAAQAAAgAAAAIAACAAAAAgAAAA=</HashCode>
@@ -42,7 +42,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="octalforty.Wizardby.Core.SemanticModel.ReferenceDefinition">
-    <Position X="14.5" Y="7.75" Width="2.5" />
+    <Position X="14.75" Y="8.75" Width="2.5" />
     <TypeIdentifier>
       <FileName>SemanticModel\ReferenceDefinition.cs</FileName>
       <HashCode>AAAAAAAAAAAIAAAACAAAAAAAAAAAIAAAACAIIAAACCA=</HashCode>
@@ -52,18 +52,19 @@
     </Compartments>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="octalforty.Wizardby.Core.SemanticModel.SchemaDefinition" Collapsed="true">
-    <Position X="18" Y="0.5" Width="1.5" />
+  <Class Name="octalforty.Wizardby.Core.SemanticModel.SchemaDefinition">
+    <Position X="18" Y="8.75" Width="2.25" />
     <TypeIdentifier>
       <FileName>SemanticModel\SchemaDefinition.cs</FileName>
-      <HashCode>AEAAAAAAAAAAAABAAAAAQAAAAAQAACAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
     </TypeIdentifier>
     <Compartments>
       <Compartment Name="Fields" Collapsed="true" />
     </Compartments>
+    <Lollipop Position="0.2" />
   </Class>
   <Class Name="octalforty.Wizardby.Core.SemanticModel.SchemaElementDefinitionBase">
-    <Position X="8.5" Y="5.5" Width="3" />
+    <Position X="10" Y="6.5" Width="3" />
     <TypeIdentifier>
       <FileName>SemanticModel\SchemaElementDefinitionBase.cs</FileName>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAEAAAAAAAAAAAAAAA=</HashCode>
@@ -77,21 +78,21 @@
     <Position X="2.75" Y="2.25" Width="1.75" />
     <TypeIdentifier>
       <FileName>SemanticModel\IColumnDefinition.cs</FileName>
-      <HashCode>AAAAAAAAAAAAAAAAAIIAQABAAAAAAAAAAUAAAAAAkAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAIIAYABAAAAAAAAAAUAAAAAAkAA=</HashCode>
     </TypeIdentifier>
   </Interface>
   <Interface Name="octalforty.Wizardby.Core.SemanticModel.ISchemaElementDefinition">
-    <Position X="7.75" Y="0.5" Width="2" />
+    <Position X="9" Y="0.5" Width="2" />
     <TypeIdentifier>
       <FileName>SemanticModel\ISchemaElementDefinition.cs</FileName>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
     </TypeIdentifier>
   </Interface>
   <Interface Name="octalforty.Wizardby.Core.SemanticModel.ITableDefinition">
-    <Position X="13" Y="2.25" Width="1.75" />
+    <Position X="15.5" Y="2.25" Width="1.75" />
     <TypeIdentifier>
       <FileName>SemanticModel\ITableDefinition.cs</FileName>
-      <HashCode>AAAAQgAAAAACAAQAAAAAAAAAAAAQAAAAAAAAAAgAAAA=</HashCode>
+      <HashCode>AAAAQkAAAAACABQwAAAAAAAAAIAQADAIAAAAAAgAAAA=</HashCode>
     </TypeIdentifier>
   </Interface>
   <Interface Name="octalforty.Wizardby.Core.SemanticModel.IReferenceDefinition">
@@ -102,24 +103,31 @@
     </TypeIdentifier>
   </Interface>
   <Interface Name="octalforty.Wizardby.Core.SemanticModel.IIndexDefinition">
-    <Position X="7.75" Y="2.25" Width="1.75" />
+    <Position X="10.25" Y="2.25" Width="1.75" />
     <TypeIdentifier>
       <FileName>SemanticModel\IIndexDefinition.cs</FileName>
       <HashCode>AAAAAAAAAAACAAAAAAAAQAAAgAAAAAAAAAAAAAgAAAA=</HashCode>
     </TypeIdentifier>
   </Interface>
   <Interface Name="octalforty.Wizardby.Core.SemanticModel.IIndexColumnDefinition">
-    <Position X="10.25" Y="2.25" Width="2" />
+    <Position X="12.75" Y="2.25" Width="2" />
     <TypeIdentifier>
       <FileName>SemanticModel\IIndexColumnDefinition.cs</FileName>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAA=</HashCode>
     </TypeIdentifier>
   </Interface>
   <Interface Name="octalforty.Wizardby.Core.SemanticModel.ISchemaElementDefinitionCollection&lt;T&gt;" Collapsed="true">
-    <Position X="18" Y="1.75" Width="1.5" />
+    <Position X="21.25" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <FileName>SemanticModel\ISchemaElementDefinitionCollection.cs</FileName>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAACAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="octalforty.Wizardby.Core.SemanticModel.ISchemaDefinition">
+    <Position X="7.75" Y="2.25" Width="1.75" />
+    <TypeIdentifier>
+      <FileName>SemanticModel\ISchemaDefinition.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
     </TypeIdentifier>
   </Interface>
 </ClassDiagram>

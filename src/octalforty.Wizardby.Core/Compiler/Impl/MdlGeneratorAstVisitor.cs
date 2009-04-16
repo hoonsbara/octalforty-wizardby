@@ -21,6 +21,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
+using System;
 using System.CodeDom.Compiler;
 using System.IO;
 
@@ -288,10 +289,12 @@ namespace octalforty.Wizardby.Core.Compiler.Impl
                 else
                     firstProperty = false;
 
-                textWriter.Write(" {0} => {1}", property.Name, 
-                    property.Value is string ? 
-                        "\"" + property.Value + "\"" :
-                        property.Value);
+                textWriter.Write(" {0} => ", property.Name);
+                
+                if(!(property.Value is string) || IsSymbol(property.Value.ToString()))
+                    textWriter.Write(property.Value);
+                else
+                    textWriter.Write("\"{0}\"", property.Value);
             } // foreach
         }
 
@@ -312,6 +315,14 @@ namespace octalforty.Wizardby.Core.Compiler.Impl
             textWriter.Indent += 1;
             Visit(astNode.ChildNodes);
             textWriter.Indent -= 1;
+        }
+
+        private bool IsSymbol(string s)
+        {
+            if(!char.IsLetter(s[0]))
+                return false;
+
+            return Array.TrueForAll(s.ToCharArray(), delegate(char c) { return char.IsLetterOrDigit(c); });
         }
     }
 }

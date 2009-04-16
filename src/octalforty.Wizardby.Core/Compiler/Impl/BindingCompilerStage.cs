@@ -25,6 +25,7 @@ using System;
 using System.Data;
 
 using octalforty.Wizardby.Core.Compiler.Ast;
+using octalforty.Wizardby.Core.Migration;
 using octalforty.Wizardby.Core.Resources;
 using octalforty.Wizardby.Core.SemanticModel;
 
@@ -329,8 +330,12 @@ namespace octalforty.Wizardby.Core.Compiler.Impl
         {
             if(addReferenceNode.Properties.ContainsProperty(MdlSyntax.PkTable))
             {
+                string pkTableName = addReferenceNode.Properties[MdlSyntax.PkTable].Value.ToString();
                 ITableDefinition pkTable =
-                    Environment.Schema.GetTable(addReferenceNode.Properties[MdlSyntax.PkTable].Value.ToString());
+                    Environment.Schema.GetTable(pkTableName);
+
+                if(pkTable == null)
+                    throw new MigrationException(string.Format("Could not resolve Primary Key table '{0}'",  pkTableName));
 
                 addReferenceNode.PkTable = pkTable.Name;
                 reference.PkTable = pkTable.Name;

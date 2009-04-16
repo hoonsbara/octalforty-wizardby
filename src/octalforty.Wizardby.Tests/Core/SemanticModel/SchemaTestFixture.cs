@@ -34,7 +34,7 @@ namespace octalforty.Wizardby.Tests.Core.SemanticModel
         public void AddTable()
         {
             Schema schema = new Schema();
-            TableDefinition table = new TableDefinition();
+            TableDefinition table = new TableDefinition("Foo");
 
             schema.AddTable(table);
 
@@ -45,11 +45,16 @@ namespace octalforty.Wizardby.Tests.Core.SemanticModel
         public void GetTable()
         {
             Schema schema = new Schema();
-            schema.AddTable(new TableDefinition("Foo"));
+            schema.AddSchema(new SchemaDefinition("dbo"));
+
+            schema.AddTable(new TableDefinition("Foo", schema.Schemas[0]));
             schema.AddTable(new TableDefinition("baR"));
 
-            Assert.AreSame(schema.Tables[0], schema.GetTable("Foo"));
-            Assert.AreSame(schema.Tables[0], schema.GetTable("FOO"));
+            Assert.IsNull(schema.GetTable("Foo"));
+
+            Assert.AreSame(schema.Tables[0], schema.GetTable("dbo", "Foo"));
+            Assert.AreSame(schema.Tables[0], schema.GetTable("DBO", "FOO"));
+            Assert.AreSame(schema.Tables[0], schema.GetTable(schema.Schemas[0], "FOO"));
 
             Assert.AreSame(schema.Tables[1], schema.GetTable("BaR"));
             Assert.AreSame(schema.Tables[1], schema.GetTable("baR"));

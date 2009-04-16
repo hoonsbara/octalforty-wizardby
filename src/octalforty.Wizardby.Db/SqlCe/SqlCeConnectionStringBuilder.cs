@@ -47,7 +47,8 @@ namespace octalforty.Wizardby.Db.SqlCe
             // if it's not already there.
             if(key.ToLowerInvariant() == "database")
             {
-                if(Path.GetExtension(value).ToLowerInvariant() != ".sdf")
+                string extension = Path.GetExtension(value);
+                if(string.IsNullOrEmpty(extension))
                 {
                     base.AppendKeyValuePair(key, value + ".sdf");
                     return;

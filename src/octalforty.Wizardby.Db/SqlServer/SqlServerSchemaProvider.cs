@@ -42,10 +42,10 @@ namespace octalforty.Wizardby.Db.SqlServer
 
         public Schema GetSchema(string connectionString)
         {
-            Schema schema = new Schema();
+            Schema databaseSchema = new Schema();
 
             //
-            // Retrieving a list of tables & their columns.
+            // Retrieving a list of schemas, tables & their columns.
             ExecuteReader(connectionString, @"select c.* 
 from information_schema.tables t 
     inner join information_schema.columns c
@@ -53,10 +53,11 @@ from information_schema.tables t
 order by t.table_name, c.ordinal_position", 
                 delegate(IDataReader dr)
                     {
-                        string tableName = string.Format("{0}.{1}", As<string>(dr, "table_schema"), As<string>(dr, "table_name")); 
+                        string schemaName = As<string>(dr, "table_schema");
+                        ISchemaDefinition schema = GetSchemaDefinition(databaseSchema, schemaName);
 
-                        if(schema.GetTable(tableName) == null)
-                            schema.AddTable(new TableDefinition(tableName));
+                        string tableName = As<string>(dr, "table_name");
+                        ITableDefinition table = GetTableDefinition(databaseSchema, schema, tableName);
 
                         IColumnDefinition columnDefinition = new ColumnDefinition((string)dr["column_name"]);
                         columnDefinition.Default = As<string>(dr, "column_default");
@@ -72,7 +73,7 @@ order by t.table_name, c.ordinal_position",
                         columnDefinition.Scale = As<int?>(dr, "numeric_scale");
                         columnDefinition.Type = Platform.TypeMapper.MapToDbType(As<string>(dr, "data_type"), columnDefinition.Length);
 
-                        schema.GetTable(tableName).AddColumn(columnDefinition);
+                        table.AddColumn(columnDefinition);
                     });
 
             //
@@ -84,9 +85,10 @@ where t.constraint_type = 'PRIMARY KEY'
 order by t.table_schema, t.table_name, k.ordinal_position",
                 delegate(IDataReader dr)
                     {
-                        string tableName = string.Format("{0}.{1}", As<string>(dr, "table_schema"), As<string>(dr, "table_name"));
+                        string schemaName = As<string>(dr, "table_schema");
+                        string tableName = As<string>(dr, "table_name");
 
-                        ITableDefinition table = schema.GetTable(tableName);
+                        ITableDefinition table = databaseSchema.GetTable(schemaName, tableName);
                         if(table == null)
                             return;
 
@@ -99,9 +101,49 @@ order by t.table_schema, t.table_name, k.ordinal_position",
                         column.PrimaryKey = true;
                     });
 
+            //
+            // Identities
+            ExecuteReader(connectionString, @"select table_schema, table_name, column_name
+	from information_schema.columns
+where columnproperty(object_id(quotename(table_schema) + '.' + quotename(table_name)), column_name, 'IsIdentity') = 1", 
+                delegate(IDataReader dr)
+                    {
+                        string schemaName = As<string>(dr, "table_schema");
+                        string tableName = As<string>(dr, "table_name");
 
-            return schema;
+                        ITableDefinition table = databaseSchema.GetTable(schemaName, tableName);
+                        if(table == null)
+                            return;
+
+                        IColumnDefinition identityColumn = table.GetColumn(As<string>(dr, "column_name"));
+                        identityColumn.Identity = true;
+                    });
+
+
+            return databaseSchema;
             
+        }
+
+        private ITableDefinition GetTableDefinition(Schema databaseSchema, ISchemaDefinition schema, string tableName)
+        {
+            ITableDefinition table = databaseSchema.GetTable(schema, tableName);
+            if(table == null)
+            {
+                table = new TableDefinition(tableName, schema);
+                databaseSchema.AddTable(table);
+            } // if
+            return table;
+        }
+
+        private ISchemaDefinition GetSchemaDefinition(Schema databaseSchema, string schemaName)
+        {
+            ISchemaDefinition schema = databaseSchema.GetSchema(schemaName);
+            if(schema == null)
+            {
+                schema = new SchemaDefinition(schemaName);
+                databaseSchema.AddSchema(schema);
+            } // if
+            return schema;
         }
 
         private void ExecuteReader(string connectionString, string sqlStatement, Action<IDataReader> action)

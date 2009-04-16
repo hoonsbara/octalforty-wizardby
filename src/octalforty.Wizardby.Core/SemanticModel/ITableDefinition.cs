@@ -29,6 +29,13 @@ namespace octalforty.Wizardby.Core.SemanticModel
     public interface ITableDefinition : ISchemaElementDefinition
     {
         /// <summary>
+        /// Gets or sets a reference to the <see cref="ISchemaDefinition"/>, which represents
+        /// the schema of the current table or <c>null</c> if no schema is defined.
+        /// </summary>
+        ISchemaDefinition Schema
+        { get; set; }
+
+        /// <summary>
         /// Gets a reference to the collection of <see cref="IColumnDefinition"/> objects
         /// for the current table.
         /// </summary>

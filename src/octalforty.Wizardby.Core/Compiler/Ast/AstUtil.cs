@@ -58,8 +58,14 @@ namespace octalforty.Wizardby.Core.Compiler.Ast
             if(columnNode.PrimaryKey.GetValueOrDefault(false))
                 AddProperty(columnNode, MdlSyntax.PrimaryKey, "true");
 
-            if(columnNode.Nullable.GetValueOrDefault(false))
+            if(columnNode.Nullable.HasValue)
                 AddProperty(columnNode, MdlSyntax.Nullable, columnNode.Nullable.Value.ToString().ToLower());
+
+            if(columnNode.Length.HasValue)
+                AddProperty(columnNode, MdlSyntax.Length, columnNode.Length.Value);
+
+            if(columnNode.Identity.GetValueOrDefault(false))
+                AddProperty(columnNode, MdlSyntax.Identity, "true");
         }
 
         private static void AddProperty(IAstNode node, string name, object value)

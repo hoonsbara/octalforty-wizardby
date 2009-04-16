@@ -34,6 +34,7 @@ namespace octalforty.Wizardby.Core.SemanticModel
     public class TableDefinition : SchemaElementDefinitionBase, ITableDefinition
     {
         #region Private Fields
+        private ISchemaDefinition schema;
         private readonly SchemaElementCollection<IColumnDefinition> columns = new SchemaElementCollection<IColumnDefinition>();
         private readonly SchemaElementCollection<IIndexDefinition> indexes = new SchemaElementCollection<IIndexDefinition>();
         private readonly SchemaElementCollection<IReferenceDefinition> references = new SchemaElementCollection<IReferenceDefinition>();
@@ -56,7 +57,28 @@ namespace octalforty.Wizardby.Core.SemanticModel
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TableDefinition"/> class.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="schema"></param>
+        public TableDefinition(string name, ISchemaDefinition schema) : 
+            base(name)
+        {
+            this.schema = schema;
+        }
+
         #region ITableDefinition Members
+        /// <summary>
+        /// Gets or sets a reference to the <see cref="ISchemaDefinition"/>, which represents
+        /// the schema of the current table or <c>null</c> if no schema is defined.
+        /// </summary>
+        public ISchemaDefinition Schema
+        {
+            get { return schema; }
+            set { schema = value; }
+        }
+
         /// <summary>
         /// Gets a reference to the collection if <see cref="IColumnDefinition"/> objects
         /// for the current table.

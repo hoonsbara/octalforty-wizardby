@@ -1,4 +1,4 @@
-﻿#region The MIT License
+#region The MIT License
 // The MIT License
 // 
 // Copyright (c) 2009 octalforty studios
@@ -21,16 +21,12 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
-using octalforty.Wizardby.Core.Db;
-using octalforty.Wizardby.Db.SqlServer;
-
-namespace octalforty.Wizardby.Db.SqlServer2005
+namespace octalforty.Wizardby.Core.SemanticModel
 {
     /// <summary>
-    /// A <see cref="IDbPlatform"/> implementation for the Microsoft SQL Server 2005.
+    /// Represents database schema.
     /// </summary>
-    [DbPlatform("Microsoft SQL Server 2005", "sqlserver2005")]
-    public class SqlServer2005Platform : SqlServerPlatform
+    public interface ISchemaDefinition : ISchemaElementDefinition
     {
     }
 }
