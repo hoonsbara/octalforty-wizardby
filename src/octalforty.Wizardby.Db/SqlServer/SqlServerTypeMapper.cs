@@ -43,8 +43,10 @@ namespace octalforty.Wizardby.Db.SqlServer
         private const string Char = "char";
         private const string Binary = "binary";
         private const string Varbinary = "varbinary";
+        private const string Image = "image";
         private const string Nvarchar = "nvarchar";
         private const string Nchar = "nchar";
+        private const string Ntext = "ntext";
         private const string Timestamp = "timestamp";
         private const string Smalldatetime = "smalldatetime";
         private const string Numeric = "numeric";
@@ -117,8 +119,10 @@ namespace octalforty.Wizardby.Db.SqlServer
                     return DbType.AnsiStringFixedLength;
                 case Binary:
                 case Varbinary:
+                case Image:
                     return DbType.Binary;
                 case Nvarchar:
+                case Ntext:
                     return DbType.String;
                 case Nchar:
                     return DbType.StringFixedLength;

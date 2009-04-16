@@ -23,7 +23,7 @@
 #endregion
 namespace octalforty.Wizardby.Core.Compiler
 {
-    internal static class MdlSyntax
+    public static class MdlSyntax
     {
         public const string Table = "table";
         public const string Clustered = "clustered";

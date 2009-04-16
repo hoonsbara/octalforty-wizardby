@@ -21,6 +21,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
+
+using octalforty.Wizardby.Core.Compiler;
 using octalforty.Wizardby.Core.Compiler.Ast;
 using octalforty.Wizardby.Core.Compiler.Ast.Impl;
 using octalforty.Wizardby.Core.Db;
@@ -39,6 +41,7 @@ namespace octalforty.Wizardby.Core.ReverseEngineering.Impl
             foreach(ITableDefinition table in schema.Tables)
             {
                 IAstNode addTableNode = new AddTableNode(baselineNode, table.Name);
+                addTableNode.Properties.AddProperty(new AstNodeProperty(MdlSyntax.PrimaryKey, "false"));
 
                 foreach(IColumnDefinition column in table.Columns)
                 {

@@ -46,9 +46,10 @@ namespace octalforty.Wizardby.Db.SqlServer
 
             //
             // Retrieving a list of tables & their columns.
-            ExecuteReader(connectionString, @"select c.* from information_schema.tables t 
-inner join information_schema.columns c
-on t.table_catalog = c.table_catalog and t.table_schema = c.table_schema and t.table_name = c.table_name
+            ExecuteReader(connectionString, @"select c.* 
+from information_schema.tables t 
+    inner join information_schema.columns c
+        on t.table_catalog = c.table_catalog and t.table_schema = c.table_schema and t.table_name = c.table_name
 order by t.table_name, c.ordinal_position", 
                 delegate(IDataReader dr)
                     {
@@ -73,6 +74,31 @@ order by t.table_name, c.ordinal_position",
 
                         schema.GetTable(tableName).AddColumn(columnDefinition);
                     });
+
+            //
+            // Primary keys
+            ExecuteReader(connectionString, @"select t.table_schema, t.table_name, k.column_name, k.ordinal_position
+	from information_schema.table_constraints t
+		inner join information_schema.key_column_usage k on t.constraint_name = k.constraint_name
+where t.constraint_type = 'PRIMARY KEY'
+order by t.table_schema, t.table_name, k.ordinal_position",
+                delegate(IDataReader dr)
+                    {
+                        string tableName = string.Format("{0}.{1}", As<string>(dr, "table_schema"), As<string>(dr, "table_name"));
+
+                        ITableDefinition table = schema.GetTable(tableName);
+                        if(table == null)
+                            return;
+
+                        //
+                        // We do not support composite primary keys yet
+                        if(table.GetPrimaryKeyColumn() != null)
+                            return;
+
+                        IColumnDefinition column = table.GetColumn(As<string>(dr, "column_name"));
+                        column.PrimaryKey = true;
+                    });
+
 
             return schema;
             

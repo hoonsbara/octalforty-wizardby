@@ -23,6 +23,7 @@
 #endregion
 using System.CodeDom.Compiler;
 using System.IO;
+using System.Text;
 
 using octalforty.Wizardby.Core.Compiler;
 using octalforty.Wizardby.Core.Compiler.Ast;
@@ -53,6 +54,9 @@ namespace octalforty.Wizardby.Core.Db
 
         protected string MapToNativeType(IColumnDefinition columnDefinition)
         {
+            if(!columnDefinition.Type.HasValue)
+                throw new DbPlatformException(string.Format("Could not resolve type in {0}", GetFragment(((IAstNode)columnDefinition).Parent)));
+
             if(!columnDefinition.Length.HasValue && !columnDefinition.Scale.HasValue && !columnDefinition.Precision.HasValue)
                 return Platform.TypeMapper.MapToNativeType(columnDefinition.Type.Value, columnDefinition.Length);
             
@@ -65,6 +69,18 @@ namespace octalforty.Wizardby.Core.Db
         {
             get { return platform; }
             set { platform = value; }
+        }
+
+        string GetFragment(IAstNode astNode)
+        {
+            StringBuilder sb = new StringBuilder();
+            using(StringWriter stringWriter = new StringWriter(sb))
+            {
+                MdlGenerator mdlGenerator = new MdlGenerator();   
+                mdlGenerator.Generate(astNode, stringWriter);
+            }
+
+            return sb.ToString();
         }
     }
 }
