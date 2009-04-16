@@ -37,7 +37,7 @@ namespace octalforty.Wizardby.Console
         {
             System.Console.WriteLine();
 
-            using(StreamReader streamReader = new StreamReader(parameters.MdlFileName, true))
+            using(StreamReader streamReader = new BufferedStreamReader(parameters.MdlFileName, true))
                 ServiceProvider.GetService<IMigrationService>().Migrate(parameters.ConnectionString, 0, streamReader);
         }
     }

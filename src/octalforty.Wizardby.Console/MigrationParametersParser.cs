@@ -67,14 +67,20 @@ namespace octalforty.Wizardby.Console
 
             if(matchingNames == null || matchingNames.Length == 0)
                 throw new MigrationException(string.Format(Resources.UnknownCommand, command));
-
-            Array.Sort(matchingNames);
+            
             if(matchingNames.Length > 1)
-                throw new MigrationException(string.Format(Resources.AmbiguousCommand, command.ToLowerInvariant(),
-                    string.Join("', '", Array.ConvertAll<string, string>(matchingNames, 
-                        delegate(string input) { return input.ToLowerInvariant(); }))));
+                ThrowAmbiguousCommand(command, matchingNames);
 
             return (MigrationCommand)Enum.Parse(typeof(MigrationCommand), matchingNames[0]);
+        }
+
+        private static void ThrowAmbiguousCommand(string command, string[] matchingNames)
+        {
+            Array.Sort(matchingNames);
+            string potentialNames = string.Join("', '", Array.ConvertAll<string, string>(matchingNames, 
+                delegate(string input) { return input.ToLowerInvariant(); }));
+
+            throw new MigrationException(string.Format(Resources.AmbiguousCommand, command.ToLowerInvariant(), potentialNames));
         }
 
         private static void ParseMigrationParameter(MigrationParameters parameters, string argument)

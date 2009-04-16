@@ -28,27 +28,39 @@ namespace octalforty.Wizardby.Core.SemanticModel
 {
     public class Schema
     {
-        private readonly List<ITableDefinition> tables = new List<ITableDefinition>();
+        private readonly IDictionary<string, ITableDefinition> tables = new Dictionary<string, ITableDefinition>();
 
         public IList<ITableDefinition> Tables
         {
-            get { return tables; }
+            get { return new List<ITableDefinition>(tables.Values); }
         }
 
         public void AddTable(ITableDefinition table)
         {
-            tables.Add(table);
+            tables[GetInvariantTableName(table)] = table;
         }
 
         public ITableDefinition GetTable(string name)
         {
-            return tables.Find(delegate(ITableDefinition td)
-                { return string.Equals(td.Name, name, StringComparison.CurrentCultureIgnoreCase); });
+            string invariantName = GetInvariantName(name);
+            return tables.ContainsKey(invariantName) ?
+                tables[invariantName] :
+                null;
         }
 
         public void RemoveTable(string name)
         {
-            tables.Remove(GetTable(name));
+            tables.Remove(GetInvariantName(name));
+        }
+
+        private string GetInvariantTableName(ITableDefinition table)
+        {
+            return GetInvariantName(table.Name);
+        }
+
+        private string GetInvariantName(string name)
+        {
+            return name.ToLowerInvariant();
         }
     }
 }

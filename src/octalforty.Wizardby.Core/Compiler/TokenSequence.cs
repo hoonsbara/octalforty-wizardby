@@ -32,7 +32,7 @@ namespace octalforty.Wizardby.Core.Compiler
     public class TokenSequence
     {
         #region Private Fields
-        public readonly IList<Token> tokens = new List<Token>();
+        public readonly LinkedList<Token> tokens = new LinkedList<Token>();
         #endregion
         
         #region Public Properties
@@ -106,7 +106,7 @@ namespace octalforty.Wizardby.Core.Compiler
         /// <param name="token"></param>
         public void Add(Token token)
         {
-            tokens.Add(token);
+            tokens.AddLast(token);
         }
 
         /// <summary>
@@ -116,7 +116,7 @@ namespace octalforty.Wizardby.Core.Compiler
         public Token RemoveFirst()
         {
             Token first = First;
-            tokens.RemoveAt(0);
+            tokens.RemoveFirst();
 
             return first;
         }
@@ -127,17 +127,17 @@ namespace octalforty.Wizardby.Core.Compiler
         /// <param name="token"></param>
         public void InsertFirst(Token token)
         {
-            tokens.Insert(0, token);
+            tokens.AddFirst(token);
         }
 
         private Token InternalLast()
         {
-            return tokens[tokens.Count - 1];
+            return tokens.Last.Value;
         }
 
         private Token InternalFirst()
         {
-            return tokens[0];
+            return tokens.First.Value;
         }
     }
 }
