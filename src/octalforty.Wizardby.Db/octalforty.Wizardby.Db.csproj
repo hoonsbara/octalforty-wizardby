@@ -34,6 +34,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Jet\JetConnectionStringBuilder.cs" />
+    <Compile Include="Jet\JetDeploymentManager.cs" />
+    <Compile Include="Jet\JetDialect.cs" />
+    <Compile Include="Jet\JetPlatform.cs" />
+    <Compile Include="Jet\JetScriptGenerator.cs" />
+    <Compile Include="Jet\JetTypeMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -46,6 +52,7 @@
     <Compile Include="SqlCe\SqlCePlatform.cs" />
     <Compile Include="SqlCe\SqlCeScriptGenerator.cs" />
     <Compile Include="SqlCe\SqlCeTypeMapper.cs" />
+    <Compile Include="SqlServer2005\SqlServer2005Platform.cs" />
     <Compile Include="SqlServer\SqlServerConnectionStringBuilder.cs" />
     <Compile Include="SqlServer\SqlServerDeploymentManager.cs" />
     <Compile Include="SqlServer\SqlServerDialect.cs" />
@@ -69,9 +76,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Firebird\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

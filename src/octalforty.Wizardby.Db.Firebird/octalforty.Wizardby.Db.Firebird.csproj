@@ -4,11 +4,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.50727</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{A6191AC7-CB42-415F-9CFA-76389CBA3794}</ProjectGuid>
+    <ProjectGuid>{4FE2B606-E0CD-468B-B3E6-82B9B454E144}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>octalforty.Wizardby.Db.Jet</RootNamespace>
-    <AssemblyName>octalforty.Wizardby.Db.Jet</AssemblyName>
+    <RootNamespace>octalforty.Wizardby.Db.Firebird</RootNamespace>
+    <AssemblyName>octalforty.Wizardby.Db.Firebird</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -28,17 +28,19 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="FirebirdSql.Data.FirebirdClient, Version=2.0.1.0, Culture=neutral, PublicKeyToken=3750abcc3150b00c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\FirebirdEmbedded\FirebirdSql.Data.FirebirdClient.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="JetConnectionStringBuilder.cs" />
-    <Compile Include="JetDeploymentManager.cs" />
-    <Compile Include="JetDialect.cs" />
-    <Compile Include="JetPlatform.cs" />
-    <Compile Include="JetScriptGenerator.cs" />
-    <Compile Include="JetTypeMapper.cs" />
+    <Compile Include="FirebirdEmbeddedConnectionStringBuilder.cs" />
+    <Compile Include="FirebirdDeploymentManager.cs" />
+    <Compile Include="FirebirdEmbeddedPlatform.cs" />
+    <Compile Include="FirebirdTypeMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -46,20 +48,6 @@
       <Project>{31A1F1A5-E685-4C89-929D-FDC93CD12BB0}</Project>
       <Name>octalforty.Wizardby.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\octalforty.Wizardby.Db\octalforty.Wizardby.Db.csproj">
-      <Project>{735ADA03-27DA-4C9F-BDAF-21DEEC2DD5C8}</Project>
-      <Name>octalforty.Wizardby.Db</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <COMReference Include="ADOX">
-      <Guid>{00000600-0000-0010-8000-00AA006D2EA4}</Guid>
-      <VersionMajor>2</VersionMajor>
-      <VersionMinor>8</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>tlbimp</WrapperTool>
-      <Isolated>False</Isolated>
-    </COMReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

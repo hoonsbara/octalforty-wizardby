@@ -24,7 +24,7 @@
 using System;
 using System.Runtime.InteropServices;
 
-using ADOX;
+//using ADOX;
 
 using octalforty.Wizardby.Core.Db;
 
@@ -34,7 +34,7 @@ namespace octalforty.Wizardby.Db.Jet
     {
         public void Deploy(string connectionString)
         {
-            Catalog catalog = (Catalog)new CatalogClass();
+            /*Catalog catalog = (Catalog)new CatalogClass();
 
             try
             {
@@ -47,7 +47,7 @@ namespace octalforty.Wizardby.Db.Jet
             finally
             {
                 Marshal.ReleaseComObject(catalog);
-            }
+            }*/
         }
     }
 }

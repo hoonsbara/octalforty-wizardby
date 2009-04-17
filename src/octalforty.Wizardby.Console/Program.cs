@@ -137,7 +137,7 @@ namespace octalforty.Wizardby.Console
                 IDbPlatform dbPlatform = serviceProvider.GetService<DbPlatformRegistry>().ResolvePlatform(parameters.PlatformAlias);
                 using(new ConsoleStylingScope(ConsoleColor.Red))
                     System.Console.WriteLine(System.Environment.NewLine + "{0} Exception: {1}", 
-                        serviceProvider.GetService<DbPlatformRegistry>().GetPlatformName(dbPlatform), e.Message);
+                        serviceProvider.GetService<DbPlatformRegistry>().GetPlatformName(dbPlatform), e.Message + e.StackTrace.ToString());
             } // catch
 
             catch(DbException e)
@@ -145,7 +145,7 @@ namespace octalforty.Wizardby.Console
                 IDbPlatform dbPlatform = serviceProvider.GetService<DbPlatformRegistry>().ResolvePlatform(parameters.PlatformAlias);
                 using (new ConsoleStylingScope(ConsoleColor.Red))
                     System.Console.WriteLine(System.Environment.NewLine + "{0} Exception: {1}",
-                        serviceProvider.GetService<DbPlatformRegistry>().GetPlatformName(dbPlatform), e.Message);
+                        serviceProvider.GetService<DbPlatformRegistry>().GetPlatformName(dbPlatform), e.Message + e.StackTrace.ToString());
             } // catch
 
             catch(Exception e)
@@ -177,7 +177,16 @@ namespace octalforty.Wizardby.Console
             DbPlatformRegistry dbPlatformRegistry = new DbPlatformRegistry();
             foreach(FileInfo file in new DirectoryInfo(AppDomain.CurrentDomain.SetupInformation.ApplicationBase).GetFiles("*.dll"))
             {
-                dbPlatformRegistry.RegisterAssembly(Assembly.LoadFrom(file.FullName));
+                try
+                {
+                    Assembly assembly = Assembly.LoadFrom(file.FullName);
+                    dbPlatformRegistry.RegisterAssembly(assembly);
+                } // try
+
+                catch(BadImageFormatException)
+                {
+                    
+                } // catch
             } // foreach
 
             return dbPlatformRegistry;

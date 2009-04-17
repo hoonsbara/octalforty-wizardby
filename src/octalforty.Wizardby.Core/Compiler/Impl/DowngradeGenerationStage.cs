@@ -26,6 +26,7 @@ using System.Collections.Generic;
 
 using octalforty.Wizardby.Core.Compiler.Ast;
 using octalforty.Wizardby.Core.Compiler.Ast.Impl;
+using octalforty.Wizardby.Core.Migration;
 using octalforty.Wizardby.Core.SemanticModel;
 using octalforty.Wizardby.Core.Util;
 
@@ -175,7 +176,12 @@ namespace octalforty.Wizardby.Core.Compiler.Impl
         public override void Visit(IRemoveIndexNode removeIndexNode)
         {
             ITableDefinition table = Environment.Schema.GetTable(removeIndexNode.Table);
+            if(table == null)
+                throw new MigrationException(removeIndexNode.Table);
+
             IIndexDefinition index = table.GetIndex(removeIndexNode.Name);
+            if(index == null)
+                throw new MigrationException(removeIndexNode.Name);
 
             IDowngradeNode downgradeNode = GetDowngradeNodeFor(removeIndexNode);
 

@@ -81,13 +81,9 @@
       <Project>{31A1F1A5-E685-4C89-929D-FDC93CD12BB0}</Project>
       <Name>octalforty.Wizardby.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\octalforty.Wizardby.Db.Jet\octalforty.Wizardby.Db.Jet.csproj">
-      <Project>{A6191AC7-CB42-415F-9CFA-76389CBA3794}</Project>
-      <Name>octalforty.Wizardby.Db.Jet</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\octalforty.Wizardby.Db.SqlServer2005\octalforty.Wizardby.Db.SqlServer2005.csproj">
-      <Project>{7038F564-79EF-43DF-81AD-13DEFEA67E3D}</Project>
-      <Name>octalforty.Wizardby.Db.SqlServer2005</Name>
+    <ProjectReference Include="..\octalforty.Wizardby.Db.Firebird\octalforty.Wizardby.Db.Firebird.csproj">
+      <Project>{4FE2B606-E0CD-468B-B3E6-82B9B454E144}</Project>
+      <Name>octalforty.Wizardby.Db.Firebird</Name>
     </ProjectReference>
     <ProjectReference Include="..\octalforty.Wizardby.Db\octalforty.Wizardby.Db.csproj">
       <Project>{735ADA03-27DA-4C9F-BDAF-21DEEC2DD5C8}</Project>
