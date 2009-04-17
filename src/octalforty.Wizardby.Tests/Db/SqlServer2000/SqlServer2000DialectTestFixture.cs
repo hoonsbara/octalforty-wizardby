@@ -21,29 +21,23 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
-using System;
-using System.IO;
+using NUnit.Framework;
 
 using octalforty.Wizardby.Core.Db;
+using octalforty.Wizardby.Db.SqlServer2000;
 
-namespace octalforty.Wizardby.Db.SqlServer
+namespace octalforty.Wizardby.Tests.Db.SqlServer2000
 {
-    public class SqlServerDialect : DbDialectBase
+    [TestFixture()]
+    public class SqlServer2000DialectTestFixture
     {
-        public override string EscapeIdentifier(string identifier)
+        [Test()]
+        public void EscapeIdentifier()
         {
-            string[] nameParts = 
-                identifier.Split(new char[] { '.' }, StringSplitOptions.RemoveEmptyEntries);
-
-            return string.Format("[{0}]", string.Join("].[", nameParts));
-        }
-
-        public override IDbScriptGenerator CreateScriptGenerator(TextWriter textWriter)
-        {
-            SqlServerScriptGenerator scriptGenerator = new SqlServerScriptGenerator(textWriter);
-            scriptGenerator.Platform = Platform;
-
-            return scriptGenerator;
+            IDbDialect dialect = new SqlServer2000Dialect();
+            
+            Assert.AreEqual("[Foo]", dialect.EscapeIdentifier("Foo"));
+            Assert.AreEqual("[dbo].[Foo]", dialect.EscapeIdentifier("dbo.Foo"));
         }
     }
 }

@@ -265,19 +265,19 @@ Abbreviations:
   <data name="WdiTemplate" xml:space="preserve">
     <value>deployment:
     environment development
-        platform            =&gt; sqlserver
+        platform            =&gt; sqlserver2005
         host                =&gt; "(local)\sqlexpress"
         database            =&gt; {0}
         integrated-security =&gt; true
         
     environment staging
-        platform            =&gt; sqlserver
+        platform            =&gt; sqlserver2005
         host                =&gt; "(local)\sqlexpress"
         database            =&gt; {0}_staging
         integrated-security =&gt; true
         
     environment production
-        platform            =&gt; sqlserver
+        platform            =&gt; sqlserver2005
         host                =&gt; "(local)\sqlexpress"
         database            =&gt; {0}_production
         integrated-security =&gt; true</value>

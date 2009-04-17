@@ -29,15 +29,15 @@ using octalforty.Wizardby.Core.Compiler.Ast;
 using octalforty.Wizardby.Core.Db;
 using octalforty.Wizardby.Core.SemanticModel;
 
-namespace octalforty.Wizardby.Db.SqlServer
+namespace octalforty.Wizardby.Db.SqlServer2000
 {
-    public class SqlServerScriptGenerator : DbScriptGeneratorBase
+    public class SqlServer2000ScriptGenerator : DbScriptGeneratorBase
     {
         /// <summary>
         /// 
         /// </summary>
         /// <param name="textWriter"></param>
-        public SqlServerScriptGenerator(TextWriter textWriter) : 
+        public SqlServer2000ScriptGenerator(TextWriter textWriter) : 
             base(textWriter)
         {
         }

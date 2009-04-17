@@ -21,30 +21,38 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
-using NUnit.Framework;
+using System.Data.Common;
+using System.Data.SqlClient;
 
 using octalforty.Wizardby.Core.Db;
-using octalforty.Wizardby.Db.SqlServer;
 
-namespace octalforty.Wizardby.Tests.Db.SqlServer
+namespace octalforty.Wizardby.Db.SqlServer2000
 {
-    [TestFixture()]
-    public class SqlServerConnectionStringBuilderTestFixture
+    /// <summary>
+    /// A <see cref="IDbPlatform"/> implementation for the Microsoft SQL Server 2000.
+    /// </summary>
+    [DbPlatform("Microsoft SQL Server 2000", "sqlserver2000")]
+    public class SqlServer2000Platform : DbPlatformBase<SqlServer2000Dialect, SqlServer2000ConnectionStringBuilder, 
+        SqlServer2000NamingStrategy, SqlServer2000TypeMapper>
     {
-        [Test()]
-        public void BuildConnectionString()
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SqlServer2000Platform"/> class.
+        /// </summary>
+        public SqlServer2000Platform() : 
+            base(true)
         {
-            IDbConnectionStringBuilder connectionStringBuilder = 
-                new SqlServerConnectionStringBuilder();
-
-            connectionStringBuilder.AppendKeyValuePair("Integrated-Security", "true");
-            connectionStringBuilder.AppendKeyValuePair("host", "(local)");
-            connectionStringBuilder.AppendKeyValuePair("database", "dev");
-            connectionStringBuilder.AppendKeyValuePair("foo", "bar");
-
-            Assert.AreEqual(
-                "integrated security=true;data source=(local);initial catalog=dev;", 
-                connectionStringBuilder.ToString());
         }
+
+        #region DbPlatformBase<SqlServer2000TypeMapper, SqlServer2000Dialect> Members
+        public override DbProviderFactory ProviderFactory
+        {
+            get { return SqlClientFactory.Instance; }
+        }
+
+        public override IDbSchemaProvider SchemaProvider
+        {
+            get { return new SqlServer2000SchemaProvider(this); }
+        }
+        #endregion
     }
 }

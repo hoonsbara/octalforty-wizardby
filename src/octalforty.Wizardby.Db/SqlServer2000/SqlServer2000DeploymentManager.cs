@@ -1,4 +1,4 @@
-#region The MIT License
+﻿#region The MIT License
 // The MIT License
 // 
 // Copyright (c) 2009 octalforty studios
@@ -21,33 +21,15 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
-using NUnit.Framework;
+using octalforty.Wizardby.Core.Db;
 
-using octalforty.Wizardby.Core.SemanticModel;
-using octalforty.Wizardby.Db.SqlServer.Data;
-
-namespace octalforty.Wizardby.Tests.Db.SqlServer.Data
+namespace octalforty.Wizardby.Db.SqlServer2000
 {
-    [TestFixture()]
-    public class ObjectMapperTestFixture
+    public class SqlServer2000DeploymentManager : DbPlatformDependencyBase, IDbDeploymentManager
     {
-        [Test()]
-        public void MapObjectToObject()
+        public void Deploy(string connectionString)
         {
-            ObjectMapper objectMapper = new ObjectMapper();
-
-            objectMapper.AddMapping(new Mapping("Table", "Table"));
-            objectMapper.AddMapping(new Mapping("Identity", "Identity"));
-
-            IColumnDefinition sourceColumn = new ColumnDefinition("Foo");
-            sourceColumn.Identity = false;
-
-            IColumnDefinition targetColumn = new ColumnDefinition();
-
-            objectMapper.Map(sourceColumn, targetColumn);
-
-            Assert.AreEqual(sourceColumn.Table, targetColumn.Table);
-            Assert.AreEqual(sourceColumn.Identity, targetColumn.Identity);
+            throw new System.NotImplementedException();
         }
     }
 }

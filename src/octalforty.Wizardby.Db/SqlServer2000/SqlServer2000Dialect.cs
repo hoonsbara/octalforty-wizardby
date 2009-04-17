@@ -21,37 +21,29 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
-using System.Data.Common;
-using System.Data.SqlClient;
+using System;
+using System.IO;
 
 using octalforty.Wizardby.Core.Db;
 
-namespace octalforty.Wizardby.Db.SqlServer
+namespace octalforty.Wizardby.Db.SqlServer2000
 {
-    /// <summary>
-    /// A <see cref="IDbPlatform"/> implementation for the Microsoft SQL Server.
-    /// </summary>
-    [DbPlatform("Microsoft SQL Server", "sqlserver")]
-    public class SqlServerPlatform : DbPlatformBase<SqlServerDialect, SqlServerConnectionStringBuilder, SqlServerNamingStrategy, SqlServerTypeMapper>
+    public class SqlServer2000Dialect : DbDialectBase
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SqlServerPlatform"/> class.
-        /// </summary>
-        public SqlServerPlatform() : 
-            base(true)
+        public override string EscapeIdentifier(string identifier)
         {
+            string[] nameParts = 
+                identifier.Split(new char[] { '.' }, StringSplitOptions.RemoveEmptyEntries);
+
+            return string.Format("[{0}]", string.Join("].[", nameParts));
         }
 
-        #region DbPlatformBase<SqlServerTypeMapper, SqlServerDialect> Members
-        public override DbProviderFactory ProviderFactory
+        public override IDbScriptGenerator CreateScriptGenerator(TextWriter textWriter)
         {
-            get { return SqlClientFactory.Instance; }
-        }
+            SqlServer2000ScriptGenerator scriptGenerator = new SqlServer2000ScriptGenerator(textWriter);
+            scriptGenerator.Platform = Platform;
 
-        public override IDbSchemaProvider SchemaProvider
-        {
-            get { return new SqlServerSchemaProvider(this); }
+            return scriptGenerator;
         }
-        #endregion
     }
 }

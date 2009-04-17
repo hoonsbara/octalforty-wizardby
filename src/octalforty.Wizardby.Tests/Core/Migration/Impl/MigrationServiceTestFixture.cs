@@ -32,8 +32,7 @@ using NUnit.Framework;
 using octalforty.Wizardby.Core.Db;
 using octalforty.Wizardby.Core.Migration;
 using octalforty.Wizardby.Core.Migration.Impl;
-
-using octalforty.Wizardby.Db.SqlServer;
+using octalforty.Wizardby.Db.SqlServer2000;
 
 using Rhino.Mocks;
 
@@ -51,7 +50,7 @@ namespace octalforty.Wizardby.Tests.Core.Migration.Impl
         [TestFixtureSetUp()]
         public void TestFixtureSetUp()
         {
-            dbPlatform = new SqlServerPlatform();
+            dbPlatform = new SqlServer2000Platform();
             connectionString = ConfigurationManager.AppSettings["connectionString"];
             mockRepository = new MockRepository();
         }

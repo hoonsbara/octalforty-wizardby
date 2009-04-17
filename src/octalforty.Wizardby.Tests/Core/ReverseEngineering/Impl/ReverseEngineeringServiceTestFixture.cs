@@ -35,7 +35,7 @@ using octalforty.Wizardby.Core.Migration.Impl;
 using octalforty.Wizardby.Core.ReverseEngineering;
 using octalforty.Wizardby.Core.ReverseEngineering.Impl;
 using octalforty.Wizardby.Core.SemanticModel;
-using octalforty.Wizardby.Db.SqlServer;
+using octalforty.Wizardby.Db.SqlServer2000;
 using octalforty.Wizardby.Tests.Core.Compiler.Impl;
 
 namespace octalforty.Wizardby.Tests.Core.ReverseEngineering.Impl
@@ -52,7 +52,7 @@ namespace octalforty.Wizardby.Tests.Core.ReverseEngineering.Impl
         [TestFixtureSetUp()]
         public void TestFixtureSetUp()
         {
-            dbPlatform = new SqlServerPlatform();
+            dbPlatform = new SqlServer2000Platform();
             connectionString = ConfigurationManager.AppSettings["connectionString"];
 
             migrationService = new MigrationService(

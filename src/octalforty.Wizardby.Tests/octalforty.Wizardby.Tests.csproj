@@ -79,11 +79,12 @@
     <Compile Include="Core\SemanticModel\TableDefinitionTestFixture.cs" />
     <Compile Include="Db\Jet\JetTransformerTestFixture.cs" />
     <Compile Include="Db\SqlCe\SqlCeConnectionStringBuilderTestFixture.cs" />
-    <Compile Include="Db\SqlServer\SqlServerConnectionStringBuilderTestFixture.cs" />
-    <Compile Include="Db\SqlServer\SqlServerDialectTestFixture.cs" />
-    <Compile Include="Db\SqlServer\SqlServerSchemaProviderTestFixture.cs" />
-    <Compile Include="Db\SqlServer\SqlServerScriptGeneratorTestFixture.cs" />
-    <Compile Include="Db\SqlServer\SqlServerTypeMapperTestFixture.cs" />
+    <Compile Include="Db\SqlServer2000\SqlServer2000ConnectionStringBuilderTestFixture.cs" />
+    <Compile Include="Db\SqlServer2000\SqlServer2000DialectTestFixture.cs" />
+    <Compile Include="Db\SqlServer2000\SqlServer2000SchemaProviderTestFixture.cs" />
+    <Compile Include="Db\SqlServer2000\SqlServer2000ScriptGeneratorTestFixture.cs" />
+    <Compile Include="Db\SqlServer2000\SqlServer2000TypeMapperTestFixture.cs" />
+    <Compile Include="Db\SqlServer2005\SqlServer2005TypeMapperTestFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -116,6 +117,9 @@
     <EmbeddedResource Include="Resources\Database.wdi">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Db\SqlServer2000\Data\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

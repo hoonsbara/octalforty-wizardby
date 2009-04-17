@@ -1,4 +1,4 @@
-﻿#region The MIT License
+#region The MIT License
 // The MIT License
 // 
 // Copyright (c) 2009 octalforty studios
@@ -22,7 +22,7 @@
 // THE SOFTWARE.
 #endregion
 using octalforty.Wizardby.Core.Db;
-using octalforty.Wizardby.Db.SqlServer;
+using octalforty.Wizardby.Db.SqlServer2000;
 
 namespace octalforty.Wizardby.Db.SqlServer2005
 {
@@ -30,7 +30,7 @@ namespace octalforty.Wizardby.Db.SqlServer2005
     /// A <see cref="IDbPlatform"/> implementation for the Microsoft SQL Server 2005.
     /// </summary>
     [DbPlatform("Microsoft SQL Server 2005", "sqlserver2005")]
-    public class SqlServer2005Platform : SqlServerPlatform
+    public class SqlServer2005Platform : SqlServer2000Platform
     {
     }
 }

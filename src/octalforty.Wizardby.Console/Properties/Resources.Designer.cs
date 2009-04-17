@@ -278,20 +278,19 @@ namespace octalforty.Wizardby.Console.Properties {
         /// <summary>
         ///   Looks up a localized string similar to deployment:
         ///    environment development
-        ///        platform            =&gt; sqlserver
+        ///        platform            =&gt; sqlserver2005
         ///        host                =&gt; &quot;(local)\sqlexpress&quot;
         ///        database            =&gt; {0}
         ///        integrated-security =&gt; true
         ///        
         ///    environment staging
-        ///        platform            =&gt; sqlserver
+        ///        platform            =&gt; sqlserver2005
         ///        host                =&gt; &quot;(local)\sqlexpress&quot;
         ///        database            =&gt; {0}_staging
         ///        integrated-security =&gt; true
         ///        
         ///    environment production
-        ///        platform            =&gt; sqlserver
-        ///        hos [rest of string was truncated]&quot;;.
+        ///        platform            =&gt; sqlserver2005        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string WdiTemplate {
             get {

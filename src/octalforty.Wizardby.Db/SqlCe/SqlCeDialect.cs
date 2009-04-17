@@ -27,11 +27,11 @@ using System.IO;
 using System.Text;
 
 using octalforty.Wizardby.Core.Db;
-using octalforty.Wizardby.Db.SqlServer;
+using octalforty.Wizardby.Db.SqlServer2000;
 
 namespace octalforty.Wizardby.Db.SqlCe
 {
-    public class SqlCeDialect : SqlServerDialect
+    public class SqlCeDialect : SqlServer2000Dialect
     {
         public override string EscapeIdentifier(string identifier)
         {

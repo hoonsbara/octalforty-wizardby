@@ -25,7 +25,7 @@ using NUnit.Framework;
 
 using octalforty.Wizardby.Console;
 using octalforty.Wizardby.Core.Db;
-using octalforty.Wizardby.Db.SqlServer;
+using octalforty.Wizardby.Db.SqlServer2000;
 
 namespace octalforty.Wizardby.Tests.Console
 {
@@ -35,22 +35,22 @@ namespace octalforty.Wizardby.Tests.Console
         [Test()]
         public void GetService()
         {
-            SqlServerPlatform sqlServerPlatform = new SqlServerPlatform();
+            SqlServer2000Platform sqlServer2000Platform = new SqlServer2000Platform();
 
             IServiceProvider serviceProvider = new ServiceProvider();
-            serviceProvider.RegisterService(sqlServerPlatform);
+            serviceProvider.RegisterService(sqlServer2000Platform);
 
-            Assert.AreSame(sqlServerPlatform, serviceProvider.GetService<IDbPlatform>());
-            Assert.AreSame(sqlServerPlatform, serviceProvider.GetService(typeof(IDbPlatform)));
-            Assert.AreSame(sqlServerPlatform, serviceProvider.GetService<SqlServerPlatform>());
+            Assert.AreSame(sqlServer2000Platform, serviceProvider.GetService<IDbPlatform>());
+            Assert.AreSame(sqlServer2000Platform, serviceProvider.GetService(typeof(IDbPlatform)));
+            Assert.AreSame(sqlServer2000Platform, serviceProvider.GetService<SqlServer2000Platform>());
 
-            serviceProvider.RegisterService(typeof(IDbTypeMapper), delegate { return new SqlServerTypeMapper(); });
+            serviceProvider.RegisterService(typeof(IDbTypeMapper), delegate { return new SqlServer2000TypeMapper(); });
 
             IDbTypeMapper dbTypeMapper = serviceProvider.GetService<IDbTypeMapper>();
             Assert.IsNotNull(dbTypeMapper);
             Assert.AreNotSame(dbTypeMapper, serviceProvider.GetService<IDbTypeMapper>());
 
-            serviceProvider.RegisterService<IDbNamingStrategy>(delegate { return new SqlServerNamingStrategy(); });
+            serviceProvider.RegisterService<IDbNamingStrategy>(delegate { return new SqlServer2000NamingStrategy(); });
 
             IDbNamingStrategy dbNamingStrategy = serviceProvider.GetService<IDbNamingStrategy>();
             Assert.IsNotNull(dbNamingStrategy);

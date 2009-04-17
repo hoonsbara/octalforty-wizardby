@@ -52,17 +52,16 @@
     <Compile Include="SqlCe\SqlCePlatform.cs" />
     <Compile Include="SqlCe\SqlCeScriptGenerator.cs" />
     <Compile Include="SqlCe\SqlCeTypeMapper.cs" />
+    <Compile Include="SqlServer2000\SqlServer2000ConnectionStringBuilder.cs" />
+    <Compile Include="SqlServer2000\SqlServer2000DeploymentManager.cs" />
+    <Compile Include="SqlServer2000\SqlServer2000Dialect.cs" />
+    <Compile Include="SqlServer2000\SqlServer2000NamingStrategy.cs" />
+    <Compile Include="SqlServer2000\SqlServer2000Platform.cs" />
+    <Compile Include="SqlServer2000\SqlServer2000SchemaProvider.cs" />
+    <Compile Include="SqlServer2000\SqlServer2000ScriptGenerator.cs" />
+    <Compile Include="SqlServer2000\SqlServer2000TypeMapper.cs" />
     <Compile Include="SqlServer2005\SqlServer2005Platform.cs" />
-    <Compile Include="SqlServer\SqlServerConnectionStringBuilder.cs" />
-    <Compile Include="SqlServer\SqlServerDeploymentManager.cs" />
-    <Compile Include="SqlServer\SqlServerDialect.cs" />
-    <Compile Include="SqlServer\SqlServerNamingStrategy.cs" />
-    <Compile Include="SqlServer\SqlServerPlatform.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="SqlServer\SqlServerSchemaProvider.cs" />
-    <Compile Include="SqlServer\SqlServerScriptGenerator.cs" />
-    <Compile Include="SqlServer\SqlServerTypeMapper.cs" />
+    <Compile Include="SqlServer2005\SqlServer2005TypeMapper.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\octalforty.Wizardby.Core\octalforty.Wizardby.Core.csproj">

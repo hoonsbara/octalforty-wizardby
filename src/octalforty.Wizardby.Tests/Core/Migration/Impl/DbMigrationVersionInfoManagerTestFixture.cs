@@ -31,8 +31,7 @@ using NUnit.Framework;
 using octalforty.Wizardby.Core.Db;
 using octalforty.Wizardby.Core.Migration;
 using octalforty.Wizardby.Core.Migration.Impl;
-
-using octalforty.Wizardby.Db.SqlServer;
+using octalforty.Wizardby.Db.SqlServer2000;
 
 namespace octalforty.Wizardby.Tests.Core.Migration.Impl
 {
@@ -48,7 +47,7 @@ namespace octalforty.Wizardby.Tests.Core.Migration.Impl
         public void TextFixtureSetUp()
         {
             connectionString = ConfigurationManager.AppSettings["connectionString"];
-            dbPlatform = new SqlServerPlatform();
+            dbPlatform = new SqlServer2000Platform();
         }
 
         [Test()]

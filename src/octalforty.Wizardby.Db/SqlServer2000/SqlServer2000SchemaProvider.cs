@@ -23,19 +23,20 @@
 #endregion
 using System;
 using System.Data;
+using System.Data.Common;
 
 using octalforty.Wizardby.Core.Db;
 using octalforty.Wizardby.Core.SemanticModel;
 
-namespace octalforty.Wizardby.Db.SqlServer
+namespace octalforty.Wizardby.Db.SqlServer2000
 {
-    public class SqlServerSchemaProvider : DbPlatformDependencyBase, IDbSchemaProvider
+    public class SqlServer2000SchemaProvider : DbPlatformDependencyBase, IDbSchemaProvider
     {
-        public SqlServerSchemaProvider()
+        public SqlServer2000SchemaProvider()
         {
         }
 
-        public SqlServerSchemaProvider(IDbPlatform platform) : 
+        public SqlServer2000SchemaProvider(IDbPlatform platform) : 
             base(platform)
         {
         }

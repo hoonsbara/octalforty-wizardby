@@ -23,11 +23,11 @@
 #endregion
 using System.Data;
 
-using octalforty.Wizardby.Db.SqlServer;
+using octalforty.Wizardby.Db.SqlServer2000;
 
 namespace octalforty.Wizardby.Db.SqlCe
 {
-    public class SqlCeTypeMapper : SqlServerTypeMapper
+    public class SqlCeTypeMapper : SqlServer2000TypeMapper
     {
         public SqlCeTypeMapper()
         {

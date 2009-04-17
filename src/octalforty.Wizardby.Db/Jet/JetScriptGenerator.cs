@@ -24,11 +24,11 @@
 using System.IO;
 
 using octalforty.Wizardby.Core.SemanticModel;
-using octalforty.Wizardby.Db.SqlServer;
+using octalforty.Wizardby.Db.SqlServer2000;
 
 namespace octalforty.Wizardby.Db.Jet
 {
-    public class JetScriptGenerator : SqlServerScriptGenerator
+    public class JetScriptGenerator : SqlServer2000ScriptGenerator
     {
         public JetScriptGenerator(TextWriter textWriter) : 
             base(textWriter)

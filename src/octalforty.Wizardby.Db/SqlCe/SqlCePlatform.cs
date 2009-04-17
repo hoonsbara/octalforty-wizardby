@@ -25,12 +25,12 @@ using System.Data.Common;
 using System.Data.SqlServerCe;
 
 using octalforty.Wizardby.Core.Db;
-using octalforty.Wizardby.Db.SqlServer;
+using octalforty.Wizardby.Db.SqlServer2000;
 
 namespace octalforty.Wizardby.Db.SqlCe
 {
     [DbPlatform("Microsoft SQL Server Compact Edition", "sqlce")]
-    public class SqlCePlatform : DbPlatformBase<SqlCeDialect, SqlCeConnectionStringBuilder, SqlServerNamingStrategy, SqlCeTypeMapper>
+    public class SqlCePlatform : DbPlatformBase<SqlCeDialect, SqlCeConnectionStringBuilder, SqlServer2000NamingStrategy, SqlCeTypeMapper>
     {
         public SqlCePlatform() : 
             base(true)

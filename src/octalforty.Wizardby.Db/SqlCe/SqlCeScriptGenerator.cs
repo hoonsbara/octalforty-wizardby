@@ -26,11 +26,11 @@ using System.IO;
 using System.Text;
 
 using octalforty.Wizardby.Core.Compiler.Ast;
-using octalforty.Wizardby.Db.SqlServer;
+using octalforty.Wizardby.Db.SqlServer2000;
 
 namespace octalforty.Wizardby.Db.SqlCe
 {
-    public class SqlCeScriptGenerator : SqlServerScriptGenerator
+    public class SqlCeScriptGenerator : SqlServer2000ScriptGenerator
     {
         public SqlCeScriptGenerator(TextWriter textWriter) : 
             base(textWriter)

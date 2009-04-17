@@ -33,12 +33,12 @@ using octalforty.Wizardby.Core.Db;
 using octalforty.Wizardby.Core.Migration;
 using octalforty.Wizardby.Core.Migration.Impl;
 using octalforty.Wizardby.Core.SemanticModel;
-using octalforty.Wizardby.Db.SqlServer;
+using octalforty.Wizardby.Db.SqlServer2000;
 
-namespace octalforty.Wizardby.Tests.Db.SqlServer
+namespace octalforty.Wizardby.Tests.Db.SqlServer2000
 {
     [TestFixture()]
-    public class SqlServerSchemaProviderTestFixture
+    public class SqlServer2000SchemaProviderTestFixture
     {
         #region Private Fields
         private IDbPlatform dbPlatform;
@@ -49,7 +49,7 @@ namespace octalforty.Wizardby.Tests.Db.SqlServer
         [TestFixtureSetUp()]
         public void TestFixtureSetUp()
         {
-            dbPlatform = new SqlServerPlatform();
+            dbPlatform = new SqlServer2000Platform();
             connectionString = ConfigurationManager.AppSettings["connectionString"];
 
             migrationService = new MigrationService(

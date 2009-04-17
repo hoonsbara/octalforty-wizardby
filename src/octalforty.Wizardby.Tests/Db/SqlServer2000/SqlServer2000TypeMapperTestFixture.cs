@@ -27,22 +27,32 @@ using System.Data;
 using NUnit.Framework;
 
 using octalforty.Wizardby.Core.Db;
-using octalforty.Wizardby.Db.SqlServer;
+using octalforty.Wizardby.Db.SqlServer2000;
 
-namespace octalforty.Wizardby.Tests.Db.SqlServer
+namespace octalforty.Wizardby.Tests.Db.SqlServer2000
 {
     /// <summary>
     /// http://msdn.microsoft.com/en-us/library/cc716729.aspx
     /// </summary>
     [TestFixture()]
-    public class SqlServerTypeMapperTestFixture
+    public class SqlServer2000TypeMapperTestFixture
     {
         private IDbTypeMapper typeMapper;
+
+        public SqlServer2000TypeMapperTestFixture()
+        {
+        }
+
+        public SqlServer2000TypeMapperTestFixture(IDbTypeMapper typeMapper)
+        {
+            this.typeMapper = typeMapper;
+        }
 
         [TestFixtureSetUp()]
         public void TextFixtureSetUp()
         {
-            typeMapper = new SqlServerTypeMapper();
+            if(typeMapper == null)
+                typeMapper = new SqlServer2000TypeMapper();
         }
 
         [Test()]
@@ -67,7 +77,6 @@ namespace octalforty.Wizardby.Tests.Db.SqlServer
             Assert.AreEqual("nvarchar(123)", typeMapper.MapToNativeType(DbType.String, 123));
             Assert.AreEqual("nchar(456)", typeMapper.MapToNativeType(DbType.StringFixedLength, 456));
             Assert.AreEqual("rowversion", typeMapper.MapToNativeType(DbType.Time, null));
-            Assert.AreEqual("xml", typeMapper.MapToNativeType(DbType.Xml, null));
         }
 
         [Test()]
@@ -96,8 +105,14 @@ namespace octalforty.Wizardby.Tests.Db.SqlServer
             Assert.AreEqual(DbType.StringFixedLength, typeMapper.MapToDbType("nchar", null));
             Assert.AreEqual(DbType.Time, typeMapper.MapToDbType("rowversion", null));
             Assert.AreEqual(DbType.Time, typeMapper.MapToDbType("timestamp", null));
-            Assert.AreEqual(DbType.Xml, typeMapper.MapToDbType("xml", null));
             Assert.AreEqual(DbType.Decimal, typeMapper.MapToDbType("numeric", null));
+        }
+
+        [Test()]
+        [ExpectedException(typeof(DbPlatformException), ExpectedMessage = "Unknown data type: 'DbType.Xml'")]
+        public void MapXml()
+        {
+            typeMapper.MapToNativeType(DbType.Xml, null);
         }
 
         [Test()]

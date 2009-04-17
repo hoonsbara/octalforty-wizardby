@@ -21,24 +21,24 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
-using NUnit.Framework;
-
 using octalforty.Wizardby.Core.Db;
 
-using octalforty.Wizardby.Db.SqlServer;
-
-namespace octalforty.Wizardby.Tests.Db.SqlServer
+namespace octalforty.Wizardby.Db.SqlServer2000
 {
-    [TestFixture()]
-    public class SqlServerDialectTestFixture
+    /// <summary>
+    /// A <see cref="IDbConnectionStringBuilder"/> implementation for Microsoft SQL Server 2000.
+    /// </summary>
+    public class SqlServer2000ConnectionStringBuilder : DbConnectionStringBuilderBase
     {
-        [Test()]
-        public void EscapeIdentifier()
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SqlServer2000ConnectionStringBuilder"/>.
+        /// </summary>
+        public SqlServer2000ConnectionStringBuilder() :
+            base(true)
         {
-            IDbDialect dialect = new SqlServerDialect();
-            
-            Assert.AreEqual("[Foo]", dialect.EscapeIdentifier("Foo"));
-            Assert.AreEqual("[dbo].[Foo]", dialect.EscapeIdentifier("dbo.Foo"));
+            RegisterKeyMapping("integrated-security", "integrated security");
+            RegisterKeyMapping("host", "data source");
+            RegisterKeyMapping("database", "initial catalog");
         }
     }
 }

@@ -21,24 +21,30 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
-using octalforty.Wizardby.Core.Db;
+using NUnit.Framework;
 
-namespace octalforty.Wizardby.Db.SqlServer
+using octalforty.Wizardby.Core.Db;
+using octalforty.Wizardby.Db.SqlServer2000;
+
+namespace octalforty.Wizardby.Tests.Db.SqlServer2000
 {
-    /// <summary>
-    /// A <see cref="IDbConnectionStringBuilder"/> implementation for Microsoft SQL Server.
-    /// </summary>
-    public class SqlServerConnectionStringBuilder : DbConnectionStringBuilderBase
+    [TestFixture()]
+    public class SqlServer2000ConnectionStringBuilderTestFixture
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SqlServerConnectionStringBuilder"/>.
-        /// </summary>
-        public SqlServerConnectionStringBuilder() :
-            base(true)
+        [Test()]
+        public void BuildConnectionString()
         {
-            RegisterKeyMapping("integrated-security", "integrated security");
-            RegisterKeyMapping("host", "data source");
-            RegisterKeyMapping("database", "initial catalog");
+            IDbConnectionStringBuilder connectionStringBuilder = 
+                new SqlServer2000ConnectionStringBuilder();
+
+            connectionStringBuilder.AppendKeyValuePair("Integrated-Security", "true");
+            connectionStringBuilder.AppendKeyValuePair("host", "(local)");
+            connectionStringBuilder.AppendKeyValuePair("database", "dev");
+            connectionStringBuilder.AppendKeyValuePair("foo", "bar");
+
+            Assert.AreEqual(
+                "integrated security=true;data source=(local);initial catalog=dev;", 
+                connectionStringBuilder.ToString());
         }
     }
 }

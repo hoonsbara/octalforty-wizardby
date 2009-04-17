@@ -27,7 +27,7 @@ using System.Data;
 using octalforty.Wizardby.Core.Db;
 using octalforty.Wizardby.Db.Properties;
 
-namespace octalforty.Wizardby.Db.SqlServer
+namespace octalforty.Wizardby.Db.SqlServer2000
 {
     /// <summary>
     /// 
@@ -35,7 +35,7 @@ namespace octalforty.Wizardby.Db.SqlServer
     /// <remarks>
     /// See http://msdn.microsoft.com/en-us/library/cc716729.aspx for information on mapping.
     /// </remarks>
-    public class SqlServerTypeMapper : DbTypeMapperBase
+    public class SqlServer2000TypeMapper : DbTypeMapperBase
     {
         private const string Bit = "bit";
         private const string Tinyint = "tinyint";
@@ -51,7 +51,7 @@ namespace octalforty.Wizardby.Db.SqlServer
         private const string Smalldatetime = "smalldatetime";
         private const string Numeric = "numeric";
 
-        public SqlServerTypeMapper()
+        public SqlServer2000TypeMapper()
         {
             RegisterTypeMapping(DbType.Boolean, Bit);
             RegisterTypeMapping(DbType.Byte, Tinyint);
@@ -67,7 +67,6 @@ namespace octalforty.Wizardby.Db.SqlServer
             RegisterTypeMapping(DbType.Object, "sql_variant");
             RegisterTypeMapping(DbType.Single, "real");
             RegisterTypeMapping(DbType.Time, "rowversion");
-            RegisterTypeMapping(DbType.Xml, "xml");
         }
 
         #region DbTypeMapperBase Members

@@ -24,7 +24,6 @@
 using System.Data;
 
 using octalforty.Wizardby.Core.Db;
-using octalforty.Wizardby.Db.SqlServer;
 
 namespace octalforty.Wizardby.Db.Jet
 {

@@ -33,15 +33,13 @@ using octalforty.Wizardby.Core.Compiler.Impl;
 using octalforty.Wizardby.Core.Db;
 using octalforty.Wizardby.Core.Migration.Impl;
 using octalforty.Wizardby.Core.Util;
-
-using octalforty.Wizardby.Db.SqlServer;
-
+using octalforty.Wizardby.Db.SqlServer2000;
 using octalforty.Wizardby.Tests.Core.Compiler;
 
-namespace octalforty.Wizardby.Tests.Db.SqlServer
+namespace octalforty.Wizardby.Tests.Db.SqlServer2000
 {
     [TestFixture()]
-    public class SqlServerScriptGeneratorTestFixture
+    public class SqlServer2000ScriptGeneratorTestFixture
     {
         [Test()]
         public void GenerateScript()
@@ -54,7 +52,7 @@ namespace octalforty.Wizardby.Tests.Db.SqlServer
                 astNode = mdlParser.Parse();
             } // using
 
-            IDbPlatform platform = new SqlServerPlatform();
+            IDbPlatform platform = new SqlServer2000Platform();
             IMdlCompiler compiler = new MdlCompiler(new NullCodeGenerator(), new Environment());
 
             compiler.RemoveCompilerStage<DowngradeGenerationStage>();
@@ -168,7 +166,7 @@ drop table [Tag];
                 astNode = mdlParser.Parse();
             } // using
 
-            IDbPlatform platform = new SqlServerPlatform();
+            IDbPlatform platform = new SqlServer2000Platform();
             IMdlCompiler compiler = new MdlCompiler(new NullCodeGenerator(), new Environment());
 
             compiler.RemoveCompilerStage<DowngradeGenerationStage>();
@@ -282,7 +280,7 @@ drop table [t].[Tag];
                 astNode = mdlParser.Parse();
             } // using
 
-            IDbPlatform platform = new SqlServerPlatform();
+            IDbPlatform platform = new SqlServer2000Platform();
             IMdlCompiler compiler = new MdlCompiler(new NullCodeGenerator(), new Environment());
 
             compiler.RemoveCompilerStage<DowngradeGenerationStage>();
