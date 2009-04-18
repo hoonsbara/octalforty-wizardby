@@ -288,6 +288,7 @@
     </Compile>
     <Compile Include="Db\DbPlatformDependencyBase.cs" />
     <Compile Include="Db\DbPlatformException.cs" />
+    <Compile Include="Db\DbSchemaProviderBase.cs" />
     <Compile Include="Db\DbScriptGeneratorBase.cs" />
     <Compile Include="Db\DbTypeMapperBase.cs">
       <SubType>Code</SubType>
@@ -311,6 +312,7 @@
     <Compile Include="Db\IDbTypeMapper.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Db\InformationSchemaSchemaProvider.cs" />
     <Compile Include="Deployment\IDeploymentService.cs" />
     <Compile Include="Deployment\Impl\DeploymentService.cs" />
     <Compile Include="Migration\IMigrationService.cs">

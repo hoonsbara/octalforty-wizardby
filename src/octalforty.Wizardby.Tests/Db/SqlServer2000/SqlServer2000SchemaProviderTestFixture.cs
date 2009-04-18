@@ -90,6 +90,13 @@ namespace octalforty.Wizardby.Tests.Db.SqlServer2000
             Assert.IsFalse(primaryKeyColumn.Nullable.Value);
             Assert.IsTrue(primaryKeyColumn.PrimaryKey.Value);
             Assert.IsTrue(primaryKeyColumn.Identity.Value);
+
+            ITableDefinition blogTable = schema.GetTable("dbo", "Blog");
+
+            IColumnDefinition descriptionColumn = blogTable.GetColumn("Description");
+            
+            Assert.AreEqual(DbType.String, descriptionColumn.Type.Value);
+            Assert.IsFalse(descriptionColumn.Length.HasValue);
         }
     }
 }

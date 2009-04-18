@@ -1,4 +1,4 @@
-#region The MIT License
+﻿#region The MIT License
 // The MIT License
 // 
 // Copyright (c) 2009 octalforty studios
@@ -21,26 +21,19 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
-using FirebirdSql.Data.FirebirdClient;
+using System;
+using System.Collections.Generic;
+using System.Text;
 
-using octalforty.Wizardby.Core.Db;
-
-namespace octalforty.Wizardby.Db.Firebird
+namespace octalforty.Wizardby.Db.SqlCe
 {
-    public class FirebirdDeploymentManager : DbPlatformDependencyBase, IDbDeploymentManager
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <remarks>
+    /// http://arjunachith.blogspot.com/2007/08/retrieving-schema-information-of-sql-ce.html
+    /// </remarks>
+    public class SqlCeSchemaProvider
     {
-        public FirebirdDeploymentManager()
-        {
-        }
-
-        public FirebirdDeploymentManager(IDbPlatform platform) : 
-            base(platform)
-        {
-        }
-
-        public void Deploy(string connectionString)
-        {
-            FbConnection.CreateDatabase(connectionString);
-        }
     }
 }

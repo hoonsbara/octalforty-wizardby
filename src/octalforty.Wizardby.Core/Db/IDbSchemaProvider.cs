@@ -25,8 +25,17 @@ using octalforty.Wizardby.Core.SemanticModel;
 
 namespace octalforty.Wizardby.Core.Db
 {
+    /// <summary>
+    /// Provides means to introspect database schema.
+    /// </summary>
     public interface IDbSchemaProvider : IDbPlatformDependency
     {
+        /// <summary>
+        /// Introspects the database defined by the <see cref="connectionString"/> and 
+        /// returns a <see cref="Schema"/> object, which contains all the schema elements.
+        /// </summary>
+        /// <param name="connectionString"></param>
+        /// <returns></returns>
         Schema GetSchema(string connectionString);
     }
 }

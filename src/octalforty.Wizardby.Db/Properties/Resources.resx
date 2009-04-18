@@ -120,4 +120,7 @@
   <data name="UnknownDataType" xml:space="preserve">
     <value>Unknown data type: 'DbType.{0}'</value>
   </data>
+  <data name="UnknownSchemaForTable" xml:space="preserve">
+    <value>Unknown Schema '{0}' for Table '{1}'</value>
+  </data>
 </root>

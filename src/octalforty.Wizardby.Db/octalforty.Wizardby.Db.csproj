@@ -50,6 +50,7 @@
     <Compile Include="SqlCe\SqlCeDeploymentManager.cs" />
     <Compile Include="SqlCe\SqlCeDialect.cs" />
     <Compile Include="SqlCe\SqlCePlatform.cs" />
+    <Compile Include="SqlCe\SqlCeSchemaProvider.cs" />
     <Compile Include="SqlCe\SqlCeScriptGenerator.cs" />
     <Compile Include="SqlCe\SqlCeTypeMapper.cs" />
     <Compile Include="SqlServer2000\SqlServer2000ConnectionStringBuilder.cs" />
@@ -61,6 +62,7 @@
     <Compile Include="SqlServer2000\SqlServer2000ScriptGenerator.cs" />
     <Compile Include="SqlServer2000\SqlServer2000TypeMapper.cs" />
     <Compile Include="SqlServer2005\SqlServer2005Platform.cs" />
+    <Compile Include="SqlServer2005\SqlServer2005SchemaProvider.cs" />
     <Compile Include="SqlServer2005\SqlServer2005TypeMapper.cs" />
   </ItemGroup>
   <ItemGroup>
