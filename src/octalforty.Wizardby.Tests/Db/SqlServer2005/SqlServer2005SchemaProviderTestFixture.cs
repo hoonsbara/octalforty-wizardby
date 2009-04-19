@@ -1,4 +1,4 @@
-#region The MIT License
+﻿#region The MIT License
 // The MIT License
 // 
 // Copyright (c) 2009 octalforty studios
@@ -22,13 +22,13 @@
 // THE SOFTWARE.
 #endregion
 using NUnit.Framework;
+using octalforty.Wizardby.Db.SqlServer2005;
 
-using octalforty.Wizardby.Db.SqlServer2000;
-
-namespace octalforty.Wizardby.Tests.Db.SqlServer2000
+namespace octalforty.Wizardby.Tests.Db.SqlServer2005
 {
     [TestFixture()]
-    public class SqlServer2000SchemaProviderTestFixture : DbSchemaProviderTestFixtureBase<SqlServer2000Platform>
+    public class SqlServer2005SchemaProviderTestFixture : 
+        DbSchemaProviderTestFixtureBase<SqlServer2005Platform>
     {
     }
 }

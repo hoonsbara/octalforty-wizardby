@@ -77,6 +77,7 @@
     <Compile Include="Core\SemanticModel\SchemaTestFixture.cs" />
     <Compile Include="Core\SemanticModel\SemanticModelUtilTestFixture.cs" />
     <Compile Include="Core\SemanticModel\TableDefinitionTestFixture.cs" />
+    <Compile Include="Db\DbSchemaProviderTestFixtureBase.cs" />
     <Compile Include="Db\Jet\JetTransformerTestFixture.cs" />
     <Compile Include="Db\SqlCe\SqlCeConnectionStringBuilderTestFixture.cs" />
     <Compile Include="Db\SqlServer2000\SqlServer2000ConnectionStringBuilderTestFixture.cs" />
@@ -84,6 +85,7 @@
     <Compile Include="Db\SqlServer2000\SqlServer2000SchemaProviderTestFixture.cs" />
     <Compile Include="Db\SqlServer2000\SqlServer2000ScriptGeneratorTestFixture.cs" />
     <Compile Include="Db\SqlServer2000\SqlServer2000TypeMapperTestFixture.cs" />
+    <Compile Include="Db\SqlServer2005\SqlServer2005SchemaProviderTestFixture.cs" />
     <Compile Include="Db\SqlServer2005\SqlServer2005TypeMapperTestFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

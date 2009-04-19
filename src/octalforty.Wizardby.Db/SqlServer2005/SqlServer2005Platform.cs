@@ -32,5 +32,9 @@ namespace octalforty.Wizardby.Db.SqlServer2005
     [DbPlatform("Microsoft SQL Server 2005", "sqlserver2005")]
     public class SqlServer2005Platform : SqlServer2000Platform
     {
+        public override IDbSchemaProvider SchemaProvider
+        {
+            get { return new SqlServer2005SchemaProvider(this); }
+        }
     }
 }
