@@ -37,6 +37,10 @@ namespace octalforty.Wizardby.Core.Compiler.Ast.Impl
         private string fkTable;
         #endregion
 
+        private string pkTableSchema;
+
+        private string fkTableSchema;
+
         public AddReferenceNode(IAstNode parent, string name) : 
             base(parent)
         {
@@ -55,8 +59,6 @@ namespace octalforty.Wizardby.Core.Compiler.Ast.Impl
         #endregion
 
         #region IAddReferenceNode Members
-
-        #region Implementation of IReferenceDefinition
         public IList<string> PkColumns
         {
             get { return pkColumns; }
@@ -84,8 +86,18 @@ namespace octalforty.Wizardby.Core.Compiler.Ast.Impl
             get { return name; }
             set { name = value; }
         }
-        #endregion
 
+        public string PkTableSchema
+        {
+            get { return pkTableSchema; }
+            set { pkTableSchema = value; }
+        }
+
+        public string FkTableSchema
+        {
+            get { return fkTableSchema; }
+            set { fkTableSchema = value; }
+        }
         #endregion
     }
 }

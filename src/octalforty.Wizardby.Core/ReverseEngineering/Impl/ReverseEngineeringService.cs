@@ -52,6 +52,18 @@ namespace octalforty.Wizardby.Core.ReverseEngineering.Impl
                 } // foreach
 
                 baselineNode.ChildNodes.Add(addTableNode);
+
+                foreach(IIndexDefinition index in table.Indexes)
+                {
+                    IAstNode addIndexNode = new AddIndexNode(addTableNode, index.Name);
+                    addTableNode.ChildNodes.Add(addIndexNode);
+                } // foreach
+
+                foreach(IReferenceDefinition reference in table.References)
+                {
+                    IAstNode addReferenceNode = new AddReferenceNode(addTableNode, reference.Name);
+                    addTableNode.ChildNodes.Add(addReferenceNode);
+                } // foreach
             } // foreach
 
             return baselineNode;

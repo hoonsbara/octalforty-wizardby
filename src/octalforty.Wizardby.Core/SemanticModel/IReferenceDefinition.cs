@@ -51,9 +51,21 @@ namespace octalforty.Wizardby.Core.SemanticModel
         { get; set; }
 
         /// <summary>
+        /// Gets or sets a string which contains the name of the primary key table schema.
+        /// </summary>
+        string PkTableSchema
+        { get; set; }
+
+        /// <summary>
         /// Gets or sets a string which contains the name of the foreign key table.
         /// </summary>
         string FkTable 
+        { get; set; }
+
+        /// <summary>
+        /// Gets or sets a string which contains the name of the foreign key table schema.
+        /// </summary>
+        string FkTableSchema
         { get; set; }
     }
 }

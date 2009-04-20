@@ -23,6 +23,7 @@
 #endregion
 using System.Configuration;
 using System.Data;
+using System.Data.SqlClient;
 using System.IO;
 using System.Reflection;
 using System.Text;
@@ -87,6 +88,37 @@ namespace octalforty.Wizardby.Tests.Db
             
             Assert.AreEqual(DbType.String, descriptionColumn.Type.Value);
             Assert.IsFalse(descriptionColumn.Length.HasValue);
+
+            ITableDefinition blogPostTable = schema.GetTable("dbo", "BlogPost");
+
+            IReferenceDefinition fk1Reference = blogPostTable.GetReference("FK1");
+
+            Assert.IsNotNull(fk1Reference);
+            Assert.AreEqual("dbo", fk1Reference.PkTableSchema);
+            Assert.AreEqual("Blog", fk1Reference.PkTable);
+            Assert.AreEqual(1, fk1Reference.PkColumns.Count);
+            Assert.AreEqual("ID", fk1Reference.PkColumns[0]);
+
+            Assert.AreEqual("dbo", fk1Reference.FkTableSchema);
+            Assert.AreEqual("BlogPost", fk1Reference.FkTable);
+            Assert.AreEqual(1, fk1Reference.FkColumns.Count);
+            Assert.AreEqual("BlogID", fk1Reference.FkColumns[0]);
+
+            ITableDefinition userTable = schema.GetTable("dbo", "User");
+
+            IIndexDefinition ixLoginIndex = userTable.GetIndex("IX_Login");
+
+            Assert.IsNotNull(ixLoginIndex);
+            Assert.IsTrue(ixLoginIndex.Unique.Value);
+            Assert.IsFalse(ixLoginIndex.Clustered.Value);
+            
+            Assert.AreEqual(2, ixLoginIndex.Columns.Count);
+
+            Assert.AreEqual("ID", ixLoginIndex.Columns[0].Name);
+            Assert.AreEqual(SortOrder.Ascending, (SortOrder)ixLoginIndex.Columns[0].SortDirection.Value);
+
+            Assert.AreEqual("Login", ixLoginIndex.Columns[1].Name);
+            Assert.AreEqual(SortOrder.Descending, (SortOrder)ixLoginIndex.Columns[1].SortDirection.Value);
         }
 
         private void MigrateTo(int? targetVersion)

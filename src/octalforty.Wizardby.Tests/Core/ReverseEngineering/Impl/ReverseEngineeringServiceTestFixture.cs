@@ -34,8 +34,9 @@ using octalforty.Wizardby.Core.Migration;
 using octalforty.Wizardby.Core.Migration.Impl;
 using octalforty.Wizardby.Core.ReverseEngineering;
 using octalforty.Wizardby.Core.ReverseEngineering.Impl;
-using octalforty.Wizardby.Core.SemanticModel;
-using octalforty.Wizardby.Db.SqlServer2000;
+using octalforty.Wizardby.Core.Util;
+using octalforty.Wizardby.Db.SqlServer2005;
+
 using octalforty.Wizardby.Tests.Core.Compiler.Impl;
 
 namespace octalforty.Wizardby.Tests.Core.ReverseEngineering.Impl
@@ -52,7 +53,7 @@ namespace octalforty.Wizardby.Tests.Core.ReverseEngineering.Impl
         [TestFixtureSetUp()]
         public void TestFixtureSetUp()
         {
-            dbPlatform = new SqlServer2000Platform();
+            dbPlatform = new SqlServer2005Platform();
             connectionString = ConfigurationManager.AppSettings["connectionString"];
 
             migrationService = new MigrationService(
@@ -60,21 +61,13 @@ namespace octalforty.Wizardby.Tests.Core.ReverseEngineering.Impl
                 new DbMigrationVersionInfoManager(dbPlatform, new DbCommandExecutionStrategy(), "SchemaInfo"),
                 new DbMigrationScriptExecutive(new DbCommandExecutionStrategy()));
 
-            using(Stream resourceStream =
-                Assembly.GetExecutingAssembly().GetManifestResourceStream("octalforty.Wizardby.Tests.Resources.Blog.mdl"))
-            {
-                migrationService.Migrate(connectionString, null, new StreamReader(resourceStream, Encoding.UTF8));
-            } // using
+            MigrateTo(null);
         }
 
         [TestFixtureTearDown()]
         public void TestFixtureTearDown()
         {
-            using (Stream resourceStream =
-                Assembly.GetExecutingAssembly().GetManifestResourceStream("octalforty.Wizardby.Tests.Resources.Blog.mdl"))
-            {
-                migrationService.Migrate(connectionString, 0, new StreamReader(resourceStream, Encoding.UTF8));
-            } // using
+            MigrateTo(0);
         }
 
         [Test()]
@@ -84,6 +77,34 @@ namespace octalforty.Wizardby.Tests.Core.ReverseEngineering.Impl
             IAstNode astNode = reverseEngineeringService.ReverseEngineer(dbPlatform, connectionString);
 
             Assert.IsInstanceOfType(typeof(IBaselineNode), astNode);
+
+            IAddTableNode addBlogAuthorJunctionTableNode = 
+                (IAddTableNode)Algorithms.FindFirst<IAstNode>(astNode.ChildNodes,
+                    delegate(IAstNode an) 
+                        { return an is IAddTableNode && ((IAddTableNode)an).Name == "BlogAuthorJunction"; });
+            
+            Assert.IsNotNull(addBlogAuthorJunctionTableNode);
+
+            AssertAddReference(Algorithms.FindFirst(addBlogAuthorJunctionTableNode.ChildNodes,
+                delegate(IAstNode an)
+                    { return an is IAddReferenceNode && ((IAddReferenceNode)an).Name == "FK12"; }),
+                    "FK12", 
+                    "Blog", new string[] { "ID" },
+                    "BlogAuthorJunction", new string[] { "BlogID" });
+            /*Assert.IsNotNull(Algorithms.FindFirst<IAstNode>(addBlogAuthorJunctionTableNode.ChildNodes,
+                delegate(IAstNode an)
+                    { return an is IAddReferenceNode && ((IAddReferenceNode)an).Name == "FK13"; }));*/
+        }
+
+
+
+        private void MigrateTo(int? targetVersion)
+        {
+            using(Stream resourceStream =
+                Assembly.GetExecutingAssembly().GetManifestResourceStream("octalforty.Wizardby.Tests.Resources.Blog.mdl"))
+            {
+                migrationService.Migrate(connectionString, targetVersion, new StreamReader(resourceStream, Encoding.UTF8));
+            } // using
         }
     }
 }

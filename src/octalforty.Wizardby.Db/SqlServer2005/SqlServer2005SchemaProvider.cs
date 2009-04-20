@@ -21,6 +21,13 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
+using System;
+using System.Collections.Generic;
+using System.Data.SqlClient;
+
+using Microsoft.SqlServer.Management.Common;
+using Microsoft.SqlServer.Management.Smo;
+
 using octalforty.Wizardby.Core.Db;
 using octalforty.Wizardby.Core.SemanticModel;
 using octalforty.Wizardby.Db.SqlServer2000;
@@ -55,9 +62,30 @@ namespace octalforty.Wizardby.Db.SqlServer2005
         /// </summary>
         /// <param name="connectionString"></param>
         /// <param name="databaseSchema"></param>
-        protected override void GetReferenceDefinitions(string connectionString, Schema databaseSchema)
+        protected override void GetReferenceDefinitions(string connectionString, Core.SemanticModel.Schema databaseSchema)
         {
-            base.GetReferenceDefinitions(connectionString, databaseSchema);
+            WithDatabase(connectionString, delegate(Database database)
+                {
+                    database.PrefetchObjects(typeof(Table));
+
+                    foreach(Table table in database.Tables)
+                    {
+                        if(table.IsSystemObject)
+                            continue;
+
+                        foreach(ForeignKey foreignKey in table.ForeignKeys)
+                        {
+                            if(foreignKey.IsSystemNamed)
+                                continue;
+
+                            IReferenceDefinition referenceDefinition = GetReferenceDefinition(table, foreignKey);
+
+                            ITableDefinition fkTable = 
+                                databaseSchema.GetTable(referenceDefinition.FkTableSchema, referenceDefinition.FkTable);
+                            fkTable.AddReference(referenceDefinition);
+                        } // foreach
+                    } // foreach
+                });
         }
 
         /// <summary>
@@ -66,11 +94,80 @@ namespace octalforty.Wizardby.Db.SqlServer2005
         /// </summary>
         /// <param name="connectionString"></param>
         /// <param name="databaseSchema"></param>
-        protected override void GetIndexDefinitions(string connectionString, Schema databaseSchema)
+        protected override void GetIndexDefinitions(string connectionString, Core.SemanticModel.Schema databaseSchema)
         {
-            base.GetIndexDefinitions(connectionString, databaseSchema);
+            WithDatabase(connectionString, delegate(Database database)
+                {
+                    database.PrefetchObjects(typeof(Table));
+
+                    foreach(Table table in database.Tables)
+                    {
+                        if(table.IsSystemObject)
+                            continue;
+
+                        foreach(Index index in table.Indexes)
+                        {
+                            if(index.IsSystemNamed)
+                                continue;
+
+                            IIndexDefinition indexDefinition = GetIndexDefinition(table, index);
+                            ITableDefinition indexTable = databaseSchema.GetTable(table.Schema, table.Name);
+
+                            indexTable.AddIndex(indexDefinition);
+                        } // foreach
+                    } // foreach
+                });
         }
         #endregion
 
+        private static IIndexDefinition GetIndexDefinition(Table table, Index index)
+        {
+            IIndexDefinition indexDefinition = new IndexDefinition(index.Name);
+            indexDefinition.Clustered = index.IsClustered;
+            indexDefinition.Unique = index.IsUnique;
+
+            foreach (IndexedColumn indexedColumn in index.IndexedColumns)
+            {
+                indexDefinition.Columns.Add(new IndexColumnDefinition(indexedColumn.Name,
+                    indexedColumn.Descending ?
+                        SortDirection.Descending :
+                        SortDirection.Ascending));
+            } // foreach
+
+            return indexDefinition;
+        }
+
+        private static IReferenceDefinition GetReferenceDefinition(Table table, ForeignKey foreignKey)
+        {
+            IReferenceDefinition referenceDefinition = new ReferenceDefinition(foreignKey.Name);
+            referenceDefinition.PkTableSchema = foreignKey.ReferencedTableSchema;
+            referenceDefinition.PkTable = foreignKey.ReferencedTable;
+            referenceDefinition.FkTableSchema = table.Schema;
+            referenceDefinition.FkTable = table.Name;
+
+            foreach (ForeignKeyColumn foreignKeyColumn in foreignKey.Columns)
+            {
+                referenceDefinition.FkColumns.Add(foreignKeyColumn.Name);
+                referenceDefinition.PkColumns.Add(foreignKeyColumn.ReferencedColumn);
+            } // foreach
+
+            return referenceDefinition;
+        }
+
+        private void WithDatabase(string connectionString, Action<Database> action)
+        {
+            using(SqlConnection sqlConnection = (SqlConnection)Platform.ProviderFactory.CreateConnection())
+            {
+                sqlConnection.ConnectionString = connectionString;
+                sqlConnection.Open();
+
+                SqlConnectionStringBuilder connectionStringBuilder = new SqlConnectionStringBuilder(connectionString);
+                
+                Server server = new Server(new ServerConnection(sqlConnection));
+                Database database = server.Databases[connectionStringBuilder.InitialCatalog];
+
+                action(database);
+            } // using
+        }
     }
 }

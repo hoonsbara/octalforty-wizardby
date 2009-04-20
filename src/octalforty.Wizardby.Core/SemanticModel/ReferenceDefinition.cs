@@ -34,6 +34,10 @@ namespace octalforty.Wizardby.Core.SemanticModel
         private string pkTable;
         private string fkTable;
 
+        private string pkTableSchema;
+
+        private string fkTableSchema;
+
         public IList<string> PkColumns
         {
             get { return pkColumns; }
@@ -54,6 +58,18 @@ namespace octalforty.Wizardby.Core.SemanticModel
         {
             get { return fkTable; }
             set { fkTable = value; }
+        }
+
+        public string PkTableSchema
+        {
+            get { return pkTableSchema; }
+            set { pkTableSchema = value; }
+        }
+
+        public string FkTableSchema
+        {
+            get { return fkTableSchema; }
+            set { fkTableSchema = value; }
         }
 
         public ReferenceDefinition()
