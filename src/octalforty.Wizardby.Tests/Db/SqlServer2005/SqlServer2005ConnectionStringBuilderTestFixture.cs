@@ -24,18 +24,18 @@
 using NUnit.Framework;
 
 using octalforty.Wizardby.Core.Db;
-using octalforty.Wizardby.Db.SqlServer2000;
+using octalforty.Wizardby.Db.SqlServer2005;
 
-namespace octalforty.Wizardby.Tests.Db.SqlServer2000
+namespace octalforty.Wizardby.Tests.Db.SqlServer2005
 {
     [TestFixture()]
-    public class SqlServer2000ConnectionStringBuilderTestFixture
+    public class SqlServer2005ConnectionStringBuilderTestFixture
     {
         [Test()]
         public void BuildConnectionString()
         {
             IDbConnectionStringBuilder connectionStringBuilder = 
-                new SqlServer2000ConnectionStringBuilder();
+                new SqlServer2005ConnectionStringBuilder();
 
             connectionStringBuilder.AppendKeyValuePair("Integrated-Security", "true");
             connectionStringBuilder.AppendKeyValuePair("host", "(local)");
@@ -51,7 +51,7 @@ namespace octalforty.Wizardby.Tests.Db.SqlServer2000
         public void BuildConnectionString2()
         {
             IDbConnectionStringBuilder connectionStringBuilder =
-                new SqlServer2000ConnectionStringBuilder();
+                new SqlServer2005ConnectionStringBuilder();
 
             connectionStringBuilder.AppendKeyValuePair("host", "(local)");
             connectionStringBuilder.AppendKeyValuePair("database", "dev");

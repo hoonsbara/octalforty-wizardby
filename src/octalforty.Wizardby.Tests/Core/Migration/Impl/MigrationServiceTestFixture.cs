@@ -22,6 +22,8 @@
 // THE SOFTWARE.
 #endregion
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Reflection;
@@ -32,9 +34,7 @@ using NUnit.Framework;
 using octalforty.Wizardby.Core.Db;
 using octalforty.Wizardby.Core.Migration;
 using octalforty.Wizardby.Core.Migration.Impl;
-using octalforty.Wizardby.Db.SqlServer2000;
-
-using Rhino.Mocks;
+using octalforty.Wizardby.Db.SqlServer2005;
 
 namespace octalforty.Wizardby.Tests.Core.Migration.Impl
 {
@@ -44,62 +44,66 @@ namespace octalforty.Wizardby.Tests.Core.Migration.Impl
         #region Private Fields
         private string connectionString;
         private IDbPlatform dbPlatform;
-        private MockRepository mockRepository;
+        private IMigrationService migrationService;
+        private DbMigrationVersionInfoManager migrationVersionInfoManager;
         #endregion
 
         [TestFixtureSetUp()]
         public void TestFixtureSetUp()
         {
-            dbPlatform = new SqlServer2000Platform();
+            dbPlatform = new SqlServer2005Platform();
             connectionString = ConfigurationManager.AppSettings["connectionString"];
-            mockRepository = new MockRepository();
+
+            migrationVersionInfoManager = new DbMigrationVersionInfoManager(dbPlatform, new DbCommandExecutionStrategy(), "SchemaInfo");
+            migrationService = new MigrationService(
+                dbPlatform,
+                migrationVersionInfoManager,
+                new DbMigrationScriptExecutive(new DbCommandExecutionStrategy()));
         }
 
         [Test()]
-        public void MigrateUpgrade()
+        public void MigrateReorderedVersions()
         {
-            IMigrationVersionInfoManager migrationVersionInfoManager = 
-                mockRepository.StrictMock<IMigrationVersionInfoManager>();
-            IMigrationScriptExecutive migrationScriptExecutive =
-                mockRepository.StrictMock<IMigrationScriptExecutive>();
+            Assert.IsEmpty((ICollection)migrationVersionInfoManager.GetAllRegisteredMigrationVersions(connectionString));
+            
+            MigrateTo("octalforty.Wizardby.Tests.Resources.OxiteWithReorderedVersions.mdl", null);
 
-            IMigrationService migrationService = new MigrationService(dbPlatform, migrationVersionInfoManager, migrationScriptExecutive);
+            Assert.AreEqual(new long[] { 20090323103239, 20090330170528, 20090331135627, 20090331140131 },
+                new List<long>(migrationVersionInfoManager.GetAllRegisteredMigrationVersions(connectionString)).ToArray());
 
-            using(Stream resourceStream =
-                Assembly.GetExecutingAssembly().GetManifestResourceStream("octalforty.Wizardby.Tests.Resources.Waffle.mdl"))
+            MigrateTo("octalforty.Wizardby.Tests.Resources.OxiteWithReorderedVersions.mdl", 0);
+
+            Assert.IsEmpty((ICollection)migrationVersionInfoManager.GetAllRegisteredMigrationVersions(connectionString));
+        }
+
+        [Test()]
+        public void MigrateMissingVersions()
+        {
+            Assert.IsEmpty((ICollection)migrationVersionInfoManager.GetAllRegisteredMigrationVersions(connectionString));
+
+            MigrateTo("octalforty.Wizardby.Tests.Resources.OxiteWithMissingVersion.mdl", null);
+
+            Assert.AreEqual(new long[] { 20090323103239, 20090330170528, 20090331140131 },
+                new List<long>(migrationVersionInfoManager.GetAllRegisteredMigrationVersions(connectionString)).ToArray());
+
+            MigrateTo("octalforty.Wizardby.Tests.Resources.Oxite.mdl", null);
+
+            Assert.AreEqual(new long[] { 20090323103239, 20090330170528, 20090331135627, 20090331140131 },
+                new List<long>(migrationVersionInfoManager.GetAllRegisteredMigrationVersions(connectionString)).ToArray());
+
+            MigrateTo("octalforty.Wizardby.Tests.Resources.OxiteWithReorderedVersions.mdl", 0);
+
+            Assert.IsEmpty((ICollection)migrationVersionInfoManager.GetAllRegisteredMigrationVersions(connectionString));
+        }
+
+
+        private void MigrateTo(string migrationDefinition, int? targetVersion)
+        {
+            using (Stream resourceStream =
+                Assembly.GetExecutingAssembly().GetManifestResourceStream(migrationDefinition))
             {
-                migrationService.Migrate(connectionString, null, new StreamReader(resourceStream, Encoding.UTF8));
+                migrationService.Migrate(connectionString, targetVersion, new StreamReader(resourceStream, Encoding.UTF8));
             } // using
-        }
-
-        [Test()]
-        public void MigrateDbUpgrade()
-        {
-            MigrationVersionInfoManager versionInfoManager = new MigrationVersionInfoManager(3);
-            MigrationScriptExecutive scriptExecutive = new MigrationScriptExecutive();
-
-            using(Stream resourceStream =
-                Assembly.GetExecutingAssembly().GetManifestResourceStream("octalforty.Wizardby.Tests.Resources.Waffle.mdl"))
-            {
-                IMigrationService migrationService = new MigrationService(dbPlatform, versionInfoManager, scriptExecutive);
-
-                migrationService.Migrate("data source=(local)\\sqlexpress;initial catalog=test;integrated security=sspi", null, new StreamReader(resourceStream, Encoding.UTF8));
-            } // using
-
-            Assert.AreEqual(3, scriptExecutive.CurrentVersion.Value);
-            Assert.IsFalse(scriptExecutive.TargetVersion.HasValue);
-            Assert.AreEqual(MigrationMode.Upgrade, scriptExecutive.MigrationMode);
-
-            Assert.IsNotNull(scriptExecutive.MigrationScripts);
-            Assert.AreEqual(3, scriptExecutive.MigrationScripts.Count);
-        }
-
-        [Test()]
-        //[ExpectedException(typeof(ArgumentNullException))]
-        public void MigrateDbThrowsArgumentNullExceptionOnNullConnectionString()
-        {
-            IMigrationService migrationService = new MigrationService();
-            //migrationService.Migrate(new JetPlatform(), null, "migration definition", 0, 1);
         }
     }
 }

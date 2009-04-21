@@ -120,15 +120,15 @@ namespace octalforty.Wizardby.Core.Migration.Impl
             if(migrationMode == MigrationMode.Upgrade)
             {
                 foreach(MigrationScript ms in migrationScripts)
-                    if((!currentVersion.HasValue || currentVersion.Value < ms.MigrationVersion) &&
-                        (!targetVersion.HasValue || targetVersion.Value >= ms.MigrationVersion))
+                    /*if((!currentVersion.HasValue || currentVersion.Value < ms.MigrationVersion) &&
+                        (!targetVersion.HasValue || targetVersion.Value >= ms.MigrationVersion))*/
                         yield return ms;
             } // if
             else
             {
                 foreach(MigrationScript ms in Algorithms.Reverse(migrationScripts))
-                    if((!currentVersion.HasValue || currentVersion.Value >= ms.MigrationVersion) &&
-                        (!targetVersion.HasValue || targetVersion.Value < ms.MigrationVersion))
+                    /*if((!currentVersion.HasValue || currentVersion.Value >= ms.MigrationVersion) &&
+                        (!targetVersion.HasValue || targetVersion.Value < ms.MigrationVersion))*/
                         yield return ms;
             } // else
         }

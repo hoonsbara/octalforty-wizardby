@@ -1,0 +1,18 @@
+deployment:
+    environment development
+        platform            => sqlserver2005
+        host                => "(local)\sqlexpress"
+        database            => oxite
+        integrated-security => true
+        
+    environment staging
+        platform            => sqlserver2005
+        host                => "(local)\sqlexpress"
+        database            => oxite_staging
+        integrated-security => true
+        
+    environment production
+        platform            => sqlserver2005
+        host                => "(local)\sqlexpress"
+        database            => oxite_production
+        integrated-security => true

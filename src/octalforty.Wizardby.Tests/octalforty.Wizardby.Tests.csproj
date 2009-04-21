@@ -85,6 +85,7 @@
     <Compile Include="Db\SqlServer2000\SqlServer2000SchemaProviderTestFixture.cs" />
     <Compile Include="Db\SqlServer2000\SqlServer2000ScriptGeneratorTestFixture.cs" />
     <Compile Include="Db\SqlServer2000\SqlServer2000TypeMapperTestFixture.cs" />
+    <Compile Include="Db\SqlServer2005\SqlServer2005ConnectionStringBuilderTestFixture.cs" />
     <Compile Include="Db\SqlServer2005\SqlServer2005SchemaProviderTestFixture.cs" />
     <Compile Include="Db\SqlServer2005\SqlServer2005TypeMapperTestFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -114,6 +115,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <EmbeddedResource Include="Resources\OxiteWithMissingVersion.mdl" />
+    <EmbeddedResource Include="Resources\OxiteWithReorderedVersions.mdl" />
+    <EmbeddedResource Include="Resources\Oxite.mdl" />
     <EmbeddedResource Include="Resources\BlogWithTemplates.mdl" />
     <EmbeddedResource Include="Resources\BlogWithSchemas.mdl" />
     <EmbeddedResource Include="Resources\Database.wdi">

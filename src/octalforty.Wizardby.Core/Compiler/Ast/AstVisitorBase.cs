@@ -150,12 +150,12 @@ namespace octalforty.Wizardby.Core.Compiler.Ast
                 nodes[i].Accept(this);
         }
 
-        protected virtual IEnumerable<IAstNode> Filter<T>(IEnumerable<IAstNode> astNodes)
+        protected virtual IEnumerable<T> Filter<T>(IEnumerable<IAstNode> astNodes)
             where T : IAstNode
         {
             foreach(IAstNode astNode in astNodes)
                 if(astNode is T)
-                    yield return astNode;
+                    yield return (T)astNode;
         }
 
         protected virtual IEnumerable<IAstNode> FilterNot<T>(IEnumerable<IAstNode> astNodes)

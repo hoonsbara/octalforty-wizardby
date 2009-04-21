@@ -1,0 +1,60 @@
+migration "Oxite" revision => 1:
+    type-aliases:
+        type-alias PK type => Guid, nullable => false
+        type-alias LongName type => String, length => 256, nullable => false
+        type-alias MediumName type => String, length => 128, nullable => false
+        type-alias ShortName type => String, length => 100, nullable => false
+		
+    version 20090323103239:
+        oxite_Language:
+            LanguageID type => Guid, nullable => false, primary-key => true
+            LanguageName type => AnsiString, length => 8, nullable => false
+            LanguageDisplayName type => String, length => 50, nullable => false
+            
+    version 20090331135627:
+        oxite_Role:
+            RoleID type => PK, primary-key => true
+            ParentRoleID references => oxite_Role, nullable => true			
+            RoleName type => LongName
+
+        oxite_UserRoleRelationship:
+            UserID references => oxite_User
+            RoleID references => oxite_Role	
+
+    version 20090330170528:
+        oxite_User:
+            UserID type => PK, primary-key => true
+            Username type => LongName, unique => true
+            DisplayName type => LongName
+            Email type => LongName
+            HashedEmail type => ShortName
+            Password type => MediumName
+            PasswordSalt type => MediumName
+            DefaultLanguageID references => oxite_Language
+            Status type => Byte, nullable => false
+            
+        oxite_UserLanguage:
+            UserID references => oxite_User
+            LanguageID references => oxite_Language
+
+            index "" columns => [UserID, LanguageID], unique => true, clustered => true    
+
+    version 20090331140131:
+        oxite_FileResource:
+            FileResourceID type => PK, primary-key => true
+            SiteID type => Guid, nullable => false
+            FileResourceName type => LongName
+            CreatorUserID references => oxite_User
+            Data type => Binary
+            ContentType type => AnsiString, length => 25, nullable => false
+            Path type => String, length => 1000, nullable => false
+            State type => Byte, nullable => false
+            CreatedDate type => DateTime, nullable => false
+            ModifiedDate type => DateTime, nullable => false 
+
+        oxite_UserFileResourceRelationship:
+            UserID references => oxite_User
+            FileResourceID references => oxite_FileResource:
+                add index unique => true
+
+            index "" columns => [UserID, FileResourceID], unique => true, clustered => true      

@@ -21,29 +21,12 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
-namespace octalforty.Wizardby.Core.Db
-{
-    /// <summary>
-    /// Provides a contract for connection string builders, which encapsulate connection
-    /// string creation logic for a particular <see cref="IDbPlatform"/>.
-    /// </summary>
-    /// <remarks>
-    /// Implementors of <see cref="IDbConnectionStringBuilder"/> must support the following well-known keys:
-    /// <c>host</c>/<c>server</c>, <c>database</c>, <c>login</c>, <c>password</c>.
-    /// </remarks>
-    public interface IDbConnectionStringBuilder : IDbPlatformDependency
-    {
-        /// <summary>
-        /// Appends a <paramref name="key"/>-<paramref name="value"/> pair to the connection string.
-        /// </summary>
-        /// <param name="key"></param>
-        /// <param name="value"></param>
-        void AppendKeyValuePair(string key, string value);
 
-        /// <summary>
-        /// Returns the connection string associated with this <see cref="IDbConnectionStringBuilder"/>.
-        /// </summary>
-        /// <returns></returns>
-        string ToString();
+using octalforty.Wizardby.Db.SqlServer2000;
+
+namespace octalforty.Wizardby.Db.SqlServer2005
+{
+    public class SqlServer2005ConnectionStringBuilder : SqlServer2000ConnectionStringBuilder
+    {
     }
 }

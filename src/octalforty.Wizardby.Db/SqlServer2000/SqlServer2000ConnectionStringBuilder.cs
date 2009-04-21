@@ -37,8 +37,11 @@ namespace octalforty.Wizardby.Db.SqlServer2000
             base(true)
         {
             RegisterKeyMapping("integrated-security", "integrated security");
+            RegisterKeyMapping("server", "data source");
             RegisterKeyMapping("host", "data source");
             RegisterKeyMapping("database", "initial catalog");
+            RegisterKeyMapping("login", "user id");
+            RegisterKeyMapping("password", "password");
         }
     }
 }

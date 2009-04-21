@@ -21,29 +21,30 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
-namespace octalforty.Wizardby.Core.Db
-{
-    /// <summary>
-    /// Provides a contract for connection string builders, which encapsulate connection
-    /// string creation logic for a particular <see cref="IDbPlatform"/>.
-    /// </summary>
-    /// <remarks>
-    /// Implementors of <see cref="IDbConnectionStringBuilder"/> must support the following well-known keys:
-    /// <c>host</c>/<c>server</c>, <c>database</c>, <c>login</c>, <c>password</c>.
-    /// </remarks>
-    public interface IDbConnectionStringBuilder : IDbPlatformDependency
-    {
-        /// <summary>
-        /// Appends a <paramref name="key"/>-<paramref name="value"/> pair to the connection string.
-        /// </summary>
-        /// <param name="key"></param>
-        /// <param name="value"></param>
-        void AppendKeyValuePair(string key, string value);
+using System;
+using System.Collections.Generic;
 
-        /// <summary>
-        /// Returns the connection string associated with this <see cref="IDbConnectionStringBuilder"/>.
-        /// </summary>
-        /// <returns></returns>
-        string ToString();
+using octalforty.Wizardby.Core.Compiler.Ast;
+
+namespace octalforty.Wizardby.Core.Compiler.Impl
+{
+    public class VersionOrdererCompilerStage : MdlCompilerStageBase
+    {
+        public override void Visit(IMigrationNode migrationNode)
+        {
+            //
+            // Collect all IVersionNode objects
+            List<IVersionNode> versionNodes = new List<IVersionNode>(Filter<IVersionNode>(migrationNode.ChildNodes));
+            versionNodes.Sort(delegate(IVersionNode left, IVersionNode right) { return left.Number.CompareTo(right.Number); });
+
+            for(int i = 0; i < migrationNode.ChildNodes.Count; ++i)
+            {
+                if(migrationNode.ChildNodes[i] is IVersionNode)
+                    migrationNode.ChildNodes.RemoveAt(i--);
+            } // for
+
+            foreach(IVersionNode versionNode in versionNodes)
+                migrationNode.ChildNodes.Add(versionNode);
+        }
     }
 }

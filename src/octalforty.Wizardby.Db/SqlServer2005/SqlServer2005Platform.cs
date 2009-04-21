@@ -21,6 +21,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
+
 using octalforty.Wizardby.Core.Db;
 using octalforty.Wizardby.Db.SqlServer2000;
 
@@ -32,6 +33,11 @@ namespace octalforty.Wizardby.Db.SqlServer2005
     [DbPlatform("Microsoft SQL Server 2005", "sqlserver2005")]
     public class SqlServer2005Platform : SqlServer2000Platform
     {
+        public override IDbConnectionStringBuilder CreateConnectionStringBuilder()
+        {
+            return new SqlServer2005ConnectionStringBuilder();
+        }
+
         public override IDbSchemaProvider SchemaProvider
         {
             get { return new SqlServer2005SchemaProvider(this); }

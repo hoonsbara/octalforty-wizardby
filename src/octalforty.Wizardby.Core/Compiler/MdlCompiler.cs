@@ -64,7 +64,8 @@ namespace octalforty.Wizardby.Core.Compiler
             // Next we need to resolve primary keys. This will just add a new node to IAddTableNode,
             // all binding creation will be performed later.
             AddCompilerStage(new PrimaryKeyResolutionCompilerStage());
-            
+
+            AddCompilerStage(new VersionOrdererCompilerStage());
             AddCompilerStage(new SchemaInfoBuilderCompilerStage());
 
             //
