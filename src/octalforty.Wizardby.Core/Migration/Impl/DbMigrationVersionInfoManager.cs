@@ -61,7 +61,7 @@ namespace octalforty.Wizardby.Core.Migration.Impl
         /// </summary>
         /// <param name="dbTransaction"></param>
         /// <returns></returns>
-        public IList<long> GetAllRegisteredMigrationVersions(IDbTransaction dbTransaction)
+        public IList<long> GetRegisteredMigrationVersions(IDbTransaction dbTransaction)
         {
             List<long> registeredVersions = new List<long>();
 
@@ -87,41 +87,17 @@ namespace octalforty.Wizardby.Core.Migration.Impl
         }
 
         /// <summary>
-        /// Returns a collection of all registered versions for the given <paramref name="connectionString"/> or
-        /// empty collection if no migration versions were registered.
-        /// </summary>
-        /// <param name="connectionString"></param>
-        /// <returns></returns>
-        public IList<long> GetAllRegisteredMigrationVersions(string connectionString)
-        {
-            return Execute<IList<long>>(connectionString,
-                delegate(IDbTransaction dbTransaction) { return GetAllRegisteredMigrationVersions(dbTransaction); });
-        }
-
-        /// <summary>
         /// Returns a value which contains the maximum migration version for the given <paramref name="dbTransaction"/>
         /// or <c>null</c> if no versioning information is present.
         /// </summary>
         /// <param name="dbTransaction"></param>
         /// <returns></returns>
-        public long? GetCurrentMigrationVersion(IDbTransaction dbTransaction)
+        public long GetCurrentMigrationVersion(IDbTransaction dbTransaction)
         {
-            IList<long> registeredMigrationVersions = GetAllRegisteredMigrationVersions(dbTransaction);
+            IList<long> registeredMigrationVersions = GetRegisteredMigrationVersions(dbTransaction);
             return registeredMigrationVersions.Count == 0 ?
-                null :
-                (long?)registeredMigrationVersions[registeredMigrationVersions.Count - 1];
-        }
-
-        /// <summary>
-        /// Returns a value which contains the maximum migration version for the given <paramref name="connectionString"/>
-        /// or <c>null</c> if no versioning information is present.
-        /// </summary>
-        /// <param name="connectionString"></param>
-        /// <returns></returns>
-        public long? GetCurrentMigrationVersion(string connectionString)
-        {
-            return Execute<long?>(connectionString,
-                delegate(IDbTransaction dbTransaction) { return GetCurrentMigrationVersion(dbTransaction); });
+                0 :
+                registeredMigrationVersions[registeredMigrationVersions.Count - 1];
         }
 
         /// <summary>
@@ -146,18 +122,6 @@ namespace octalforty.Wizardby.Core.Migration.Impl
             }
         }
         #endregion
-
-        private T Execute<T>(string connectionString, Converter<IDbTransaction, T> action)
-        {
-            using(IDbConnection dbConnection = dbPlatform.ProviderFactory.CreateConnection())
-            {
-                dbConnection.ConnectionString = connectionString;
-                dbConnection.Open();
-
-                using(IDbTransaction dbTransaction = dbConnection.BeginTransaction())
-                    return action(dbTransaction);
-            } // using
-        }
 
         private void RegisterDowngradeMigrationVersion(IDbTransaction dbTransaction, long version)
         {

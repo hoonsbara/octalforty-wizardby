@@ -33,6 +33,6 @@ namespace octalforty.Wizardby.Core.Migration.Impl
 
         void ExecuteMigrationScripts(IDbPlatform dbPlatform, IMigrationVersionInfoManager migrationVersionInfoManager, 
             string connectionString, MigrationScriptCollection migrationScripts, 
-            long? currentVersion, long? targetVersion, MigrationMode migrationMode);
+            long currentVersion, long? targetVersion, MigrationMode migrationMode);
     }
 }

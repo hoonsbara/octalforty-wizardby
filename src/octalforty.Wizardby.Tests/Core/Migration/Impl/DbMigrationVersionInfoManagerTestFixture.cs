@@ -51,12 +51,15 @@ namespace octalforty.Wizardby.Tests.Core.Migration.Impl
         }
 
         [Test()]
-        public void GetAllRegisteredMigrationVersionsWithMissingTable()
+        public void GetRegisteredMigrationVersionsWithMissingTable()
         {
             IMigrationVersionInfoManager migrationVersionInfoManager =
                 new DbMigrationVersionInfoManager(dbPlatform, new DbCommandExecutionStrategy(), "SchemaInfo");
-            
-            Assert.AreEqual(0, migrationVersionInfoManager.GetAllRegisteredMigrationVersions(connectionString).Count);
+
+            IList<long> registeredMigrationVersions = 
+                MigrationVersionInfoManagerUtil.GetRegisteredMigrationVersions(migrationVersionInfoManager, dbPlatform, connectionString);
+
+            Assert.AreEqual(0, registeredMigrationVersions.Count);
         }
 
         [Test()]
@@ -65,7 +68,9 @@ namespace octalforty.Wizardby.Tests.Core.Migration.Impl
             IMigrationVersionInfoManager migrationVersionInfoManager =
                 new DbMigrationVersionInfoManager(dbPlatform, new DbCommandExecutionStrategy(), "SchemaInfo");
 
-            Assert.IsNull(migrationVersionInfoManager.GetCurrentMigrationVersion(connectionString));
+            long currentMigrationVersion = 
+                MigrationVersionInfoManagerUtil.GetCurrentMigrationVersion(migrationVersionInfoManager, dbPlatform, connectionString);
+            Assert.AreEqual(0, currentMigrationVersion);
         }
 
         [Test()]
@@ -83,7 +88,7 @@ namespace octalforty.Wizardby.Tests.Core.Migration.Impl
                     Execute(dbTransaction, "insert into SchemaInfo (Version) values (7);");
 
                     IList<long> registeredMigrationVersions = 
-                        migrationVersionInfoManager.GetAllRegisteredMigrationVersions(dbTransaction);
+                        migrationVersionInfoManager.GetRegisteredMigrationVersions(dbTransaction);
                     
                     Assert.AreEqual(4, registeredMigrationVersions.Count);
                     Assert.AreEqual(1, registeredMigrationVersions[0]);
@@ -154,7 +159,7 @@ namespace octalforty.Wizardby.Tests.Core.Migration.Impl
                 });
         }
 
-        public void ExecuteInTransaction(Converter<IDbTransaction, object> action)
+        public void ExecuteInTransaction(DbAction<IDbTransaction, object> action)
         {
             using(IDbConnection dbConnection = dbPlatform.ProviderFactory.CreateConnection())
             {

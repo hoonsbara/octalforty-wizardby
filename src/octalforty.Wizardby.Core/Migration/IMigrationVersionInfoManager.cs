@@ -38,31 +38,15 @@ namespace octalforty.Wizardby.Core.Migration
         /// </summary>
         /// <param name="dbTransaction"></param>
         /// <returns></returns>
-        IList<long> GetAllRegisteredMigrationVersions(IDbTransaction dbTransaction);
-
-        /// <summary>
-        /// Returns a collection of all registered versions for the given <paramref name="connectionString"/> or
-        /// empty collection if no migration versions were registered.
-        /// </summary>
-        /// <param name="connectionString"></param>
-        /// <returns></returns>
-        IList<long> GetAllRegisteredMigrationVersions(string connectionString);
+        IList<long> GetRegisteredMigrationVersions(IDbTransaction dbTransaction);
 
         /// <summary>
         /// Returns a value which contains the maximum migration version for the given <paramref name="dbTransaction"/>
-        /// or <c>null</c> if no versioning information is present.
+        /// or <c>0</c> if no versioning information is present.
         /// </summary>
         /// <param name="dbTransaction"></param>
         /// <returns></returns>
-        long? GetCurrentMigrationVersion(IDbTransaction dbTransaction);
-
-        /// <summary>
-        /// Returns a value which contains the maximum migration version for the given <paramref name="connectionString"/>
-        /// or <c>null</c> if no versioning information is present.
-        /// </summary>
-        /// <param name="connectionString"></param>
-        /// <returns></returns>
-        long? GetCurrentMigrationVersion(string connectionString);
+        long GetCurrentMigrationVersion(IDbTransaction dbTransaction);
 
         /// <summary>
         /// Registers the fact of migrating to version <paramref name="version"/> with mode <paramref name="migrationMode"/>

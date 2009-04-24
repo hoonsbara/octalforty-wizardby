@@ -30,7 +30,7 @@ namespace octalforty.Wizardby.Tests.Core.Migration.Impl
     public class MigrationScriptExecutive : IMigrationScriptExecutive
     {
         private MigrationScriptCollection migrationScripts;
-        private long? currentVersion;
+        private long currentVersion;
         private long? targetVersion;
         private MigrationMode migrationMode;
 
@@ -59,7 +59,7 @@ namespace octalforty.Wizardby.Tests.Core.Migration.Impl
 
         public void ExecuteMigrationScripts(IDbPlatform dbPlatform, IMigrationVersionInfoManager migrationVersionInfoManager, 
             string connectionString, MigrationScriptCollection migrationScripts, 
-            long? currentVersion, long? targetVersion, MigrationMode migrationMode)
+            long currentVersion, long? targetVersion, MigrationMode migrationMode)
         {
             this.migrationScripts = migrationScripts;
             this.currentVersion = currentVersion;

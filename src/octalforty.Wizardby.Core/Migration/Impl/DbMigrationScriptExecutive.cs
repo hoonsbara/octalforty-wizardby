@@ -24,6 +24,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 
 using octalforty.Wizardby.Core.Db;
 using octalforty.Wizardby.Core.Util;
@@ -57,7 +58,7 @@ namespace octalforty.Wizardby.Core.Migration.Impl
 
         public void ExecuteMigrationScripts(IDbPlatform dbPlatform, IMigrationVersionInfoManager migrationVersionInfoManager, 
             string connectionString, MigrationScriptCollection migrationScripts, 
-            long? currentVersion, long? targetVersion, MigrationMode migrationMode)
+            long currentVersion, long? targetVersion, MigrationMode migrationMode)
         {
             using(IDbConnection dbConnection = dbPlatform.ProviderFactory.CreateConnection())
             {
@@ -78,6 +79,8 @@ namespace octalforty.Wizardby.Core.Migration.Impl
                             {
                                 dbCommand.CommandText = ddlScript;
                                 dbCommand.CommandType = CommandType.Text;
+
+                                Trace.WriteLine(ddlScript);
 
                                 //
                                 // Workaround for Jet
@@ -115,21 +118,21 @@ namespace octalforty.Wizardby.Core.Migration.Impl
         }
 
         private IEnumerable<MigrationScript> GetMigrationScripts(MigrationScriptCollection migrationScripts, 
-            long? currentVersion, long? targetVersion, MigrationMode migrationMode)
+            long currentVersion, long? targetVersion, MigrationMode migrationMode)
         {
             if(migrationMode == MigrationMode.Upgrade)
             {
-                foreach(MigrationScript ms in migrationScripts)
-                    /*if((!currentVersion.HasValue || currentVersion.Value < ms.MigrationVersion) &&
-                        (!targetVersion.HasValue || targetVersion.Value >= ms.MigrationVersion))*/
+                foreach (MigrationScript ms in migrationScripts)
+                {
                         yield return ms;
+                } // if
             } // if
             else
             {
                 foreach(MigrationScript ms in Algorithms.Reverse(migrationScripts))
-                    /*if((!currentVersion.HasValue || currentVersion.Value >= ms.MigrationVersion) &&
-                        (!targetVersion.HasValue || targetVersion.Value < ms.MigrationVersion))*/
-                        yield return ms;
+                {
+                    yield return ms;
+                } // foreach
             } // else
         }
 
@@ -138,6 +141,12 @@ namespace octalforty.Wizardby.Core.Migration.Impl
             return dbPlatform.SupportsTransactionalDdl ? 
                 connection.BeginTransaction() :
                 new NullDbTransaction(connection);
+        }
+
+        public static bool Between<T>(T left, T right, T value)
+            where T : IComparable<T>
+        {
+            return left.CompareTo(value) <= 0 && right.CompareTo(value) >= 0;
         }
     }
 }

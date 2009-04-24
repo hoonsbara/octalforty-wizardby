@@ -22,9 +22,9 @@
 // THE SOFTWARE.
 #endregion
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Text;
@@ -61,48 +61,143 @@ namespace octalforty.Wizardby.Tests.Core.Migration.Impl
                 new DbMigrationScriptExecutive(new DbCommandExecutionStrategy()));
         }
 
+        [TestFixtureTearDown()]
+        public void TestFixtureTearDown()
+        {
+            MigrateTo("octalforty.Wizardby.Tests.Resources.Oxite.mdl", 0);
+        }
+
+        [SetUp()]
+        public void SetUp()
+        {
+            try
+            {
+                Trace.WriteLine(string.Format("Setting Up. Current database version: {0}", GetCurrentMigrationVersion()));
+                MigrateTo("octalforty.Wizardby.Tests.Resources.Oxite.mdl", 0);
+                Trace.WriteLine(string.Format("Set Up. Current database version: {0}", GetCurrentMigrationVersion()));
+            } // try
+            catch(Exception)
+            {
+                Assert.Fail();
+            } // catch
+        }
+
         [Test()]
         public void MigrateReorderedVersions()
         {
-            Assert.IsEmpty((ICollection)migrationVersionInfoManager.GetAllRegisteredMigrationVersions(connectionString));
-            
             MigrateTo("octalforty.Wizardby.Tests.Resources.OxiteWithReorderedVersions.mdl", null);
 
             Assert.AreEqual(new long[] { 20090323103239, 20090330170528, 20090331135627, 20090331140131 },
-                new List<long>(migrationVersionInfoManager.GetAllRegisteredMigrationVersions(connectionString)).ToArray());
+                GetRegisteredMigrationVersions());
 
             MigrateTo("octalforty.Wizardby.Tests.Resources.OxiteWithReorderedVersions.mdl", 0);
 
-            Assert.IsEmpty((ICollection)migrationVersionInfoManager.GetAllRegisteredMigrationVersions(connectionString));
+            Assert.IsEmpty(GetRegisteredMigrationVersions());
         }
 
         [Test()]
         public void MigrateMissingVersions()
         {
-            Assert.IsEmpty((ICollection)migrationVersionInfoManager.GetAllRegisteredMigrationVersions(connectionString));
-
             MigrateTo("octalforty.Wizardby.Tests.Resources.OxiteWithMissingVersion.mdl", null);
 
             Assert.AreEqual(new long[] { 20090323103239, 20090330170528, 20090331140131 },
-                new List<long>(migrationVersionInfoManager.GetAllRegisteredMigrationVersions(connectionString)).ToArray());
+                GetRegisteredMigrationVersions());
 
             MigrateTo("octalforty.Wizardby.Tests.Resources.Oxite.mdl", null);
 
             Assert.AreEqual(new long[] { 20090323103239, 20090330170528, 20090331135627, 20090331140131 },
-                new List<long>(migrationVersionInfoManager.GetAllRegisteredMigrationVersions(connectionString)).ToArray());
+                GetRegisteredMigrationVersions());
 
             MigrateTo("octalforty.Wizardby.Tests.Resources.OxiteWithReorderedVersions.mdl", 0);
 
-            Assert.IsEmpty((ICollection)migrationVersionInfoManager.GetAllRegisteredMigrationVersions(connectionString));
+            Assert.IsEmpty(GetRegisteredMigrationVersions());
         }
 
+        [Test()]
+        public void Rollback()
+        {
+            MigrateTo("octalforty.Wizardby.Tests.Resources.Oxite.mdl", null);
+            Rollback("octalforty.Wizardby.Tests.Resources.Oxite.mdl", 1);
+
+            Assert.AreEqual(new long[] { 20090323103239, 20090330170528, 20090331135627 },
+                GetRegisteredMigrationVersions());
+        }
+
+        [Test()]
+        public void RollbackMoreVersionsThanDefined()
+        {
+            MigrateTo("octalforty.Wizardby.Tests.Resources.Oxite.mdl", null);
+            Rollback("octalforty.Wizardby.Tests.Resources.Oxite.mdl", 1000);
+
+            Assert.IsEmpty(GetRegisteredMigrationVersions());
+        }
+
+        [Test()]
+        public void Redo()
+        {
+            MigrateTo("octalforty.Wizardby.Tests.Resources.Oxite.mdl", null);
+            Redo("octalforty.Wizardby.Tests.Resources.Oxite.mdl", 2);
+
+            Assert.AreEqual(new long[] { 20090323103239, 20090330170528, 20090331135627, 20090331140131 },
+                GetRegisteredMigrationVersions());
+        }
+
+        [Test()]
+        public void RedoMoreVersionsThanDefined()
+        {
+            MigrateTo("octalforty.Wizardby.Tests.Resources.Oxite.mdl", null);
+            Redo("octalforty.Wizardby.Tests.Resources.Oxite.mdl", 1000);
+
+            Assert.AreEqual(new long[] { 20090323103239, 20090330170528, 20090331135627, 20090331140131 },
+                GetRegisteredMigrationVersions());
+        }
+
+        private long[] GetRegisteredMigrationVersions()
+        {
+            return new List<long>(
+                MigrationVersionInfoManagerUtil.GetRegisteredMigrationVersions(migrationVersionInfoManager, 
+                    dbPlatform, connectionString)).ToArray();
+        }
+
+        private long GetCurrentMigrationVersion()
+        {
+            return MigrationVersionInfoManagerUtil.GetCurrentMigrationVersion(migrationVersionInfoManager,
+                    dbPlatform, connectionString);
+        }
 
         private void MigrateTo(string migrationDefinition, int? targetVersion)
+        {
+            WithResource(migrationDefinition, 
+                delegate(Stream stream)
+                    {
+                        migrationService.Migrate(connectionString, targetVersion, new StreamReader(stream, Encoding.UTF8));
+                    });
+        }
+
+        private void Rollback(string migrationDefinition, int step)
+        {
+            WithResource(migrationDefinition, 
+                delegate(Stream stream)
+                    {
+                        migrationService.Rollback(connectionString, step, new StreamReader(stream, Encoding.UTF8));
+                    });
+        }
+
+        private void Redo(string migrationDefinition, int step)
+        {
+            WithResource(migrationDefinition, 
+                delegate(Stream stream)
+                    {
+                        migrationService.Redo(connectionString, step, new StreamReader(stream, Encoding.UTF8));
+                    });
+        }
+
+        private void WithResource(string migrationDefinition, Action<Stream> action)
         {
             using (Stream resourceStream =
                 Assembly.GetExecutingAssembly().GetManifestResourceStream(migrationDefinition))
             {
-                migrationService.Migrate(connectionString, targetVersion, new StreamReader(resourceStream, Encoding.UTF8));
+                action(resourceStream);
             } // using
         }
     }

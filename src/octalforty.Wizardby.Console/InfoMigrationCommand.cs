@@ -25,6 +25,7 @@ using System;
 using System.Collections.Generic;
 
 using octalforty.Wizardby.Console.Properties;
+using octalforty.Wizardby.Core.Db;
 using octalforty.Wizardby.Core.Migration;
 
 namespace octalforty.Wizardby.Console
@@ -50,12 +51,14 @@ namespace octalforty.Wizardby.Console
             IMigrationVersionInfoManager migrationVersionInfoManager =
                 ServiceProvider.GetService<IMigrationVersionInfoManager>();
 
-            long? currentMigrationVersion = 
-                migrationVersionInfoManager.GetCurrentMigrationVersion(parameters.ConnectionString);
-            IList<long> registeredMigrationVersions = 
-                migrationVersionInfoManager.GetAllRegisteredMigrationVersions(parameters.ConnectionString);
+            long currentMigrationVersion = MigrationVersionInfoManagerUtil.GetCurrentMigrationVersion(
+                   ServiceProvider.GetService<IMigrationVersionInfoManager>(),
+                   ServiceProvider.GetService<IDbPlatform>(), parameters.ConnectionString);
+            IList<long> registeredMigrationVersions = MigrationVersionInfoManagerUtil.GetRegisteredMigrationVersions(
+                   ServiceProvider.GetService<IMigrationVersionInfoManager>(),
+                   ServiceProvider.GetService<IDbPlatform>(), parameters.ConnectionString);
 
-            if(!currentMigrationVersion.HasValue)
+            if(currentMigrationVersion == 0)
             {
                 using(new ConsoleStylingScope(ConsoleColor.Yellow))
                     System.Console.WriteLine(Environment.NewLine + Resources.DatabaseIsNotVersioned);
@@ -67,7 +70,7 @@ namespace octalforty.Wizardby.Console
             System.Console.WriteLine();
             using(new ConsoleStylingScope(ConsoleColor.Green))
             {
-                System.Console.WriteLine(Resources.CurrentDatabaseVersionInfo, currentMigrationVersion.Value);
+                System.Console.WriteLine(Resources.CurrentDatabaseVersionInfo, currentMigrationVersion);
 
                 if(registeredMigrationVersions.Count == 0)
                     return;

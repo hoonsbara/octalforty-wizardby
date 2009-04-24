@@ -24,4 +24,6 @@
 namespace octalforty.Wizardby.Core.Db
 {
     public delegate T DbAction<T>();
+
+    public delegate TResult DbAction<T, TResult>(T arg);
 }

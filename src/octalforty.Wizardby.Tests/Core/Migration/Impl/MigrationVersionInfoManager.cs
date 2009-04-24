@@ -47,20 +47,9 @@ namespace octalforty.Wizardby.Tests.Core.Migration.Impl
         /// </summary>
         /// <param name="dbTransaction"></param>
         /// <returns></returns>
-        public IList<long> GetAllRegisteredMigrationVersions(IDbTransaction dbTransaction)
+        public IList<long> GetRegisteredMigrationVersions(IDbTransaction dbTransaction)
         {
             return registeredMigrationVersions;
-        }
-
-        /// <summary>
-        /// Returns a collection of all registered versions for the given <paramref name="connectionString"/> or
-        /// empty collection if no migration versions were registered.
-        /// </summary>
-        /// <param name="connectionString"></param>
-        /// <returns></returns>
-        public IList<long> GetAllRegisteredMigrationVersions(string connectionString)
-        {
-            throw new System.NotImplementedException();
         }
 
         /// <summary>
@@ -69,20 +58,9 @@ namespace octalforty.Wizardby.Tests.Core.Migration.Impl
         /// </summary>
         /// <param name="dbTransaction"></param>
         /// <returns></returns>
-        public long? GetCurrentMigrationVersion(IDbTransaction dbTransaction)
+        public long GetCurrentMigrationVersion(IDbTransaction dbTransaction)
         {
             return registeredMigrationVersions[registeredMigrationVersions.Count - 1];
-        }
-
-        /// <summary>
-        /// Returns a value which contains the maximum migration version for the given <paramref name="connectionString"/>
-        /// or <c>null</c> if no versioning information is present.
-        /// </summary>
-        /// <param name="connectionString"></param>
-        /// <returns></returns>
-        public long? GetCurrentMigrationVersion(string connectionString)
-        {
-            throw new System.NotImplementedException();
         }
 
         /// <summary>

@@ -161,10 +161,14 @@ namespace octalforty.Wizardby.Console
                 using (new ConsoleStylingScope(ConsoleColor.Green))
                     System.Console.WriteLine(Resources.UpgradedToVersion, args.Version, stopwatch.Elapsed.TotalSeconds);
             else
-                using (new ConsoleStylingScope(ConsoleColor.Yellow))
-                    System.Console.WriteLine(Resources.DowngradedToVersion, 
-                        serviceProvider.GetService<IMigrationVersionInfoManager>().GetCurrentMigrationVersion(parameters.ConnectionString) ?? 0,  
-                        stopwatch.Elapsed.TotalSeconds);
+            {
+                long currentMigrationVersion = MigrationVersionInfoManagerUtil.GetCurrentMigrationVersion(
+                    serviceProvider.GetService<IMigrationVersionInfoManager>(),
+                    serviceProvider.GetService<IDbPlatform>(), parameters.ConnectionString);
+                using(new ConsoleStylingScope(ConsoleColor.Yellow))
+                    System.Console.WriteLine(Resources.DowngradedToVersion,
+                        currentMigrationVersion, stopwatch.Elapsed.TotalSeconds);
+            } // else
         }
 
         private static void MigrationServiceMigrating(object sender, MigrationEventArgs args)

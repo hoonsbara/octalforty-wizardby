@@ -355,6 +355,7 @@
     <Compile Include="Migration\MigrationMode.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Migration\MigrationVersionInfoManagerUtil.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Refactoring\AddAuditTableRefactoring.cs" />
     <Compile Include="Refactoring\IRefactoring.cs" />

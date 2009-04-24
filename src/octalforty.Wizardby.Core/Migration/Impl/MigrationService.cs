@@ -118,7 +118,7 @@ namespace octalforty.Wizardby.Core.Migration.Impl
             if(migrationDefinition == null) 
                 throw new ArgumentNullException("migrationDefinition");
 
-            long? currentVersion = GetCurrentVersion(dbPlatform, connectionString, migrationVersionInfoManager);
+            long currentVersion = GetCurrentVersion(dbPlatform, connectionString, migrationVersionInfoManager);
 
             MigrateDb(connectionString, migrationDefinition,
                 currentVersion, targetVersion, GetMigrationMode(currentVersion, targetVersion));
@@ -134,11 +134,12 @@ namespace octalforty.Wizardby.Core.Migration.Impl
             long? targetVersion =
                 registeredMigrationVersions.Count <= step ?
                     0 :
-                    (long?)registeredMigrationVersions[
+                    registeredMigrationVersions[
                         step > registeredMigrationVersions.Count ? 0 : registeredMigrationVersions.Count - step - 1];
 
             MigrateDb(MigrationMode.Downgrade, connectionString, 
-                CompileMigrationScripts(dbPlatform, migrationDefinition, MigrationMode.Downgrade), GetCurrentVersion(dbPlatform, connectionString, migrationVersionInfoManager), targetVersion);
+                CompileMigrationScripts(dbPlatform, migrationDefinition, MigrationMode.Downgrade), 
+                GetCurrentVersion(dbPlatform, connectionString, migrationVersionInfoManager), targetVersion);
         }
 
         public void Redo(string connectionString, int step, TextReader migrationDefinition)
@@ -154,7 +155,7 @@ namespace octalforty.Wizardby.Core.Migration.Impl
             long? targetVersion =
                 registeredMigrationVersions.Count <= step ?
                     0 :
-                    (long?)registeredMigrationVersions[
+                    registeredMigrationVersions[
                         step > registeredMigrationVersions.Count ? 0 : registeredMigrationVersions.Count - step - 1];
 
             string readToEnd = migrationDefinition.ReadToEnd();
@@ -165,7 +166,7 @@ namespace octalforty.Wizardby.Core.Migration.Impl
 
         #endregion
 
-        private void MigrateDb(string connectionString, TextReader migrationDefinition, long? currentVersion, long? targetVersion, MigrationMode migrationMode)
+        private void MigrateDb(string connectionString, TextReader migrationDefinition, long currentVersion, long? targetVersion, MigrationMode migrationMode)
         {
             //
             // First off, compile migrations
@@ -180,7 +181,8 @@ namespace octalforty.Wizardby.Core.Migration.Impl
                 migrationScripts, currentVersion, targetVersion);
         }
 
-        private void MigrateDb(MigrationMode migrationMode, string connectionString, MigrationScriptCollection migrationScripts, long? currentVersion, long? targetVersion)
+        private void MigrateDb(MigrationMode migrationMode, string connectionString, MigrationScriptCollection migrationScripts, 
+            long currentVersion, long? targetVersion)
         {
             //
             // 
@@ -191,14 +193,27 @@ namespace octalforty.Wizardby.Core.Migration.Impl
             {
                 //
                 // When upgrading, skip migrations we've already migrated
-                if (migrationMode == MigrationMode.Upgrade && 
+                if(migrationMode == MigrationMode.Upgrade && 
                     registeredMigrationVersions.Contains(migrationScript.MigrationVersion))
                     continue;
+
+                //
+                // When upgrading to a specific version, do not include migrations higher
+                // than it
+                if(migrationMode == MigrationMode.Downgrade && targetVersion.HasValue &&
+                    migrationScript.MigrationVersion > targetVersion.Value)
 
                 //
                 // When downgrading, do not revert migrations we've never migrated
                 if (migrationMode == MigrationMode.Downgrade && 
                     !registeredMigrationVersions.Contains(migrationScript.MigrationVersion))
+                    continue;
+
+                //
+                // When downgrading to a specific version, do not
+                // include migration with version less or equal to target
+                if(migrationMode == MigrationMode.Downgrade && targetVersion.HasValue &&
+                    migrationScript.MigrationVersion <= targetVersion.Value)
                     continue;
 
                 migrations.Add(migrationScript);
@@ -222,16 +237,20 @@ namespace octalforty.Wizardby.Core.Migration.Impl
 
             mdlCompiler.Compile(migrationDefinition, MdlCompilationOptions.All);
 
-
             return migrationScriptsCodeGenerator.MigrationScripts;
         }
 
-        private static MigrationMode GetMigrationMode(long? currentVersion, long? targetVersion)
+        private static MigrationMode GetMigrationMode(long currentVersion, long? targetVersion)
         {
-            if(!currentVersion.HasValue || !targetVersion.HasValue || currentVersion <= targetVersion)
+            if(targetVersion.HasValue && targetVersion.Value == 0)
+                return MigrationMode.Downgrade;
+
+            if(!targetVersion.HasValue)
                 return MigrationMode.Upgrade;
-            
-            return MigrationMode.Downgrade;
+
+            return currentVersion <= targetVersion ? 
+                MigrationMode.Upgrade : 
+                MigrationMode.Downgrade;
         }
 
         private static IList<long> GetRegisteredMigrationVersions(IDbPlatform dbPlatform, string connectionString, 
@@ -239,13 +258,13 @@ namespace octalforty.Wizardby.Core.Migration.Impl
         {
             return Execute<IList<long>>(dbPlatform, connectionString, 
                 delegate(IDbTransaction dbTransaction)
-                    { return migrationVersionInfoManager.GetAllRegisteredMigrationVersions(dbTransaction); });
+                    { return migrationVersionInfoManager.GetRegisteredMigrationVersions(dbTransaction); });
         }
 
-        private static long? GetCurrentVersion(IDbPlatform dbPlatform, string connectionString, 
+        private static long GetCurrentVersion(IDbPlatform dbPlatform, string connectionString, 
             IMigrationVersionInfoManager migrationVersionInfoManager)
         {
-            return Execute<long?>(dbPlatform, connectionString,
+            return Execute<long>(dbPlatform, connectionString,
                 delegate(IDbTransaction dbTransaction)
                 { return migrationVersionInfoManager.GetCurrentMigrationVersion(dbTransaction); });
         }
