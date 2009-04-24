@@ -21,11 +21,30 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
-using octalforty.Wizardby.Db.SqlServer2000;
-
-namespace octalforty.Wizardby.Db.SqlServer2005
+namespace octalforty.Wizardby.Core.Migration.Impl
 {
-    public class SqlServer2005ConnectionStringBuilder : SqlServer2000ConnectionStringBuilder
+    /// <summary>
+    /// Performs selection of <see cref="MigrationMode"/> depending on versions.
+    /// </summary>
+    public class MigrationModeSelector
     {
+        /// <summary>
+        /// Returns a member of <see cref="MigrationMode"/> given a <paramref name="currentVersion"/> and a <paramref name="targetVersion"/>.
+        /// </summary>
+        /// <param name="currentVersion"></param>
+        /// <param name="targetVersion"></param>
+        /// <returns></returns>
+        public MigrationMode GetMigrationMode(long currentVersion, long? targetVersion)
+        {
+            if(targetVersion.HasValue && targetVersion.Value == 0)
+                return MigrationMode.Downgrade;
+
+            if(!targetVersion.HasValue)
+                return MigrationMode.Upgrade;
+
+            return currentVersion <= targetVersion ?
+                MigrationMode.Upgrade :
+                MigrationMode.Downgrade;
+        }
     }
 }

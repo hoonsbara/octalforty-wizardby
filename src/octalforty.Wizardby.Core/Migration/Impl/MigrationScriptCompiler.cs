@@ -21,33 +21,37 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
-using System.Collections.Generic;
-using System.Data;
+using System.IO;
 
+using octalforty.Wizardby.Core.Compiler;
+using octalforty.Wizardby.Core.Compiler.Impl;
 using octalforty.Wizardby.Core.Db;
 
-namespace octalforty.Wizardby.Core.Migration
+namespace octalforty.Wizardby.Core.Migration.Impl
 {
-    public class MigrationVersionInfoManagerUtil
+    public class MigrationScriptCompiler
     {
-        public static IList<long> GetRegisteredMigrationVersions(IMigrationVersionInfoManager migrationVersionInfoManager, 
-            IDbPlatform dbPlatform, string connectionString)
+        private readonly IDbPlatform dbPlatform;
+        private readonly MigrationMode migrationMode;
+
+        public MigrationScriptCompiler(IDbPlatform dbPlatform, MigrationMode migrationMode)
         {
-            return DbUtil.ExecuteInTransaction<IList<long>>(dbPlatform, connectionString, 
-                delegate(IDbTransaction transaction)
-                    {
-                        return migrationVersionInfoManager.GetRegisteredMigrationVersions(transaction);
-                    });
+            this.dbPlatform = dbPlatform;
+            this.migrationMode = migrationMode;
         }
 
-        public static long GetCurrentMigrationVersion(IMigrationVersionInfoManager migrationVersionInfoManager,
-            IDbPlatform dbPlatform, string connectionString)
+        public MigrationScriptCollection CompileMigrationScripts(TextReader migrationDefinition)
         {
-            return DbUtil.ExecuteInTransaction<long>(dbPlatform, connectionString, 
-                delegate(IDbTransaction transaction)
-                    {
-                        return migrationVersionInfoManager.GetCurrentMigrationVersion(transaction);
-                    });
+            MigrationScriptsCodeGenerator migrationScriptsCodeGenerator =
+                new MigrationScriptsCodeGenerator(dbPlatform, migrationMode);
+
+            IMdlCompiler mdlCompiler = new MdlCompiler(migrationScriptsCodeGenerator, new Environment());
+            mdlCompiler.AddCompilerStageAfter<AstFlattenerCompilerStage>(new DbNamingCompilerStage(dbPlatform.NamingStrategy));
+            mdlCompiler.AddCompilerStageBefore<AstFlattenerCompilerStage>(new RefactoringStage(dbPlatform));
+
+            mdlCompiler.Compile(migrationDefinition, MdlCompilationOptions.All);
+
+            return migrationScriptsCodeGenerator.MigrationScripts;
         }
     }
 }

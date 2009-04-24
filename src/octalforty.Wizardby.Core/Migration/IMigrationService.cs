@@ -23,9 +23,6 @@
 #endregion
 using System.IO;
 
-using octalforty.Wizardby.Core.Db;
-using octalforty.Wizardby.Core.Migration.Impl;
-
 namespace octalforty.Wizardby.Core.Migration
 {
     /// <summary>
@@ -44,45 +41,30 @@ namespace octalforty.Wizardby.Core.Migration
         event MigrationEventHandler Migrated;
 
         /// <summary>
-        /// Migrates the database using <paramref name="dbPlatform"/>, <paramref name="connectionString"/> and
+        /// Migrates the database identified by the <paramref name="connectionString"/> using
         /// <paramref name="migrationDefinition"/> to version <paramref name="targetVersion"/>.
         /// </summary>
-        /// <param name="dbPlatform">The <see cref="IDbPlatform"/>.</param>
         /// <param name="connectionString">The connection string used to connect to the database</param>
         /// <param name="targetVersion">Required version of the database schema</param>
         /// <param name="migrationDefinition">Migration definition</param>
-        /// <param name="migrationVersionInfoManager">The <see cref="IMigrationVersionInfoManager"/> which provides
-        /// tracks database version.</param>
-        /// <param name="migrationScriptExecutive">The <see cref="IMigrationScriptExecutive"/> which executes
-        /// migration scripts.</param>
         void Migrate(string connectionString, long? targetVersion, TextReader migrationDefinition);
 
         /// <summary>
-        /// Rolls back <paramref name="step"/> last version of the the database using <paramref name="dbPlatform"/>, 
-        /// <paramref name="connectionString"/> and <paramref name="migrationDefinition"/>.
+        /// Rolls back <paramref name="step"/> last versions of the the database identified by the 
+        /// <paramref name="connectionString"/> using <paramref name="migrationDefinition"/>.
         /// </summary>
-        /// <param name="dbPlatform">The <see cref="IDbPlatform"/>.</param>
         /// <param name="connectionString">The connection string used to connect to the database</param>
         /// <param name="step">Number of versions to roll back</param>
         /// <param name="migrationDefinition">Migration definition</param>
-        /// <param name="migrationVersionInfoManager">The <see cref="IMigrationVersionInfoManager"/> which provides
-        /// tracks database version.</param>
-        /// <param name="migrationScriptExecutive">The <see cref="IMigrationScriptExecutive"/> which executes
-        /// migration scripts.</param>
         void Rollback(string connectionString, int step, TextReader migrationDefinition);
 
         /// <summary>
-        /// Redoes <paramref name="step"/> last version of the the database using <paramref name="dbPlatform"/>, 
-        /// <paramref name="connectionString"/> and <paramref name="migrationDefinition"/>.
+        /// Redoes <paramref name="step"/> last versions of the the database identified by the
+        /// <paramref name="connectionString"/> using <paramref name="migrationDefinition"/>.
         /// </summary>
-        /// <param name="dbPlatform">The <see cref="IDbPlatform"/>.</param>
         /// <param name="connectionString">The connection string used to connect to the database</param>
         /// <param name="step">Number of versions to reapply</param>
         /// <param name="migrationDefinition">Migration definition</param>
-        /// <param name="migrationVersionInfoManager">The <see cref="IMigrationVersionInfoManager"/> which provides
-        /// tracks database version.</param>
-        /// <param name="migrationScriptExecutive">The <see cref="IMigrationScriptExecutive"/> which executes
-        /// migration scripts.</param>
         void Redo(string connectionString, int step, TextReader migrationDefinition);
     }
 }

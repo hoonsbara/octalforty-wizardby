@@ -80,7 +80,7 @@ namespace octalforty.Wizardby.Core.Migration.Impl
                                 dbCommand.CommandText = ddlScript;
                                 dbCommand.CommandType = CommandType.Text;
 
-                                Trace.WriteLine(ddlScript);
+                                //Trace.WriteLine(ddlScript);
 
                                 //
                                 // Workaround for Jet

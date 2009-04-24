@@ -294,6 +294,7 @@
     <Compile Include="Db\DbTypeMapperBase.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Db\DbUtil.cs" />
     <Compile Include="Db\DefaultDbNamingStrategy.cs" />
     <Compile Include="Db\IDbConnectionStringBuilder.cs" />
     <Compile Include="Db\IDbDeploymentManager.cs" />
@@ -332,17 +333,20 @@
     <Compile Include="Migration\Impl\IMigrationScriptExecutive.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Migration\Impl\MigrationModeSelector.cs" />
     <Compile Include="Migration\Impl\MigrationScript.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Migration\Impl\MigrationScriptCollection.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Migration\Impl\MigrationScriptCompiler.cs" />
     <Compile Include="Migration\Impl\MigrationScriptExecutionEventArgs.cs" />
     <Compile Include="Migration\Impl\MigrationScriptExecutionEventHandler.cs" />
     <Compile Include="Migration\Impl\MigrationScriptsCodeGenerator.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Migration\Impl\MigrationScriptSelector.cs" />
     <Compile Include="Migration\Impl\MigrationService.cs">
       <SubType>Code</SubType>
     </Compile>

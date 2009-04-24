@@ -24,7 +24,6 @@
 using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Text;
@@ -41,6 +40,12 @@ namespace octalforty.Wizardby.Tests.Core.Migration.Impl
     [TestFixture()]
     public class MigrationServiceTestFixture
     {
+        #region Private Constants
+        private const string Oxite = "octalforty.Wizardby.Tests.Resources.Oxite.mdl";
+        private const string OxiteWithReorderedVersions = "octalforty.Wizardby.Tests.Resources.OxiteWithReorderedVersions.mdl";
+        private const string OxiteWithMissingVersion = "octalforty.Wizardby.Tests.Resources.OxiteWithMissingVersion.mdl";
+        #endregion
+
         #region Private Fields
         private string connectionString;
         private IDbPlatform dbPlatform;
@@ -64,7 +69,7 @@ namespace octalforty.Wizardby.Tests.Core.Migration.Impl
         [TestFixtureTearDown()]
         public void TestFixtureTearDown()
         {
-            MigrateTo("octalforty.Wizardby.Tests.Resources.Oxite.mdl", 0);
+            MigrateTo(Oxite, 0);
         }
 
         [SetUp()]
@@ -72,9 +77,7 @@ namespace octalforty.Wizardby.Tests.Core.Migration.Impl
         {
             try
             {
-                Trace.WriteLine(string.Format("Setting Up. Current database version: {0}", GetCurrentMigrationVersion()));
-                MigrateTo("octalforty.Wizardby.Tests.Resources.Oxite.mdl", 0);
-                Trace.WriteLine(string.Format("Set Up. Current database version: {0}", GetCurrentMigrationVersion()));
+                MigrateTo(Oxite, 0);
             } // try
             catch(Exception)
             {
@@ -85,12 +88,12 @@ namespace octalforty.Wizardby.Tests.Core.Migration.Impl
         [Test()]
         public void MigrateReorderedVersions()
         {
-            MigrateTo("octalforty.Wizardby.Tests.Resources.OxiteWithReorderedVersions.mdl", null);
+            MigrateTo(OxiteWithReorderedVersions, null);
 
             Assert.AreEqual(new long[] { 20090323103239, 20090330170528, 20090331135627, 20090331140131 },
                 GetRegisteredMigrationVersions());
 
-            MigrateTo("octalforty.Wizardby.Tests.Resources.OxiteWithReorderedVersions.mdl", 0);
+            MigrateTo(OxiteWithReorderedVersions, 0);
 
             Assert.IsEmpty(GetRegisteredMigrationVersions());
         }
@@ -98,17 +101,17 @@ namespace octalforty.Wizardby.Tests.Core.Migration.Impl
         [Test()]
         public void MigrateMissingVersions()
         {
-            MigrateTo("octalforty.Wizardby.Tests.Resources.OxiteWithMissingVersion.mdl", null);
+            MigrateTo(OxiteWithMissingVersion, null);
 
             Assert.AreEqual(new long[] { 20090323103239, 20090330170528, 20090331140131 },
                 GetRegisteredMigrationVersions());
 
-            MigrateTo("octalforty.Wizardby.Tests.Resources.Oxite.mdl", null);
+            MigrateTo(Oxite, null);
 
             Assert.AreEqual(new long[] { 20090323103239, 20090330170528, 20090331135627, 20090331140131 },
                 GetRegisteredMigrationVersions());
 
-            MigrateTo("octalforty.Wizardby.Tests.Resources.OxiteWithReorderedVersions.mdl", 0);
+            MigrateTo(OxiteWithReorderedVersions, 0);
 
             Assert.IsEmpty(GetRegisteredMigrationVersions());
         }
@@ -116,18 +119,34 @@ namespace octalforty.Wizardby.Tests.Core.Migration.Impl
         [Test()]
         public void Rollback()
         {
-            MigrateTo("octalforty.Wizardby.Tests.Resources.Oxite.mdl", null);
-            Rollback("octalforty.Wizardby.Tests.Resources.Oxite.mdl", 1);
+            MigrateTo(Oxite, null);
+            Rollback(Oxite, 1);
 
             Assert.AreEqual(new long[] { 20090323103239, 20090330170528, 20090331135627 },
                 GetRegisteredMigrationVersions());
         }
 
         [Test()]
+        public void RollbackAllDefinedVersions()
+        {
+            MigrateTo(Oxite, null);
+            Rollback(Oxite, 4);
+
+            Assert.IsEmpty(GetRegisteredMigrationVersions());
+        }
+
+        [Test()]
+        public void RollbackOnEmptyDatabase()
+        {
+            Rollback(Oxite, 10);
+            Assert.IsEmpty(GetRegisteredMigrationVersions());
+        }
+
+        [Test()]
         public void RollbackMoreVersionsThanDefined()
         {
-            MigrateTo("octalforty.Wizardby.Tests.Resources.Oxite.mdl", null);
-            Rollback("octalforty.Wizardby.Tests.Resources.Oxite.mdl", 1000);
+            MigrateTo(Oxite, null);
+            Rollback(Oxite, 1000);
 
             Assert.IsEmpty(GetRegisteredMigrationVersions());
         }
@@ -135,18 +154,35 @@ namespace octalforty.Wizardby.Tests.Core.Migration.Impl
         [Test()]
         public void Redo()
         {
-            MigrateTo("octalforty.Wizardby.Tests.Resources.Oxite.mdl", null);
-            Redo("octalforty.Wizardby.Tests.Resources.Oxite.mdl", 2);
+            MigrateTo(Oxite, null);
+            Redo(Oxite, 2);
 
             Assert.AreEqual(new long[] { 20090323103239, 20090330170528, 20090331135627, 20090331140131 },
                 GetRegisteredMigrationVersions());
         }
 
         [Test()]
+        public void RedoAllDefinedVersions()
+        {
+            MigrateTo(Oxite, null);
+            Redo(Oxite, 4);
+
+            Assert.AreEqual(new long[] { 20090323103239, 20090330170528, 20090331135627, 20090331140131 },
+                GetRegisteredMigrationVersions());
+        }
+
+        [Test()]
+        public void RedoOnEmptyDatabase()
+        {
+            Redo(Oxite, 10);
+            Assert.IsEmpty(GetRegisteredMigrationVersions());
+        }
+
+        [Test()]
         public void RedoMoreVersionsThanDefined()
         {
-            MigrateTo("octalforty.Wizardby.Tests.Resources.Oxite.mdl", null);
-            Redo("octalforty.Wizardby.Tests.Resources.Oxite.mdl", 1000);
+            MigrateTo(Oxite, null);
+            Redo(Oxite, 1000);
 
             Assert.AreEqual(new long[] { 20090323103239, 20090330170528, 20090331135627, 20090331140131 },
                 GetRegisteredMigrationVersions());

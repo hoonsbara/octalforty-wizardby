@@ -70,7 +70,9 @@
     <Compile Include="Core\Compiler\TokenSequenceTestFixture.cs" />
     <Compile Include="Core\Db\DbTypeMapperBaseTestFixture.cs" />
     <Compile Include="Core\Migration\Impl\DbMigrationVersionInfoManagerTestFixture.cs" />
+    <Compile Include="Core\Migration\Impl\MigrationModeSelectorTestFixture.cs" />
     <Compile Include="Core\Migration\Impl\MigrationScriptExecutive.cs" />
+    <Compile Include="Core\Migration\Impl\MigrationScriptSelectorTestFixture.cs" />
     <Compile Include="Core\Migration\Impl\MigrationServiceTestFixture.cs" />
     <Compile Include="Core\Migration\Impl\MigrationVersionInfoManager.cs" />
     <Compile Include="Core\ReverseEngineering\Impl\ReverseEngineeringServiceTestFixture.cs" />

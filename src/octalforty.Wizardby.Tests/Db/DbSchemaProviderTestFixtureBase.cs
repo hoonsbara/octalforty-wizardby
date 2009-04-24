@@ -1,4 +1,4 @@
-﻿#region The MIT License
+#region The MIT License
 // The MIT License
 // 
 // Copyright (c) 2009 octalforty studios
@@ -21,7 +21,6 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
-
 using System;
 using System.Configuration;
 using System.Data;

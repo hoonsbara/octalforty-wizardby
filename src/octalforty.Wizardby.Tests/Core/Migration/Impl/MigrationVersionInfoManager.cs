@@ -80,6 +80,5 @@ namespace octalforty.Wizardby.Tests.Core.Migration.Impl
             registeredMigrationVersions.Sort();
         }
         #endregion
-
     }
 }
