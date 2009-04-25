@@ -54,5 +54,32 @@ namespace octalforty.Wizardby.Tests.Core.SemanticModel
                 Assert.AreEqual(sourceIndex.Columns[i].SortDirection, targetIndex.Columns[i].SortDirection);
             } // for
         }
+        
+        [Test()]
+        public void CopyReferenceDefinitions()
+        {
+            IReferenceDefinition sourceReference = new ReferenceDefinition("FK_Foo",
+                "Foo", "Bar");
+            sourceReference.FkTableSchema = "dbo";
+            sourceReference.FkColumns.Add("ID");
+            sourceReference.FkColumns.Add("IDx");
+
+            sourceReference.FkTableSchema = "db";
+            sourceReference.FkColumns.Add("FooID");
+            sourceReference.FkColumns.Add("FooIDx");
+
+            IReferenceDefinition targetReference = new ReferenceDefinition();
+
+            SemanticModelUtil.Copy(sourceReference, targetReference);
+
+            Assert.AreEqual(sourceReference.FkTable, targetReference.FkTable);
+            Assert.AreEqual(sourceReference.FkTableSchema, targetReference.FkTableSchema);
+            Assert.AreEqual(sourceReference.Name, targetReference.Name);
+            Assert.AreEqual(sourceReference.PkTable, targetReference.PkTable);
+            Assert.AreEqual(sourceReference.PkTableSchema, targetReference.PkTableSchema);
+
+            CollectionAssert.AreEqual(sourceReference.PkColumns, targetReference.PkColumns);
+            CollectionAssert.AreEqual(sourceReference.FkColumns, targetReference.FkColumns);
+        }
     }
 }

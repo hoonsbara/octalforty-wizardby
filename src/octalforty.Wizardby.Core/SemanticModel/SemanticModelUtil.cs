@@ -21,10 +21,18 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
+using System;
+using System.Collections.Generic;
+
 namespace octalforty.Wizardby.Core.SemanticModel
 {
     public class SemanticModelUtil
     {
+        /// <summary>
+        /// Copies all properties from <paramref name="sourceColumn"/> to <paramref name="targetColumn"/>.
+        /// </summary>
+        /// <param name="sourceColumn"></param>
+        /// <param name="targetColumn"></param>
         public static void Copy(IColumnDefinition sourceColumn, IColumnDefinition targetColumn)
         {
             targetColumn.Default = sourceColumn.Default;
@@ -39,6 +47,11 @@ namespace octalforty.Wizardby.Core.SemanticModel
             targetColumn.Table = sourceColumn.Table;
         }
 
+        /// <summary>
+        /// Copies all properties from <paramref name="sourceIndex"/> to <paramref name="targetIndex"/>.
+        /// </summary>
+        /// <param name="sourceIndex"></param>
+        /// <param name="targetIndex"></param>
         public static void Copy(IIndexDefinition sourceIndex, IIndexDefinition targetIndex)
         {
             targetIndex.Clustered = sourceIndex.Clustered;
@@ -52,9 +65,37 @@ namespace octalforty.Wizardby.Core.SemanticModel
             } // foreach
         }
 
+        /// <summary>
+        /// Copies all properties from <paramref name="sourceReference"/> to <paramref name="targetReference"/>.
+        /// </summary>
+        /// <param name="sourceReference"></param>
+        /// <param name="targetReference"></param>
+        public static void Copy(IReferenceDefinition sourceReference, IReferenceDefinition targetReference)
+        {
+            targetReference.FkTable = sourceReference.FkTable;
+            targetReference.FkTableSchema = sourceReference.FkTableSchema;
+            targetReference.Name = sourceReference.Name;
+            targetReference.PkTable = sourceReference.PkTable;
+            targetReference.PkTableSchema = sourceReference.PkTableSchema;
+
+            Copy(sourceReference.FkColumns, targetReference.FkColumns);
+            Copy(sourceReference.PkColumns, targetReference.PkColumns);
+        }
+
+        /// <summary>
+        /// Clones the given <paramref name="indexColumn"/>.
+        /// </summary>
+        /// <param name="indexColumn"></param>
+        /// <returns></returns>
         public static IIndexColumnDefinition Clone(IIndexColumnDefinition indexColumn)
         {
             return new IndexColumnDefinition(indexColumn.Name, indexColumn.SortDirection);
+        }
+
+        private static void Copy<T>(ICollection<T> source, ICollection<T> target)
+        {
+            foreach(T item in source)
+                target.Add(item);
         }
     }
 }

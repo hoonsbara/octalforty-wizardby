@@ -116,11 +116,15 @@ namespace octalforty.Wizardby.Tests.Core.Compiler.Impl
             Assert.AreEqual(name, alterTableNode.Name);
         }
 
-        public static void AssertAddReference(IAstNode astNode, string name, string pkTable, string[] pkColumns, string fkTable, string[] fkColumns)
+        public static void AssertAddReference(IAstNode astNode, string name, string pkTable, 
+            string[] pkColumns, string fkTable, string[] fkColumns)
         {
             Assert.IsInstanceOfType(typeof(IAddReferenceNode), astNode);
 
             IAddReferenceNode addReferenceNode = (IAddReferenceNode)astNode;
+
+            if(!string.IsNullOrEmpty(name))
+                Assert.AreEqual(name, addReferenceNode.Name);
 
             if(!string.IsNullOrEmpty(pkTable))
                 Assert.AreEqual(pkTable, addReferenceNode.PkTable);
@@ -141,7 +145,9 @@ namespace octalforty.Wizardby.Tests.Core.Compiler.Impl
             Assert.IsInstanceOfType(typeof(IAddIndexNode), astNode);
 
             IAddIndexNode addIndexNode = (IAddIndexNode)astNode;
-            Assert.AreEqual(name, addIndexNode.Name);
+
+            if(!string.IsNullOrEmpty(name))
+                Assert.AreEqual(name, addIndexNode.Name);
 
             if(clustered.HasValue)
                 Assert.AreEqual(clustered.Value, addIndexNode.Clustered.Value);

@@ -22,17 +22,63 @@
 // THE SOFTWARE.
 #endregion
 using System.Data;
-
+using System.IO;
+using System.Reflection;
+using System.Text;
 using NUnit.Framework;
-
+using octalforty.Wizardby.Core.Compiler;
 using octalforty.Wizardby.Core.Compiler.Ast;
 using octalforty.Wizardby.Core.Compiler.Ast.Impl;
+using octalforty.Wizardby.Core.SemanticModel;
+using octalforty.Wizardby.Tests.Core.Compiler.Impl;
 
 namespace octalforty.Wizardby.Tests.Core.Compiler.Ast
 {
     [TestFixture()]
-    public class AstUtilTestFixture
+    public class AstUtilTestFixture : AstTestFixtureBase
     {
+        [Test()]
+        public void BuildAstFromSchema()
+        {
+            Schema schema = GetSchema();
+            IAstNode astNode = AstUtil.BuildAstNodeFromSchema(new BaselineNode(null), schema);
+
+            Assert.IsInstanceOfType(typeof(IBaselineNode), astNode);
+
+            AssertAddTable(astNode.ChildNodes[0],
+                "SchemaInfo",
+                new ColumnDefinition("Version", "SchemaInfo", DbType.Int64, false, null, null, null, null, null));
+
+            AssertAddIndex(astNode.ChildNodes[1], 
+                null, null, true,
+                new IndexColumnDefinition("Version"));
+
+            AssertAddTable(astNode.ChildNodes[2],
+                "Author",
+                new ColumnDefinition("ID", "Author", DbType.Int32, false, null, null, null, true, true),
+                new ColumnDefinition("FirstName", "Author", DbType.String, false, 200, null, null, null, null),
+                new ColumnDefinition("LastName", "Author", DbType.String, false, 200, null, null, null, null),
+                new ColumnDefinition("EmailAddress", "Author", DbType.String, false, 200, null, null, null, null),
+                new ColumnDefinition("Login", "Author", DbType.String, false, 200, null, null, null, null),
+                new ColumnDefinition("Password", "Author", DbType.Binary, true, 64, null, null, null, null));
+
+            AssertAddIndex(astNode.ChildNodes[3],
+                "IX_EmailAddress", null, true,
+                new IndexColumnDefinition("EmailAddress"));
+
+            AssertAddIndex(astNode.ChildNodes[4], 
+                "IX_Login", null, true,
+                new IndexColumnDefinition("Login"));
+
+            AssertAddReference(astNode.ChildNodes[7],
+                "FK1", 
+                "Blog", new string[] { "ID" }, "BlogPost", new string[] { "BlogID" } );
+
+            AssertAddReference(astNode.ChildNodes[8],
+                "FK2",
+                "Author", new string[] { "ID" }, "BlogPost", new string[] { "AuthorID" });
+        }
+
         [Test()]
         public void CloneAddColumnNode()
         {
@@ -61,6 +107,23 @@ namespace octalforty.Wizardby.Tests.Core.Compiler.Ast
             Assert.AreEqual(originalNode.Scale, clonedNode.Scale);
             Assert.AreEqual(originalNode.Type, clonedNode.Type);
             Assert.AreEqual(originalNode.Table, clonedNode.Table);
+        }
+
+        private Schema GetSchema()
+        {
+            Environment environment = new Environment();
+
+            using (Stream resourceStream =
+                Assembly.GetExecutingAssembly().GetManifestResourceStream("octalforty.Wizardby.Tests.Resources.Blog.mdl"))
+            {
+                IMdlParser mdlParser = new MdlParser(MdlParserTestFixture.CreateScanner(
+                                                         new StreamReader(resourceStream, Encoding.UTF8)));
+
+                IMdlCompiler mdlCompiler = new MdlCompiler(new NullCodeGenerator(), environment);
+                mdlCompiler.Compile(mdlParser.Parse(), MdlCompilationOptions.All);
+            } // using
+            
+            return environment.Schema;
         }
     }
 }

@@ -61,5 +61,20 @@ namespace octalforty.Wizardby.Tests.Core.SemanticModel
 
             Assert.IsNull(schema.GetTable("Qux"));
         }
+
+        [Test()]
+        public void SchemePreservesOrder()
+        {
+            char[] names = "ZYWRFAB1QTD{}".ToCharArray();
+
+            Schema schema = new Schema();
+            foreach(char name in names)
+                schema.AddTable(new TableDefinition(name.ToString()));
+
+            for (int i = 0; i < schema.Tables.Count; ++i)
+            {
+                Assert.AreEqual(names[i].ToString(), schema.Tables[i].Name);
+            }
+        }
     }
 }

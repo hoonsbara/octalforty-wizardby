@@ -21,7 +21,6 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
-using octalforty.Wizardby.Core.Compiler;
 using octalforty.Wizardby.Core.Compiler.Ast;
 using octalforty.Wizardby.Core.Compiler.Ast.Impl;
 using octalforty.Wizardby.Core.Db;
@@ -34,37 +33,11 @@ namespace octalforty.Wizardby.Core.ReverseEngineering.Impl
         public IAstNode ReverseEngineer(IDbPlatform dbPlatform, string connectionString)
         {
             Schema schema = dbPlatform.SchemaProvider.GetSchema(connectionString);
-
+            
             IBaselineNode baselineNode = new BaselineNode(null);
+            AstUtil.BuildAstNodeFromSchema(baselineNode, schema);
 
-            foreach(ITableDefinition table in schema.Tables)
-            {
-                IAstNode addTableNode = new AddTableNode(baselineNode, table.Name);
-                addTableNode.Properties.AddProperty(new AstNodeProperty(MdlSyntax.PrimaryKey, "false"));
-
-                foreach(IColumnDefinition column in table.Columns)
-                {
-                    IAddColumnNode addColumnNode = new AddColumnNode(addTableNode, column.Name);
-                    SemanticModelUtil.Copy(column, addColumnNode);
-                    AstUtil.CopyToProperties(addColumnNode);
-
-                    addTableNode.ChildNodes.Add(addColumnNode);
-                } // foreach
-
-                baselineNode.ChildNodes.Add(addTableNode);
-
-                foreach(IIndexDefinition index in table.Indexes)
-                {
-                    IAstNode addIndexNode = new AddIndexNode(addTableNode, index.Name);
-                    addTableNode.ChildNodes.Add(addIndexNode);
-                } // foreach
-
-                foreach(IReferenceDefinition reference in table.References)
-                {
-                    IAstNode addReferenceNode = new AddReferenceNode(addTableNode, reference.Name);
-                    addTableNode.ChildNodes.Add(addReferenceNode);
-                } // foreach
-            } // foreach
+            // TODO: Ensure that all "add reference"s go after all tables are created
 
             return baselineNode;
         }

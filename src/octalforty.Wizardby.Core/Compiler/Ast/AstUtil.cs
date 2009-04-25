@@ -28,6 +28,53 @@ namespace octalforty.Wizardby.Core.Compiler.Ast
 {
     public static class AstUtil
     {
+        /// <summary>
+        /// Builds up an AST with <paramref name="rootNode"/> as a root node 
+        /// from the provided <paramref name="schema"/>.
+        /// </summary>
+        /// <param name="rootNode"></param>
+        /// <param name="schema"></param>
+        /// <returns></returns>
+        public static IAstNode BuildAstNodeFromSchema(IAstNode rootNode, Schema schema)
+        {
+            foreach(ITableDefinition table in schema.Tables)
+            {
+                IAddTableNode addTableNode = new AddTableNode(rootNode, table.Name);
+                rootNode.ChildNodes.Add(addTableNode);
+
+                foreach(IColumnDefinition column in table.Columns)
+                {
+                    IAddColumnNode addColumnNode = new AddColumnNode(addTableNode, column.Name);
+                    addTableNode.ChildNodes.Add(addColumnNode);
+
+                    SemanticModelUtil.Copy(column, addColumnNode);
+                } // foreach
+
+                foreach(IIndexDefinition index in table.Indexes)
+                {
+                    IAddIndexNode addIndexNode = new AddIndexNode(rootNode, index.Name);
+                    rootNode.ChildNodes.Add(addIndexNode);
+
+                    SemanticModelUtil.Copy(index, addIndexNode);
+                } // foreach
+
+                foreach(IReferenceDefinition reference in table.References)
+                {
+                    IAddReferenceNode addReferenceNode = new AddReferenceNode(rootNode, reference.Name);
+                    rootNode.ChildNodes.Add(addReferenceNode);
+
+                    SemanticModelUtil.Copy(reference, addReferenceNode);
+                } // foreach
+            } // foreach
+
+            return rootNode;
+        }
+
+        /// <summary>
+        /// Clones the given <paramref name="addColumnNode"/>.
+        /// </summary>
+        /// <param name="addColumnNode"></param>
+        /// <returns></returns>
         public static IAddColumnNode Clone(IAddColumnNode addColumnNode)
         {
             IAddColumnNode node = new AddColumnNode(addColumnNode.Parent, addColumnNode.Name);
