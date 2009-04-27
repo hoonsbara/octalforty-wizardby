@@ -21,8 +21,12 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
+using System;
+using System.Collections.Generic;
+
 using octalforty.Wizardby.Core.Compiler.Ast.Impl;
 using octalforty.Wizardby.Core.SemanticModel;
+using octalforty.Wizardby.Core.Util;
 
 namespace octalforty.Wizardby.Core.Compiler.Ast
 {
@@ -48,6 +52,7 @@ namespace octalforty.Wizardby.Core.Compiler.Ast
                     addTableNode.ChildNodes.Add(addColumnNode);
 
                     SemanticModelUtil.Copy(column, addColumnNode);
+                    CopyProperties(column, addColumnNode);
                 } // foreach
 
                 foreach(IIndexDefinition index in table.Indexes)
@@ -56,6 +61,7 @@ namespace octalforty.Wizardby.Core.Compiler.Ast
                     rootNode.ChildNodes.Add(addIndexNode);
 
                     SemanticModelUtil.Copy(index, addIndexNode);
+                    CopyProperties(index, addIndexNode);
                 } // foreach
 
                 foreach(IReferenceDefinition reference in table.References)
@@ -64,11 +70,94 @@ namespace octalforty.Wizardby.Core.Compiler.Ast
                     rootNode.ChildNodes.Add(addReferenceNode);
 
                     SemanticModelUtil.Copy(reference, addReferenceNode);
+                    CopyProperties(reference, addReferenceNode);
                 } // foreach
             } // foreach
 
             return rootNode;
         }
+
+        /// <summary>
+        /// Copies all properties from <paramref name="columnDefinition"/> to appropriate <see cref="IAstNodeProperty"/>
+        /// objects and adds them to <paramref name="columnNode"/>.
+        /// </summary>
+        /// <param name="columnDefinition"></param>
+        /// <param name="columnNode"></param>
+        public static void CopyProperties(IColumnDefinition columnDefinition, IColumnNode columnNode)
+        {
+            if(!string.IsNullOrEmpty(columnDefinition.Default))
+                AddProperty(columnNode, MdlSyntax.Default, columnDefinition.Default);
+
+            if(columnDefinition.Type != null)
+                AddProperty(columnNode, MdlSyntax.Type, columnDefinition.Type.Value.ToString());
+
+            if(columnDefinition.Nullable.HasValue)
+                AddProperty(columnNode, MdlSyntax.Nullable, columnDefinition.Nullable.Value.ToString().ToLower());
+
+            if(columnDefinition.Length.HasValue)
+                AddProperty(columnNode, MdlSyntax.Length, columnDefinition.Length.Value);
+
+            if(columnDefinition.Precision.HasValue)
+                AddProperty(columnNode, MdlSyntax.Precision, columnDefinition.Precision.Value);
+
+            if(columnDefinition.Scale.HasValue)
+                AddProperty(columnNode, MdlSyntax.Scale, columnDefinition.Scale.Value);
+
+            if(columnDefinition.PrimaryKey.GetValueOrDefault(false))
+                AddProperty(columnNode, MdlSyntax.PrimaryKey, "true");
+
+            if(columnDefinition.Identity.GetValueOrDefault(false))
+                AddProperty(columnNode, MdlSyntax.Identity, "true");
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="reference"></param>
+        /// <param name="addReferenceNode"></param>
+        private static void CopyProperties(IReferenceDefinition reference, IAddReferenceNode addReferenceNode)
+        {
+            if(!string.IsNullOrEmpty(reference.PkTable))
+                AddProperty(addReferenceNode, MdlSyntax.PkTable, reference.PkTable);
+
+            if(reference.PkColumns.Count == 1)
+                AddProperty(addReferenceNode, MdlSyntax.PkColumn, reference.PkColumns[0]);
+            else
+                AddListProperty(addReferenceNode, MdlSyntax.PkColumns, reference.PkColumns);
+
+            if(!string.IsNullOrEmpty(reference.FkTable))
+                AddProperty(addReferenceNode, MdlSyntax.FkTable, reference.FkTable);
+
+            if(reference.FkColumns.Count == 1)
+                AddProperty(addReferenceNode, MdlSyntax.FkColumn, reference.FkColumns[0]);
+            else
+                AddListProperty(addReferenceNode, MdlSyntax.FkColumns, reference.FkColumns);
+        }
+
+        private static void CopyProperties(IIndexDefinition index, IAddIndexNode addIndexNode)
+        {
+            if(!string.IsNullOrEmpty(index.Table))
+                AddProperty(addIndexNode, MdlSyntax.Table, index.Table);
+
+            if(index.Clustered.GetValueOrDefault(false))
+                AddProperty(addIndexNode, MdlSyntax.Clustered, "true");
+
+            if(index.Unique.GetValueOrDefault(false))
+                AddProperty(addIndexNode, MdlSyntax.Unique, "true");
+
+            if(index.Columns.Count == 1)
+                AddProperty(addIndexNode, MdlSyntax.Column, index.Columns[0]);
+            else
+                AddListProperty(addIndexNode, MdlSyntax.Columns, 
+                    new List<IIndexColumnDefinition>(index.Columns).ConvertAll<string>(
+                        delegate(IIndexColumnDefinition icd)
+                            {
+                                return icd.SortDirection.HasValue ? 
+                                    string.Format("[{0}, {1}]", icd.Name, icd.SortDirection.Value) : 
+                                    icd.Name;
+                            }));
+        }
+
 
         /// <summary>
         /// Clones the given <paramref name="addColumnNode"/>.
@@ -118,6 +207,13 @@ namespace octalforty.Wizardby.Core.Compiler.Ast
         private static void AddProperty(IAstNode node, string name, object value)
         {
             node.Properties.AddProperty(new AstNodeProperty(name, value));
+        }
+
+        private static void AddListProperty<T>(IAstNode node, string name, IEnumerable<T> values)
+        {
+            AddProperty(node, name,
+                (object)string.Format("[{0}]",
+                    StringUtil.Join(", ", new List<T>(values).ConvertAll<string>(delegate(T value) { return value.ToString(); }))));
         }
     }
 }

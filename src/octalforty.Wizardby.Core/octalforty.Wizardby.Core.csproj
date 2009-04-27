@@ -414,6 +414,7 @@
     <Compile Include="Util\Algorithms.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Util\StringUtil.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\MdlCompilerResources.resx">

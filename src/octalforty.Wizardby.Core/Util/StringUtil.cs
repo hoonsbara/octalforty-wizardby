@@ -22,32 +22,24 @@
 // THE SOFTWARE.
 #endregion
 using System.Collections.Generic;
+using System.Text;
 
-using octalforty.Wizardby.Core.Compiler.Ast;
-using octalforty.Wizardby.Core.Compiler.Ast.Impl;
-using octalforty.Wizardby.Core.Db;
-using octalforty.Wizardby.Core.SemanticModel;
-using octalforty.Wizardby.Core.Util;
-
-namespace octalforty.Wizardby.Core.ReverseEngineering.Impl
+namespace octalforty.Wizardby.Core.Util
 {
-    public class ReverseEngineeringService : IReverseEngineeringService
+    public static class StringUtil
     {
-        public IAstNode ReverseEngineer(IDbPlatform dbPlatform, string connectionString)
+        public static string Join(string separator, IEnumerable<string> strings)
         {
-            Schema schema = dbPlatform.SchemaProvider.GetSchema(connectionString);
-            
-            IBaselineNode baselineNode = new BaselineNode(null);
-            AstUtil.BuildAstNodeFromSchema(baselineNode, schema);
+            StringBuilder stringBuilder = new StringBuilder();
+            foreach(string s in strings)
+            {
+                if(stringBuilder.Length > 0)
+                    stringBuilder.Append(separator);
 
-            IList<IAstNode> addReferenceNodes= new List<IAstNode>();
-            Algorithms.RemoveIf(baselineNode.ChildNodes,
-                delegate(IAstNode astNode) { return astNode is IAddReferenceNode; }, 
-                delegate(IAstNode astNode) { addReferenceNodes.Add(astNode); });
+                stringBuilder.Append(s);
+            } // foreach
 
-            Algorithms.Copy(addReferenceNodes, baselineNode.ChildNodes);
-
-            return baselineNode;
+            return stringBuilder.ToString();
         }
     }
 }

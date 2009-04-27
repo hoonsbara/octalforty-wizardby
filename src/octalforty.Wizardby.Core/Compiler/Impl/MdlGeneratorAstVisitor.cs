@@ -71,7 +71,7 @@ namespace octalforty.Wizardby.Core.Compiler.Impl
         /// <param name="migrationNode"></param>
         public override void Visit(IMigrationNode migrationNode)
         {
-            textWriter.Write("migration {0}", migrationNode.Name);
+            textWriter.Write("migration {0}", GetIdentifier(migrationNode.Name));
 
             WriteProperties(migrationNode);
             VisitBlock(migrationNode);
@@ -103,7 +103,7 @@ namespace octalforty.Wizardby.Core.Compiler.Impl
 
         public override void Visit(IAddTableNode addTableNode)
         {
-            textWriter.Write("add table \"{0}\"", addTableNode.Name);
+            textWriter.Write("add table {0}", GetIdentifier(addTableNode.Name));
             
             WriteProperties(addTableNode);
             VisitBlock(addTableNode);
@@ -111,7 +111,7 @@ namespace octalforty.Wizardby.Core.Compiler.Impl
 
         public override void Visit(IAddColumnNode addColumnNode)
         {
-            textWriter.Write("add column \"{0}\"", addColumnNode.Name);
+            textWriter.Write("add column {0}", GetIdentifier(addColumnNode.Name));
 
             WriteProperties(addColumnNode);
             VisitBlock(addColumnNode);
@@ -119,7 +119,7 @@ namespace octalforty.Wizardby.Core.Compiler.Impl
 
         public override void Visit(IRemoveTableNode removeTableNode)
         {
-            textWriter.Write("remove table {0}", removeTableNode.Name);
+            textWriter.Write("remove table {0}", GetIdentifier(removeTableNode.Name));
 
             WriteProperties(removeTableNode);
             VisitBlock(removeTableNode);
@@ -131,7 +131,7 @@ namespace octalforty.Wizardby.Core.Compiler.Impl
         /// <param name="addIndexNode"></param>
         public override void Visit(IAddIndexNode addIndexNode)
         {
-            textWriter.Write("add index {0}", addIndexNode.Name);
+            textWriter.Write("add index {0}", GetIdentifier(addIndexNode.Name));
 
             WriteProperties(addIndexNode);
             VisitBlock(addIndexNode);
@@ -143,7 +143,7 @@ namespace octalforty.Wizardby.Core.Compiler.Impl
         /// <param name="addReferenceNode"></param>
         public override void Visit(IAddReferenceNode addReferenceNode)
         {
-            textWriter.Write("add reference {0}", addReferenceNode.Name);
+            textWriter.Write("add reference {0}", GetIdentifier(addReferenceNode.Name));
 
             WriteProperties(addReferenceNode);
             VisitBlock(addReferenceNode);
@@ -176,7 +176,7 @@ namespace octalforty.Wizardby.Core.Compiler.Impl
         /// <param name="defaultPrimaryKeyNode"></param>
         public override void Visit(IDefaultPrimaryKeyNode defaultPrimaryKeyNode)
         {
-            textWriter.Write("default-primary-key {0}", defaultPrimaryKeyNode.Name);
+            textWriter.Write("default-primary-key {0}", GetIdentifier(defaultPrimaryKeyNode.Name));
 
             WriteProperties(defaultPrimaryKeyNode);
             VisitBlock(defaultPrimaryKeyNode);
@@ -200,7 +200,7 @@ namespace octalforty.Wizardby.Core.Compiler.Impl
         /// <param name="typeAliasNode"></param>
         public override void Visit(ITypeAliasNode typeAliasNode)
         {
-            textWriter.Write("type-alias {0}", typeAliasNode.Name);
+            textWriter.Write("type-alias {0}", GetIdentifier(typeAliasNode.Name));
 
             WriteProperties(typeAliasNode);
             VisitBlock(typeAliasNode);
@@ -212,7 +212,7 @@ namespace octalforty.Wizardby.Core.Compiler.Impl
         /// <param name="removeReferenceNode"></param>
         public override void Visit(IRemoveReferenceNode removeReferenceNode)
         {
-            textWriter.Write("remove reference {0}", removeReferenceNode.Name);
+            textWriter.Write("remove reference {0}", GetIdentifier(removeReferenceNode.Name));
 
             WriteProperties(removeReferenceNode);
             VisitBlock(removeReferenceNode);
@@ -224,7 +224,7 @@ namespace octalforty.Wizardby.Core.Compiler.Impl
         /// <param name="removeIndexNode"></param>
         public override void Visit(IRemoveIndexNode removeIndexNode)
         {
-            textWriter.Write("remove index {0}", removeIndexNode.Name);
+            textWriter.Write("remove index {0}", GetIdentifier(removeIndexNode.Name));
 
             WriteProperties(removeIndexNode);
             VisitBlock(removeIndexNode);
@@ -236,7 +236,7 @@ namespace octalforty.Wizardby.Core.Compiler.Impl
         /// <param name="alterTableNode"></param>
         public override void Visit(IAlterTableNode alterTableNode)
         {
-            textWriter.Write("alter table {0}", alterTableNode.Name);
+            textWriter.Write("alter table {0}", GetIdentifier(alterTableNode.Name));
 
             WriteProperties(alterTableNode);
             VisitBlock(alterTableNode);
@@ -248,7 +248,7 @@ namespace octalforty.Wizardby.Core.Compiler.Impl
         /// <param name="alterColumnNode"></param>
         public override void Visit(IAlterColumnNode alterColumnNode)
         {
-            textWriter.Write("alter column {0}", alterColumnNode.Name);
+            textWriter.Write("alter column {0}", GetIdentifier(alterColumnNode.Name));
 
             WriteProperties(alterColumnNode);
             VisitBlock(alterColumnNode);
@@ -269,7 +269,7 @@ namespace octalforty.Wizardby.Core.Compiler.Impl
         /// <param name="removeColumnNode"></param>
         public override void Visit(IRemoveColumnNode removeColumnNode)
         {
-            textWriter.Write("remove column {0}", removeColumnNode.Name);
+            textWriter.Write("remove column {0}", GetIdentifier(removeColumnNode.Name));
 
             WriteProperties(removeColumnNode);
             VisitBlock(removeColumnNode);
@@ -317,12 +317,22 @@ namespace octalforty.Wizardby.Core.Compiler.Impl
             textWriter.Indent -= 1;
         }
 
+        private string GetIdentifier(string identifier)
+        {
+            return IsSymbol(identifier) ?
+                identifier :
+                string.Format("\"{0}\"", identifier);
+        }
+
         private bool IsSymbol(string s)
         {
+            if(s.Length == 0)
+                return false;
+
             if(!char.IsLetter(s[0]))
                 return false;
 
-            return Array.TrueForAll(s.ToCharArray(), delegate(char c) { return char.IsLetterOrDigit(c); });
+            return Array.TrueForAll(s.ToCharArray(), delegate(char c) { return char.IsLetterOrDigit(c) || c == '_'; });
         }
     }
 }

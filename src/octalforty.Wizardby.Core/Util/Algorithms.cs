@@ -25,8 +25,6 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-using octalforty.Wizardby.Core.Compiler.Ast;
-
 namespace octalforty.Wizardby.Core.Util
 {
     public static class Algorithms
@@ -91,6 +89,26 @@ namespace octalforty.Wizardby.Core.Util
                     return i;
 
             return -1;
+        }
+
+        public static void RemoveIf<T>(IList<T> list, Predicate<T> predicate, Action<T> action)
+        {
+            for(int i = 0; i < list.Count; ++i)
+            {
+                if(!predicate(list[i])) 
+                    continue;
+
+                T item = list[i];
+                list.RemoveAt(i--);
+
+                action(item);
+            } // for
+        }
+
+        public static void Copy<T>(IEnumerable<T> source, ICollection<T> destination)
+        {
+            foreach(T value in source)
+                destination.Add(value);
         }
     }
 }

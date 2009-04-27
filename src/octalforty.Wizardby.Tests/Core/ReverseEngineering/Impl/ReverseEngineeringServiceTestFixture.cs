@@ -100,12 +100,9 @@ namespace octalforty.Wizardby.Tests.Core.ReverseEngineering.Impl
             // go afterwards
             int lastAddTable = Algorithms.LastIndexOf(astNode.ChildNodes, 
                 delegate(IAstNode node) { return node is IAddTableNode; });
-            int firstAddIndex = Algorithms.FirstIndexOf(astNode.ChildNodes,
-                delegate(IAstNode node) { return node is IAddIndexNode; });
             int firstAddReference = Algorithms.FirstIndexOf(astNode.ChildNodes,
                 delegate(IAstNode node) { return node is IAddReferenceNode; });
 
-            Assert.IsTrue(lastAddTable < firstAddIndex);
             Assert.IsTrue(lastAddTable < firstAddReference);
         }
 

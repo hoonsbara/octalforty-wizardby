@@ -109,6 +109,25 @@ namespace octalforty.Wizardby.Tests.Core.Compiler.Ast
             Assert.AreEqual(originalNode.Table, clonedNode.Table);
         }
 
+        [Test()]
+        public void CopyColumnProperties()
+        {
+            IColumnDefinition columnDefinition = new ColumnDefinition("Foo", null, DbType.Binary, true, 234, 56, 78, true, true);
+            columnDefinition.Default = "foo()";
+            
+            IColumnNode columnNode = new AddColumnNode(null, "Foo");
+            AstUtil.CopyProperties(columnDefinition, columnNode);
+
+            Assert.AreEqual(columnDefinition.Default, columnNode.Properties[MdlSyntax.Default].Value);
+            Assert.AreEqual("true", columnNode.Properties[MdlSyntax.Identity].Value);
+            Assert.AreEqual(234, columnNode.Properties[MdlSyntax.Length].Value);
+            Assert.AreEqual("true", columnNode.Properties[MdlSyntax.Nullable].Value);
+            Assert.AreEqual(78, columnNode.Properties[MdlSyntax.Precision].Value);
+            Assert.AreEqual("true", columnNode.Properties[MdlSyntax.PrimaryKey].Value);
+            Assert.AreEqual(56, columnNode.Properties[MdlSyntax.Scale].Value);
+            Assert.AreEqual("Binary", columnNode.Properties[MdlSyntax.Type].Value);
+        }
+
         private Schema GetSchema()
         {
             Environment environment = new Environment();
