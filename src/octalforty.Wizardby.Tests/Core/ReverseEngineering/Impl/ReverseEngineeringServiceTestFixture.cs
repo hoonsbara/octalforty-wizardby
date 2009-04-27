@@ -85,7 +85,7 @@ namespace octalforty.Wizardby.Tests.Core.ReverseEngineering.Impl
             
             Assert.IsNotNull(addBlogAuthorJunctionTableNode);
 
-            AssertAddReference(Algorithms.FindFirst(addBlogAuthorJunctionTableNode.ChildNodes,
+            AssertAddReference(Algorithms.FindFirst(astNode.ChildNodes,
                 delegate(IAstNode an)
                     { return an is IAddReferenceNode && ((IAddReferenceNode)an).Name == "FK12"; }),
                     "FK12", 
@@ -94,6 +94,19 @@ namespace octalforty.Wizardby.Tests.Core.ReverseEngineering.Impl
             /*Assert.IsNotNull(Algorithms.FindFirst<IAstNode>(addBlogAuthorJunctionTableNode.ChildNodes,
                 delegate(IAstNode an)
                     { return an is IAddReferenceNode && ((IAddReferenceNode)an).Name == "FK13"; }));*/
+
+            //
+            // Assert that all "add tables" go first, and indexes and references
+            // go afterwards
+            int lastAddTable = Algorithms.LastIndexOf(astNode.ChildNodes, 
+                delegate(IAstNode node) { return node is IAddTableNode; });
+            int firstAddIndex = Algorithms.FirstIndexOf(astNode.ChildNodes,
+                delegate(IAstNode node) { return node is IAddIndexNode; });
+            int firstAddReference = Algorithms.FirstIndexOf(astNode.ChildNodes,
+                delegate(IAstNode node) { return node is IAddReferenceNode; });
+
+            Assert.IsTrue(lastAddTable < firstAddIndex);
+            Assert.IsTrue(lastAddTable < firstAddReference);
         }
 
 

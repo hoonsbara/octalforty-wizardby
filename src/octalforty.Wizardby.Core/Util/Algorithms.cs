@@ -74,5 +74,23 @@ namespace octalforty.Wizardby.Core.Util
 
             return joinBuilder.ToString();
         }
+
+        public static int LastIndexOf<T>(IList<T> list, Predicate<T> predicate)
+        {
+            for(int i = list.Count - 1; i >= 0 ; --i)
+                if(predicate(list[i]))
+                    return i;
+
+            return -1;
+        }
+
+        public static int FirstIndexOf<T>(IList<T> list, Predicate<T> predicate)
+        {
+            for(int i = 0; i < list.Count; ++i)
+                if(predicate(list[i]))
+                    return i;
+
+            return -1;
+        }
     }
 }
