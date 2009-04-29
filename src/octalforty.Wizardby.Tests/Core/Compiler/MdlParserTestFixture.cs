@@ -48,10 +48,10 @@ namespace octalforty.Wizardby.Tests.Core.Compiler
 
             Assert.AreEqual(new Location(0, 0), environmentNode.Location);
 
-            Assert.AreEqual("sqlserver", environmentNode.Properties["platform"].Value.ToString());
-            Assert.AreEqual("(local)\\sqlexpress", environmentNode.Properties["host"].Value.ToString());
-            Assert.AreEqual("Waffle", environmentNode.Properties["database"].Value.ToString());
-            Assert.AreEqual("true", environmentNode.Properties["integrated-authentication"].Value.ToString());
+            Assert.AreEqual("sqlserver", AstNodePropertyUtil.AsString(environmentNode.Properties, "platform"));
+            Assert.AreEqual("(local)\\sqlexpress", ((IStringAstNodePropertyValue)environmentNode.Properties["host"].Value).Value);
+            Assert.AreEqual("Waffle", ((IStringAstNodePropertyValue)environmentNode.Properties["database"].Value).Value);
+            Assert.AreEqual("true", ((IStringAstNodePropertyValue)environmentNode.Properties["integrated-authentication"].Value).Value);
         }
 
         [Test()]
@@ -99,13 +99,11 @@ namespace octalforty.Wizardby.Tests.Core.Compiler
 
             Assert.AreEqual("Waffle", migrationNode.Name);
             
-            Assert.AreEqual(1, migrationNode.Properties["revision"].Value);
+            Assert.AreEqual(1, AstNodePropertyUtil.AsInteger(migrationNode.Properties, "revision"));
             Assert.AreEqual(new Location(0, 19), migrationNode.Properties["revision"].Location);
 
-            Assert.AreEqual("Debug", migrationNode.Properties["configuration"].Value);
+            Assert.AreEqual("Debug", AstNodePropertyUtil.AsString(migrationNode.Properties, "configuration"));
             Assert.AreEqual(new Location(0, 34), migrationNode.Properties["configuration"].Location);
-
-            Assert.IsInstanceOfType(typeof(string), migrationNode.Properties["configuration"].Value);
         }
 
         [Test()]
@@ -209,16 +207,16 @@ namespace octalforty.Wizardby.Tests.Core.Compiler
         {
             Assert.AreEqual("ndt", typeAliasNode.Name);
             Assert.AreEqual(2, typeAliasNode.Properties.Count);
-            Assert.AreEqual("DateTime", typeAliasNode.Properties["type"].Value);
-            Assert.AreEqual("true", typeAliasNode.Properties["nullable"].Value);
+            Assert.AreEqual("DateTime", AstNodePropertyUtil.AsString(typeAliasNode.Properties, "type"));
+            Assert.AreEqual("true", AstNodePropertyUtil.AsString(typeAliasNode.Properties, "nullable"));
         }
 
         private static void AssertDtTypeAliasNode(ITypeAliasNode typeAliasNode)
         {
             Assert.AreEqual("dt", typeAliasNode.Name);
             Assert.AreEqual(2, typeAliasNode.Properties.Count);
-            Assert.AreEqual("DateTime", typeAliasNode.Properties["type"].Value);
-            Assert.AreEqual("false", typeAliasNode.Properties["nullable"].Value);
+            Assert.AreEqual("DateTime", AstNodePropertyUtil.AsString(typeAliasNode.Properties, "type"));
+            Assert.AreEqual("false", AstNodePropertyUtil.AsString(typeAliasNode.Properties, "nullable"));
         }
 
         [Test()]
@@ -489,15 +487,16 @@ namespace octalforty.Wizardby.Tests.Core.Compiler
             Assert.IsInstanceOfType(typeof(IAddIndexNode), astNode);
             Assert.IsInstanceOfType(typeof(object[]), astNode.Properties["columns"].Value);
 
-            object[] columns = (object[])astNode.Properties["columns"].Value;
+            IListAstNodePropertyValue columnsList = (IListAstNodePropertyValue)astNode.Properties["columns"].Value;
 
-            Assert.IsInstanceOfType(typeof(object[]), columns[0]);
+            Assert.IsInstanceOfType(typeof(IListAstNodePropertyValue), columnsList);
+            Assert.IsInstanceOfType(typeof(IListAstNodePropertyValue), columnsList.Items[0]);
 
-            object[] login = (object[])columns[0];
+            IListAstNodePropertyValue loginList = (IListAstNodePropertyValue)columnsList.Items[0];
 
-            Assert.AreEqual("Login", login[0]);
-            Assert.AreEqual("desc", login[1]);
-            Assert.AreEqual("ID", columns[1]);
+            Assert.AreEqual("Login", ((IStringAstNodePropertyValue)loginList.Items[0]).Value);
+            Assert.AreEqual("desc", ((IStringAstNodePropertyValue)loginList.Items[1]).Value);
+            Assert.AreEqual("ID", ((IStringAstNodePropertyValue)columnsList.Items[1]).Value);
         }
 
         [Test()]

@@ -62,7 +62,7 @@ namespace octalforty.Wizardby.Core.Compiler.Impl
         {
             //
             // Add "primary-key" property
-            defaultPrimaryKeyNode.Properties.AddProperty(new AstNodeProperty(MdlSyntax.PrimaryKey, "true"));
+            defaultPrimaryKeyNode.Properties.AddProperty(AstNodeProperty.Symbol(MdlSyntax.PrimaryKey, "true"));
             this.defaultPrimaryKeyNode = defaultPrimaryKeyNode;
         }
 

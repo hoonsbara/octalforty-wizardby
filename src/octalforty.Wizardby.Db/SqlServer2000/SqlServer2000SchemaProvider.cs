@@ -21,6 +21,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
+using System;
 using System.Data;
 
 using octalforty.Wizardby.Core.Db;
@@ -62,6 +63,7 @@ namespace octalforty.Wizardby.Db.SqlServer2000
         {
             base.GetTableDefinitions(connectionString, databaseSchema);
             FixupColumnLengths(databaseSchema);
+            FixupColumnScaleAndPrecision(databaseSchema);
             
             //
             // Identities
@@ -82,6 +84,20 @@ where columnproperty(object_id(quotename(table_schema) + '.' + quotename(table_n
                     });
         }
         #endregion
+
+        private static void FixupColumnScaleAndPrecision(Schema databaseSchema)
+        {
+            //
+            // SQL Server returns scale and precision for all data types without exception. However,
+            // docs say that "The precision and scale of the numeric data types besides decimal are fixed".
+            foreach(ITableDefinition table in databaseSchema.Tables)
+                foreach(IColumnDefinition column in table.Columns)
+                    if(column.Type != DbType.Decimal)
+                    {
+                        column.Scale = null;
+                        column.Precision = null;
+                    } // if
+        }
 
         private static void FixupColumnLengths(Schema databaseSchema)
         {

@@ -34,6 +34,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Compiler\Ast\AstBuilder.cs" />
+    <Compile Include="Compiler\Ast\AstNodePropertyUtil.cs" />
     <Compile Include="Compiler\Ast\Impl\AddConstraintNode.cs" />
     <Compile Include="Compiler\Ast\AstUtil.cs" />
     <Compile Include="Compiler\Ast\AstVisitorBase.cs">
@@ -42,6 +43,7 @@
     <Compile Include="Compiler\Ast\IAddConstraintNode.cs" />
     <Compile Include="Compiler\Ast\IConstraintNode.cs" />
     <Compile Include="Compiler\Ast\IIndexNode.cs" />
+    <Compile Include="Compiler\Ast\Impl\ListAstNodePropertyValue.cs" />
     <Compile Include="Compiler\Ast\Impl\ColumnNodeBase.cs" />
     <Compile Include="Compiler\Ast\IAddColumnNode.cs">
       <SubType>Code</SubType>
@@ -124,7 +126,9 @@
     </Compile>
     <Compile Include="Compiler\Ast\Impl\DowngradeNode.cs" />
     <Compile Include="Compiler\Ast\Impl\EnvironmentNode.cs" />
+    <Compile Include="Compiler\Ast\IAstNodePropertyValue.cs" />
     <Compile Include="Compiler\Ast\Impl\IndexNodeBase.cs" />
+    <Compile Include="Compiler\Ast\Impl\IntegerAstNodePropertyValue.cs" />
     <Compile Include="Compiler\Ast\Impl\MigrationNode.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -141,6 +145,8 @@
     <Compile Include="Compiler\Ast\Impl\RemoveTableNode.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Compiler\Ast\Impl\StringAstNodePropertyValue.cs" />
+    <Compile Include="Compiler\Ast\Impl\SymbolAstNodePropertyValue.cs" />
     <Compile Include="Compiler\Ast\Impl\TableNodeBase.cs" />
     <Compile Include="Compiler\Ast\Impl\TableTemplateNode.cs" />
     <Compile Include="Compiler\Ast\Impl\TemplatesNode.cs" />
@@ -255,6 +261,8 @@
     <Compile Include="Compiler\MdlSyntax.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Compiler\PropertyValue.cs" />
+    <Compile Include="Compiler\PropertyValueType.cs" />
     <Compile Include="Compiler\SchemaDefinitionBuilderVisitor.cs" />
     <Compile Include="Compiler\SourceReader.cs">
       <SubType>Code</SubType>

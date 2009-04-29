@@ -110,5 +110,11 @@ namespace octalforty.Wizardby.Core.Util
             foreach(T value in source)
                 destination.Add(value);
         }
+
+        public static IEnumerable<TOutput> Convert<TInput, TOutput>(IEnumerable<TInput> input, Converter<TInput, TOutput> converter)
+        {
+            foreach(TInput inputValue in input)
+                yield return converter(inputValue);
+        }
     }
 }

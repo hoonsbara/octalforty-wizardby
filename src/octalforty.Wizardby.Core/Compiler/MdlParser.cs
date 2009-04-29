@@ -838,10 +838,32 @@ namespace octalforty.Wizardby.Core.Compiler
             
             Parse(tokens, TokenType.PropertyAssignment);
 
-            return new AstNodeProperty(propertyName, ParsePropertyValue(tokens), propertyNameToken.Location);
+            PropertyValue propertyValue = ParsePropertyValue(tokens);
+            return new AstNodeProperty(propertyName, GetAstNodePropertyValue(propertyValue), propertyNameToken.Location);
         }
 
-        private static object ParsePropertyValue(TokenSequence tokens)
+        private static IAstNodePropertyValue GetAstNodePropertyValue(PropertyValue propertyValue)
+        {
+            switch(propertyValue.Type)
+            {
+                case PropertyValueType.List:
+                    List<IAstNodePropertyValue> values = new List<IAstNodePropertyValue>();
+                    foreach(PropertyValue innerValue in ((PropertyValue[])propertyValue.Value))
+                        values.Add(GetAstNodePropertyValue(innerValue));
+
+                    return new ListAstNodePropertyValue(values.ToArray());
+                case PropertyValueType.String:
+                    return new StringAstNodePropertyValue((string)propertyValue.Value);
+                case PropertyValueType.Symbol:
+                    return new SymbolAstNodePropertyValue((string)propertyValue.Value);
+                case PropertyValueType.Integer:
+                    return new IntegerAstNodePropertyValue((int)propertyValue.Value);
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        private static PropertyValue ParsePropertyValue(TokenSequence tokens)
         {
             //
             // If what we have next is a '[' symbol, then we're parsing a list
@@ -850,11 +872,11 @@ namespace octalforty.Wizardby.Core.Compiler
                 ParseSimplePropertyValue(tokens);
         }
 
-        private static object ParseListPropertyValue(TokenSequence tokens)
+        private static PropertyValue ParseListPropertyValue(TokenSequence tokens)
         {
             Parse(tokens, TokenType.LeftSquareBracket);
 
-            List<object> propertyValues = new List<object>();
+            List<PropertyValue> propertyValues = new List<PropertyValue>();
             while(tokens.First.Type != TokenType.RightSquareBracket)
             {
                 propertyValues.Add(ParsePropertyValue(tokens));
@@ -865,24 +887,25 @@ namespace octalforty.Wizardby.Core.Compiler
 
             Parse(tokens, TokenType.RightSquareBracket);
 
-            return propertyValues.ToArray();
+            return new PropertyValue(PropertyValueType.List, propertyValues.ToArray());
         }
 
-        private static object ParseSimplePropertyValue(TokenSequence tokens)
+        private static PropertyValue ParseSimplePropertyValue(TokenSequence tokens)
         {
             Token propertyValue = Parse(tokens, TokenType.IntegerConstant, TokenType.StringConstant, TokenType.Symbol);
             return GetPropertyValue(propertyValue);
         }
         
-        private static object GetPropertyValue(Token propertyValue)
+        private static PropertyValue GetPropertyValue(Token propertyValue)
         {
             switch (propertyValue.Type)
             {
                 case TokenType.Symbol:
+                    return new PropertyValue(PropertyValueType.Symbol, propertyValue.Lexeme);
                 case TokenType.StringConstant:
-                    return propertyValue.Lexeme;
+                    return new PropertyValue(PropertyValueType.String, propertyValue.Lexeme);
                 case TokenType.IntegerConstant:
-                    return Convert.ToInt32(propertyValue.Lexeme);
+                    return new PropertyValue(PropertyValueType.Integer, Convert.ToInt32(propertyValue.Lexeme));
                 default:
                     throw new ArgumentOutOfRangeException();
             }

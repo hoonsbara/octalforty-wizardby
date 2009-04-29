@@ -123,7 +123,9 @@ namespace octalforty.Wizardby.Core.Compiler.Ast
             if(reference.PkColumns.Count == 1)
                 AddProperty(addReferenceNode, MdlSyntax.PkColumn, reference.PkColumns[0]);
             else
-                AddListProperty(addReferenceNode, MdlSyntax.PkColumns, reference.PkColumns);
+                AddListProperty(addReferenceNode, MdlSyntax.PkColumns,
+                    Algorithms.Convert<string, IAstNodePropertyValue>(reference.PkColumns, 
+                        delegate(string input) { return new StringAstNodePropertyValue(input); }));
 
             if(!string.IsNullOrEmpty(reference.FkTable))
                 AddProperty(addReferenceNode, MdlSyntax.FkTable, reference.FkTable);
@@ -131,7 +133,9 @@ namespace octalforty.Wizardby.Core.Compiler.Ast
             if(reference.FkColumns.Count == 1)
                 AddProperty(addReferenceNode, MdlSyntax.FkColumn, reference.FkColumns[0]);
             else
-                AddListProperty(addReferenceNode, MdlSyntax.FkColumns, reference.FkColumns);
+                AddListProperty(addReferenceNode, MdlSyntax.FkColumns,
+                    Algorithms.Convert<string, IAstNodePropertyValue>(reference.FkColumns,
+                        delegate(string input) { return new StringAstNodePropertyValue(input); }));
         }
 
         private static void CopyProperties(IIndexDefinition index, IAddIndexNode addIndexNode)
@@ -146,16 +150,22 @@ namespace octalforty.Wizardby.Core.Compiler.Ast
                 AddProperty(addIndexNode, MdlSyntax.Unique, "true");
 
             if(index.Columns.Count == 1)
-                AddProperty(addIndexNode, MdlSyntax.Column, index.Columns[0]);
+                AddProperty(addIndexNode, MdlSyntax.Column, GetIndexColumnPropertyValue(index.Columns[0]));
             else
                 AddListProperty(addIndexNode, MdlSyntax.Columns, 
-                    new List<IIndexColumnDefinition>(index.Columns).ConvertAll<string>(
+                    new List<IIndexColumnDefinition>(index.Columns).ConvertAll<IAstNodePropertyValue>(
                         delegate(IIndexColumnDefinition icd)
-                            {
-                                return icd.SortDirection.HasValue ? 
-                                    string.Format("[{0}, {1}]", icd.Name, icd.SortDirection.Value) : 
-                                    icd.Name;
-                            }));
+                            { return GetIndexColumnPropertyValue(icd); }));
+        }
+
+        private static IAstNodePropertyValue GetIndexColumnPropertyValue(IIndexColumnDefinition indexColumn)
+        {
+            if(indexColumn.SortDirection.HasValue)
+                return new ListAstNodePropertyValue(
+                    new StringAstNodePropertyValue(indexColumn.Name),
+                    new SymbolAstNodePropertyValue(indexColumn.SortDirection.Value == SortDirection.Ascending ? "asc" : "desc"));
+
+            return new StringAstNodePropertyValue(indexColumn.Name);
         }
 
 
@@ -204,16 +214,24 @@ namespace octalforty.Wizardby.Core.Compiler.Ast
                 AddProperty(columnNode, MdlSyntax.Identity, "true");
         }
 
-        private static void AddProperty(IAstNode node, string name, object value)
+        private static void AddProperty(IAstNode node, string name, IAstNodePropertyValue value)
         {
             node.Properties.AddProperty(new AstNodeProperty(name, value));
         }
 
-        private static void AddListProperty<T>(IAstNode node, string name, IEnumerable<T> values)
+        private static void AddProperty(IAstNode node, string name, string value)
         {
-            AddProperty(node, name,
-                (object)string.Format("[{0}]",
-                    StringUtil.Join(", ", new List<T>(values).ConvertAll<string>(delegate(T value) { return value.ToString(); }))));
+            node.Properties.AddProperty(AstNodeProperty.String(name, value));
+        }
+
+        private static void AddProperty(IAstNode node, string name, int value)
+        {
+            node.Properties.AddProperty(AstNodeProperty.Integer(name, value));
+        }
+
+        private static void AddListProperty(IAstNode node, string name, IEnumerable<IAstNodePropertyValue> values)
+        {
+            node.Properties.AddProperty(AstNodeProperty.List(name, new List<IAstNodePropertyValue>(values).ToArray()));
         }
     }
 }

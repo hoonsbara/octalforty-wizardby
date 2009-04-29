@@ -53,7 +53,7 @@ namespace octalforty.Wizardby.Core.Compiler.Impl
 
                 IAddReferenceNode addReferenceNode = new AddReferenceNode(addColumnNode, "");
                 addReferenceNode.Location = referencesProperty.Location;
-                addReferenceNode.Properties.AddProperty(new AstNodeProperty(MdlSyntax.PkTable, references));
+                addReferenceNode.Properties.AddProperty(AstNodeProperty.String(MdlSyntax.PkTable, references));
 
                 addColumnNode.ChildNodes.Add(addReferenceNode);
             } // if
@@ -66,7 +66,7 @@ namespace octalforty.Wizardby.Core.Compiler.Impl
 
                 IAddIndexNode addIndexNode = new AddIndexNode(addColumnNode, "");
                 addIndexNode.Location = uniqueProperty.Location;
-                addIndexNode.Properties.AddProperty(new AstNodeProperty(MdlSyntax.Unique, "true"));
+                addIndexNode.Properties.AddProperty(AstNodeProperty.String(MdlSyntax.Unique, "true"));
 
                 addColumnNode.ChildNodes.Add(addIndexNode);
             } // if

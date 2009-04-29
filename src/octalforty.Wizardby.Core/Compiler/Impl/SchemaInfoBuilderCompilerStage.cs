@@ -47,9 +47,9 @@ namespace octalforty.Wizardby.Core.Compiler.Impl
             IAddTableNode addSchemaInfoTableNode = new AddTableNode(versionNode, "SchemaInfo");
             
             IAddColumnNode addVersionColumnNode = new AddColumnNode(addSchemaInfoTableNode, "Version");
-            addVersionColumnNode.Properties.AddProperty(new AstNodeProperty(MdlSyntax.Type, DbType.Int64.ToString()));
-            addVersionColumnNode.Properties.AddProperty(new AstNodeProperty(MdlSyntax.Unique, "true"));
-            addVersionColumnNode.Properties.AddProperty(new AstNodeProperty(MdlSyntax.Nullable, "false"));
+            addVersionColumnNode.Properties.AddProperty(AstNodeProperty.Symbol(MdlSyntax.Type, DbType.Int64.ToString()));
+            addVersionColumnNode.Properties.AddProperty(AstNodeProperty.Symbol(MdlSyntax.Unique, "true"));
+            addVersionColumnNode.Properties.AddProperty(AstNodeProperty.Symbol(MdlSyntax.Nullable, "false"));
 
             addSchemaInfoTableNode.ChildNodes.Add(addVersionColumnNode);
 

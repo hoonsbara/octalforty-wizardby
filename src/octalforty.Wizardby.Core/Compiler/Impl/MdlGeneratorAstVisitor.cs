@@ -291,7 +291,7 @@ namespace octalforty.Wizardby.Core.Compiler.Impl
 
                 textWriter.Write(" {0} => ", property.Name);
                 
-                if(!(property.Value is string) || IsSymbol(property.Value.ToString()))
+                if(!(property.Value is string) || IsSymbol(property.Value.ToString()) || property.Value.GetType().IsArray)
                     textWriter.Write(property.Value);
                 else
                     textWriter.Write("\"{0}\"", property.Value);

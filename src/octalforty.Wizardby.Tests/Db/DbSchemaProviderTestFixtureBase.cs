@@ -81,6 +81,8 @@ namespace octalforty.Wizardby.Tests.Db
             Assert.IsFalse(primaryKeyColumn.Nullable.Value);
             Assert.IsTrue(primaryKeyColumn.PrimaryKey.Value);
             Assert.IsTrue(primaryKeyColumn.Identity.Value);
+            Assert.IsFalse(primaryKeyColumn.Scale.HasValue);
+            Assert.IsFalse(primaryKeyColumn.Precision.HasValue);
 
             ITableDefinition blogTable = schema.GetTable("dbo", "Blog");
 

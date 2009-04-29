@@ -34,7 +34,7 @@ namespace octalforty.Wizardby.Core.Compiler
         IntegerConstant,
 
         /// <summary>
-        /// String constant.
+        /// AsString constant.
         /// </summary>
         StringConstant,
 

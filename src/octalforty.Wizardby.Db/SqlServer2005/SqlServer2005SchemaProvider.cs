@@ -22,7 +22,6 @@
 // THE SOFTWARE.
 #endregion
 using System;
-using System.Collections.Generic;
 using System.Data.SqlClient;
 
 using Microsoft.SqlServer.Management.Common;

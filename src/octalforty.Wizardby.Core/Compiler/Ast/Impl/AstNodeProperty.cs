@@ -21,6 +21,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
+
+using System;
 using System.Diagnostics;
 
 namespace octalforty.Wizardby.Core.Compiler.Ast.Impl
@@ -33,7 +35,7 @@ namespace octalforty.Wizardby.Core.Compiler.Ast.Impl
     {
         #region Private Fields
         private readonly string name;
-        private readonly object value;
+        private readonly IAstNodePropertyValue value;
         private Location location;
         #endregion
 
@@ -42,7 +44,7 @@ namespace octalforty.Wizardby.Core.Compiler.Ast.Impl
         /// </summary>
         /// <param name="name"></param>
         /// <param name="value"></param>
-        public AstNodeProperty(string name, object value)
+        public AstNodeProperty(string name, IAstNodePropertyValue value)
         {
             this.name = name;
             this.value = value;
@@ -54,7 +56,7 @@ namespace octalforty.Wizardby.Core.Compiler.Ast.Impl
         /// <param name="name"></param>
         /// <param name="value"></param>
         /// <param name="location"></param>
-        public AstNodeProperty(string name, object value, Location location)
+        public AstNodeProperty(string name, IAstNodePropertyValue value, Location location)
         {
             this.name = name;
             this.value = value;
@@ -71,9 +73,10 @@ namespace octalforty.Wizardby.Core.Compiler.Ast.Impl
         }
 
         /// <summary>
-        /// Gets an <see cref="object"/> which contains the value of the current property.
+        /// Gets a reference to the <see cref="IAstNodePropertyValue"/> 
+        /// which contains the value of the current property.
         /// </summary>
-        public object Value
+        public IAstNodePropertyValue Value
         {
             get { return value; }
         }
@@ -88,5 +91,45 @@ namespace octalforty.Wizardby.Core.Compiler.Ast.Impl
             set { location = value; }
         }
         #endregion
+
+        public static IAstNodeProperty List(string name, IAstNodePropertyValue[] values)
+        {
+            return List(name, values, null);
+        }
+
+        public static IAstNodeProperty List(string name, IAstNodePropertyValue[] values, Location location)
+        {
+            return new AstNodeProperty(name, new ListAstNodePropertyValue(values));
+        }
+
+        public static IAstNodeProperty String(string name, string value)
+        {
+            return String(name, value, null);
+        }
+
+        public static IAstNodeProperty String(string name, string value, Location location)
+        {
+            return new AstNodeProperty(name, new StringAstNodePropertyValue(value));
+        }
+
+        public static IAstNodeProperty Symbol(string name, string value)
+        {
+            return Symbol(name, value, null);
+        }
+
+        public static IAstNodeProperty Symbol(string name, string value, Location location)
+        {
+            return new AstNodeProperty(name, new SymbolAstNodePropertyValue(value));
+        }
+
+        public static IAstNodeProperty Integer(string name, int value)
+        {
+            return Integer(name, value, null);
+        }
+
+        public static IAstNodeProperty Integer(string name, int value, Location location)
+        {
+            return new AstNodeProperty(name, new IntegerAstNodePropertyValue(value));
+        }
     }
 }

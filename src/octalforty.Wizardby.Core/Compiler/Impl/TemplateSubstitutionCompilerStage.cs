@@ -66,9 +66,10 @@ namespace octalforty.Wizardby.Core.Compiler.Impl
                 return;
             } // if
 
-            object[] templateNames = (object[])addTableNode.Properties[MdlSyntax.Templates].Value;
-            foreach(object templateName in templateNames)
-                SubstituteTemplate(addTableNode, templateName.ToString());
+            IAstNodePropertyValue[] templateNames = 
+                ((IListAstNodePropertyValue)addTableNode.Properties[MdlSyntax.Templates]).Items;
+            foreach(IAstNodePropertyValue templateName in templateNames)
+                SubstituteTemplate(addTableNode, ((IStringAstNodePropertyValue)templateName).Value);
         }
         #endregion
 

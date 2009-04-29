@@ -21,31 +21,25 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
-namespace octalforty.Wizardby.Core.Compiler.Ast
+namespace octalforty.Wizardby.Core.Compiler.Ast.Impl
 {
-    /// <summary>
-    /// Represents a property of an AST node.
-    /// </summary>
-    public interface IAstNodeProperty
+    public class StringAstNodePropertyValue : IStringAstNodePropertyValue
     {
-        /// <summary>
-        /// Gets a <see cref="string"/> which contains the name of the current property.
-        /// </summary>
-        string Name
-        { get; }
+        private string value;
 
-        /// <summary>
-        /// Gets a reference to the <see cref="IAstNodePropertyValue"/> 
-        /// which contains the value of the current property.
-        /// </summary>
-        IAstNodePropertyValue Value
-        { get; }
+        public StringAstNodePropertyValue()
+        {
+        }
 
-        /// <summary>
-        /// Gets or sets a reference to the <see cref="Compiler.Location"/> of this property
-        /// in a source file.
-        /// </summary>
-        Location Location
-        { get; set; }
+        public StringAstNodePropertyValue(string value)
+        {
+            this.value = value;
+        }
+
+        public string Value
+        {
+            get { return value; }
+            set { this.value = value; }
+        }
     }
 }

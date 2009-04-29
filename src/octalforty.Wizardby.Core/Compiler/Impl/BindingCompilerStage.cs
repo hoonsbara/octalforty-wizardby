@@ -196,9 +196,10 @@ namespace octalforty.Wizardby.Core.Compiler.Impl
             } // else if
             else if(addIndexNode.Properties.ContainsProperty(MdlSyntax.Columns))
             {
-                foreach(object icd in (object[])addIndexNode.Properties[MdlSyntax.Columns].Value)
+                IListAstNodePropertyValue list = (IListAstNodePropertyValue)addIndexNode.Properties[MdlSyntax.Columns].Value;
+                foreach(IAstNodePropertyValue value in list.Items)
                 {
-                    IndexColumnDefinition indexColumnDefinition = GetIndexColumnDefinition(icd);
+                    IndexColumnDefinition indexColumnDefinition = GetIndexColumnDefinition(value);
                     indexDefinition.Columns.Add(indexColumnDefinition);
                     addIndexNode.Columns.Add(indexColumnDefinition);
                 } // foreach
@@ -381,8 +382,12 @@ namespace octalforty.Wizardby.Core.Compiler.Impl
             // If we have fk-columns specified
             if(addReferenceNode.Properties.ContainsProperty(MdlSyntax.FkColumns))
             {
-                foreach(string fkColumnName in (object[])addReferenceNode.Properties[MdlSyntax.FkColumns].Value)
+                IListAstNodePropertyValue list =
+                    (IListAstNodePropertyValue)addReferenceNode.Properties[MdlSyntax.FkColumns];
+                foreach(IAstNodePropertyValue value in list.Items)
                 {
+                    string fkColumnName = ((IStringAstNodePropertyValue)value).Value;
+
                     //
                     // FK table is already bound here
                     IColumnDefinition fkColumn =
@@ -446,20 +451,20 @@ namespace octalforty.Wizardby.Core.Compiler.Impl
         {
             if(columnNode.Properties.ContainsProperty(MdlSyntax.PrimaryKey))
                 columnNode.PrimaryKey = columnDefinition.PrimaryKey =
-                    Convert.ToBoolean(columnNode.Properties[MdlSyntax.PrimaryKey].Value);
+                    Convert.ToBoolean(((IStringAstNodePropertyValue)columnNode.Properties[MdlSyntax.PrimaryKey].Value).Value);
 
             if(columnNode.Properties.ContainsProperty(MdlSyntax.Nullable))
                 columnNode.Nullable = columnDefinition.Nullable =
-                    Convert.ToBoolean(columnNode.Properties[MdlSyntax.Nullable].Value);
+                    Convert.ToBoolean(((IStringAstNodePropertyValue)columnNode.Properties[MdlSyntax.Nullable].Value).Value);
 
             if(columnNode.Properties.ContainsProperty(MdlSyntax.Length))
                 columnNode.Length = columnDefinition.Length =
-                    Convert.ToInt32(columnNode.Properties[MdlSyntax.Length].Value);
+                    ((IIntegerAstNodePropertyValue)columnNode.Properties[MdlSyntax.Length].Value).Value;
             //
             // Type aliases have already been resolved, so we can freely parse textual type representation.
             if(columnNode.Properties.ContainsProperty(MdlSyntax.Type))
             {
-                string textualType = columnNode.Properties[MdlSyntax.Type].Value.ToString();
+                string textualType = ((IStringAstNodePropertyValue)columnNode.Properties[MdlSyntax.Type].Value).Value;
 
                 if(!Enum.IsDefined(typeof(DbType), textualType))
                     throw new MdlCompilerException(string.Format(MdlCompilerResources.UnknownType, textualType));
@@ -489,11 +494,11 @@ namespace octalforty.Wizardby.Core.Compiler.Impl
         {
             if(addIndexNode.Properties.ContainsProperty(MdlSyntax.Unique))
                 addIndexNode.Unique = indexDefinition.Unique =
-                    Convert.ToBoolean(addIndexNode.Properties[MdlSyntax.Unique].Value);
+                    Convert.ToBoolean(((IStringAstNodePropertyValue)addIndexNode.Properties[MdlSyntax.Unique].Value).Value);
 
             if(addIndexNode.Properties.ContainsProperty(MdlSyntax.Clustered))
                 addIndexNode.Clustered = indexDefinition.Clustered =
-                    Convert.ToBoolean(addIndexNode.Properties[MdlSyntax.Clustered].Value);
+                    Convert.ToBoolean(((IStringAstNodePropertyValue)addIndexNode.Properties[MdlSyntax.Clustered].Value).Value);
         }
 
         private static MdlCompilerException CreateMdlCompilerException(string format, params object[] args)
@@ -501,16 +506,17 @@ namespace octalforty.Wizardby.Core.Compiler.Impl
             return new MdlCompilerException(string.Format(format, args));
         }
 
-        private IndexColumnDefinition GetIndexColumnDefinition(object value)
+        private IndexColumnDefinition GetIndexColumnDefinition(IAstNodePropertyValue value)
         {
-            if(value is string)
-                return new IndexColumnDefinition((string)value);
+            if(value is IStringAstNodePropertyValue)
+                return new IndexColumnDefinition(((IStringAstNodePropertyValue)value).Value);
             
-            if(value is object[])
+            if(value is IListAstNodePropertyValue)
             {
-                object[] icd = (object[])value;
+                IListAstNodePropertyValue list = (IListAstNodePropertyValue)value;
 
-                return new IndexColumnDefinition((string)icd[0], GetSortDirection((string)icd[1]));
+                return new IndexColumnDefinition(((IStringAstNodePropertyValue)list.Items[0]).Value, 
+                    GetSortDirection(((IStringAstNodePropertyValue)list.Items[1]).Value));
             } //
 
             throw new ArgumentOutOfRangeException("value");

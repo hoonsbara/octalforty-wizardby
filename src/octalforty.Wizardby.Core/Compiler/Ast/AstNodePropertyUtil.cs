@@ -21,31 +21,28 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
+using System;
+
 namespace octalforty.Wizardby.Core.Compiler.Ast
 {
-    /// <summary>
-    /// Represents a property of an AST node.
-    /// </summary>
-    public interface IAstNodeProperty
+    public static class AstNodePropertyUtil
     {
-        /// <summary>
-        /// Gets a <see cref="string"/> which contains the name of the current property.
-        /// </summary>
-        string Name
-        { get; }
+        public static string AsString(IAstNodePropertyCollection properties, string name)
+        {
+            // TODO: Changed exception type
+            if (!(properties[name].Value is IStringAstNodePropertyValue))
+                throw new InvalidOperationException();
 
-        /// <summary>
-        /// Gets a reference to the <see cref="IAstNodePropertyValue"/> 
-        /// which contains the value of the current property.
-        /// </summary>
-        IAstNodePropertyValue Value
-        { get; }
+            return ((IStringAstNodePropertyValue)properties[name].Value).Value;
+        }
 
-        /// <summary>
-        /// Gets or sets a reference to the <see cref="Compiler.Location"/> of this property
-        /// in a source file.
-        /// </summary>
-        Location Location
-        { get; set; }
+        public static int AsInteger(IAstNodePropertyCollection properties, string name)
+        {
+            // TODO: Changed exception type
+            if (!(properties[name].Value is IIntegerAstNodePropertyValue))
+                throw new InvalidOperationException();
+
+            return ((IIntegerAstNodePropertyValue)properties[name].Value).Value;
+        }
     }
 }
