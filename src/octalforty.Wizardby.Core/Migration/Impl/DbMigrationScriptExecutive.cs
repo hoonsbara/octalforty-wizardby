@@ -141,11 +141,5 @@ namespace octalforty.Wizardby.Core.Migration.Impl
                 connection.BeginTransaction() :
                 new NullDbTransaction(connection);
         }
-
-        public static bool Between<T>(T left, T right, T value)
-            where T : IComparable<T>
-        {
-            return left.CompareTo(value) <= 0 && right.CompareTo(value) >= 0;
-        }
     }
 }
