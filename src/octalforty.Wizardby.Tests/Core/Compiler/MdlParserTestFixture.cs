@@ -49,9 +49,9 @@ namespace octalforty.Wizardby.Tests.Core.Compiler
             Assert.AreEqual(new Location(0, 0), environmentNode.Location);
 
             Assert.AreEqual("sqlserver", AstNodePropertyUtil.AsString(environmentNode.Properties, "platform"));
-            Assert.AreEqual("(local)\\sqlexpress", ((IStringAstNodePropertyValue)environmentNode.Properties["host"].Value).Value);
-            Assert.AreEqual("Waffle", ((IStringAstNodePropertyValue)environmentNode.Properties["database"].Value).Value);
-            Assert.AreEqual("true", ((IStringAstNodePropertyValue)environmentNode.Properties["integrated-authentication"].Value).Value);
+            Assert.AreEqual("(local)\\sqlexpress", AstNodePropertyUtil.AsString(environmentNode.Properties, "host"));
+            Assert.AreEqual("Waffle", AstNodePropertyUtil.AsString(environmentNode.Properties, "database"));
+            Assert.AreEqual("true", AstNodePropertyUtil.AsString(environmentNode.Properties, "integrated-authentication"));
         }
 
         [Test()]
@@ -400,9 +400,9 @@ namespace octalforty.Wizardby.Tests.Core.Compiler
 
             Assert.AreSame(addTableNode, addColumnNode.Parent);
             Assert.AreEqual("Login", addColumnNode.Name);
-            Assert.AreEqual("String", addColumnNode.Properties["type"].Value);
-            Assert.AreEqual(200, addColumnNode.Properties["length"].Value);
-            Assert.AreEqual("false", addColumnNode.Properties["nullable"].Value);
+            Assert.AreEqual("String", AstNodePropertyUtil.AsString(addColumnNode.Properties, "type"));
+            Assert.AreEqual(200, AstNodePropertyUtil.AsInteger(addColumnNode.Properties, "length"));
+            Assert.AreEqual("false", AstNodePropertyUtil.AsString(addColumnNode.Properties, "nullable"));
         }
 
         [Test()]
@@ -416,9 +416,9 @@ namespace octalforty.Wizardby.Tests.Core.Compiler
             IAddColumnNode addColumnNode = (IAddColumnNode)astNode;
 
             Assert.AreEqual("Login", addColumnNode.Name);
-            Assert.AreEqual("String", addColumnNode.Properties["type"].Value);
-            Assert.AreEqual(200, addColumnNode.Properties["length"].Value);
-            Assert.AreEqual("false", addColumnNode.Properties["nullable"].Value);
+            Assert.AreEqual("String", AstNodePropertyUtil.AsString(addColumnNode.Properties, "type"));
+            Assert.AreEqual(200, AstNodePropertyUtil.AsInteger(addColumnNode.Properties, "length"));
+            Assert.AreEqual("false", AstNodePropertyUtil.AsString(addColumnNode.Properties, "nullable"));
         }
 
         [Test()]
@@ -435,7 +435,7 @@ namespace octalforty.Wizardby.Tests.Core.Compiler
             Assert.IsInstanceOfType(typeof(IAddConstraintNode), astNode.ChildNodes[0]);
             IAddConstraintNode addConstraintNode = (IAddConstraintNode)astNode.ChildNodes[0];
             Assert.AreEqual("DF_Foo", addConstraintNode.Name);
-            Assert.AreEqual("foo", addConstraintNode.Properties["default"].Value);
+            Assert.AreEqual("foo", AstNodePropertyUtil.AsString(addConstraintNode.Properties, "default"));
         }
 
         [Test()]
@@ -449,7 +449,7 @@ namespace octalforty.Wizardby.Tests.Core.Compiler
             IAlterColumnNode alterColumnNode = (IAlterColumnNode)astNode;
 
             Assert.AreEqual("Login", alterColumnNode.Name);
-            Assert.AreEqual("false", alterColumnNode.Properties["nullable"].Value);
+            Assert.AreEqual("false", AstNodePropertyUtil.AsString(alterColumnNode.Properties, "nullable"));
         }
 
         [Test()]
@@ -459,7 +459,20 @@ namespace octalforty.Wizardby.Tests.Core.Compiler
             IAstNode astNode = mdlParser.Parse();
 
             Assert.IsInstanceOfType(typeof(IAddIndexNode), astNode);
-            Assert.IsInstanceOfType(typeof(object[]), astNode.Properties["columns"].Value);
+            Assert.AreEqual("UQ_Login", ((IAddIndexNode)astNode).Name);
+            Assert.IsInstanceOfType(typeof(IListAstNodePropertyValue), astNode.Properties["columns"].Value);
+        }
+
+        [Test()]
+        public void ParseAddIndexNode3()
+        {
+            IMdlParser mdlParser = new MdlParser(CreateScanner(@"add index ""IX_Login"" table => User, column => Login"));
+            IAstNode astNode = mdlParser.Parse();
+
+            Assert.IsInstanceOfType(typeof(IAddIndexNode), astNode);
+            Assert.AreEqual("IX_Login", ((IAddIndexNode)astNode).Name);
+            Assert.AreEqual("User", AstNodePropertyUtil.AsString(astNode.Properties["table"].Value));
+            Assert.AreEqual("Login", AstNodePropertyUtil.AsString(astNode.Properties["column"].Value));
         }
 
         [Test()]
@@ -475,7 +488,7 @@ namespace octalforty.Wizardby.Tests.Core.Compiler
             IAddIndexNode addIndexNode = (IAddIndexNode)astNode.ChildNodes[0];
 
             Assert.IsEmpty(addIndexNode.Name);
-            Assert.AreEqual("true", addIndexNode.Properties["unique"].Value);
+            Assert.AreEqual("true", AstNodePropertyUtil.AsString(addIndexNode.Properties, "unique"));
         }
 
         [Test()]
@@ -485,7 +498,7 @@ namespace octalforty.Wizardby.Tests.Core.Compiler
             IAstNode astNode = mdlParser.Parse();
 
             Assert.IsInstanceOfType(typeof(IAddIndexNode), astNode);
-            Assert.IsInstanceOfType(typeof(object[]), astNode.Properties["columns"].Value);
+            Assert.IsInstanceOfType(typeof(IListAstNodePropertyValue), astNode.Properties["columns"].Value);
 
             IListAstNodePropertyValue columnsList = (IListAstNodePropertyValue)astNode.Properties["columns"].Value;
 
@@ -513,7 +526,7 @@ namespace octalforty.Wizardby.Tests.Core.Compiler
             IAddIndexNode addIndexNode = (IAddIndexNode)astNode.ChildNodes[0];
 
             Assert.IsEmpty(addIndexNode.Name);
-            Assert.AreEqual("true", addIndexNode.Properties["unique"].Value);
+            Assert.AreEqual("true", AstNodePropertyUtil.AsString(addIndexNode.Properties, "unique"));
         }
 
         [Test()]
@@ -530,7 +543,7 @@ namespace octalforty.Wizardby.Tests.Core.Compiler
             IAddIndexNode addIndexNode = (IAddIndexNode)astNode.ChildNodes[0];
 
             Assert.AreEqual("UQ_Login", addIndexNode.Name);
-            Assert.AreEqual("true", addIndexNode.Properties["unique"].Value);
+            Assert.AreEqual("true", AstNodePropertyUtil.AsString(addIndexNode.Properties, "unique"));
         }
 
         [Test()]
@@ -624,7 +637,7 @@ namespace octalforty.Wizardby.Tests.Core.Compiler
             IRemoveReferenceNode removeReferenceNode = (IRemoveReferenceNode)astNode;
 
             Assert.AreEqual("FK_User_Login_Whatever_Else", removeReferenceNode.Name);
-            Assert.AreEqual("User", removeReferenceNode.Properties["fk-table"].Value.ToString());
+            Assert.AreEqual("User", AstNodePropertyUtil.AsString(removeReferenceNode.Properties, "fk-table"));
         }
 
         [Test()]
@@ -639,7 +652,7 @@ namespace octalforty.Wizardby.Tests.Core.Compiler
 
             Assert.AreEqual(new Location(0, 0), removeIndexNode.Location);
             Assert.AreEqual("IX_User_Login", removeIndexNode.Name);
-            Assert.AreEqual("User", removeIndexNode.Properties["table-name"].Value.ToString());
+            Assert.AreEqual("User", AstNodePropertyUtil.AsString(removeIndexNode.Properties, "table-name"));
         }
 
         [Test()]
@@ -665,8 +678,8 @@ namespace octalforty.Wizardby.Tests.Core.Compiler
             IMigrationNode migrationNode = (IMigrationNode)astNode;
 
             Assert.AreEqual("Waffle", migrationNode.Name);
-            Assert.AreEqual(1, migrationNode.Properties["revision"].Value);
-            Assert.AreEqual("Debug", migrationNode.Properties["configuration"].Value);
+            Assert.AreEqual(1, AstNodePropertyUtil.AsInteger(migrationNode.Properties, "revision"));
+            Assert.AreEqual("Debug", AstNodePropertyUtil.AsString(migrationNode.Properties, "configuration"));
 
             Assert.IsInstanceOfType(typeof(IBaselineNode), astNode.ChildNodes[0]);
             Assert.IsInstanceOfType(typeof(IVersionNode), astNode.ChildNodes[1]);
@@ -709,7 +722,7 @@ namespace octalforty.Wizardby.Tests.Core.Compiler
             Assert.IsInstanceOfType(typeof(IAddConstraintNode), astNode);
 
             IAddConstraintNode addConstraintNode = (IAddConstraintNode)astNode;
-            Assert.AreEqual("def", addConstraintNode.Properties["default"].Value);
+            Assert.AreEqual("def", AstNodePropertyUtil.AsString(addConstraintNode.Properties, "default"));
         }
 
         [Test()]

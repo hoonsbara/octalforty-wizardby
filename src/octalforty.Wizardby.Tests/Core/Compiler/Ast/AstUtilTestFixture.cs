@@ -118,14 +118,14 @@ namespace octalforty.Wizardby.Tests.Core.Compiler.Ast
             IColumnNode columnNode = new AddColumnNode(null, "Foo");
             AstUtil.CopyProperties(columnDefinition, columnNode);
 
-            Assert.AreEqual(columnDefinition.Default, columnNode.Properties[MdlSyntax.Default].Value);
-            Assert.AreEqual("true", columnNode.Properties[MdlSyntax.Identity].Value);
-            Assert.AreEqual(234, columnNode.Properties[MdlSyntax.Length].Value);
-            Assert.AreEqual("true", columnNode.Properties[MdlSyntax.Nullable].Value);
-            Assert.AreEqual(78, columnNode.Properties[MdlSyntax.Precision].Value);
-            Assert.AreEqual("true", columnNode.Properties[MdlSyntax.PrimaryKey].Value);
-            Assert.AreEqual(56, columnNode.Properties[MdlSyntax.Scale].Value);
-            Assert.AreEqual("Binary", columnNode.Properties[MdlSyntax.Type].Value);
+            Assert.AreEqual(columnDefinition.Default, AstNodePropertyUtil.AsString(columnNode.Properties[MdlSyntax.Default].Value));
+            Assert.AreEqual("true", AstNodePropertyUtil.AsString(columnNode.Properties[MdlSyntax.Identity].Value));
+            Assert.AreEqual(234, AstNodePropertyUtil.AsInteger(columnNode.Properties[MdlSyntax.Length].Value));
+            Assert.AreEqual("true", AstNodePropertyUtil.AsString(columnNode.Properties[MdlSyntax.Nullable].Value));
+            Assert.AreEqual(78, AstNodePropertyUtil.AsInteger(columnNode.Properties[MdlSyntax.Precision].Value));
+            Assert.AreEqual("true", AstNodePropertyUtil.AsString(columnNode.Properties[MdlSyntax.PrimaryKey].Value));
+            Assert.AreEqual(56, AstNodePropertyUtil.AsInteger(columnNode.Properties[MdlSyntax.Scale].Value));
+            Assert.AreEqual("Binary", AstNodePropertyUtil.AsString(columnNode.Properties[MdlSyntax.Type].Value));
         }
 
         private Schema GetSchema()

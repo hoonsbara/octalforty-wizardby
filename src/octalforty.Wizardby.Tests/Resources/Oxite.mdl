@@ -4,7 +4,7 @@ migration "Oxite" revision => 1:
         type-alias LongName type => String, length => 256, nullable => false
         type-alias MediumName type => String, length => 128, nullable => false
         type-alias ShortName type => String, length => 100, nullable => false
-		
+        
     version 20090323103239:
         oxite_Language:
             LanguageID type => Guid, nullable => false, primary-key => true
@@ -28,16 +28,18 @@ migration "Oxite" revision => 1:
             LanguageID references => oxite_Language
 
             index "" columns => [UserID, LanguageID], unique => true, clustered => true
+            
+            index "" column => [UserID, asc]
 
     version 20090331135627:
         oxite_Role:
             RoleID type => PK, primary-key => true
-            ParentRoleID references => oxite_Role, nullable => true			
+            ParentRoleID references => oxite_Role, nullable => true            
             RoleName type => LongName
 
         oxite_UserRoleRelationship:
             UserID references => oxite_User
-            RoleID references => oxite_Role	
+            RoleID references => oxite_Role    
 
     version 20090331140131:
         oxite_FileResource:

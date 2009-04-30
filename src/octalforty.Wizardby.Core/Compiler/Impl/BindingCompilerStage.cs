@@ -158,7 +158,7 @@ namespace octalforty.Wizardby.Core.Compiler.Impl
             if(addIndexNode.Properties.ContainsProperty(MdlSyntax.Table))
             {
                 indexDefinition.Table = addIndexNode.Table =
-                    addIndexNode.Properties[MdlSyntax.Table].Value.ToString();
+                    AstNodePropertyUtil.AsString(addIndexNode.Properties[MdlSyntax.Table].Value);
             } // if
             else if(addIndexNode.Parent is IAddColumnNode || addIndexNode.Parent is IAlterColumnNode)
             {
@@ -227,7 +227,7 @@ namespace octalforty.Wizardby.Core.Compiler.Impl
             if(removeIndexNode.Properties.ContainsProperty(MdlSyntax.Table))
             {
                 removeIndexNode.Table = 
-                    removeIndexNode.Properties[MdlSyntax.Table].Value.ToString();
+                    AstNodePropertyUtil.AsString(removeIndexNode.Properties[MdlSyntax.Table].Value);
             } // if
             else if(removeIndexNode.Parent is IAlterTableNode)
             {
@@ -277,7 +277,7 @@ namespace octalforty.Wizardby.Core.Compiler.Impl
             if(removeReferenceNode.Properties.ContainsProperty(MdlSyntax.FkTable))
             {
                 ITableDefinition table =
-                    Environment.Schema.GetTable(removeReferenceNode.Properties[MdlSyntax.FkTable].Value.ToString());
+                    Environment.Schema.GetTable(AstNodePropertyUtil.AsString(removeReferenceNode.Properties[MdlSyntax.FkTable].Value));
                 table.RemoveReference(removeReferenceNode.Name);
 
                 removeReferenceNode.Table = table.Name;
@@ -310,7 +310,7 @@ namespace octalforty.Wizardby.Core.Compiler.Impl
                 // Primary key table must already be bound, so we can use just that.
                 IColumnDefinition pkColumn =
                     Environment.Schema.GetTable(reference.PkTable).GetColumn(
-                        addReferenceNode.Properties[MdlSyntax.PkColumn].Value.ToString());
+                        AstNodePropertyUtil.AsString(addReferenceNode.Properties[MdlSyntax.PkColumn].Value));
                 
                 addReferenceNode.PkColumns.Add(pkColumn.Name);
                 reference.PkColumns.Add(pkColumn.Name);
@@ -331,7 +331,7 @@ namespace octalforty.Wizardby.Core.Compiler.Impl
         {
             if(addReferenceNode.Properties.ContainsProperty(MdlSyntax.PkTable))
             {
-                string pkTableName = addReferenceNode.Properties[MdlSyntax.PkTable].Value.ToString();
+                string pkTableName = AstNodePropertyUtil.AsString(addReferenceNode.Properties[MdlSyntax.PkTable].Value);
                 ITableDefinition pkTable =
                     Environment.Schema.GetTable(pkTableName);
 
@@ -370,7 +370,8 @@ namespace octalforty.Wizardby.Core.Compiler.Impl
                 //
                 // FK table is already bound here
                 IColumnDefinition fkColumn =
-                    Environment.Schema.GetTable(reference.FkTable).GetColumn(addReferenceNode.Properties[MdlSyntax.FkColumn].Value.ToString());
+                    Environment.Schema.GetTable(reference.FkTable).GetColumn(
+                        AstNodePropertyUtil.AsString(addReferenceNode.Properties[MdlSyntax.FkColumn].Value));
                 
                 addReferenceNode.FkColumns.Add(fkColumn.Name);
                 reference.FkColumns.Add(fkColumn.Name);
@@ -383,7 +384,7 @@ namespace octalforty.Wizardby.Core.Compiler.Impl
             if(addReferenceNode.Properties.ContainsProperty(MdlSyntax.FkColumns))
             {
                 IListAstNodePropertyValue list =
-                    (IListAstNodePropertyValue)addReferenceNode.Properties[MdlSyntax.FkColumns];
+                    (IListAstNodePropertyValue)addReferenceNode.Properties[MdlSyntax.FkColumns].Value;
                 foreach(IAstNodePropertyValue value in list.Items)
                 {
                     string fkColumnName = ((IStringAstNodePropertyValue)value).Value;
@@ -429,7 +430,7 @@ namespace octalforty.Wizardby.Core.Compiler.Impl
             if(addReferenceNode.Properties.ContainsProperty(MdlSyntax.FkTable))
             {
                 ITableDefinition fkTable =
-                    Environment.Schema.GetTable(addReferenceNode.Properties[MdlSyntax.FkTable].Value.ToString());
+                    Environment.Schema.GetTable(AstNodePropertyUtil.AsString(addReferenceNode.Properties[MdlSyntax.FkTable].Value));
                 addReferenceNode.FkTable = reference.FkTable = fkTable.Name;
 
                 return;
@@ -451,20 +452,20 @@ namespace octalforty.Wizardby.Core.Compiler.Impl
         {
             if(columnNode.Properties.ContainsProperty(MdlSyntax.PrimaryKey))
                 columnNode.PrimaryKey = columnDefinition.PrimaryKey =
-                    Convert.ToBoolean(((IStringAstNodePropertyValue)columnNode.Properties[MdlSyntax.PrimaryKey].Value).Value);
+                    Convert.ToBoolean(AstNodePropertyUtil.AsString(columnNode.Properties, MdlSyntax.PrimaryKey));
 
             if(columnNode.Properties.ContainsProperty(MdlSyntax.Nullable))
                 columnNode.Nullable = columnDefinition.Nullable =
-                    Convert.ToBoolean(((IStringAstNodePropertyValue)columnNode.Properties[MdlSyntax.Nullable].Value).Value);
+                    Convert.ToBoolean(AstNodePropertyUtil.AsString(columnNode.Properties, MdlSyntax.Nullable));
 
             if(columnNode.Properties.ContainsProperty(MdlSyntax.Length))
                 columnNode.Length = columnDefinition.Length =
-                    ((IIntegerAstNodePropertyValue)columnNode.Properties[MdlSyntax.Length].Value).Value;
+                    AstNodePropertyUtil.AsInteger(columnNode.Properties, MdlSyntax.Length);
             //
             // Type aliases have already been resolved, so we can freely parse textual type representation.
             if(columnNode.Properties.ContainsProperty(MdlSyntax.Type))
             {
-                string textualType = ((IStringAstNodePropertyValue)columnNode.Properties[MdlSyntax.Type].Value).Value;
+                string textualType = AstNodePropertyUtil.AsString(columnNode.Properties, MdlSyntax.Type);
 
                 if(!Enum.IsDefined(typeof(DbType), textualType))
                     throw new MdlCompilerException(string.Format(MdlCompilerResources.UnknownType, textualType));
@@ -475,19 +476,19 @@ namespace octalforty.Wizardby.Core.Compiler.Impl
 
             if(columnNode.Properties.ContainsProperty(MdlSyntax.Scale))
                 columnNode.Scale = columnDefinition.Scale =
-                    Convert.ToInt32(columnNode.Properties[MdlSyntax.Scale].Value);
+                    AstNodePropertyUtil.AsInteger(columnNode.Properties, MdlSyntax.Scale);
 
             if(columnNode.Properties.ContainsProperty(MdlSyntax.Precision))
                 columnNode.Precision = columnDefinition.Precision =
-                    Convert.ToInt32(columnNode.Properties[MdlSyntax.Precision].Value);
+                    AstNodePropertyUtil.AsInteger(columnNode.Properties, MdlSyntax.Precision);
 
             if(columnNode.Properties.ContainsProperty(MdlSyntax.Identity))
                 columnNode.Identity = columnDefinition.Identity =
-                    Convert.ToBoolean(columnNode.Properties[MdlSyntax.Identity].Value);
+                    Convert.ToBoolean(AstNodePropertyUtil.AsString(columnNode.Properties, MdlSyntax.Identity));
 
             if(columnNode.Properties.ContainsProperty(MdlSyntax.Default))
                 columnNode.Default = columnDefinition.Default =
-                    columnNode.Properties[MdlSyntax.Default].Value.ToString();
+                    AstNodePropertyUtil.AsString(columnNode.Properties, MdlSyntax.Default);
         }
 
         private static void BindIndexProperties(IAddIndexNode addIndexNode, IIndexDefinition indexDefinition)

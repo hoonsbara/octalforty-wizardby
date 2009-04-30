@@ -150,7 +150,10 @@ namespace octalforty.Wizardby.Core.Compiler.Ast
                 AddProperty(addIndexNode, MdlSyntax.Unique, "true");
 
             if(index.Columns.Count == 1)
-                AddProperty(addIndexNode, MdlSyntax.Column, GetIndexColumnPropertyValue(index.Columns[0]));
+            {
+                IAstNodePropertyValue value = GetIndexColumnPropertyValue(index.Columns[0]);
+                AddProperty(addIndexNode, MdlSyntax.Column, value);
+            } // if
             else
                 AddListProperty(addIndexNode, MdlSyntax.Columns, 
                     new List<IIndexColumnDefinition>(index.Columns).ConvertAll<IAstNodePropertyValue>(

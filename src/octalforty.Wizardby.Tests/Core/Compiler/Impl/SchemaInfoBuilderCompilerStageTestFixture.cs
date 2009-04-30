@@ -72,9 +72,9 @@ namespace octalforty.Wizardby.Tests.Core.Compiler.Impl
 
             IAddColumnNode addVersionColumnNode = (IAddColumnNode)addSchemaInfoTableNode.ChildNodes[0];
 
-            Assert.AreEqual("Int64", addVersionColumnNode.Properties["type"].Value);
-            Assert.AreEqual("true", addVersionColumnNode.Properties["unique"].Value);
-            Assert.AreEqual("false", addVersionColumnNode.Properties["nullable"].Value);
+            Assert.AreEqual("Int64", AstNodePropertyUtil.AsString(addVersionColumnNode.Properties["type"].Value));
+            Assert.AreEqual("true", AstNodePropertyUtil.AsString(addVersionColumnNode.Properties["unique"].Value));
+            Assert.AreEqual("false", AstNodePropertyUtil.AsString(addVersionColumnNode.Properties["nullable"].Value));
         }
     }
 }

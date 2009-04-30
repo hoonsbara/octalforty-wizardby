@@ -21,34 +21,11 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
-using System.IO;
-using System.Reflection;
-using System.Text;
-
-using NUnit.Framework;
-using octalforty.Wizardby.Console.Deployment;
-
-namespace octalforty.Wizardby.Tests.Console.Deployment
+namespace octalforty.Wizardby.Core.Compiler.Ast
 {
-    [TestFixture()]
-    public class DeploymentInfoParserTestFixture
+    public interface IIntegerAstNodePropertyValue : IAstNodePropertyValue
     {
-        [Test()]
-        public void ParseDeploymentInfo()
-        {
-            IDeploymentInfo deploymentInfo;
-
-            using(Stream resourceStream = 
-                Assembly.GetExecutingAssembly().GetManifestResourceStream("octalforty.Wizardby.Tests.Resources.Database.wdi"))
-            {
-                DeploymentInfoParser deploymentInfoParser = new DeploymentInfoParser();
-                deploymentInfo = deploymentInfoParser.ParseDeploymentInfo(new StreamReader(resourceStream, Encoding.UTF8));
-            } // using
-
-            Assert.AreEqual(2, deploymentInfo.Environments.Count);
-            Assert.AreEqual("development", deploymentInfo.Environments[0].Name);
-            Assert.AreEqual("staging", deploymentInfo.Environments[1].Name);
-            Assert.AreEqual("sqlserver", deploymentInfo.Environments[0].Properties["platform"]);
-        }
+        int Value
+        { get; set; }
     }
 }

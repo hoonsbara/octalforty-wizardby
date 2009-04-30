@@ -51,11 +51,11 @@ namespace octalforty.Wizardby.Tests.Core.Compiler.Impl
             Assert.IsInstanceOfType(typeof(IAddIndexNode), astNode.ChildNodes[0].ChildNodes[1]);
 
             IAddReferenceNode addReferenceNode = (IAddReferenceNode)astNode.ChildNodes[0].ChildNodes[0];
-            Assert.AreEqual("Bar", addReferenceNode.Properties["pk-table"].Value.ToString());
+            Assert.AreEqual("Bar", AstNodePropertyUtil.AsString(addReferenceNode.Properties, "pk-table"));
             Assert.IsNotNull(addReferenceNode.Location);
 
             IAddIndexNode addIndexNode = (IAddIndexNode)astNode.ChildNodes[0].ChildNodes[1];
-            Assert.AreEqual("true", addIndexNode.Properties["unique"].Value.ToString());
+            Assert.AreEqual("true", AstNodePropertyUtil.AsString(addIndexNode.Properties, "unique"));
             Assert.IsNotNull(addIndexNode.Location);
         }
     }

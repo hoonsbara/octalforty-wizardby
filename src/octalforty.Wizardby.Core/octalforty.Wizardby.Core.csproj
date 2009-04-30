@@ -35,6 +35,8 @@
   <ItemGroup>
     <Compile Include="Compiler\Ast\AstBuilder.cs" />
     <Compile Include="Compiler\Ast\AstNodePropertyUtil.cs" />
+    <Compile Include="Compiler\Ast\IIntegerAstNodePropertyValue.cs" />
+    <Compile Include="Compiler\Ast\IListAstNodePropertyValue.cs" />
     <Compile Include="Compiler\Ast\Impl\AddConstraintNode.cs" />
     <Compile Include="Compiler\Ast\AstUtil.cs" />
     <Compile Include="Compiler\Ast\AstVisitorBase.cs">
@@ -174,6 +176,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Compiler\Ast\ISchemaElementNode.cs" />
+    <Compile Include="Compiler\Ast\IStringAstNodePropertyValue.cs" />
+    <Compile Include="Compiler\Ast\ISymbolAstNodePropertyValue.cs" />
     <Compile Include="Compiler\Ast\ITableNode.cs" />
     <Compile Include="Compiler\Ast\ITableTemplateNode.cs" />
     <Compile Include="Compiler\Ast\ITemplatesNode.cs" />

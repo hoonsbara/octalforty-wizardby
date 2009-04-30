@@ -33,7 +33,7 @@ namespace octalforty.Wizardby.Core.Compiler.Ast
             if (!(properties[name].Value is IStringAstNodePropertyValue))
                 throw new InvalidOperationException();
 
-            return ((IStringAstNodePropertyValue)properties[name].Value).Value;
+            return AsString(properties[name].Value);
         }
 
         public static int AsInteger(IAstNodePropertyCollection properties, string name)
@@ -42,7 +42,17 @@ namespace octalforty.Wizardby.Core.Compiler.Ast
             if (!(properties[name].Value is IIntegerAstNodePropertyValue))
                 throw new InvalidOperationException();
 
-            return ((IIntegerAstNodePropertyValue)properties[name].Value).Value;
+            return AsInteger(properties[name].Value);
+        }
+
+        public static string AsString(IAstNodePropertyValue propertyValue)
+        {
+            return ((IStringAstNodePropertyValue)propertyValue).Value;
+        }
+
+        public static int AsInteger(IAstNodePropertyValue propertyValue)
+        {
+            return ((IIntegerAstNodePropertyValue)propertyValue).Value;
         }
     }
 }

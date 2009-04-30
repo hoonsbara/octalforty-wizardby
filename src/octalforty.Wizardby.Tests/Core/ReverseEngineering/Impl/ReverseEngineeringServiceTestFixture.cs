@@ -28,6 +28,7 @@ using System.Text;
 
 using NUnit.Framework;
 
+using octalforty.Wizardby.Core.Compiler;
 using octalforty.Wizardby.Core.Compiler.Ast;
 using octalforty.Wizardby.Core.Db;
 using octalforty.Wizardby.Core.Migration;
@@ -36,7 +37,7 @@ using octalforty.Wizardby.Core.ReverseEngineering;
 using octalforty.Wizardby.Core.ReverseEngineering.Impl;
 using octalforty.Wizardby.Core.Util;
 using octalforty.Wizardby.Db.SqlServer2005;
-
+using octalforty.Wizardby.Tests.Core.Compiler;
 using octalforty.Wizardby.Tests.Core.Compiler.Impl;
 
 namespace octalforty.Wizardby.Tests.Core.ReverseEngineering.Impl
@@ -104,8 +105,12 @@ namespace octalforty.Wizardby.Tests.Core.ReverseEngineering.Impl
                 delegate(IAstNode node) { return node is IAddReferenceNode; });
 
             Assert.IsTrue(lastAddTable < firstAddReference);
-        }
 
+            //
+            // Ensure that the AST produced by the RES can be compiled
+            MdlCompiler mdlCompiler = new MdlCompiler(new NullCodeGenerator(), new Environment());
+            mdlCompiler.Compile(astNode, MdlCompilationOptions.All);
+        }
 
 
         private void MigrateTo(int? targetVersion)

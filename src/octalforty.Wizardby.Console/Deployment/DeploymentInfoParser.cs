@@ -54,7 +54,7 @@ namespace octalforty.Wizardby.Console.Deployment
         {
             NameValueCollection properties = new NameValueCollection();
             foreach(IAstNodeProperty astNodeProperty in environmentNode.Properties)
-                properties.Add(astNodeProperty.Name, astNodeProperty.Value.ToString());
+                properties.Add(astNodeProperty.Name, AstNodePropertyUtil.AsString(astNodeProperty.Value));
 
             return new Impl.Environment(environmentNode.Name, properties);
         }

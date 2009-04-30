@@ -76,7 +76,7 @@ namespace octalforty.Wizardby.Core.Compiler.Impl
             // If table has "primary-key" property set to "false", no not
             // resolve PK for it
             if(addTableNode.Properties.ContainsProperty(MdlSyntax.PrimaryKey) &&
-                addTableNode.Properties[MdlSyntax.PrimaryKey].Value.ToString() == "false")
+                AstNodePropertyUtil.AsString(addTableNode.Properties, MdlSyntax.PrimaryKey) == "false")
                 return;
 
             //
@@ -88,7 +88,7 @@ namespace octalforty.Wizardby.Core.Compiler.Impl
                 // We can't use Environment.Resolve here since no bindings were 
                 // built yet. Rely on raw properties instead
                 if(addColumnNode.Properties.ContainsProperty(MdlSyntax.PrimaryKey) &&
-                    addColumnNode.Properties[MdlSyntax.PrimaryKey].Value.ToString() == "true")
+                    AstNodePropertyUtil.AsString(addColumnNode.Properties, MdlSyntax.PrimaryKey) == "true")
                     return;
             } // foreach
 

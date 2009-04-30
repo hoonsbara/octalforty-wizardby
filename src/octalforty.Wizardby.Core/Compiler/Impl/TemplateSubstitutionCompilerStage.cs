@@ -62,12 +62,12 @@ namespace octalforty.Wizardby.Core.Compiler.Impl
 
             if(addTableNode.Properties.ContainsProperty(MdlSyntax.Template))
             {
-                SubstituteTemplate(addTableNode, addTableNode.Properties[MdlSyntax.Template].Value.ToString());
+                SubstituteTemplate(addTableNode, AstNodePropertyUtil.AsString(addTableNode.Properties[MdlSyntax.Template].Value));
                 return;
             } // if
 
             IAstNodePropertyValue[] templateNames = 
-                ((IListAstNodePropertyValue)addTableNode.Properties[MdlSyntax.Templates]).Items;
+                ((IListAstNodePropertyValue)addTableNode.Properties[MdlSyntax.Templates].Value).Items;
             foreach(IAstNodePropertyValue templateName in templateNames)
                 SubstituteTemplate(addTableNode, ((IStringAstNodePropertyValue)templateName).Value);
         }

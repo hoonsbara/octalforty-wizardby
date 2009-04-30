@@ -71,7 +71,7 @@ namespace octalforty.Wizardby.Core.Compiler.Impl
         /// <param name="migrationNode"></param>
         public override void Visit(IMigrationNode migrationNode)
         {
-            textWriter.Write("migration {0}", GetIdentifier(migrationNode.Name));
+            textWriter.Write("migration \"{0}\"", GetIdentifier(migrationNode.Name));
 
             WriteProperties(migrationNode);
             VisitBlock(migrationNode);
@@ -290,12 +290,53 @@ namespace octalforty.Wizardby.Core.Compiler.Impl
                     firstProperty = false;
 
                 textWriter.Write(" {0} => ", property.Name);
-                
-                if(!(property.Value is string) || IsSymbol(property.Value.ToString()) || property.Value.GetType().IsArray)
-                    textWriter.Write(property.Value);
-                else
-                    textWriter.Write("\"{0}\"", property.Value);
+
+                WritePropertyValue(property.Value);
             } // foreach
+        }
+
+        private void WritePropertyValue(IAstNodePropertyValue value)
+        {
+            if(value is IListAstNodePropertyValue)
+            {
+                textWriter.Write("[");
+                
+                IListAstNodePropertyValue list = (IListAstNodePropertyValue)value;
+                for(int i = 0; i < list.Items.Length; ++i)
+                {
+                    if(i != 0)
+                        textWriter.Write(", ");
+
+                    WritePropertyValue(list.Items[i]);
+                } // for
+                
+                textWriter.Write("]");
+
+                return;
+            } // if
+
+            if((value is ISymbolAstNodePropertyValue) || (value is IStringAstNodePropertyValue && IsSymbol(((IStringAstNodePropertyValue)value).Value)))
+            {
+                string symbol = ((IStringAstNodePropertyValue)value).Value;
+                textWriter.Write(symbol);
+
+                return;
+            } // if
+
+            if(value is IStringAstNodePropertyValue)
+            {
+                string stringValue = ((IStringAstNodePropertyValue)value).Value;
+                textWriter.Write("\"{0}\"", stringValue);
+
+                return;
+            } // if
+
+            if(value is IIntegerAstNodePropertyValue)
+            {
+                textWriter.Write(((IIntegerAstNodePropertyValue)value).Value);
+
+                return;
+            } // if
         }
 
         private void VisitBlock(IAstNode astNode)

@@ -60,16 +60,16 @@ namespace octalforty.Wizardby.Tests.Core.Compiler.Impl
             Assert.IsNotNull(addColumnNode);
             Assert.AreEqual(5, addColumnNode.Properties.Count);
             Assert.AreEqual("ID", addColumnNode.Name);
-            Assert.AreEqual("Int32", addColumnNode.Properties["type"].Value);
-            Assert.AreEqual("false", addColumnNode.Properties["nullable"].Value);
-            Assert.AreEqual("true", addColumnNode.Properties["primary-key"].Value);
-            Assert.AreEqual("true", addColumnNode.Properties["identity"].Value);
-            Assert.AreEqual("foo", addColumnNode.Properties["default"].Value);
+            Assert.AreEqual("Int32", AstNodePropertyUtil.AsString(addColumnNode.Properties, "type"));
+            Assert.AreEqual("false", AstNodePropertyUtil.AsString(addColumnNode.Properties, "nullable"));
+            Assert.AreEqual("true", AstNodePropertyUtil.AsString(addColumnNode.Properties, "primary-key"));
+            Assert.AreEqual("true", AstNodePropertyUtil.AsString(addColumnNode.Properties, "identity"));
+            Assert.AreEqual("foo", AstNodePropertyUtil.AsString(addColumnNode.Properties, "default"));
 
             addColumnNode = (IAddColumnNode)addTableBarNode.ChildNodes[0];
 
             Assert.AreEqual("Ident", addColumnNode.Name);
-            Assert.AreEqual("true", addColumnNode.Properties["primary-key"].Value);
+            Assert.AreEqual("true", AstNodePropertyUtil.AsString(addColumnNode.Properties, "primary-key"));
         }
     }
 }

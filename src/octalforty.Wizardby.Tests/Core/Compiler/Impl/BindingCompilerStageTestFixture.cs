@@ -80,7 +80,8 @@ namespace octalforty.Wizardby.Tests.Core.Compiler.Impl
             add column Bar:
                 reference pk-table => BlogPost, pk-column => ID, fk-table => BlogPost, fk-column => ID
 
-        remove reference FK1 fk-table => BlogPostApproval")).Parse();
+        remove reference FK1 fk-table => BlogPostApproval
+        add reference FK3 fk-table => BlogPostApproval, fk-column => BlogPostID, pk-table => BlogPost, pk-column => ID")).Parse();
 
             astNode.Accept(namingCompilerStage);
             astNode.Accept(bindingStage);
@@ -139,7 +140,7 @@ namespace octalforty.Wizardby.Tests.Core.Compiler.Impl
             Assert.IsNotNull(blogPostApprovalTable.GetColumn("ApprovedOn"));
             Assert.IsNotNull(blogPostApprovalTable.GetColumn("Bar"));
 
-            Assert.AreEqual(2, blogPostApprovalTable.References.Count);
+            Assert.AreEqual(3, blogPostApprovalTable.References.Count);
 
             IReferenceDefinition referenceFk0 = blogPostApprovalTable.GetReference("FK0");
             Assert.IsNotNull(referenceFk0);
@@ -247,7 +248,9 @@ namespace octalforty.Wizardby.Tests.Core.Compiler.Impl
         remove index IX_Foo table => BlogPost
 
         alter table BlogPost:
-            remove index IX_Pub")).Parse();
+            remove index IX_Pub
+
+        add index IX_Foo2 table => BlogPost, column => [ID, descending]")).Parse();
 
             astNode.Accept(namingStage);
             astNode.Accept(bindingStage);
@@ -300,10 +303,18 @@ namespace octalforty.Wizardby.Tests.Core.Compiler.Impl
             Assert.IsNotNull(blogPostTable.GetColumn("Version"));
             Assert.IsNotNull(blogPostTable.GetColumn("PublishedOn"));
 
-            Assert.AreEqual(3, blogPostTable.Indexes.Count);
+            Assert.AreEqual(4, blogPostTable.Indexes.Count);
             Assert.AreEqual("IX_ID", blogPostTable.Indexes[0].Name);
             Assert.AreEqual("IX_PublishedOn", blogPostTable.Indexes[1].Name);
             Assert.IsTrue(environment.IsAnonymousIdentifier(blogPostTable.Indexes[2].Name));
+
+            IAddIndexNode addIxFoo2IndexNode = (IAddIndexNode)version1Node.ChildNodes[5];
+
+            Assert.AreEqual("IX_Foo2", addIxFoo2IndexNode.Name);
+            Assert.AreEqual("BlogPost", addIxFoo2IndexNode.Table);
+            Assert.AreEqual("ID", addIxFoo2IndexNode.Columns[0].Name);
+            Assert.IsTrue(addIxFoo2IndexNode.Columns[0].SortDirection.HasValue);
+            Assert.AreEqual(SortDirection.Descending, addIxFoo2IndexNode.Columns[0].SortDirection);
         }
 
         [Test()]

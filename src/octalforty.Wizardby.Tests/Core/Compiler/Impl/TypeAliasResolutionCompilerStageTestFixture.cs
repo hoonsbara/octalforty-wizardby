@@ -64,40 +64,40 @@ namespace octalforty.Wizardby.Tests.Core.Compiler.Impl
             Assert.IsNotNull(addColumnNode);
             Assert.AreEqual(4, addColumnNode.Properties.Count);
             Assert.AreEqual("Bar", addColumnNode.Name);
-            Assert.AreEqual("String", addColumnNode.Properties["type"].Value);
-            Assert.AreEqual("false", addColumnNode.Properties["nullable"].Value);
-            Assert.AreEqual(200, addColumnNode.Properties["length"].Value);
-            Assert.AreEqual("foo", addColumnNode.Properties["default"].Value);
+            Assert.AreEqual("String", AstNodePropertyUtil.AsString(addColumnNode.Properties["type"].Value));
+            Assert.AreEqual("false", AstNodePropertyUtil.AsString(addColumnNode.Properties["nullable"].Value));
+            Assert.AreEqual(200, AstNodePropertyUtil.AsInteger(addColumnNode.Properties["length"].Value));
+            Assert.AreEqual("foo", AstNodePropertyUtil.AsString(addColumnNode.Properties["default"].Value));
 
             addColumnNode = (IAddColumnNode)addTableFooNode.ChildNodes[1];
 
             Assert.IsNotNull(addColumnNode);
             Assert.AreEqual("Baz", addColumnNode.Name);
-            Assert.AreEqual("DateTime", addColumnNode.Properties["type"].Value);
+            Assert.AreEqual("DateTime", AstNodePropertyUtil.AsString(addColumnNode.Properties["type"].Value));
 
             addColumnNode = (IAddColumnNode)addTableFooNode.ChildNodes[2];
 
             Assert.IsNotNull(addColumnNode);
             Assert.AreEqual("Bax", addColumnNode.Name);
-            Assert.AreEqual("Int32", addColumnNode.Properties["type"].Value);
-            Assert.AreEqual("false", addColumnNode.Properties["nullable"].Value);
+            Assert.AreEqual("Int32", AstNodePropertyUtil.AsString(addColumnNode.Properties["type"].Value));
+            Assert.AreEqual("false", AstNodePropertyUtil.AsString(addColumnNode.Properties["nullable"].Value));
 
             addColumnNode = (IAddColumnNode)addTableFooNode.ChildNodes[3];
 
             Assert.IsNotNull(addColumnNode);
             Assert.AreEqual(4, addColumnNode.Properties.Count);
             Assert.AreEqual("Bull", addColumnNode.Name);
-            Assert.AreEqual("Decimal", addColumnNode.Properties["type"].Value);
-            Assert.AreEqual("false", addColumnNode.Properties["nullable"].Value);
-            Assert.AreEqual(20, addColumnNode.Properties["scale"].Value);
-            Assert.AreEqual(10, addColumnNode.Properties["precision"].Value);
+            Assert.AreEqual("Decimal", AstNodePropertyUtil.AsString(addColumnNode.Properties["type"].Value));
+            Assert.AreEqual("false", AstNodePropertyUtil.AsString(addColumnNode.Properties["nullable"].Value));
+            Assert.AreEqual(20, AstNodePropertyUtil.AsInteger(addColumnNode.Properties["scale"].Value));
+            Assert.AreEqual(10, AstNodePropertyUtil.AsInteger(addColumnNode.Properties["precision"].Value));
 
             addColumnNode = (IAddColumnNode)addTableFooNode.ChildNodes[4];
 
             Assert.IsNotNull(addColumnNode);
             Assert.AreEqual("Buff", addColumnNode.Name);
-            Assert.AreEqual("Int32", addColumnNode.Properties["type"].Value);
-            Assert.AreEqual("true", addColumnNode.Properties["nullable"].Value);
+            Assert.AreEqual("Int32", AstNodePropertyUtil.AsString(addColumnNode.Properties["type"].Value));
+            Assert.AreEqual("true", AstNodePropertyUtil.AsString(addColumnNode.Properties["nullable"].Value));
         }
     }
 }

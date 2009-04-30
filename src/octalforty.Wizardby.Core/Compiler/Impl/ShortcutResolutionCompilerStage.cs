@@ -49,7 +49,7 @@ namespace octalforty.Wizardby.Core.Compiler.Impl
             if(addColumnNode.Properties.ContainsProperty(MdlSyntax.References))
             {
                 IAstNodeProperty referencesProperty = addColumnNode.Properties[MdlSyntax.References];
-                string references = referencesProperty.Value.ToString();
+                string references = AstNodePropertyUtil.AsString(referencesProperty.Value);
 
                 IAddReferenceNode addReferenceNode = new AddReferenceNode(addColumnNode, "");
                 addReferenceNode.Location = referencesProperty.Location;
