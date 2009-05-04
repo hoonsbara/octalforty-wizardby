@@ -31,9 +31,9 @@ namespace octalforty.Wizardby.Console
     /// Implements <see cref="MigrationCommand.Rollback"/> command logic.
     /// </summary>
     [MigrationCommand(MigrationCommand.Rollback)]
-    public class RollbackMigrationCommand : MigrationCommandBase
+    public class RollbackMigrationCommand : GuardedMigrationCommandBase
     {
-        protected override void InternalExecute(MigrationParameters parameters)
+        protected override void InternalGuardedExecute(MigrationParameters parameters)
         {
             System.Console.WriteLine();
 

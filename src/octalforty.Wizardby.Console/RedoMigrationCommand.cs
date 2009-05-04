@@ -31,9 +31,9 @@ namespace octalforty.Wizardby.Console
     /// Implements <see cref="MigrationCommand.Redo"/> command logic.
     /// </summary>
     [MigrationCommand(MigrationCommand.Redo)]
-    public class RedoMigrationCommand : MigrationCommandBase
+    public class RedoMigrationCommand : GuardedMigrationCommandBase
     {
-        protected override void InternalExecute(MigrationParameters parameters)
+        protected override void InternalGuardedExecute(MigrationParameters parameters)
         {
             using(StreamReader streamReader = new StreamReader(parameters.MdlFileName, true))
                 ServiceProvider.GetService<IMigrationService>().Redo(parameters.ConnectionString, (int)(parameters.VersionOrStep ?? 1), streamReader);

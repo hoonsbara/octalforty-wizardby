@@ -31,9 +31,9 @@ namespace octalforty.Wizardby.Console
     /// Implements <see cref="MigrationCommand.Migrate"/> command logic.
     /// </summary>
     [MigrationCommand(MigrationCommand.Migrate)]
-    public class MigrateMigrationCommand : MigrationCommandBase
+    public class MigrateMigrationCommand : GuardedMigrationCommandBase
     {
-        protected override void InternalExecute(MigrationParameters parameters)
+        protected override void InternalGuardedExecute(MigrationParameters parameters)
         {
             System.Console.WriteLine();
 

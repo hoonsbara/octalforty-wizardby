@@ -145,6 +145,9 @@ Copyright (c) 2009 octalforty studios</value>
   <data name="DowngradingFromVersion" xml:space="preserve">
     <value>Downgrading from version {0}</value>
   </data>
+  <data name="EnvironmentDoesNotAllowDowngrades" xml:space="preserve">
+    <value>Environment '{0}' does not allow downgrades to be performed. See `{1}` property in 'database.wdi'.</value>
+  </data>
   <data name="EnvironmentInformation" xml:space="preserve">
     <value>Environment: {0}</value>
   </data>

@@ -49,6 +49,7 @@
     <Compile Include="DowngradeMigrationCommand.cs" />
     <Compile Include="FileDbCommandExecutionStrategy.cs" />
     <Compile Include="GenerateMigrationCommand.cs" />
+    <Compile Include="GuardedMigrationCommandBase.cs" />
     <Compile Include="IMigrationCommand.cs" />
     <Compile Include="InfoMigrationCommand.cs" />
     <Compile Include="IServiceProvider.cs" />

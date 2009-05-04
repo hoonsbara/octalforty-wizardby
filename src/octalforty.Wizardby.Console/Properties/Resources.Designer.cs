@@ -143,6 +143,15 @@ namespace octalforty.Wizardby.Console.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Environment &apos;{0}&apos; does not allow downgrades to be performed. See `{1}` property in &apos;database.wdi&apos;..
+        /// </summary>
+        internal static string EnvironmentDoesNotAllowDowngrades {
+            get {
+                return ResourceManager.GetString("EnvironmentDoesNotAllowDowngrades", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Environment: {0}.
         /// </summary>
         internal static string EnvironmentInformation {

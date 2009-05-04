@@ -31,9 +31,9 @@ namespace octalforty.Wizardby.Console
     /// Implements <see cref="MigrationCommand.Downgrade"/> command logic.
     /// </summary>
     [MigrationCommand(MigrationCommand.Downgrade)]
-    public class DowngradeMigrationCommand : MigrationCommandBase
+    public class DowngradeMigrationCommand : GuardedMigrationCommandBase
     {
-        protected override void InternalExecute(MigrationParameters parameters)
+        protected override void InternalGuardedExecute(MigrationParameters parameters)
         {
             System.Console.WriteLine();
 

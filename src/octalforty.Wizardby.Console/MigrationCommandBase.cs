@@ -108,7 +108,9 @@ namespace octalforty.Wizardby.Console
                     DeploymentInfoParser deploymentInfoParser = new DeploymentInfoParser();
 
                     IDeploymentInfo deploymentInfo = deploymentInfoParser.ParseDeploymentInfo(streamReader);
+                    
                     IEnvironment environment = GetEnvironment(parameters, deploymentInfo);
+                    ServiceProvider.RegisterService(environment);
 
                     if(string.IsNullOrEmpty(parameters.PlatformAlias))
                         parameters.PlatformAlias = environment.Properties["platform"];
