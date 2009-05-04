@@ -79,7 +79,7 @@ namespace octalforty.Wizardby.Console.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to octalforty Wizardby {0} Alpha 1
+        ///   Looks up a localized string similar to octalforty Wizardby {0} Alpha 2
         ///Copyright (c) 2009 octalforty studios.
         /// </summary>
         internal static string CopyrightInformation {
