@@ -135,7 +135,7 @@ namespace octalforty.Wizardby.Core.Compiler.Ast
         {
         }
 
-        public virtual void Visit(IAddConstraintNode tableTemplateNode)
+        public virtual void Visit(IAddConstraintNode addConstraintNode)
         {
         }
 

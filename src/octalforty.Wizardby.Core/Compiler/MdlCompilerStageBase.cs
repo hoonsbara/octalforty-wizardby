@@ -21,6 +21,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
+
+using System;
+
 using octalforty.Wizardby.Core.Compiler.Ast;
 
 namespace octalforty.Wizardby.Core.Compiler
@@ -258,6 +261,24 @@ namespace octalforty.Wizardby.Core.Compiler
         public override void Visit(ITableTemplateNode tableTemplateNode)
         {
             Visit(tableTemplateNode.ChildNodes);
+        }
+
+        /// <summary>
+        /// Visits the given <paramref name="addConstraintNode"/>.
+        /// </summary>
+        /// <param name="addConstraintNode"></param>
+        public override void Visit(IAddConstraintNode addConstraintNode)
+        {
+            Visit(addConstraintNode.ChildNodes);
+        }
+
+        /// <summary>
+        /// Visits the given <paramref name="removeConstraintNode"/>.
+        /// </summary>
+        /// <param name="removeConstraintNode"></param>
+        public override void Visit(IRemoveConstraintNode removeConstraintNode)
+        {
+            Visit(removeConstraintNode.ChildNodes);
         }
         #endregion
 

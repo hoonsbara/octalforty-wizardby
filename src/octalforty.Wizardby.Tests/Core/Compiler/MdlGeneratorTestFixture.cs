@@ -98,8 +98,9 @@ namespace octalforty.Wizardby.Tests.Core.Compiler
             add column ContentType type => AnsiString, length => 25, nullable => false
             add column Path type => String, length => 1000, nullable => false
             add column State type => Byte, nullable => false
-            add column CreatedDate type => DateTime, nullable => false
-            add column ModifiedDate type => DateTime, nullable => false
+            add column CreatedDate type => DateTime, nullable => false, default => ""getdate()""
+            add column ModifiedDate type => DateTime, nullable => false:
+                add constraint """" default => ""getdate()""
         add table oxite_UserFileResourceRelationship:
             add column UserID references => oxite_User
             add column FileResourceID references => oxite_FileResource:

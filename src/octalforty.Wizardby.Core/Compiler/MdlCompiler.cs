@@ -167,7 +167,7 @@ namespace octalforty.Wizardby.Core.Compiler
             StringBuilder mdlBuilder = new StringBuilder();
             mdlGenerator.Generate(astNode, new StringWriter(mdlBuilder));
 
-            //Console.WriteLine(mdlBuilder.ToString());
+            Console.WriteLine(mdlBuilder.ToString());
 
             return astNode;
         }

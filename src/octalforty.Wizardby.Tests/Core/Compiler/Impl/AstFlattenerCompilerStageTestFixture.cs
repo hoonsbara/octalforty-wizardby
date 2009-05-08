@@ -45,6 +45,7 @@ namespace octalforty.Wizardby.Tests.Core.Compiler.Impl
             BlogPostID nullable => true:
                 reference ""FK0"" pk-table => BlogPost
                 index unique => false
+                constraint default => 1
             ApprovedOn type => DateTime
             reference ""FK0"" pk-table => BlogPost
             index ""IXBAR"" unique => false
@@ -59,8 +60,9 @@ namespace octalforty.Wizardby.Tests.Core.Compiler.Impl
 
             Assert.IsInstanceOfType(typeof(IAddReferenceNode), version1Node.ChildNodes[2]);
             Assert.IsInstanceOfType(typeof(IAddIndexNode), version1Node.ChildNodes[3]);
-            Assert.IsInstanceOfType(typeof(IAddReferenceNode), version1Node.ChildNodes[4]);
-            Assert.IsInstanceOfType(typeof(IAddIndexNode), version1Node.ChildNodes[5]);
+            Assert.IsInstanceOfType(typeof(IAddConstraintNode), version1Node.ChildNodes[4]);
+            Assert.IsInstanceOfType(typeof(IAddReferenceNode), version1Node.ChildNodes[5]);
+            Assert.IsInstanceOfType(typeof(IAddIndexNode), version1Node.ChildNodes[6]);
         }
     }
 }

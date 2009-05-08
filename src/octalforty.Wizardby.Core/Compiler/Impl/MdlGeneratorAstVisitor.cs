@@ -274,6 +274,22 @@ namespace octalforty.Wizardby.Core.Compiler.Impl
             WriteProperties(removeColumnNode);
             VisitBlock(removeColumnNode);
         }
+
+        public override void Visit(IAddConstraintNode addConstraintNode)
+        {
+            textWriter.Write("add constraint {0}", GetIdentifier(addConstraintNode.Name));
+
+            WriteProperties(addConstraintNode);
+            VisitBlock(addConstraintNode);
+        }
+
+        public override void Visit(IRemoveConstraintNode removeConstraintNode)
+        {
+            textWriter.Write("remove constraint {0}", GetIdentifier(removeConstraintNode.Name));
+
+            WriteProperties(removeConstraintNode);
+            VisitBlock(removeConstraintNode);
+        }
         #endregion
 
         private void WriteProperties(IAstNode astNode)

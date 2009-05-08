@@ -21,6 +21,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
+
+using System;
+
 using octalforty.Wizardby.Core.Compiler.Ast;
 
 namespace octalforty.Wizardby.Core.Compiler.Impl
@@ -73,6 +76,30 @@ namespace octalforty.Wizardby.Core.Compiler.Impl
                 MoveNodeTo(removeIndexNode, removeIndexNode.Parent.Parent.Parent);
             else if(IsImmediateChildOf<IAlterTableNode>(removeIndexNode.Parent))
                 MoveNodeTo(removeIndexNode, removeIndexNode.Parent.Parent);
+        }
+
+        /// <summary>
+        /// Visits the given <paramref name="addConstraintNode"/>.
+        /// </summary>
+        /// <param name="addConstraintNode"></param>
+        public override void Visit(IAddConstraintNode addConstraintNode)
+        {
+            if(IsImmediateChildOf<IColumnNode>(addConstraintNode))
+                MoveNodeTo(addConstraintNode, addConstraintNode.Parent.Parent.Parent);
+            else if(IsImmediateChildOf<IAddTableNode>(addConstraintNode) || IsImmediateChildOf<IAlterTableNode>(addConstraintNode))
+                MoveNodeTo(addConstraintNode, addConstraintNode.Parent.Parent);
+        }
+
+        /// <summary>
+        /// Visits the given <paramref name="removeConstraintNode"/>.
+        /// </summary>
+        /// <param name="removeConstraintNode"></param>
+        public override void Visit(IRemoveConstraintNode removeConstraintNode)
+        {
+            if(IsImmediateChildOf<IAlterColumnNode>(removeConstraintNode))
+                MoveNodeTo(removeConstraintNode, removeConstraintNode.Parent.Parent.Parent);
+            else if(IsImmediateChildOf<IAlterTableNode>(removeConstraintNode.Parent))
+                MoveNodeTo(removeConstraintNode, removeConstraintNode.Parent.Parent);
         }
 
         private static void MoveNodeTo(IAstNode astNode, IAstNode newParentNode)

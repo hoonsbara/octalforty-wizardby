@@ -36,8 +36,8 @@ namespace octalforty.Wizardby.Core.Refactoring
     {
         public void Execute(IDbPlatform platform, IRefactorNode refactorNode, Environment environment)
         {
-            string auditTableName = refactorNode.Properties["audit-table"].Value.ToString();
-            string tableName = refactorNode.Properties["table"].Value.ToString();
+            string auditTableName = AstNodePropertyUtil.AsString(refactorNode.Properties["audit-table"].Value);
+            string tableName = AstNodePropertyUtil.AsString(refactorNode.Properties["table"].Value);
             //
             // We only need columns here
             ITableDefinition tableDefinition = environment.Schema.GetTable(tableName);

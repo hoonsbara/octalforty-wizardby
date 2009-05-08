@@ -36,7 +36,7 @@ namespace octalforty.Wizardby.Tests.Core.Compiler.Impl
         public void ResolveShortcuts()
         {
             IAstNode astNode = new MdlParser(MdlParserTestFixture.CreateScanner(@"add table Foo:
-    Bar type => Int32, references => Bar, unique => true")).Parse();
+    Bar type => Int32, references => Bar, unique => true, default => 2")).Parse();
 
             IMdlCompilerStage shortcutResolutionStage = new ShortcutResolutionCompilerStage();
             shortcutResolutionStage.SetEnvironment(new Environment());
@@ -49,6 +49,7 @@ namespace octalforty.Wizardby.Tests.Core.Compiler.Impl
             Assert.IsInstanceOfType(typeof(IAddColumnNode), astNode.ChildNodes[0]);
             Assert.IsInstanceOfType(typeof(IAddReferenceNode), astNode.ChildNodes[0].ChildNodes[0]);
             Assert.IsInstanceOfType(typeof(IAddIndexNode), astNode.ChildNodes[0].ChildNodes[1]);
+            Assert.IsInstanceOfType(typeof(IAddConstraintNode), astNode.ChildNodes[0].ChildNodes[2]);
 
             IAddReferenceNode addReferenceNode = (IAddReferenceNode)astNode.ChildNodes[0].ChildNodes[0];
             Assert.AreEqual("Bar", AstNodePropertyUtil.AsString(addReferenceNode.Properties, "pk-table"));
@@ -57,6 +58,10 @@ namespace octalforty.Wizardby.Tests.Core.Compiler.Impl
             IAddIndexNode addIndexNode = (IAddIndexNode)astNode.ChildNodes[0].ChildNodes[1];
             Assert.AreEqual("true", AstNodePropertyUtil.AsString(addIndexNode.Properties, "unique"));
             Assert.IsNotNull(addIndexNode.Location);
+
+            IAddConstraintNode addConstraintNode = (IAddConstraintNode)astNode.ChildNodes[0].ChildNodes[2];
+            Assert.AreEqual(2, AstNodePropertyUtil.AsInteger(addConstraintNode.Properties, "default"));
+            Assert.IsNotNull(addConstraintNode.Location);
         }
     }
 }

@@ -37,6 +37,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "octalforty.Wizardby.Db.Fire
 		Release.AspNetCompiler.Debug = "False"
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "octalforty.Wizardby.Ci.MSBuild", "octalforty.Wizardby.Ci.MSBuild\octalforty.Wizardby.Ci.MSBuild.csproj", "{4D710E16-9464-49BB-9447-20E55A607FAB}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +69,10 @@ Global
 		{4FE2B606-E0CD-468B-B3E6-82B9B454E144}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4FE2B606-E0CD-468B-B3E6-82B9B454E144}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4FE2B606-E0CD-468B-B3E6-82B9B454E144}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D710E16-9464-49BB-9447-20E55A607FAB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D710E16-9464-49BB-9447-20E55A607FAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D710E16-9464-49BB-9447-20E55A607FAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D710E16-9464-49BB-9447-20E55A607FAB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

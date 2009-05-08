@@ -70,6 +70,19 @@ namespace octalforty.Wizardby.Core.Compiler.Impl
 
                 addColumnNode.ChildNodes.Add(addIndexNode);
             } // if
+
+            //
+            // Create an 'IAddConstraintNode" for "default" property
+            if(addColumnNode.Properties.ContainsProperty(MdlSyntax.Default))
+            {
+                IAstNodeProperty defaultProperty = addColumnNode.Properties[MdlSyntax.Default];
+
+                IAddConstraintNode addConstraintNode = new AddConstraintNode(addColumnNode, "");
+                addConstraintNode.Location = defaultProperty.Location;
+                addConstraintNode.Properties.AddProperty(new AstNodeProperty(MdlSyntax.Default, defaultProperty.Value));
+
+                addColumnNode.ChildNodes.Add(addConstraintNode);
+            } // if
         }
     }
 }

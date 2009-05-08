@@ -51,8 +51,9 @@ migration "Oxite" revision => 1:
             ContentType type => AnsiString, length => 25, nullable => false
             Path type => String, length => 1000, nullable => false
             State type => Byte, nullable => false
-            CreatedDate type => DateTime, nullable => false
-            ModifiedDate type => DateTime, nullable => false 
+            CreatedDate type => DateTime, nullable => false, default => "getdate()"
+            ModifiedDate type => DateTime, nullable => false:
+                constraint default => "getdate()"
 
         oxite_UserFileResourceRelationship:
             UserID references => oxite_User

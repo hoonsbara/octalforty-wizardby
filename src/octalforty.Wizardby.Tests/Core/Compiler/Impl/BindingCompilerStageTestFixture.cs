@@ -318,6 +318,41 @@ namespace octalforty.Wizardby.Tests.Core.Compiler.Impl
         }
 
         [Test()]
+        public void BindConstraints()
+        {
+            Environment environment = new Environment();
+
+            NamingCompilerStage namingStage = new NamingCompilerStage();
+            namingStage.SetEnvironment(environment);
+
+            IMdlCompilerStage bindingStage = new BindingCompilerStage();
+            bindingStage.SetEnvironment(environment);
+
+            IAstNode astNode = new MdlParser(MdlParserTestFixture.CreateScanner(
+@"migration ""Waffle"" revision => 1:
+    version 1:    
+        add table BlogPost:
+            ID type => Int32, primary-key => true:
+                constraint ""DF_ID"" default => 0
+                constraint default => 1
+            add constraint ""DFID"" column => ID, default => 2")).Parse();
+
+            astNode.Accept(namingStage);
+            astNode.Accept(bindingStage);
+
+            IVersionNode version1Node = (IVersionNode)astNode.ChildNodes[0];
+            IAddTableNode addBlogPostTableNode = (IAddTableNode)version1Node.ChildNodes[0];
+            IAddConstraintNode addDfIdConstraintNode =
+                (IAddConstraintNode)addBlogPostTableNode.ChildNodes[0].ChildNodes[0];
+
+            Assert.AreEqual("DF_ID", addDfIdConstraintNode.Name);
+            Assert.AreEqual("BlogPost", AstNodePropertyUtil.AsString(addDfIdConstraintNode.Properties, "table"));
+            Assert.AreEqual("ID", AstNodePropertyUtil.AsString(addDfIdConstraintNode.Properties, "column"));
+            Assert.AreEqual(0, AstNodePropertyUtil.AsInteger(addDfIdConstraintNode.Properties, "column"));
+
+        }
+
+        [Test()]
         [ExpectedException(typeof(MdlCompilerException))]
         public void BindReferencesThrowsMdlCompilerExceptionOnMissingPkTable()
         {
