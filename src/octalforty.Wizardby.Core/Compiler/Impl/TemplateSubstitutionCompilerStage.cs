@@ -56,11 +56,11 @@ namespace octalforty.Wizardby.Core.Compiler.Impl
         {
             //
             // If neither "template" nor "templates" properties specified on the node, skip it
-            if(!addTableNode.Properties.ContainsProperty(MdlSyntax.Template) &&
-                !addTableNode.Properties.ContainsProperty(MdlSyntax.Templates))
+            if(addTableNode.Properties[MdlSyntax.Template] == null &&
+                addTableNode.Properties[MdlSyntax.Templates] == null)
                 return;
 
-            if(addTableNode.Properties.ContainsProperty(MdlSyntax.Template))
+            if(addTableNode.Properties[MdlSyntax.Template] != null)
             {
                 SubstituteTemplate(addTableNode, AstNodePropertyUtil.AsString(addTableNode.Properties[MdlSyntax.Template].Value));
                 return;

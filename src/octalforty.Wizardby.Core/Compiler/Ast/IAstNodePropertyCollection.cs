@@ -31,7 +31,8 @@ namespace octalforty.Wizardby.Core.Compiler.Ast
     public interface IAstNodePropertyCollection : IEnumerable<IAstNodeProperty>
     {
         /// <summary>
-        /// Gets an <see cref="IAstNodeProperty"/> object with a given name.
+        /// Gets an <see cref="IAstNodeProperty"/> object with a given name or <c>null</c> if
+        /// no property with the given name is defined.
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
@@ -49,12 +50,5 @@ namespace octalforty.Wizardby.Core.Compiler.Ast
         /// </summary>
         /// <param name="property"></param>
         void AddProperty(IAstNodeProperty property);
-
-        /// <summary>
-        /// Returns a value which indicates whether this collection contains property named <paramref name="name"/>.
-        /// </summary>
-        /// <param name="name"></param>
-        /// <returns></returns>
-        bool ContainsProperty(string name);
     }
 }

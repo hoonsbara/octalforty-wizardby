@@ -94,7 +94,11 @@ namespace octalforty.Wizardby.Core.Migration.Impl
                                 // TOOD: Replace with DbPlatformException or something
                                 catch(Exception e)
                                 {
-                                    throw new MigrationException(e.Message, ddlScript, e);
+                                    throw new MigrationException(
+                                        string.Format(migrationMode == MigrationMode.Upgrade ?
+                                            Properties.Resources.ErrorWhileUpgradingToVersion:
+                                            Properties.Resources.ErrorWhileDowngradingToVersion, migrationScript.MigrationVersion, e.Message), 
+                                        ddlScript, e);
                                 } // catch
                                 
                             } // foreach

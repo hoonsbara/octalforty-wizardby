@@ -29,6 +29,7 @@ namespace octalforty.Wizardby.Core.Compiler.Ast.Impl
     public class RemoveConstraintNode : AstNode, IRemoveConstraintNode
     {
         #region Private Fields
+        private string table;
         private string name;
         #endregion
 
@@ -56,6 +57,15 @@ namespace octalforty.Wizardby.Core.Compiler.Ast.Impl
         {
             get { return name; }
             set { name = value; }
+        }
+
+        /// <summary>
+        /// Get or sets a string which contains the name of the table of constraint.
+        /// </summary>
+        public string Table
+        {
+            get { return table; }
+            set { table = value; }
         }
         #endregion
     }

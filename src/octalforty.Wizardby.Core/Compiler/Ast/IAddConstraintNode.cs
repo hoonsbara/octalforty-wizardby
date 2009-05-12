@@ -21,12 +21,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
+using octalforty.Wizardby.Core.SemanticModel;
+
 namespace octalforty.Wizardby.Core.Compiler.Ast
 {
     /// <summary>
     /// Represents an <c>add constraint</c> construct.
     /// </summary>
-    public interface IAddConstraintNode : IConstraintNode
+    public interface IAddConstraintNode : IConstraintNode, IConstraintDefinition
     {
     }
 }

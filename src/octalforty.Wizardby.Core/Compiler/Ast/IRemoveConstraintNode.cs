@@ -28,5 +28,10 @@ namespace octalforty.Wizardby.Core.Compiler.Ast
     /// </summary>
     public interface IRemoveConstraintNode : IConstraintNode
     {
+        /// <summary>
+        /// Get or sets a string which contains the name of the table of constraint.
+        /// </summary>
+        string Table
+        { get; set; }
     }
 }

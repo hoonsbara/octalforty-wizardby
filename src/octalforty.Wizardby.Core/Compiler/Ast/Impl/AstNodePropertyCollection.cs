@@ -52,7 +52,12 @@ namespace octalforty.Wizardby.Core.Compiler.Ast.Impl
         /// <returns></returns>
         public IAstNodeProperty this[string name]
         {
-            get { return properties[name]; }
+            get 
+            { 
+                return properties.ContainsKey(name) ?
+                    properties[name] :
+                    null; 
+            }
         }
 
         /// <summary>
@@ -93,16 +98,6 @@ namespace octalforty.Wizardby.Core.Compiler.Ast.Impl
         public IEnumerator GetEnumerator()
         {
             return ((IEnumerable<IAstNodeProperty>)this).GetEnumerator();
-        }
-
-        /// <summary>
-        /// Returns a value which indicates whether this collection contains property named <paramref name="name"/>.
-        /// </summary>
-        /// <param name="name"></param>
-        /// <returns></returns>
-        public bool ContainsProperty(string name)
-        {
-            return properties.ContainsKey(name);
         }
         #endregion
     }

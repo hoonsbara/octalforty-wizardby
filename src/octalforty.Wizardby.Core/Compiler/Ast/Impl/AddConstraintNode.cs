@@ -21,6 +21,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
+using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace octalforty.Wizardby.Core.Compiler.Ast.Impl
@@ -29,6 +30,8 @@ namespace octalforty.Wizardby.Core.Compiler.Ast.Impl
     public class AddConstraintNode : AstNode, IAddConstraintNode
     {
         #region Private Fields
+        private readonly IList<string> columns = new List<string>();
+        private string table;
         private string name;
         #endregion
 
@@ -56,6 +59,23 @@ namespace octalforty.Wizardby.Core.Compiler.Ast.Impl
         {
             get { return name; }
             set { name = value; }
+        }
+
+        /// <summary>
+        /// Get or sets a string which contains the name of the table of constraint.
+        /// </summary>
+        public string Table
+        {
+            get { return table; }
+            set { table = value; }
+        }
+
+        /// <summary>
+        /// Gets a reference to the collection of column names for the constraint.
+        /// </summary>
+        public IList<string> Columns
+        {
+            get { return columns; }
         }
         #endregion
     }

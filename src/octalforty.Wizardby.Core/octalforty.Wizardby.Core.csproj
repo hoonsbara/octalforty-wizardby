@@ -373,6 +373,11 @@
     </Compile>
     <Compile Include="Migration\MigrationVersionInfoManagerUtil.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Refactoring\AddAuditTableRefactoring.cs" />
     <Compile Include="Refactoring\IRefactoring.cs" />
     <Compile Include="Refactoring\RefactoringAttribute.cs" />
@@ -429,6 +434,11 @@
     <Compile Include="Util\StringUtil.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\MdlCompilerResources.resx">
       <SubType>Designer</SubType>
       <Generator>ResXFileCodeGenerator</Generator>

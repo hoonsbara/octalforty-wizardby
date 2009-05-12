@@ -24,6 +24,7 @@
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Text;
@@ -79,8 +80,9 @@ namespace octalforty.Wizardby.Tests.Core.Migration.Impl
             {
                 MigrateTo(Oxite, 0);
             } // try
-            catch(Exception)
+            catch(Exception e)
             {
+                Trace.WriteLine(e.ToString());
                 Assert.Fail();
             } // catch
         }

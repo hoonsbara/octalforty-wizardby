@@ -344,7 +344,8 @@ namespace octalforty.Wizardby.Tests.Core.Compiler
         public void ParseAlterTableNodeTree()
         {
             MdlParser mdlParser = new MdlParser(CreateScanner(@"alter table User:
-    remove index ID"));
+    remove index ID
+    remove constraint DFID"));
             IAstNode astNode = mdlParser.Parse();
 
             Assert.IsInstanceOfType(typeof(IAlterTableNode), astNode);
@@ -353,6 +354,7 @@ namespace octalforty.Wizardby.Tests.Core.Compiler
             Assert.AreEqual("User", alterTableNode.Name);
 
             Assert.IsInstanceOfType(typeof(IRemoveIndexNode), astNode.ChildNodes[0]);
+            Assert.IsInstanceOfType(typeof(IRemoveConstraintNode), astNode.ChildNodes[1]);
         }
 
         [Test()]

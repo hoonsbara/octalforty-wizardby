@@ -21,6 +21,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
+using System.Collections.Generic;
+
 namespace octalforty.Wizardby.Core.SemanticModel
 {
     /// <summary>
@@ -28,5 +30,16 @@ namespace octalforty.Wizardby.Core.SemanticModel
     /// </summary>
     public interface IConstraintDefinition : ISchemaElementDefinition
     {
+        /// <summary>
+        /// Get or sets a string which contains the name of the table of constraint.
+        /// </summary>
+        string Table
+        { get; set; }
+
+        /// <summary>
+        /// Gets a reference to the collection of column names for the constraint.
+        /// </summary>
+        IList<string> Columns
+        { get; }
     }
 }

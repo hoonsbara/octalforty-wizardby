@@ -46,7 +46,7 @@ namespace octalforty.Wizardby.Core.Compiler.Impl
         {
             //
             // Create an "IAddReferenceNode" for "references" property
-            if(addColumnNode.Properties.ContainsProperty(MdlSyntax.References))
+            if(addColumnNode.Properties[MdlSyntax.References] != null)
             {
                 IAstNodeProperty referencesProperty = addColumnNode.Properties[MdlSyntax.References];
                 string references = AstNodePropertyUtil.AsString(referencesProperty.Value);
@@ -60,7 +60,7 @@ namespace octalforty.Wizardby.Core.Compiler.Impl
 
             //
             // Create an 'IAddIndexNode" for "unique" property
-            if(addColumnNode.Properties.ContainsProperty(MdlSyntax.Unique))
+            if(addColumnNode.Properties[MdlSyntax.Unique] != null)
             {
                 IAstNodeProperty uniqueProperty = addColumnNode.Properties[MdlSyntax.Unique];
 
@@ -73,7 +73,7 @@ namespace octalforty.Wizardby.Core.Compiler.Impl
 
             //
             // Create an 'IAddConstraintNode" for "default" property
-            if(addColumnNode.Properties.ContainsProperty(MdlSyntax.Default))
+            if(addColumnNode.Properties[MdlSyntax.Default] != null)
             {
                 IAstNodeProperty defaultProperty = addColumnNode.Properties[MdlSyntax.Default];
 

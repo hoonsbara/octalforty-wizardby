@@ -335,7 +335,11 @@ namespace octalforty.Wizardby.Tests.Core.Compiler.Impl
             ID type => Int32, primary-key => true:
                 constraint ""DF_ID"" default => 0
                 constraint default => 1
-            add constraint ""DFID"" column => ID, default => 2")).Parse();
+            
+            add constraint ""DFID2"" column => ID, default => 2
+        remove constraint ""DFID3"" table => BlogPost
+        alter table BlogPost:
+            remove constraint ""DFID2""")).Parse();
 
             astNode.Accept(namingStage);
             astNode.Accept(bindingStage);
@@ -346,10 +350,25 @@ namespace octalforty.Wizardby.Tests.Core.Compiler.Impl
                 (IAddConstraintNode)addBlogPostTableNode.ChildNodes[0].ChildNodes[0];
 
             Assert.AreEqual("DF_ID", addDfIdConstraintNode.Name);
-            Assert.AreEqual("BlogPost", AstNodePropertyUtil.AsString(addDfIdConstraintNode.Properties, "table"));
-            Assert.AreEqual("ID", AstNodePropertyUtil.AsString(addDfIdConstraintNode.Properties, "column"));
-            Assert.AreEqual(0, AstNodePropertyUtil.AsInteger(addDfIdConstraintNode.Properties, "column"));
+            Assert.AreEqual("BlogPost", addDfIdConstraintNode.Table);
+            Assert.AreEqual("ID", addDfIdConstraintNode.Columns[0]);
+            Assert.AreEqual(0, AstNodePropertyUtil.AsInteger(addDfIdConstraintNode.Properties, "default"));
 
+            IAddConstraintNode addDbID2ConstraintNode = (IAddConstraintNode)addBlogPostTableNode.ChildNodes[1];
+
+            Assert.AreEqual("DFID2", addDbID2ConstraintNode.Name);
+            Assert.AreEqual("ID", AstNodePropertyUtil.AsString(addDbID2ConstraintNode.Properties, "column"));
+            Assert.AreEqual(2, AstNodePropertyUtil.AsInteger(addDbID2ConstraintNode.Properties, "default"));
+
+            IRemoveConstraintNode removeDfId3ConstraintNode = (IRemoveConstraintNode)version1Node.ChildNodes[1];
+
+            Assert.AreEqual("DFID3", removeDfId3ConstraintNode.Name);
+            Assert.AreEqual("BlogPost", AstNodePropertyUtil.AsString(removeDfId3ConstraintNode.Properties, "table"));
+
+            IRemoveConstraintNode removeDfId2ConstraintNode = (IRemoveConstraintNode)version1Node.ChildNodes[2].ChildNodes[0];
+
+            Assert.AreEqual("DFID2", removeDfId2ConstraintNode.Name);
+            Assert.AreEqual("BlogPost", removeDfId2ConstraintNode.Table);
         }
 
         [Test()]
@@ -429,6 +448,7 @@ namespace octalforty.Wizardby.Tests.Core.Compiler.Impl
             Assert.AreEqual(20, addColumnNode.Scale.Value);
             Assert.AreEqual(10, addColumnNode.Precision.Value);
             Assert.AreEqual("0", addColumnNode.Default);
+            Assert.AreEqual("BlogPost", addColumnNode.Table);
         }
     }
 }

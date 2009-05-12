@@ -82,7 +82,7 @@ namespace octalforty.Wizardby.Core.Compiler.Impl
         {
             //
             // No type specified or type name is not an alias -- nothing to do here. 
-            if(!astNode.Properties.ContainsProperty(MdlSyntax.Type) ||
+            if(astNode.Properties[MdlSyntax.Type] == null ||
                !typeAliases.ContainsKey(AstNodePropertyUtil.AsString(astNode.Properties[MdlSyntax.Type].Value)))
                 return;
 
@@ -122,7 +122,7 @@ namespace octalforty.Wizardby.Core.Compiler.Impl
             ITypeAliasNode typeAlias = typeAliases[name];
             yield return typeAlias;
 
-            if(typeAlias.Properties.ContainsProperty(MdlSyntax.Type))
+            if(typeAlias.Properties[MdlSyntax.Type] != null)
                 foreach(ITypeAliasNode parentTypeAlias in GetTypeAliasesRecursive(AstNodePropertyUtil.AsString(typeAlias.Properties[MdlSyntax.Type].Value)))
                     yield return parentTypeAlias;
         }

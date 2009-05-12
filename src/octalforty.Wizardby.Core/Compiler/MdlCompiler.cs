@@ -167,7 +167,7 @@ namespace octalforty.Wizardby.Core.Compiler
             StringBuilder mdlBuilder = new StringBuilder();
             mdlGenerator.Generate(astNode, new StringWriter(mdlBuilder));
 
-            Console.WriteLine(mdlBuilder.ToString());
+            //Console.WriteLine(mdlBuilder.ToString());
 
             return astNode;
         }
@@ -200,6 +200,7 @@ namespace octalforty.Wizardby.Core.Compiler
             mdlScanner.RegisterKeyword("templates");
             mdlScanner.RegisterKeyword("template");
             mdlScanner.RegisterKeyword("refactor");
+            mdlScanner.RegisterKeyword(MdlSyntax.Constraint);
 
             IMdlParser mdlParser = new MdlParser(mdlScanner);
             IAstNode astNode = mdlParser.Parse();
