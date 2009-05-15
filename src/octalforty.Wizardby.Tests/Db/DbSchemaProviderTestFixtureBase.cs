@@ -21,6 +21,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
+using System;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
@@ -56,7 +57,15 @@ namespace octalforty.Wizardby.Tests.Db
                 new DbMigrationVersionInfoManager(dbPlatform, new DbCommandExecutionStrategy(), "SchemaInfo"),
                 new DbMigrationScriptExecutive(new DbCommandExecutionStrategy()));
 
-            MigrateTo(null);
+            try
+            {
+                MigrateTo(null);
+            }
+            catch(Exception e)
+            {
+                MigrateTo(0);
+                Assert.Fail(e.Message);
+            }
         }
 
         [TestFixtureTearDown()]
@@ -125,11 +134,18 @@ namespace octalforty.Wizardby.Tests.Db
 
         private void MigrateTo(int? targetVersion)
         {
-            using(Stream resourceStream =
-                Assembly.GetExecutingAssembly().GetManifestResourceStream("octalforty.Wizardby.Tests.Resources.Blog.mdl"))
+            try
             {
-                migrationService.Migrate(connectionString, targetVersion, new StreamReader(resourceStream, Encoding.UTF8));
-            } // using
+                using(Stream resourceStream =
+                    Assembly.GetExecutingAssembly().GetManifestResourceStream("octalforty.Wizardby.Tests.Resources.Blog.mdl"))
+                {
+                    migrationService.Migrate(connectionString, targetVersion, new StreamReader(resourceStream, Encoding.UTF8));
+                } // using
+            }
+            catch(Exception e)
+            {
+                Assert.Fail(e.Message);
+            }
         }
     }
 }

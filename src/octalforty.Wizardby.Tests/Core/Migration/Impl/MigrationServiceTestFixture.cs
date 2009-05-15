@@ -82,8 +82,7 @@ namespace octalforty.Wizardby.Tests.Core.Migration.Impl
             } // try
             catch(Exception e)
             {
-                Trace.WriteLine(e.ToString());
-                Assert.Fail();
+                Assert.Fail(e.Message);
             } // catch
         }
 

@@ -53,7 +53,8 @@ namespace octalforty.Wizardby.Tests.Db.SqlServer2000
             } // using
 
             IDbPlatform platform = new SqlServer2000Platform();
-            IMdlCompiler compiler = new MdlCompiler(new NullCodeGenerator(), new Environment());
+            Environment environment = new Environment();
+            IMdlCompiler compiler = new MdlCompiler(new NullCodeGenerator(), environment);
 
             compiler.RemoveCompilerStage<DowngradeGenerationStage>();
             compiler.RemoveCompilerStage<UpgradeGenerationStage>();
@@ -62,8 +63,8 @@ namespace octalforty.Wizardby.Tests.Db.SqlServer2000
 
             StringBuilder stringBuilder = new StringBuilder();
             
-            
             IDbScriptGenerator scriptGenerator = platform.Dialect.CreateScriptGenerator(new StringWriter(stringBuilder));
+            scriptGenerator.SetEnvironment(environment);
 
             foreach(IVersionNode versionNode in Algorithms.Filter<IAstNode, IVersionNode>(astNode.ChildNodes))
                 versionNode.Accept(scriptGenerator);
@@ -128,6 +129,7 @@ create table [User] (
 [Password] varbinary(64) not null,
 );
 alter table [Media] add constraint [FK10] foreign key ([BlogPostID]) references [BlogPost] ([ID]);
+alter table [Media] alter column [MimeType] set default 'text/xml';
 alter table [Media] add constraint [FK11] foreign key ([BlogPostCommentID]) references [BlogPostComment] ([ID]);
 create unique nonclustered index [IX_Login] on [User] ([ID], [Login] desc);
 create table [Forum] (

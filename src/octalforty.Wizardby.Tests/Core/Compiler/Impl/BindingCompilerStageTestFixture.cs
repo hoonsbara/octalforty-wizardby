@@ -354,6 +354,11 @@ namespace octalforty.Wizardby.Tests.Core.Compiler.Impl
             Assert.AreEqual("ID", addDfIdConstraintNode.Columns[0]);
             Assert.AreEqual(0, AstNodePropertyUtil.AsInteger(addDfIdConstraintNode.Properties, "default"));
 
+            IDefaultConstraintDefinition dfIDConstraintDefinition =
+                (IDefaultConstraintDefinition)
+                environment.Schema.GetTable(addDfIdConstraintNode.Table).GetConstraint(addDfIdConstraintNode.Name);
+            Assert.IsNotNull(dfIDConstraintDefinition);
+
             IAddConstraintNode addDbID2ConstraintNode = (IAddConstraintNode)addBlogPostTableNode.ChildNodes[1];
 
             Assert.AreEqual("DFID2", addDbID2ConstraintNode.Name);

@@ -148,7 +148,7 @@ namespace octalforty.Wizardby.Tests.Core.SemanticModel
 
             Assert.AreSame(reference, table.GetReference("ix_bar"));
             Assert.AreSame(reference, table.GetReference("ix_bAR"));
-            Assert.IsNull(table.GetIndex("XX_Bar"));
+            Assert.IsNull(table.GetReference("XX_Bar"));
         }
 
         [Test()]
@@ -164,6 +164,43 @@ namespace octalforty.Wizardby.Tests.Core.SemanticModel
 
             table.RemoveReference("ix_Bar");
             Assert.AreEqual(0, table.References.Count);
+        }
+
+        [Test()]
+        public void AddConstraint()
+        {
+            TableDefinition table = new TableDefinition("Foo");
+            table.AddConstraint(new DefaultConstraintDefinition("DF_Bar"));
+
+            Assert.AreEqual(table.Name, table.Constraints[0].Table);
+        }
+
+        [Test()]
+        public void GetConstraint()
+        {
+            TableDefinition table = new TableDefinition("Foo");
+            IConstraintDefinition constraint = new DefaultConstraintDefinition("DF_Bar");
+
+            table.AddConstraint(constraint);
+
+            Assert.AreSame(constraint, table.GetConstraint("df_bar"));
+            Assert.AreSame(constraint, table.GetConstraint("Df_BaR"));
+            Assert.IsNull(table.GetConstraint("XX_Bar"));
+        }
+
+        [Test()]
+        public void RemoveConstraint()
+        {
+            TableDefinition table = new TableDefinition("Foo");
+            IConstraintDefinition constraint = new DefaultConstraintDefinition("DF_Bar");
+
+            table.AddConstraint(constraint);
+
+            table.RemoveConstraint("XX_Bar");
+            Assert.AreEqual(1, table.Constraints.Count);
+
+            table.RemoveConstraint("df_Bar");
+            Assert.AreEqual(0, table.Constraints.Count);
         }
     }
 }

@@ -399,10 +399,12 @@
     <Compile Include="SemanticModel\ConstraintDefinition.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="SemanticModel\DefaultConstraintDefinition.cs" />
     <Compile Include="SemanticModel\IColumnDefinition.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="SemanticModel\IConstraintDefinition.cs" />
+    <Compile Include="SemanticModel\IDefaultConstraintDefinition.cs" />
     <Compile Include="SemanticModel\IIndexColumnDefinition.cs" />
     <Compile Include="SemanticModel\IIndexDefinition.cs" />
     <Compile Include="SemanticModel\IndexColumnDefinition.cs" />

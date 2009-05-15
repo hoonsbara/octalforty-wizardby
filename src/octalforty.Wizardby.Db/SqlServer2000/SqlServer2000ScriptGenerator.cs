@@ -21,6 +21,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -162,7 +163,23 @@ namespace octalforty.Wizardby.Db.SqlServer2000
             } // foreach
         }
 
+        public override void Visit(IAddConstraintNode addConstraintNode)
+        {
+            IConstraintDefinition constraint =
+                Environment.Schema.GetTable(addConstraintNode.Table).GetConstraint(addConstraintNode.Name);
 
+            if(constraint is IDefaultConstraintDefinition)
+            {
+                IDefaultConstraintDefinition defaultConstraint = (IDefaultConstraintDefinition)constraint;
+                TextWriter.WriteLine("alter table {0} alter column {1} set default {2}",
+                    constraint.Table, constraint.Columns[0], defaultConstraint.Default);
+            } // if
+        }
+
+        public override void Visit(IRemoveConstraintNode removeConstraintNode)
+        {
+            throw new NotImplementedException();
+        }
         #endregion
 
         private IEnumerable<string> EscapeIdentifiers(IEnumerable<string> identifiers)

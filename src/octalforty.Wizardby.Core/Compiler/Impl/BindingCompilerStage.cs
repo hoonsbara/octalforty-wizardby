@@ -225,6 +225,20 @@ namespace octalforty.Wizardby.Core.Compiler.Impl
                 addConstraintNode.Properties.AddProperty(new AstNodeProperty(MdlSyntax.Table, 
                     new StringAstNodePropertyValue(addConstraintNode.Table)));
             } // else
+
+            //
+            // If we have "default" property, this is is IDefaultConstraintDefinition
+            if(addConstraintNode.Properties[MdlSyntax.Default] != null)
+            {
+                IAstNodePropertyValue value = addConstraintNode.Properties[MdlSyntax.Default].Value;
+                IDefaultConstraintDefinition defaultConstraintDefinition =
+                    new DefaultConstraintDefinition(addConstraintNode.Name,
+                        addConstraintNode.Table,
+                        value is IIntegerAstNodePropertyValue ?
+                            AstNodePropertyUtil.AsInteger(value).ToString() :
+                            AstNodePropertyUtil.AsString(value));
+                Environment.Schema.GetTable(defaultConstraintDefinition.Table).AddConstraint(defaultConstraintDefinition);
+            } // if
         }
 
         /// <summary>

@@ -206,6 +206,36 @@ namespace octalforty.Wizardby.Core.SemanticModel
         }
 
         /// <summary>
+        /// Returns a constraint named <paramref name="name"/> or <c>null</c> if no reference
+        /// with the given name exists.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public IConstraintDefinition GetConstraint(string name)
+        {
+            return GetSchemaElementDefinition(Constraints, name);
+        }
+
+        /// <summary>
+        /// Adds <paramref name="constraint"/> to the list of constraints.
+        /// </summary>
+        /// <param name="constraint"></param>
+        public void AddConstraint(IConstraintDefinition constraint)
+        {
+            constraint.Table = Name;
+            constraints.Add(constraint);
+        }
+
+        /// <summary>
+        /// Removes constraint named <paramref name="name"/> from the list of references.
+        /// </summary>
+        /// <param name="name"></param>
+        public void RemoveConstraint(string name)
+        {
+            RemoveSchemaElementDefinition(constraints, name);
+        }
+
+        /// <summary>
         /// Gets a reference to the <see cref="IColumnDefinition"/> which represents the 
         /// primary key column of the current table.
         /// </summary>

@@ -117,6 +117,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <EmbeddedResource Include="Resources\OxiteWithConstraints.mdl" />
     <EmbeddedResource Include="Resources\OxiteWithMissingVersion.mdl" />
     <EmbeddedResource Include="Resources\OxiteWithReorderedVersions.mdl" />
     <EmbeddedResource Include="Resources\Oxite.mdl" />

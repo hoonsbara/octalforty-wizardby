@@ -21,6 +21,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
+using System;
 using System.Configuration;
 using System.IO;
 using System.Reflection;
@@ -62,7 +63,15 @@ namespace octalforty.Wizardby.Tests.Core.ReverseEngineering.Impl
                 new DbMigrationVersionInfoManager(dbPlatform, new DbCommandExecutionStrategy(), "SchemaInfo"),
                 new DbMigrationScriptExecutive(new DbCommandExecutionStrategy()));
 
-            MigrateTo(null);
+            try
+            {
+                MigrateTo(null);
+            } // try
+            catch(Exception e)
+            {
+                MigrateTo(0);
+                Assert.Fail(e.Message);
+            } // catch
         }
 
         [TestFixtureTearDown()]
@@ -108,7 +117,7 @@ namespace octalforty.Wizardby.Tests.Core.ReverseEngineering.Impl
 
             //
             // Ensure that the AST produced by the RES can be compiled
-            MdlCompiler mdlCompiler = new MdlCompiler(new NullCodeGenerator(), new Environment());
+            MdlCompiler mdlCompiler = new MdlCompiler(new NullCodeGenerator(), new Wizardby.Core.Compiler.Environment());
             mdlCompiler.Compile(astNode, MdlCompilationOptions.All);
         }
 

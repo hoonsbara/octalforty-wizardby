@@ -21,38 +21,11 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
-using System.Collections.Generic;
-
 namespace octalforty.Wizardby.Core.SemanticModel
 {
-    public abstract class ConstraintDefinition : SchemaElementDefinitionBase, IConstraintDefinition
+    public interface IDefaultConstraintDefinition : IConstraintDefinition
     {
-        private string table;
-        private readonly IList<string> columns = new List<string>();
-
-        protected ConstraintDefinition()
-        {
-        }
-
-        protected ConstraintDefinition(string name) : base(name)
-        {
-        }
-
-        protected ConstraintDefinition(string name, string table) : 
-            base(name)
-        {
-            this.table = table;
-        }
-
-        public string Table
-        {
-            get { return table; }
-            set { table = value; }
-        }
-
-        public IList<string> Columns
-        {
-            get { return columns; }
-        }
+        string Default
+        { get; set; }
     }
 }
