@@ -222,22 +222,55 @@ namespace octalforty.Wizardby.Core.Compiler.Impl
                     addConstraintNode.Columns.Add(columnNode.Name);
                 } // if
 
+                //
+                // If parent is IAddTableNode or IAlterTableNode, use its name
+                if(addConstraintNode.Parent is IAddTableNode || addConstraintNode.Parent is IAlterTableNode)
+                    addConstraintNode.Table = ((ITableNode)addConstraintNode.Parent).Name;
+
                 addConstraintNode.Properties.AddProperty(new AstNodeProperty(MdlSyntax.Table, 
                     new StringAstNodePropertyValue(addConstraintNode.Table)));
             } // else
 
             //
             // If we have "default" property, this is is IDefaultConstraintDefinition
+            IConstraintDefinition constraintDefinition = null;
             if(addConstraintNode.Properties[MdlSyntax.Default] != null)
             {
                 IAstNodePropertyValue value = addConstraintNode.Properties[MdlSyntax.Default].Value;
-                IDefaultConstraintDefinition defaultConstraintDefinition =
+                constraintDefinition =
                     new DefaultConstraintDefinition(addConstraintNode.Name,
                         addConstraintNode.Table,
                         value is IIntegerAstNodePropertyValue ?
                             AstNodePropertyUtil.AsInteger(value).ToString() :
                             AstNodePropertyUtil.AsString(value));
-                Environment.Schema.GetTable(defaultConstraintDefinition.Table).AddConstraint(defaultConstraintDefinition);
+                Environment.Schema.GetTable(constraintDefinition.Table).AddConstraint(constraintDefinition);
+            } // if
+
+            if(addConstraintNode.Columns.Count > 0)
+                constraintDefinition.Columns.Add(addConstraintNode.Columns[0]);
+
+            //
+            // Look for "columns" or "column" properties
+            if(addConstraintNode.Properties[MdlSyntax.Column] != null)
+            {
+                string columnName = AstNodePropertyUtil.AsString(
+                    addConstraintNode.Properties[MdlSyntax.Column].Value);
+                
+                addConstraintNode.Columns.Add(columnName);
+                constraintDefinition.Columns.Add(columnName);
+            } // if
+
+            if(addConstraintNode.Properties[MdlSyntax.Columns] != null)
+            {
+                IListAstNodePropertyValue columns =
+                    (IListAstNodePropertyValue)addConstraintNode.Properties[MdlSyntax.Columns].Value;
+                foreach (IAstNodePropertyValue column in columns.Items)
+                {
+                    string columnName = AstNodePropertyUtil.AsString(column);
+                    
+                    addConstraintNode.Columns.Add(columnName);
+                    constraintDefinition.Columns.Add(columnName);
+                }
             } // if
         }
 

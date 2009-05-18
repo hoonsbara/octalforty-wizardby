@@ -171,8 +171,10 @@ namespace octalforty.Wizardby.Db.SqlServer2000
             if(constraint is IDefaultConstraintDefinition)
             {
                 IDefaultConstraintDefinition defaultConstraint = (IDefaultConstraintDefinition)constraint;
-                TextWriter.WriteLine("alter table {0} alter column {1} set default {2}",
-                    constraint.Table, constraint.Columns[0], defaultConstraint.Default);
+                TextWriter.WriteLine("alter table {0} alter column {1} set default {2};",
+                    Platform.Dialect.EscapeIdentifier(constraint.Table),
+                    Platform.Dialect.EscapeIdentifier(constraint.Columns[0]), 
+                    defaultConstraint.Default);
             } // if
         }
 

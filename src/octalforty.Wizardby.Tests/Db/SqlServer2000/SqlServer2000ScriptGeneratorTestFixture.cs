@@ -128,8 +128,8 @@ create table [User] (
 [Login] nvarchar(200) not null,
 [Password] varbinary(64) not null,
 );
-alter table [Media] add constraint [FK10] foreign key ([BlogPostID]) references [BlogPost] ([ID]);
 alter table [Media] alter column [MimeType] set default 'text/xml';
+alter table [Media] add constraint [FK10] foreign key ([BlogPostID]) references [BlogPost] ([ID]);
 alter table [Media] add constraint [FK11] foreign key ([BlogPostCommentID]) references [BlogPostComment] ([ID]);
 create unique nonclustered index [IX_Login] on [User] ([ID], [Login] desc);
 create table [Forum] (
