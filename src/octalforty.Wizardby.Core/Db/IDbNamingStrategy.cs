@@ -33,5 +33,7 @@ namespace octalforty.Wizardby.Core.Db
         string GetReferenceName(IReferenceDefinition reference);
 
         string GetIndexName(IIndexDefinition index);
+
+        string GetConstraintName(IConstraintDefinition constraint);
     }
 }

@@ -171,10 +171,11 @@ namespace octalforty.Wizardby.Db.SqlServer2000
             if(constraint is IDefaultConstraintDefinition)
             {
                 IDefaultConstraintDefinition defaultConstraint = (IDefaultConstraintDefinition)constraint;
-                TextWriter.WriteLine("alter table {0} alter column {1} set default {2};",
+                TextWriter.WriteLine("alter table {0} add constraint {1} default ({2}) for {3};",
                     Platform.Dialect.EscapeIdentifier(constraint.Table),
-                    Platform.Dialect.EscapeIdentifier(constraint.Columns[0]), 
-                    defaultConstraint.Default);
+                    Platform.Dialect.EscapeIdentifier(defaultConstraint.Name),
+                    defaultConstraint.Default,
+                    Platform.Dialect.EscapeIdentifier(constraint.Columns[0]));
             } // if
         }
 
@@ -235,9 +236,6 @@ namespace octalforty.Wizardby.Db.SqlServer2000
                 columnDefinitionBuilder.Append(" primary key");
             else
                 columnDefinitionBuilder.Append("");
-
-            if(columnDefinition.Default != null)
-                columnDefinitionBuilder.AppendFormat(" default ({0})", columnDefinition.Default);
 
             return columnDefinitionBuilder.ToString();
         }

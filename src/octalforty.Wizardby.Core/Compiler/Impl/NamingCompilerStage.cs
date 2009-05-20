@@ -21,6 +21,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
+
+using System;
+
 using octalforty.Wizardby.Core.Compiler.Ast;
 
 namespace octalforty.Wizardby.Core.Compiler.Impl
@@ -49,6 +52,18 @@ namespace octalforty.Wizardby.Core.Compiler.Impl
                 addReferenceNode.Name = Environment.GetAnonymousIdentifier();
 
             base.Visit(addReferenceNode);
+        }
+
+        /// <summary>
+        /// Visits the given <paramref name="addConstraintNode"/>.
+        /// </summary>
+        /// <param name="addConstraintNode"></param>
+        public override void Visit(IAddConstraintNode addConstraintNode)
+        {
+            if(string.IsNullOrEmpty(addConstraintNode.Name))
+                addConstraintNode.Name = Environment.GetAnonymousIdentifier();
+
+            base.Visit(addConstraintNode);
         }
     }
 }

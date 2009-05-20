@@ -42,10 +42,13 @@ namespace octalforty.Wizardby.Core.Migration.Impl
 
         public MigrationScriptCollection CompileMigrationScripts(TextReader migrationDefinition)
         {
+            Environment environment = new Environment();
+
             MigrationScriptsCodeGenerator migrationScriptsCodeGenerator =
                 new MigrationScriptsCodeGenerator(dbPlatform, migrationMode);
+            migrationScriptsCodeGenerator.SetEnvironment(environment);
 
-            IMdlCompiler mdlCompiler = new MdlCompiler(migrationScriptsCodeGenerator, new Environment());
+            IMdlCompiler mdlCompiler = new MdlCompiler(migrationScriptsCodeGenerator, environment);
             mdlCompiler.AddCompilerStageAfter<AstFlattenerCompilerStage>(new DbNamingCompilerStage(dbPlatform.NamingStrategy));
             mdlCompiler.AddCompilerStageBefore<AstFlattenerCompilerStage>(new RefactoringStage(dbPlatform));
 

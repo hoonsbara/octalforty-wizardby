@@ -91,7 +91,11 @@ order by t.table_name, c.ordinal_position",
                         ITableDefinition table = GetTableDefinition(databaseSchema, schema, tableName);
 
                         IColumnDefinition columnDefinition = new ColumnDefinition((string)dr["column_name"]);
-                        columnDefinition.Default = As<string>(dr, "column_default");
+                        
+                        string @default = As<string>(dr, "column_default");
+                        if(!string.IsNullOrEmpty(@default))
+                            table.AddConstraint(new DefaultConstraintDefinition("", table.Name, @default));
+
                         columnDefinition.Length = As<int?>(dr, "character_maximum_length");
 
                         //

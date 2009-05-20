@@ -29,7 +29,7 @@ namespace octalforty.Wizardby.Core.SemanticModel
     /// <summary>
     /// 
     /// </summary>
-    [DebuggerDisplay("{Name} {Type}({Length}), Identity = {Identity}, Primary Key = {PrimaryKey}, Default = {Default}")]
+    [DebuggerDisplay("{Name} {Type}({Length}), Identity = {Identity}, Primary Key = {PrimaryKey}")]
     public class ColumnDefinition : SchemaElementDefinitionBase, IColumnDefinition
     {
         #region Private Fields
@@ -42,8 +42,6 @@ namespace octalforty.Wizardby.Core.SemanticModel
         private bool? identity;
         private string table;
         #endregion
-
-        private string @default;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ColumnDefinition"/> class.
@@ -183,15 +181,6 @@ namespace octalforty.Wizardby.Core.SemanticModel
         {
             get { return primaryKey; }
             set { primaryKey = value; }
-        }
-
-        /// <summary>
-        /// Gets or sets a default value for the current column.
-        /// </summary>
-        public virtual string Default
-        {
-            get { return @default; }
-            set { @default = value; }
         }
         #endregion
     }

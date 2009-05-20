@@ -21,6 +21,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
+
+using System;
+
 using octalforty.Wizardby.Core.Db;
 using octalforty.Wizardby.Core.SemanticModel;
 using octalforty.Wizardby.Core.Util;
@@ -47,8 +50,16 @@ namespace octalforty.Wizardby.Db.SqlServer2000
                                                  delegate(IIndexColumnDefinition icd) { return icd.Name; });
 
             return index.Unique ?? false ? 
-                                             string.Format("UQ_{0}", columnNames) : 
-                                                                                      string.Format("IX_{0}", columnNames);
+                string.Format("UQ_{0}", columnNames) : 
+                string.Format("IX_{0}", columnNames);
+        }
+
+        public override string GetConstraintName(IConstraintDefinition constraint)
+        {
+            if(constraint is IDefaultConstraintDefinition)
+                return string.Format("DF_{0}", constraint.Columns[0]);
+
+            return base.GetConstraintName(constraint);
         }
 
         private static string GetBareIdentifier(string identifier)

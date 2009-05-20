@@ -118,7 +118,7 @@ create table [Media] (
 [ID] int not null identity primary key,
 [TypeID] int ,
 [Name] nvarchar(200) not null,
-[MimeType] nvarchar(200) not null default ('text/xml'),
+[MimeType] nvarchar(200) not null,
 [Length] int ,
 [BlogPostID] int null,
 [BlogPostCommentID] int null,
@@ -128,7 +128,7 @@ create table [User] (
 [Login] nvarchar(200) not null,
 [Password] varbinary(64) not null,
 );
-alter table [Media] alter column [MimeType] set default 'text/xml';
+alter table [Media] add constraint [DF_MimeType] default ('text/xml') for [MimeType];
 alter table [Media] add constraint [FK10] foreign key ([BlogPostID]) references [BlogPost] ([ID]);
 alter table [Media] add constraint [FK11] foreign key ([BlogPostCommentID]) references [BlogPostComment] ([ID]);
 create unique nonclustered index [IX_Login] on [User] ([ID], [Login] desc);

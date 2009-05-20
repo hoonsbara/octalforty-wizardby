@@ -85,9 +85,6 @@ namespace octalforty.Wizardby.Core.Compiler.Ast
         /// <param name="columnNode"></param>
         public static void CopyProperties(IColumnDefinition columnDefinition, IColumnNode columnNode)
         {
-            if(!string.IsNullOrEmpty(columnDefinition.Default))
-                AddProperty(columnNode, MdlSyntax.Default, columnDefinition.Default);
-
             if(columnDefinition.Type != null)
                 AddProperty(columnNode, MdlSyntax.Type, columnDefinition.Type.Value.ToString());
 
@@ -198,9 +195,6 @@ namespace octalforty.Wizardby.Core.Compiler.Ast
         
         public static void CopyToProperties(IColumnNode columnNode)
         {
-            if(!string.IsNullOrEmpty(columnNode.Default))
-                AddProperty(columnNode, MdlSyntax.Default, columnNode.Default);
-
             if(columnNode.Type != null)
                 AddProperty(columnNode, MdlSyntax.Type, columnNode.Type.Value.ToString());
 

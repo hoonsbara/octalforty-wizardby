@@ -21,6 +21,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
+
+using System;
+
 using octalforty.Wizardby.Core.Compiler;
 using octalforty.Wizardby.Core.Compiler.Ast;
 using octalforty.Wizardby.Core.Db;
@@ -100,6 +103,19 @@ namespace octalforty.Wizardby.Core.Migration.Impl
             //
             // And readd
             table.AddReference(reference);
+        }
+
+        public override void Visit(IAddConstraintNode addConstraintNode)
+        {
+            if(!Environment.IsAnonymousIdentifier(addConstraintNode.Name))
+                return;
+
+            ITableDefinition table = Environment.Schema.GetTable(addConstraintNode.Table);
+            IConstraintDefinition constraint = table.GetConstraint(addConstraintNode.Name);
+
+            table.RemoveConstraint(addConstraintNode.Name);
+            addConstraintNode.Name = constraint.Name = namingStrategy.GetConstraintName(constraint);
+            table.AddConstraint(constraint);
         }
         #endregion
 

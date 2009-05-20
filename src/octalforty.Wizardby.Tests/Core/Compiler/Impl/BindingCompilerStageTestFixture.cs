@@ -452,7 +452,6 @@ namespace octalforty.Wizardby.Tests.Core.Compiler.Impl
             Assert.AreEqual(8, addColumnNode.Length.Value);
             Assert.AreEqual(20, addColumnNode.Scale.Value);
             Assert.AreEqual(10, addColumnNode.Precision.Value);
-            Assert.AreEqual("0", addColumnNode.Default);
             Assert.AreEqual("BlogPost", addColumnNode.Table);
         }
     }

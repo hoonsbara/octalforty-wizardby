@@ -53,5 +53,10 @@ namespace octalforty.Wizardby.Core.Migration
             base(message, innerException)
         {
         }
+
+        public override string ToString()
+        {
+            return base.ToString() + Environment.NewLine + string.Format("SQL: {0}", SqlStatement);
+        }
     }
 }

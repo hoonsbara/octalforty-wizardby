@@ -35,7 +35,6 @@ namespace octalforty.Wizardby.Core.SemanticModel
         /// <param name="targetColumn"></param>
         public static void Copy(IColumnDefinition sourceColumn, IColumnDefinition targetColumn)
         {
-            targetColumn.Default = sourceColumn.Default;
             targetColumn.Identity = sourceColumn.Identity;
             targetColumn.Length = sourceColumn.Length;
             targetColumn.Name = sourceColumn.Name;

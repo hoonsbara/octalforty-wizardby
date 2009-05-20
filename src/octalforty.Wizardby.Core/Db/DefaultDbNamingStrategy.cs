@@ -21,6 +21,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
+
 using octalforty.Wizardby.Core.SemanticModel;
 
 namespace octalforty.Wizardby.Core.Db
@@ -35,6 +36,11 @@ namespace octalforty.Wizardby.Core.Db
         public virtual string GetIndexName(IIndexDefinition index)
         {
             return index.Name;
+        }
+
+        public virtual string GetConstraintName(IConstraintDefinition constraint)
+        {
+            return constraint.Name;
         }
     }
 }

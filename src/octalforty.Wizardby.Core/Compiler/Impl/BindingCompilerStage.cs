@@ -569,10 +569,6 @@ namespace octalforty.Wizardby.Core.Compiler.Impl
                 columnNode.Identity = columnDefinition.Identity =
                     Convert.ToBoolean(AstNodePropertyUtil.AsString(columnNode.Properties, MdlSyntax.Identity));
 
-            if(columnNode.Properties[MdlSyntax.Default] != null)
-                columnNode.Default = columnDefinition.Default =
-                    AstNodePropertyUtil.AsString(columnNode.Properties, MdlSyntax.Default);
-
             if(columnNode.Properties[MdlSyntax.Table] != null)
                 columnNode.Table = columnDefinition.Table =
                     AstNodePropertyUtil.AsString(columnNode.Properties, MdlSyntax.Table);

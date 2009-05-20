@@ -45,6 +45,7 @@ namespace octalforty.Wizardby.Tests.Core.Migration.Impl
         private const string Oxite = "octalforty.Wizardby.Tests.Resources.Oxite.mdl";
         private const string OxiteWithReorderedVersions = "octalforty.Wizardby.Tests.Resources.OxiteWithReorderedVersions.mdl";
         private const string OxiteWithMissingVersion = "octalforty.Wizardby.Tests.Resources.OxiteWithMissingVersion.mdl";
+        private const string OxiteWithConstraints = "octalforty.Wizardby.Tests.Resources.OxiteWithConstraints.mdl";
         #endregion
 
         #region Private Fields
@@ -187,6 +188,20 @@ namespace octalforty.Wizardby.Tests.Core.Migration.Impl
 
             Assert.AreEqual(new long[] { 20090323103239, 20090330170528, 20090331135627, 20090331140131 },
                 GetRegisteredMigrationVersions());
+        }
+
+        [Test()]
+        public void UpgradeDowngradeWithConstraints()
+        {
+            try
+            {
+                MigrateTo(OxiteWithConstraints, null);
+                Redo(OxiteWithConstraints, 1000);
+            }
+            catch(MigrationException me)
+            {
+                Assert.Fail(string.Format("{0}: {1}", me.Message, me.SqlStatement));
+            }
         }
 
         private long[] GetRegisteredMigrationVersions()

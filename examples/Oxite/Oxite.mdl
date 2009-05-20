@@ -46,7 +46,7 @@ migration "Oxite" revision => 1:
             FileResourceName type => LongName
             CreatorUserID references => oxite_User
             Data type => Binary
-            ContentType type => AnsiString, length => 25, nullable => false
+            ContentType type => AnsiString, length => 25, nullable => false, default => "'text/xml'"
             Path type => String, length => 1000, nullable => false
             State type => Byte, nullable => false
             CreatedDate type => DateTime, nullable => false

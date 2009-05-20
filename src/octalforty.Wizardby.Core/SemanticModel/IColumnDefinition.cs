@@ -78,11 +78,5 @@ namespace octalforty.Wizardby.Core.SemanticModel
         /// </summary>
         int? Precision 
         { get; set; }
-
-        /// <summary>
-        /// Gets or sets a default value for the current column.
-        /// </summary>
-        string Default
-        { get; set; }
     }
 }

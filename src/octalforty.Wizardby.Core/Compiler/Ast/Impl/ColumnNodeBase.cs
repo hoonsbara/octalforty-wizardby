@@ -36,7 +36,6 @@ namespace octalforty.Wizardby.Core.Compiler.Ast.Impl
         private string name;
         private bool? identity;
         private string table;
-        private string @default;
 
         protected ColumnNodeBase(IAstNode parent) : 
             base(parent)
@@ -106,15 +105,6 @@ namespace octalforty.Wizardby.Core.Compiler.Ast.Impl
         {
             get { return name; }
             set { name = value; }
-        }
-
-        /// <summary>
-        /// Gets or sets a default value for the current column.
-        /// </summary>
-        public string Default
-        {
-            get { return @default; }
-            set { @default = value; }
         }
         #endregion
     }

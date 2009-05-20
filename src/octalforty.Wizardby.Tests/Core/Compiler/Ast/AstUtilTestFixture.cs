@@ -84,7 +84,6 @@ namespace octalforty.Wizardby.Tests.Core.Compiler.Ast
         {
             IBaselineNode baselineNode = new BaselineNode(null);
             IAddColumnNode originalNode = new AddColumnNode(baselineNode, "Add Column");
-            originalNode.Default = "Foo";
             originalNode.Identity = true;
             originalNode.Length = 321;
             originalNode.Nullable = true;
@@ -98,7 +97,6 @@ namespace octalforty.Wizardby.Tests.Core.Compiler.Ast
 
             Assert.AreSame(originalNode.Parent, clonedNode.Parent);
             Assert.AreEqual(originalNode.Name, clonedNode.Name);
-            Assert.AreEqual(originalNode.Default, clonedNode.Default);
             Assert.AreEqual(originalNode.Identity, clonedNode.Identity);
             Assert.AreEqual(originalNode.Length, clonedNode.Length);
             Assert.AreEqual(originalNode.Nullable, clonedNode.Nullable);
@@ -113,12 +111,10 @@ namespace octalforty.Wizardby.Tests.Core.Compiler.Ast
         public void CopyColumnProperties()
         {
             IColumnDefinition columnDefinition = new ColumnDefinition("Foo", null, DbType.Binary, true, 234, 56, 78, true, true);
-            columnDefinition.Default = "foo()";
             
             IColumnNode columnNode = new AddColumnNode(null, "Foo");
             AstUtil.CopyProperties(columnDefinition, columnNode);
 
-            Assert.AreEqual(columnDefinition.Default, AstNodePropertyUtil.AsString(columnNode.Properties[MdlSyntax.Default].Value));
             Assert.AreEqual("true", AstNodePropertyUtil.AsString(columnNode.Properties[MdlSyntax.Identity].Value));
             Assert.AreEqual(234, AstNodePropertyUtil.AsInteger(columnNode.Properties[MdlSyntax.Length].Value));
             Assert.AreEqual("true", AstNodePropertyUtil.AsString(columnNode.Properties[MdlSyntax.Nullable].Value));
