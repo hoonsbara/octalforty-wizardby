@@ -23,6 +23,8 @@
 #endregion
 using System;
 
+using octalforty.Wizardby.Core.Compiler.Ast.Impl;
+
 namespace octalforty.Wizardby.Core.Compiler.Ast
 {
     public static class AstNodePropertyUtil
@@ -53,6 +55,11 @@ namespace octalforty.Wizardby.Core.Compiler.Ast
         public static int AsInteger(IAstNodePropertyValue propertyValue)
         {
             return ((IIntegerAstNodePropertyValue)propertyValue).Value;
+        }
+
+        public static IAstNodeProperty AsString(string name, string value)
+        {
+            return new AstNodeProperty(name, new StringAstNodePropertyValue(value));
         }
     }
 }

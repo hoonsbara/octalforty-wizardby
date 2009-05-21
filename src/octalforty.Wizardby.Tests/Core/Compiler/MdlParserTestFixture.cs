@@ -739,6 +739,11 @@ namespace octalforty.Wizardby.Tests.Core.Compiler
             Assert.AreEqual("DF_Foo", removeConstraintNode.Name);
         }
 
+        public static IAstNode Parse(string source)
+        {
+            return new MdlParser(CreateScanner(source)).Parse();
+        }
+
         public static IMdlScanner CreateScanner(string source)
         {
             return CreateScanner(new StringReader(source));

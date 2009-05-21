@@ -27,6 +27,10 @@ namespace octalforty.Wizardby.Core.Compiler
 {
     public class MdlParserException : ApplicationException
     {
+        public MdlParserException()
+        {
+        }
+
         public MdlParserException(string message) : 
             base(message)
         {

@@ -54,6 +54,7 @@
     <Compile Include="Core\Compiler\Impl\AstFlattenerCompilerStageTestFixture.cs" />
     <Compile Include="Core\Compiler\Impl\AstTestFixtureBase.cs" />
     <Compile Include="Core\Compiler\Impl\BindingCompilerStageTestFixture.cs" />
+    <Compile Include="Core\Compiler\Impl\ConventionResolutionCompilerStageTestFixture.cs" />
     <Compile Include="Core\Compiler\Impl\DowngradeGenerationStageTestFixture.cs" />
     <Compile Include="Core\Compiler\Impl\PrimaryKeyResolutionCompilerStageTestFixture.cs" />
     <Compile Include="Core\Compiler\Impl\SchemaInfoBuilderCompilerStageTestFixture.cs" />

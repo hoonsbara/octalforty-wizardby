@@ -216,6 +216,7 @@
     <Compile Include="Compiler\Impl\BindingCompilerStage.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Compiler\Impl\ConventionResolutionCompilerStage.cs" />
     <Compile Include="Compiler\Impl\DowngradeGenerationStage.cs" />
     <Compile Include="Compiler\Impl\MdlGeneratorAstVisitor.cs">
       <SubType>Code</SubType>
