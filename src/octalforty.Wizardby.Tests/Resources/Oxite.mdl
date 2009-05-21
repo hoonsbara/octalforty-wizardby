@@ -21,7 +21,6 @@ migration "Oxite" revision => 1:
             Password type => MediumName
             PasswordSalt type => MediumName
             DefaultLanguageID references => oxite_Language
-            DefaultLanguageID references => oxite_Language
             Status type => Byte, nullable => false
             
         oxite_UserLanguage:

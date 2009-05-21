@@ -21,7 +21,6 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
-
 using octalforty.Wizardby.Core.SemanticModel;
 
 namespace octalforty.Wizardby.Core.Db
