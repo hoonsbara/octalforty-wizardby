@@ -41,6 +41,12 @@
     <Compile Include="SynchronizeDatabases.cs" />
     <Compile Include="UpgradeDatabase.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\octalforty.Wizardby.Core\octalforty.Wizardby.Core.csproj">
+      <Project>{31A1F1A5-E685-4C89-929D-FDC93CD12BB0}</Project>
+      <Name>octalforty.Wizardby.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

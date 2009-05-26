@@ -21,9 +21,18 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
+
+using System;
+using System.Diagnostics;
+using System.IO;
 using System.Resources;
 
+using Microsoft.Build.Framework;
 using Microsoft.Build.Utilities;
+
+using octalforty.Wizardby.Core.Db;
+using octalforty.Wizardby.Core.Migration;
+using octalforty.Wizardby.Core.Migration.Impl;
 
 namespace octalforty.Wizardby.Ci.MSBuild
 {
@@ -33,9 +42,47 @@ namespace octalforty.Wizardby.Ci.MSBuild
     public class UpgradeDatabase : Task
     {
         #region Private Fields
-        private string platform;
+        private string dbPlatformType;
         private string connectionString;
         private int? targetVersion;
+        private string migrationDefinitionPath;
+        #endregion
+
+        #region Public Properties
+        [Required()]
+        public string MigrationDefinitionPath
+        {
+            [DebuggerStepThrough]
+            get { return migrationDefinitionPath; }
+            [DebuggerStepThrough]
+            set { migrationDefinitionPath = value; }
+        }
+
+        [Required()]
+        public string DbPlatformType
+        {
+            [DebuggerStepThrough]
+            get { return dbPlatformType; }
+            [DebuggerStepThrough]
+            set { dbPlatformType = value; }
+        }
+
+        [Required()]
+        public string ConnectionString
+        {
+            [DebuggerStepThrough]
+            get { return connectionString; }
+            [DebuggerStepThrough]
+            set { connectionString = value; }
+        }
+
+        public int TargetVersion
+        {
+            [DebuggerStepThrough]
+            get { return targetVersion ?? -1; }
+            [DebuggerStepThrough]
+            set { targetVersion = value; }
+        }
         #endregion
 
         /// <summary>
@@ -73,6 +120,23 @@ namespace octalforty.Wizardby.Ci.MSBuild
         /// </returns>
         public override bool Execute()
         {
+            //
+            // Load DbPlatform
+            Type platformType = Type.GetType(DbPlatformType);
+            IDbPlatform dbPlatform = (IDbPlatform)Activator.CreateInstance(platformType, null);
+
+            IMigrationService migrationService = new MigrationService(dbPlatform,
+                new DbMigrationVersionInfoManager(dbPlatform, new DbCommandExecutionStrategy(), "SchemaInfo"),
+                new DbMigrationScriptExecutive(new DbCommandExecutionStrategy()));
+            migrationService.Migrated += delegate(object sender, MigrationEventArgs args)
+                {
+                    if(Log != null)
+                        Log.LogMessage(MessageImportance.Normal, "Migrated to version {0}", args.Version);
+                };
+            
+            using(StreamReader streamReader = new StreamReader(MigrationDefinitionPath))
+                migrationService.Migrate(ConnectionString, targetVersion, streamReader);
+            
             return true;
         }
         #endregion

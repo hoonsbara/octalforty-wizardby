@@ -28,6 +28,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Build.Framework" />
+    <Reference Include="Microsoft.Build.Utilities" />
     <Reference Include="nunit.framework, Version=2.4.8.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\NUnit\nunit.framework.dll</HintPath>
@@ -42,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Ci\MSBuild\UpgradeDatabaseTestFixture.cs" />
     <Compile Include="Console\Deployment\DeploymentInfoParserTestFixture.cs" />
     <Compile Include="Console\InfoMigrationCommandTestFixture.cs" />
     <Compile Include="Console\MigrationCommandRegistryTestFixture.cs" />
@@ -94,6 +97,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\octalforty.Wizardby.Ci.MSBuild\octalforty.Wizardby.Ci.MSBuild.csproj">
+      <Project>{4D710E16-9464-49BB-9447-20E55A607FAB}</Project>
+      <Name>octalforty.Wizardby.Ci.MSBuild</Name>
+    </ProjectReference>
     <ProjectReference Include="..\octalforty.Wizardby.Console\octalforty.Wizardby.Console.csproj">
       <Project>{CA07D421-EC04-4D9F-8936-CACF513500D9}</Project>
       <Name>octalforty.Wizardby.Console</Name>
@@ -121,7 +128,9 @@
     <EmbeddedResource Include="Resources\OxiteWithConstraints.mdl" />
     <EmbeddedResource Include="Resources\OxiteWithMissingVersion.mdl" />
     <EmbeddedResource Include="Resources\OxiteWithReorderedVersions.mdl" />
-    <EmbeddedResource Include="Resources\Oxite.mdl" />
+    <EmbeddedResource Include="Resources\Oxite.mdl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\BlogWithTemplates.mdl" />
     <EmbeddedResource Include="Resources\BlogWithSchemas.mdl" />
     <EmbeddedResource Include="Resources\Database.wdi">
