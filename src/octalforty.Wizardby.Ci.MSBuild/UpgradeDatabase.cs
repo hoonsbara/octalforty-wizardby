@@ -130,7 +130,7 @@ namespace octalforty.Wizardby.Ci.MSBuild
                 new DbMigrationScriptExecutive(new DbCommandExecutionStrategy()));
             migrationService.Migrated += delegate(object sender, MigrationEventArgs args)
                 {
-                    if(Log != null)
+                    if(BuildEngine != null)
                         Log.LogMessage(MessageImportance.Normal, "Migrated to version {0}", args.Version);
                 };
             

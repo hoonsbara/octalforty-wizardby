@@ -81,7 +81,7 @@ namespace octalforty.Wizardby.Tests.Ci.MSBuild
                     dbPlatform, connectionString)).ToArray();
         }
 
-        private string GetAssemblyLocation(Assembly assembly)
+        private static string GetAssemblyLocation(Assembly assembly)
         {
             return Path.GetDirectoryName(new Uri(assembly.CodeBase).LocalPath);
         }
