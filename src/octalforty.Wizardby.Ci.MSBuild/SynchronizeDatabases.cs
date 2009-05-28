@@ -21,12 +21,69 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
+using System.Diagnostics;
+
+using Microsoft.Build.Framework;
 using Microsoft.Build.Utilities;
 
 namespace octalforty.Wizardby.Ci.MSBuild
 {
     public class SynchronizeDatabases : Task
     {
+        #region Private Fields
+        private string sourceDbPlatformType;
+        private string sourceConnectionString;
+        private string targetDbPlatformType;
+        private string targetConnectionString;
+        private string migrationDefinition;
+        #endregion
+
+        #region Public Properties
+        [Required()]
+        public string SourceDbPlatformType
+        {
+            [DebuggerStepThrough]
+            get { return sourceDbPlatformType; }
+            [DebuggerStepThrough]
+            set { sourceDbPlatformType = value; }
+        }
+
+        [Required()]
+        public string SourceConnectionString
+        {
+            [DebuggerStepThrough]
+            get { return sourceConnectionString; }
+            [DebuggerStepThrough]
+            set { sourceConnectionString = value; }
+        }
+
+        public string TargetDbPlatformType
+        {
+            [DebuggerStepThrough]
+            get { return targetDbPlatformType; }
+            [DebuggerStepThrough]
+            set { targetDbPlatformType = value; }
+        }
+
+        [Required()]
+        public string TargetConnectionString
+        {
+            [DebuggerStepThrough]
+            get { return targetConnectionString; }
+            [DebuggerStepThrough]
+            set { targetConnectionString = value; }
+        }
+
+        [Required()]
+        public string MigrationDefinition
+        {
+            [DebuggerStepThrough]
+            get { return migrationDefinition; }
+            [DebuggerStepThrough]
+            set { migrationDefinition = value; }
+        }
+        #endregion
+        
         /// <summary>
         /// When overridden in a derived class, executes the task.
         /// </summary>

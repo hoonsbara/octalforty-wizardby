@@ -21,7 +21,6 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
-
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -76,10 +75,10 @@ namespace octalforty.Wizardby.Ci.MSBuild
             set { connectionString = value; }
         }
 
-        public int TargetVersion
+        public int? TargetVersion
         {
             [DebuggerStepThrough]
-            get { return targetVersion ?? -1; }
+            get { return targetVersion; }
             [DebuggerStepThrough]
             set { targetVersion = value; }
         }
@@ -135,7 +134,7 @@ namespace octalforty.Wizardby.Ci.MSBuild
                 };
             
             using(StreamReader streamReader = new StreamReader(MigrationDefinitionPath))
-                migrationService.Migrate(ConnectionString, targetVersion, streamReader);
+                migrationService.Migrate(ConnectionString, TargetVersion, streamReader);
             
             return true;
         }

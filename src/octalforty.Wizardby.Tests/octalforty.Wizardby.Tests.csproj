@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Ci\MSBuild\SynchronizeDatabasesTestFixture.cs" />
     <Compile Include="Ci\MSBuild\UpgradeDatabaseTestFixture.cs" />
     <Compile Include="Console\Deployment\DeploymentInfoParserTestFixture.cs" />
     <Compile Include="Console\InfoMigrationCommandTestFixture.cs" />

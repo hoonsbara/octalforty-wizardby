@@ -21,11 +21,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
-using System;
-using System.Collections.Generic;
 using System.Configuration;
-using System.IO;
-using System.Reflection;
 
 using NUnit.Framework;
 
@@ -38,7 +34,7 @@ using octalforty.Wizardby.Db.SqlServer2005;
 namespace octalforty.Wizardby.Tests.Ci.MSBuild
 {
     [TestFixture()]
-    public class UpgradeDatabaseTestFixture
+    public class SynchronizeDatabasesTestFixture
     {
         private IDbPlatform dbPlatform;
         private IMigrationVersionInfoManager migrationVersionInfoManager;
@@ -51,38 +47,10 @@ namespace octalforty.Wizardby.Tests.Ci.MSBuild
             migrationVersionInfoManager = new DbMigrationVersionInfoManager(dbPlatform, new DbCommandExecutionStrategy(), "SchemaInfo");
             connectionString = ConfigurationManager.AppSettings["connectionString"];
         }
-
         [Test()]
         public void Execute()
         {
-            UpgradeDatabase upgradeDatabase = new UpgradeDatabase();
-            upgradeDatabase.DbPlatformType = string.Format("{0}, {1}", 
-                typeof(SqlServer2005Platform).FullName, typeof(SqlServer2005Platform).Assembly.GetName().Name);
-            upgradeDatabase.ConnectionString = connectionString;
-            upgradeDatabase.MigrationDefinitionPath = Path.Combine(Path.Combine(GetAssemblyLocation(Assembly.GetExecutingAssembly()), "Resources"), "Oxite.mdl");
-
-            upgradeDatabase.Execute();
-
-            Assert.AreEqual(new long[] { 20090323103239, 20090330170528, 20090331135627, 20090331140131 },
-                GetRegisteredMigrationVersions());
-
-            upgradeDatabase.TargetVersion = 0;
-            upgradeDatabase.Execute();
-
-            Assert.AreEqual(new long[] { },
-                GetRegisteredMigrationVersions());
-        }
-
-        private long[] GetRegisteredMigrationVersions()
-        {
-            return new List<long>(
-                MigrationVersionInfoManagerUtil.GetRegisteredMigrationVersions(migrationVersionInfoManager,
-                    dbPlatform, connectionString)).ToArray();
-        }
-
-        private static string GetAssemblyLocation(Assembly assembly)
-        {
-            return Path.GetDirectoryName(new Uri(assembly.CodeBase).LocalPath);
+            SynchronizeDatabases synchronizeDatabases = new SynchronizeDatabases();
         }
     }
 }
