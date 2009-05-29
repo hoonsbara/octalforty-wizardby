@@ -27,7 +27,6 @@ using System.IO;
 using System.Resources;
 
 using Microsoft.Build.Framework;
-using Microsoft.Build.Utilities;
 
 using octalforty.Wizardby.Core.Db;
 using octalforty.Wizardby.Core.Migration;
@@ -38,25 +37,15 @@ namespace octalforty.Wizardby.Ci.MSBuild
     /// <summary>
     /// Microsoft Build task wich performs an upgrade of a database schema.
     /// </summary>
-    public class UpgradeDatabase : Task
+    public class UpgradeDatabase : DatabaseTaskBase
     {
         #region Private Fields
         private string dbPlatformType;
         private string connectionString;
         private int? targetVersion;
-        private string migrationDefinitionPath;
         #endregion
 
         #region Public Properties
-        [Required()]
-        public string MigrationDefinitionPath
-        {
-            [DebuggerStepThrough]
-            get { return migrationDefinitionPath; }
-            [DebuggerStepThrough]
-            set { migrationDefinitionPath = value; }
-        }
-
         [Required()]
         public string DbPlatformType
         {
@@ -124,8 +113,20 @@ namespace octalforty.Wizardby.Ci.MSBuild
             Type platformType = Type.GetType(DbPlatformType);
             IDbPlatform dbPlatform = (IDbPlatform)Activator.CreateInstance(platformType, null);
 
+            DbMigrationVersionInfoManager migrationVersionInfoManager = 
+                new DbMigrationVersionInfoManager(dbPlatform, new DbCommandExecutionStrategy(), "SchemaInfo");
+            long currentMigrationVersion = 
+                MigrationVersionInfoManagerUtil.GetCurrentMigrationVersion(migrationVersionInfoManager, dbPlatform, ConnectionString);
+            if(targetVersion.HasValue && targetVersion.Value < currentMigrationVersion && !AllowDowngrade)
+            {
+                if(BuildEngine != null)
+                    Log.LogError("Could not downgrade from version {0} to version {1}. Review your migration definition or " +
+                        "set 'AllowDowngrade' property to 'true'.", currentMigrationVersion, targetVersion.Value);
+                return false;
+            } // if
+
             IMigrationService migrationService = new MigrationService(dbPlatform,
-                new DbMigrationVersionInfoManager(dbPlatform, new DbCommandExecutionStrategy(), "SchemaInfo"),
+                migrationVersionInfoManager,
                 new DbMigrationScriptExecutive(new DbCommandExecutionStrategy()));
             migrationService.Migrated += delegate(object sender, MigrationEventArgs args)
                 {

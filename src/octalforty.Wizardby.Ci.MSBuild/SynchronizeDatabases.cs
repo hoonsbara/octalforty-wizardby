@@ -21,21 +21,25 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
+using System;
 using System.Diagnostics;
+using System.IO;
 
 using Microsoft.Build.Framework;
-using Microsoft.Build.Utilities;
+
+using octalforty.Wizardby.Core.Db;
+using octalforty.Wizardby.Core.Migration;
+using octalforty.Wizardby.Core.Migration.Impl;
 
 namespace octalforty.Wizardby.Ci.MSBuild
 {
-    public class SynchronizeDatabases : Task
+    public class SynchronizeDatabases : DatabaseTaskBase
     {
         #region Private Fields
         private string sourceDbPlatformType;
         private string sourceConnectionString;
         private string targetDbPlatformType;
         private string targetConnectionString;
-        private string migrationDefinition;
         #endregion
 
         #region Public Properties
@@ -73,15 +77,6 @@ namespace octalforty.Wizardby.Ci.MSBuild
             [DebuggerStepThrough]
             set { targetConnectionString = value; }
         }
-
-        [Required()]
-        public string MigrationDefinition
-        {
-            [DebuggerStepThrough]
-            get { return migrationDefinition; }
-            [DebuggerStepThrough]
-            set { migrationDefinition = value; }
-        }
         #endregion
         
         /// <summary>
@@ -92,6 +87,48 @@ namespace octalforty.Wizardby.Ci.MSBuild
         /// </returns>
         public override bool Execute()
         {
+            //
+            // Load IDbPlatforms
+            Type sourcePlatformType = Type.GetType(SourceDbPlatformType);
+            Type targetPlatformType = String.IsNullOrEmpty(TargetDbPlatformType) ?
+                sourcePlatformType :
+                Type.GetType(TargetDbPlatformType);
+
+            IDbPlatform sourceDbPlatform = (IDbPlatform)Activator.CreateInstance(sourcePlatformType, null);
+            IDbPlatform targetDbPlatform = (IDbPlatform)Activator.CreateInstance(targetPlatformType, null);
+
+            IMigrationVersionInfoManager sourceDbMigrationVersionInfoManager =
+                new DbMigrationVersionInfoManager(sourceDbPlatform, new DbCommandExecutionStrategy(), "SchemaInfo");
+            IMigrationVersionInfoManager targetDbMigrationVersionInfoManager =
+                new DbMigrationVersionInfoManager(targetDbPlatform, new DbCommandExecutionStrategy(), "SchemaInfo");
+            
+            //
+            // Source database version
+            long sourceMigrationVersion = MigrationVersionInfoManagerUtil.GetCurrentMigrationVersion(
+                sourceDbMigrationVersionInfoManager, sourceDbPlatform, SourceConnectionString);
+            long targetMigrationVersion = MigrationVersionInfoManagerUtil.GetCurrentMigrationVersion(
+                targetDbMigrationVersionInfoManager, targetDbPlatform, TargetConnectionString);
+
+            if(targetMigrationVersion > sourceMigrationVersion && !AllowDowngrade)
+            {
+                if(BuildEngine != null)
+                    Log.LogError("Could not downgrade from version {0} to version {1}. Review your migration definition or " +
+                        "set 'AllowDowngrade' property to 'true'.", sourceMigrationVersion, targetMigrationVersion);
+                return false;
+            } // if
+
+            IMigrationService migrationService =
+                new MigrationService(targetDbPlatform, targetDbMigrationVersionInfoManager,
+                    new DbMigrationScriptExecutive(new DbCommandExecutionStrategy()));
+            migrationService.Migrated += delegate(object sender, MigrationEventArgs args)
+                {
+                    if(BuildEngine != null)
+                        Log.LogMessage(MessageImportance.Normal, "Migrated to version {0}", args.Version);
+                };
+
+            using(StreamReader streamReader = new StreamReader(MigrationDefinitionPath))
+                migrationService.Migrate(TargetConnectionString, sourceMigrationVersion, streamReader);
+
             return true;
         }
     }

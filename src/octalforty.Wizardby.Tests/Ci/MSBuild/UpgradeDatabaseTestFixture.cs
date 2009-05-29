@@ -61,13 +61,14 @@ namespace octalforty.Wizardby.Tests.Ci.MSBuild
             upgradeDatabase.ConnectionString = connectionString;
             upgradeDatabase.MigrationDefinitionPath = Path.Combine(Path.Combine(GetAssemblyLocation(Assembly.GetExecutingAssembly()), "Resources"), "Oxite.mdl");
 
-            upgradeDatabase.Execute();
+            Assert.IsTrue(upgradeDatabase.Execute());
 
             Assert.AreEqual(new long[] { 20090323103239, 20090330170528, 20090331135627, 20090331140131 },
                 GetRegisteredMigrationVersions());
 
             upgradeDatabase.TargetVersion = 0;
-            upgradeDatabase.Execute();
+            upgradeDatabase.AllowDowngrade = true;
+            Assert.IsTrue(upgradeDatabase.Execute());
 
             Assert.AreEqual(new long[] { },
                 GetRegisteredMigrationVersions());

@@ -41,11 +41,11 @@ namespace octalforty.Wizardby.Tests.Core.Migration.Impl
     [TestFixture()]
     public class MigrationServiceTestFixture
     {
-        #region Private Constants
-        private const string Oxite = "octalforty.Wizardby.Tests.Resources.Oxite.mdl";
-        private const string OxiteWithReorderedVersions = "octalforty.Wizardby.Tests.Resources.OxiteWithReorderedVersions.mdl";
-        private const string OxiteWithMissingVersion = "octalforty.Wizardby.Tests.Resources.OxiteWithMissingVersion.mdl";
-        private const string OxiteWithConstraints = "octalforty.Wizardby.Tests.Resources.OxiteWithConstraints.mdl";
+        #region Public Constants
+        public const string Oxite = "octalforty.Wizardby.Tests.Resources.Oxite.mdl";
+        public const string OxiteWithReorderedVersions = "octalforty.Wizardby.Tests.Resources.OxiteWithReorderedVersions.mdl";
+        public const string OxiteWithMissingVersion = "octalforty.Wizardby.Tests.Resources.OxiteWithMissingVersion.mdl";
+        public const string OxiteWithConstraints = "octalforty.Wizardby.Tests.Resources.OxiteWithConstraints.mdl";
         #endregion
 
         #region Private Fields
