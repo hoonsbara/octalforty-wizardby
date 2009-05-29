@@ -86,6 +86,10 @@
       <Project>{4FE2B606-E0CD-468B-B3E6-82B9B454E144}</Project>
       <Name>octalforty.Wizardby.Db.Firebird</Name>
     </ProjectReference>
+    <ProjectReference Include="..\octalforty.Wizardby.Db.SQLite\octalforty.Wizardby.Db.SQLite.csproj">
+      <Project>{3B68C293-E2EC-4783-82D3-49FD2E1FEBDE}</Project>
+      <Name>octalforty.Wizardby.Db.SQLite</Name>
+    </ProjectReference>
     <ProjectReference Include="..\octalforty.Wizardby.Db\octalforty.Wizardby.Db.csproj">
       <Project>{735ADA03-27DA-4C9F-BDAF-21DEEC2DD5C8}</Project>
       <Name>octalforty.Wizardby.Db</Name>

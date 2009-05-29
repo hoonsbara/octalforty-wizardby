@@ -287,6 +287,7 @@
     <Compile Include="Compiler\XmdlScanner.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Db\AnsiDbScriptGeneratorBase.cs" />
     <Compile Include="Db\DbAction.cs" />
     <Compile Include="Db\DbConnectionStringBuilderBase.cs" />
     <Compile Include="Db\DbDialectBase.cs">
@@ -309,6 +310,7 @@
     </Compile>
     <Compile Include="Db\DbUtil.cs" />
     <Compile Include="Db\DefaultDbNamingStrategy.cs" />
+    <Compile Include="Db\EmbeddedDbConnectionStringBuilderBase.cs" />
     <Compile Include="Db\IDbConnectionStringBuilder.cs" />
     <Compile Include="Db\IDbDeploymentManager.cs" />
     <Compile Include="Db\IDbDialect.cs">

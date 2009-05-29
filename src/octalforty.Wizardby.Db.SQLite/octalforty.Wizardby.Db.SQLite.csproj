@@ -30,10 +30,26 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.SQLite, Version=1.0.61.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\SQLite\System.Data.SQLite.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SQLiteConnectionStringBuilder.cs" />
+    <Compile Include="SQLiteDeploymentManager.cs" />
+    <Compile Include="SQLiteDialect.cs" />
+    <Compile Include="SQLitePlatform.cs" />
+    <Compile Include="SQLiteScriptGenerator.cs" />
+    <Compile Include="SQLiteTypeMapper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\octalforty.Wizardby.Core\octalforty.Wizardby.Core.csproj">
+      <Project>{31A1F1A5-E685-4C89-929D-FDC93CD12BB0}</Project>
+      <Name>octalforty.Wizardby.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
