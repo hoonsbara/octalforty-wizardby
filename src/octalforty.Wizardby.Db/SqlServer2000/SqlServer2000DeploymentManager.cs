@@ -21,15 +21,41 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
+
+using System.Data;
+using System.Data.SqlClient;
+
 using octalforty.Wizardby.Core.Db;
 
 namespace octalforty.Wizardby.Db.SqlServer2000
 {
     public class SqlServer2000DeploymentManager : DbPlatformDependencyBase, IDbDeploymentManager
     {
+        public SqlServer2000DeploymentManager()
+        {
+        }
+
+        public SqlServer2000DeploymentManager(IDbPlatform platform) : 
+            base(platform)
+        {
+        }
+
         public void Deploy(string connectionString)
         {
-            throw new System.NotImplementedException();
+            SqlConnectionStringBuilder connectionStringBuilder = new SqlConnectionStringBuilder(connectionString);
+            
+            string originalInitialCatalog = connectionStringBuilder.InitialCatalog;
+            connectionStringBuilder.InitialCatalog = "master";
+
+            DbUtil.Execute(Platform, connectionStringBuilder.ToString(),
+                delegate(IDbConnection connection)
+                    {
+                        using(IDbCommand dbCommand = connection.CreateCommand())
+                        {
+                            dbCommand.CommandText = string.Format("create database [{0}]", originalInitialCatalog);
+                            dbCommand.ExecuteNonQuery();
+                        } // using
+                    });
         }
     }
 }

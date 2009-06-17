@@ -72,5 +72,24 @@ namespace octalforty.Wizardby.Core.Db
                 return action(dbConnection);
             } // using
         }
+
+        /// <summary>
+        /// Executes <paramref name="action"/> within the connection open for the <paramref name="dbPlatform"/>
+        /// on the <paramref name="connectionString"/>.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="dbPlatform"></param>
+        /// <param name="connectionString"></param>
+        /// <param name="action"></param>
+        /// <returns></returns>
+        public static void Execute(IDbPlatform dbPlatform, string connectionString, DbAction action)
+        {
+            Execute<object>(dbPlatform, connectionString,
+                delegate(IDbConnection connection)
+                {
+                    action(connection);
+                    return null;
+                });
+        }
     }
 }

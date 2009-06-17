@@ -21,9 +21,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
+
+using System.Data;
+
 namespace octalforty.Wizardby.Core.Db
 {
     public delegate T DbAction<T>();
+
+    public delegate void DbAction(IDbConnection dbConnection);
 
     public delegate TResult DbAction<T, TResult>(T arg);
 }
