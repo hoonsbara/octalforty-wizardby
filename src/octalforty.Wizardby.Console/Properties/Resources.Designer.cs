@@ -238,6 +238,15 @@ namespace octalforty.Wizardby.Console.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Registered version {0}.
+        /// </summary>
+        internal static string RegisteredVersion {
+            get {
+                return ResourceManager.GetString("RegisteredVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unknown command &apos;{0}&apos;..
         /// </summary>
         internal static string UnknownCommand {

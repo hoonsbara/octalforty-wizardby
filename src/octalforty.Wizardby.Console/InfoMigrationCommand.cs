@@ -48,9 +48,6 @@ namespace octalforty.Wizardby.Console
         /// <param name="parameters"></param>
         protected override void InternalExecute(MigrationParameters parameters)
         {
-            IMigrationVersionInfoManager migrationVersionInfoManager =
-                ServiceProvider.GetService<IMigrationVersionInfoManager>();
-
             long currentMigrationVersion = MigrationVersionInfoManagerUtil.GetCurrentMigrationVersion(
                    ServiceProvider.GetService<IMigrationVersionInfoManager>(),
                    ServiceProvider.GetService<IDbPlatform>(), parameters.ConnectionString);
@@ -65,7 +62,6 @@ namespace octalforty.Wizardby.Console
 
                 return;
             } // if
-
 
             System.Console.WriteLine();
             using(new ConsoleStylingScope(ConsoleColor.Green))

@@ -54,6 +54,25 @@ namespace octalforty.Wizardby.Core.Db
         }
 
         /// <summary>
+        /// Executes <paramref name="action"/> within the transaction for the <paramref name="dbPlatform"/> 
+        /// on the <paramref name="connectionString"/>.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="dbPlatform"></param>
+        /// <param name="connectionString"></param>
+        /// <param name="action"></param>
+        /// <returns></returns>
+        public static void ExecuteInTransaction(IDbPlatform dbPlatform,
+            string connectionString, DbTransactionAction action)
+        {
+            ExecuteInTransaction<object>(dbPlatform, connectionString, delegate(IDbTransaction dbTransaction)
+                {
+                    action(dbTransaction);
+                    return null;
+                });
+        }
+
+        /// <summary>
         /// Executes <paramref name="action"/> within the connection open for the <paramref name="dbPlatform"/>
         /// on the <paramref name="connectionString"/>.
         /// </summary>
@@ -82,7 +101,7 @@ namespace octalforty.Wizardby.Core.Db
         /// <param name="connectionString"></param>
         /// <param name="action"></param>
         /// <returns></returns>
-        public static void Execute(IDbPlatform dbPlatform, string connectionString, DbAction action)
+        public static void Execute(IDbPlatform dbPlatform, string connectionString, DbConnectionAction action)
         {
             Execute<object>(dbPlatform, connectionString,
                 delegate(IDbConnection connection)

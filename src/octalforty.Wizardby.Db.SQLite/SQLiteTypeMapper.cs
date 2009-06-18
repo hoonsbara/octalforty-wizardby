@@ -29,7 +29,7 @@ namespace octalforty.Wizardby.Db.SQLite
     /// 
     /// </summary>
     /// <remarks>
-    /// Seeh ttp://sqlite.phxsoftware.com/forums/t/31.aspx
+    /// See http://sqlite.phxsoftware.com/forums/t/31.aspx
     /// </remarks>
     public class SQLiteTypeMapper : DbTypeMapperBase
     {

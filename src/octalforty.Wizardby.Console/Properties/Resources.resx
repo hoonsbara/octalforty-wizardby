@@ -180,6 +180,9 @@ Copyright (c) 2009 octalforty studios</value>
   <data name="RegisteredDatabaseVersionsInfo" xml:space="preserve">
     <value>Registered versions:</value>
   </data>
+  <data name="RegisteredVersion" xml:space="preserve">
+    <value>Registered version {0}</value>
+  </data>
   <data name="UnknownCommand" xml:space="preserve">
     <value>Unknown command '{0}'.</value>
   </data>

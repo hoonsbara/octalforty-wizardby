@@ -21,16 +21,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
-using octalforty.Wizardby.Core.Db;
+using System.Data;
 
-namespace octalforty.Wizardby.Db.SQLite
+namespace octalforty.Wizardby.Core.Db
 {
-    public class SQLiteConnectionStringBuilder : EmbeddedDbConnectionStringBuilderBase
-    {
-        public SQLiteConnectionStringBuilder() :
-            base(true, ".db", true, true)
-        {
-            RegisterKeyMapping("database", "data source");
-        }
-    }
+    public delegate void DbTransactionAction(IDbTransaction dbTransaction);
 }

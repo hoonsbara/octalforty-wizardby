@@ -289,6 +289,7 @@
     </Compile>
     <Compile Include="Db\AnsiDbScriptGeneratorBase.cs" />
     <Compile Include="Db\DbAction.cs" />
+    <Compile Include="Db\DbConnectionAction.cs" />
     <Compile Include="Db\DbConnectionStringBuilderBase.cs" />
     <Compile Include="Db\DbDialectBase.cs">
       <SubType>Code</SubType>
@@ -305,6 +306,7 @@
     <Compile Include="Db\DbPlatformException.cs" />
     <Compile Include="Db\DbSchemaProviderBase.cs" />
     <Compile Include="Db\DbScriptGeneratorBase.cs" />
+    <Compile Include="Db\DbTransactionAction.cs" />
     <Compile Include="Db\DbTypeMapperBase.cs">
       <SubType>Code</SubType>
     </Compile>
