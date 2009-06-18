@@ -180,5 +180,11 @@ namespace octalforty.Wizardby.Core.Compiler.Ast
         /// </summary>
         /// <param name="removeConstraintNode"></param>
         void Visit(IRemoveConstraintNode removeConstraintNode);
+
+        /// <summary>
+        /// Visits the given <paramref name="executeNativeSqlNode"/>.
+        /// </summary>
+        /// <param name="executeNativeSqlNode"></param>
+        void Visit(IExecuteNativeSqlNode executeNativeSqlNode);
     }
 }

@@ -103,6 +103,8 @@ namespace octalforty.Wizardby.Core.Compiler
                 return ParseTemplatesNode(tokens, parent);
             if(tokens.First.Equals(Keyword(MdlSyntax.Refactor)))
                 return ParseRefactorNode(tokens, parent);
+            if (tokens.First.Equals(Keyword(MdlSyntax.Execute)))
+                return ParseExecuteNode(tokens, parent);
              
             throw CreateMdlParserException(Resources.MdlParser.UnexpectedTokenAt, tokens.First.Lexeme, tokens.First.Type,
                 TranslateLocation(tokens.First.Location));
@@ -214,6 +216,30 @@ namespace octalforty.Wizardby.Core.Compiler
 
                         return refactorNode;
                     });
+        }
+
+        private static IAstNode ParseExecuteNode(TokenSequence tokens, IAstNode parent)
+        {
+            Token token = ParseKeyword(tokens, MdlSyntax.Execute);
+
+            if(tokens.First.Equals(Keyword(MdlSyntax.NativeSql)))
+                return ParseExecuteNativeSqlNode(tokens, parent, token.Location);
+
+            throw CreateMdlParserException(Resources.MdlParser.UnexpectedTokenAt, tokens.First.Lexeme, tokens.First.Type,
+                TranslateLocation(tokens.First.Location));
+        }
+
+        private static IAstNode ParseExecuteNativeSqlNode(TokenSequence tokens, IAstNode parent, Location location)
+        {
+            return ParseNode(tokens, parent,
+                delegate
+                {
+                    ParseKeyword(tokens, MdlSyntax.NativeSql);
+
+                    IExecuteNativeSqlNode executeNativeSqlNode = new ExecuteNativeSqlNode(parent);
+
+                    return executeNativeSqlNode;
+                });
         }
 
         private static IAstNode ParseTableTemplateNode(TokenSequence tokens, IAstNode parent)

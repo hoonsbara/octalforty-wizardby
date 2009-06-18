@@ -21,36 +21,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
-using System.CodeDom.Compiler;
-using System.Data;
-using System.Diagnostics;
-using System.IO;
-using System.Text;
-
-using NUnit.Framework;
-
-using octalforty.Wizardby.Core.Db;
-using octalforty.Wizardby.Core.SemanticModel;
-
-namespace octalforty.Wizardby.Tests.Db.Jet
+namespace octalforty.Wizardby.Core.Compiler.Ast
 {
-    [TestFixture()]
-    public class JetTransformerTestFixture
+    public interface IExecuteNativeSqlNode : IAstNode
     {
-        [Test()]
-        public void GenerateCreateTableScript()
-        {
-            TableDefinition table = new TableDefinition("User");
-            /*table.Columns.Add(new ColumnDefinition("ID", DbType.Int32, false, null));
-            table.Columns.Add(new ColumnDefinition("Login", DbType.String, false, 200));
-            table.Columns.Add(new ColumnDefinition("Password", DbType.Binary, true, 64));*/
+        string UpgradeResource 
+        { get; set; }
 
-            /*IDbTransformer dbTransformer = new JetTransformer();
-            
-            StringBuilder createTableScriptBuilder = new StringBuilder();
-            dbTransformer.AddTable(new IndentedTextWriter(new StringWriter(createTableScriptBuilder), "    "), table);
-
-            Trace.WriteLine(createTableScriptBuilder.ToString());*/
-        }
+        string DowngradeResource
+        { get; set; }
     }
 }

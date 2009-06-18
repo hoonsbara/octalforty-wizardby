@@ -38,6 +38,16 @@ namespace octalforty.Wizardby.Tests.Core.Compiler
     public class MdlParserTestFixture
     {
         [Test()]
+        public void ParseNativeSqlNode()
+        {
+            IMdlParser mdlParser = new MdlParser(CreateScanner("execute native-sql upgrade-resource => UpdateWhateverHappensToBe"));
+            IExecuteNativeSqlNode executeNativeSqlNode = (IExecuteNativeSqlNode)mdlParser.Parse();
+
+            Assert.AreEqual("UpdateWhateverHappensToBe",
+                AstNodePropertyUtil.AsString(executeNativeSqlNode.Properties, "upgrade-resource"));
+        }
+
+        [Test()]
         public void ParsePropertyBlock()
         {
             IMdlParser mdlParser = new MdlParser(CreateScanner(@"environment development 
@@ -772,6 +782,8 @@ namespace octalforty.Wizardby.Tests.Core.Compiler
             mdlScanner.RegisterKeyword("template");
             mdlScanner.RegisterKeyword("refactor");
             mdlScanner.RegisterKeyword("constraint");
+            mdlScanner.RegisterKeyword("execute");
+            mdlScanner.RegisterKeyword("native-sql");
 
             return mdlScanner;
         }

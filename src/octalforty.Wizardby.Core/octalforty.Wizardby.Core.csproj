@@ -45,6 +45,7 @@
     <Compile Include="Compiler\Ast\IAddConstraintNode.cs" />
     <Compile Include="Compiler\Ast\IConstraintNode.cs" />
     <Compile Include="Compiler\Ast\IIndexNode.cs" />
+    <Compile Include="Compiler\Ast\Impl\ExecuteNativeSqlNode.cs" />
     <Compile Include="Compiler\Ast\Impl\ListAstNodePropertyValue.cs" />
     <Compile Include="Compiler\Ast\Impl\ColumnNodeBase.cs" />
     <Compile Include="Compiler\Ast\IAddColumnNode.cs">
@@ -162,6 +163,7 @@
     <Compile Include="Compiler\Ast\Impl\VersionNode.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Compiler\Ast\IExecuteNativeSqlNode.cs" />
     <Compile Include="Compiler\Ast\IRefactorNode.cs" />
     <Compile Include="Compiler\Ast\IReferenceNode.cs" />
     <Compile Include="Compiler\Ast\IRemoveColumnNode.cs" />
@@ -346,6 +348,7 @@
     </Compile>
     <Compile Include="Migration\Impl\DbMigrationVersionInfoManager.cs" />
     <Compile Include="Migration\Impl\DbNamingCompilerStage.cs" />
+    <Compile Include="Migration\Impl\FilesystemNativeSqlResourceProvider.cs" />
     <Compile Include="Migration\Impl\IDbCommandExecutionStrategy.cs" />
     <Compile Include="Migration\Impl\IMigrationScriptExecutive.cs">
       <SubType>Code</SubType>
@@ -370,6 +373,7 @@
     <Compile Include="Migration\Impl\NullDbTransaction.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Migration\INativeSqlResourceProvider.cs" />
     <Compile Include="Migration\MigrationEventArgs.cs" />
     <Compile Include="Migration\MigrationEventHandler.cs" />
     <Compile Include="Migration\MigrationException.cs" />

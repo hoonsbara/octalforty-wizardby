@@ -21,10 +21,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
 
 using octalforty.Wizardby.Core.Db;
 using octalforty.Wizardby.Db.SqlServer2000;

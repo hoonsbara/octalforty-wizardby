@@ -21,40 +21,42 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
-using System.Data;
-using System.Data.SqlClient;
-
-using octalforty.Wizardby.Core.Db;
-
-namespace octalforty.Wizardby.Db.SqlServer2000
+namespace octalforty.Wizardby.Core.Compiler.Ast.Impl
 {
-    public class SqlServer2000DeploymentManager : DbPlatformDependencyBase, IDbDeploymentManager
+    public class ExecuteNativeSqlNode : AstNode, IExecuteNativeSqlNode
     {
-        public SqlServer2000DeploymentManager()
+        #region Private Fields
+        private string upgradeResource;
+        private string downgradeResource;
+        #endregion
+
+        public ExecuteNativeSqlNode(IAstNode parent) : base(parent)
         {
         }
 
-        public SqlServer2000DeploymentManager(IDbPlatform platform) : 
-            base(platform)
+        #region AstNode Members
+        /// <summary>
+        /// Accepts a given <paramref name="visitor"/>.
+        /// </summary>
+        /// <param name="visitor"></param>
+        public override void Accept(IAstVisitor visitor)
         {
+            visitor.Visit(this);
+        }
+        #endregion
+
+        #region IExecuteNativeSqlNode Members
+        public string UpgradeResource
+        {
+            get { return upgradeResource; }
+            set { upgradeResource = value; }
         }
 
-        public void Deploy(string connectionString)
+        public string DowngradeResource
         {
-            SqlConnectionStringBuilder connectionStringBuilder = new SqlConnectionStringBuilder(connectionString);
-            
-            string originalInitialCatalog = connectionStringBuilder.InitialCatalog;
-            connectionStringBuilder.InitialCatalog = "master";
-
-            DbUtil.Execute(Platform, connectionStringBuilder.ToString(),
-                delegate(IDbConnection connection)
-                    {
-                        using(IDbCommand dbCommand = connection.CreateCommand())
-                        {
-                            dbCommand.CommandText = string.Format("create database [{0}]", originalInitialCatalog);
-                            dbCommand.ExecuteNonQuery();
-                        } // using
-                    });
+            get { return downgradeResource; }
+            set { downgradeResource = value; }
         }
+        #endregion
     }
 }

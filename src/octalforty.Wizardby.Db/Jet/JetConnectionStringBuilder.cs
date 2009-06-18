@@ -21,36 +21,18 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
-using System.IO;
-
 using octalforty.Wizardby.Core.Db;
 
 namespace octalforty.Wizardby.Db.Jet
 {
-    public class JetConnectionStringBuilder : DbConnectionStringBuilderBase
+    public class JetConnectionStringBuilder : EmbeddedDbConnectionStringBuilderBase
     {
-        /// <summary>
-        /// Appends a <paramref name="key"/>-<paramref name="value"/> pair to the connection string.
-        /// </summary>
-        /// <param name="key"></param>
-        /// <param name="value"></param>
-        public override void AppendKeyValuePair(string key, string value)
+        public JetConnectionStringBuilder() :
+            base(true, ".mdb", true, false)
         {
-            //
-            // If we have a "database" key, append ".mdb" extension to "value" 
-            // if it's not already there.
-            if(key.ToLowerInvariant() == "database")
-            {
-                if(Path.GetExtension(value).ToLowerInvariant() != ".mdb")
-                {
-                    base.AppendKeyValuePair(key, value + ".mdb");
-                    return;
-                } // if
-            } // if
-
-            base.AppendKeyValuePair(key, value);
+            RegisterKeyMapping("database", "data source");
         }
-
+        
         /// <summary>
         /// Returns the connection string associated with this <see cref="IDbConnectionStringBuilder"/>.
         /// </summary>

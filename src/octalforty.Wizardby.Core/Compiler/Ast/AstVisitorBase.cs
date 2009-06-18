@@ -21,6 +21,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
+using System;
 using System.Collections.Generic;
 
 using octalforty.Wizardby.Core.Util;
@@ -140,6 +141,14 @@ namespace octalforty.Wizardby.Core.Compiler.Ast
         }
 
         public virtual void Visit(IRemoveConstraintNode removeConstraintNode)
+        {
+        }
+
+        /// <summary>
+        /// Visits the given <paramref name="executeNativeSqlNode"/>.
+        /// </summary>
+        /// <param name="executeNativeSqlNode"></param>
+        public virtual void Visit(IExecuteNativeSqlNode executeNativeSqlNode)
         {
         }
 
