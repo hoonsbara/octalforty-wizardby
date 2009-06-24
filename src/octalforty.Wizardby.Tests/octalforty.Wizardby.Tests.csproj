@@ -84,6 +84,7 @@
     <Compile Include="Core\SemanticModel\SchemaTestFixture.cs" />
     <Compile Include="Core\SemanticModel\SemanticModelUtilTestFixture.cs" />
     <Compile Include="Core\SemanticModel\TableDefinitionTestFixture.cs" />
+    <Compile Include="Db\DbPlatformUtilTestFixture.cs" />
     <Compile Include="Db\DbSchemaProviderTestFixtureBase.cs" />
     <Compile Include="Db\Jet\JetConnectionStringBuilderTestFixture.cs" />
     <Compile Include="Db\SqlCe\SqlCeConnectionStringBuilderTestFixture.cs" />

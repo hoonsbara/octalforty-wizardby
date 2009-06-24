@@ -88,7 +88,7 @@ namespace octalforty.Wizardby.Console
         }
         #endregion
 
-        private void ResolveDbPlatform(MigrationParameters parameters)
+        protected IDbPlatform ResolveDbPlatform(MigrationParameters parameters)
         {
             IDbPlatform dbPlatform;
             if (!string.IsNullOrEmpty(parameters.Environment) ||
@@ -103,7 +103,7 @@ namespace octalforty.Wizardby.Console
                 if (!File.Exists(databaseWdiFilePath))
                     throw new MigrationException(string.Format(Resources.CouldNotFindDatabaseWdi, Directory.GetCurrentDirectory()));
 
-                using (StreamReader streamReader = new StreamReader(databaseWdiFilePath))
+                using(StreamReader streamReader = new StreamReader(databaseWdiFilePath))
                 {
                     DeploymentInfoParser deploymentInfoParser = new DeploymentInfoParser();
 
@@ -137,6 +137,8 @@ namespace octalforty.Wizardby.Console
             } // else
 
             ServiceProvider.RegisterService(dbPlatform);
+
+            return dbPlatform;
         }
 
         private void EnsurePlatformResolved(MigrationParameters parameters, IDbPlatform dbPlatform)

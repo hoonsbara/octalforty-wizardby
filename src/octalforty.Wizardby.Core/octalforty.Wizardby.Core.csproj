@@ -306,6 +306,7 @@
     </Compile>
     <Compile Include="Db\DbPlatformDependencyBase.cs" />
     <Compile Include="Db\DbPlatformException.cs" />
+    <Compile Include="Db\DbPlatformUtil.cs" />
     <Compile Include="Db\DbSchemaProviderBase.cs" />
     <Compile Include="Db\DbScriptGeneratorBase.cs" />
     <Compile Include="Db\DbTransactionAction.cs" />

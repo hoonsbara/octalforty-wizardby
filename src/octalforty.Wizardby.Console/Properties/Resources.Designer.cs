@@ -170,6 +170,15 @@ namespace octalforty.Wizardby.Console.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Generated directory for Native SQL resources: &apos;{0}&apos;.
+        /// </summary>
+        internal static string GeneratedNativeSqlResourcesDirectory {
+            get {
+                return ResourceManager.GetString("GeneratedNativeSqlResourcesDirectory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Generated version {0}..
         /// </summary>
         internal static string GeneratedVersion {

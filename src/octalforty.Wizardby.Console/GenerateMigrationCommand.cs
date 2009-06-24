@@ -24,13 +24,17 @@
 using System;
 using System.IO;
 
+using octalforty.Wizardby.Console.Deployment;
 using octalforty.Wizardby.Console.Properties;
+using octalforty.Wizardby.Core.Db;
 
 namespace octalforty.Wizardby.Console
 {
     [MigrationCommand(MigrationCommand.Generate)]
     public class GenerateMigrationCommand : MigrationCommandBase
     {
+        private const string CreateNativeSqlDirectories = "create-native-sql-directories";
+
         public GenerateMigrationCommand() :
             base(false, true, false, false)
         {
@@ -51,7 +55,6 @@ namespace octalforty.Wizardby.Console
             // If extension is omitted, append ".mdl"
             if (string.IsNullOrEmpty(Path.GetExtension(parameters.MdlFileName)))
                 parameters.MdlFileName = parameters.MdlFileName + ".mdl";
-
 
             long timestamp = ServiceProvider.GetService<ITimestampProvider>().GetTimestamp();
             System.Console.WriteLine();
@@ -79,6 +82,26 @@ namespace octalforty.Wizardby.Console
 
                 using(new ConsoleStylingScope(ConsoleColor.Green))
                     System.Console.WriteLine(Resources.GeneratedVersion, timestamp);
+
+                ResolveDbPlatform(parameters);
+
+                IEnvironment environment = ServiceProvider.GetService<IEnvironment>();
+                if(environment.Properties[CreateNativeSqlDirectories] != null && 
+                    bool.Parse(environment.Properties[CreateNativeSqlDirectories].ToLowerInvariant()))
+                {
+                    IDbPlatform dbPlatform = ServiceProvider.GetService<IDbPlatform>();
+                    string nativeResourcesPath = Path.Combine(Directory.GetCurrentDirectory(),
+                        string.Format("{0}{1}{2}",
+                            DbPlatformUtil.GetDbPlatformAlias(dbPlatform),
+                            Path.DirectorySeparatorChar,
+                            timestamp));
+
+
+                    Directory.CreateDirectory(nativeResourcesPath);
+
+                    using(new ConsoleStylingScope(ConsoleColor.Green))
+                        System.Console.WriteLine(Resources.GeneratedNativeSqlResourcesDirectory, nativeResourcesPath);
+                } // if
             } // else
         }
     }

@@ -154,6 +154,9 @@ Copyright (c) 2009 octalforty studios</value>
   <data name="GeneratedFile" xml:space="preserve">
     <value>Generated '{0}'.</value>
   </data>
+  <data name="GeneratedNativeSqlResourcesDirectory" xml:space="preserve">
+    <value>Generated directory for Native SQL resources: '{0}'</value>
+  </data>
   <data name="GeneratedVersion" xml:space="preserve">
     <value>Generated version {0}.</value>
   </data>
