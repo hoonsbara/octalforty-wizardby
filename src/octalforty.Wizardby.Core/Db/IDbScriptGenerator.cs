@@ -22,10 +22,14 @@
 // THE SOFTWARE.
 #endregion
 using octalforty.Wizardby.Core.Compiler;
+using octalforty.Wizardby.Core.Migration;
 
 namespace octalforty.Wizardby.Core.Db
 {
     public interface IDbScriptGenerator : ICodeGenerator, IDbPlatformDependency
     {
+        void SetMigrationMode(MigrationMode migrationMode);
+
+        void SetNativeSqlResourceProvider(INativeSqlResourceProvider nativeSqlResourceProvider);
     }
 }

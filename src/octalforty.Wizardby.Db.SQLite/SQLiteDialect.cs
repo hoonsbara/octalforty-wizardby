@@ -31,9 +31,9 @@ namespace octalforty.Wizardby.Db.SQLite
 {
     public class SQLiteDialect : DbDialectBase
     {
-        public override IDbScriptGenerator CreateScriptGenerator(System.IO.TextWriter textWriter)
+        public override IDbScriptGenerator CreateScriptGenerator(IDbStatementBatchWriter statementBatchWriter)
         {
-            SQLiteScriptGenerator scriptGenerator = new SQLiteScriptGenerator(textWriter);
+            SQLiteScriptGenerator scriptGenerator = new SQLiteScriptGenerator(statementBatchWriter);
             scriptGenerator.Platform = Platform;
 
             return scriptGenerator;

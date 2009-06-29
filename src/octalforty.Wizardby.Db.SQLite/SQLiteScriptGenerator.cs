@@ -29,8 +29,8 @@ namespace octalforty.Wizardby.Db.SQLite
 {
     public class SQLiteScriptGenerator : AnsiDbScriptGeneratorBase
     {
-        public SQLiteScriptGenerator(TextWriter textWriter) : 
-            base(textWriter)
+        public SQLiteScriptGenerator(IDbStatementBatchWriter statementBatchWriter) : 
+            base(statementBatchWriter)
         {
         }
     }

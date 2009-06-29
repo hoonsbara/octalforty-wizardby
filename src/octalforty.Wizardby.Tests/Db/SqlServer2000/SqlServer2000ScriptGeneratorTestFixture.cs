@@ -61,9 +61,8 @@ namespace octalforty.Wizardby.Tests.Db.SqlServer2000
             compiler.AddCompilerStageAfter<AstFlattenerCompilerStage>(new DbNamingCompilerStage(platform.NamingStrategy));
             compiler.Compile(astNode, MdlCompilationOptions.All);
 
-            StringBuilder stringBuilder = new StringBuilder();
-            
-            IDbScriptGenerator scriptGenerator = platform.Dialect.CreateScriptGenerator(new StringWriter(stringBuilder));
+            DbStatementBatchWriter batchWriter = new DbStatementBatchWriter();
+            IDbScriptGenerator scriptGenerator = platform.Dialect.CreateScriptGenerator(batchWriter);
             scriptGenerator.SetEnvironment(environment);
 
             foreach(IVersionNode versionNode in Algorithms.Filter<IAstNode, IVersionNode>(astNode.ChildNodes))
@@ -154,7 +153,7 @@ alter table [Forum] drop constraint [FK_FOO];
 drop table [Forum];
 alter table [BlogPostTagJunction] drop constraint [FK4];
 drop table [Tag];
-", stringBuilder.ToString());
+", batchWriter.GetStatementBatches()[0]);
         }
 
         [Test()]
@@ -176,10 +175,8 @@ drop table [Tag];
             compiler.AddCompilerStageAfter<AstFlattenerCompilerStage>(new DbNamingCompilerStage(platform.NamingStrategy));
             compiler.Compile(astNode, MdlCompilationOptions.All);
 
-            StringBuilder stringBuilder = new StringBuilder();
-
-
-            IDbScriptGenerator scriptGenerator = platform.Dialect.CreateScriptGenerator(new StringWriter(stringBuilder));
+            DbStatementBatchWriter batchWriter = new DbStatementBatchWriter();
+            IDbScriptGenerator scriptGenerator = platform.Dialect.CreateScriptGenerator(batchWriter);
 
             foreach (IVersionNode versionNode in Algorithms.Filter<IAstNode, IVersionNode>(astNode.ChildNodes))
                 versionNode.Accept(scriptGenerator);
@@ -268,7 +265,7 @@ alter table [f].[Forum] drop constraint [FK_FOO];
 drop table [f].[Forum];
 alter table [bptj].[BlogPostTagJunction] drop constraint [FK4];
 drop table [t].[Tag];
-", stringBuilder.ToString());
+", batchWriter.GetStatementBatches()[0]);
         }
 
         [Test()]
@@ -290,10 +287,8 @@ drop table [t].[Tag];
             compiler.AddCompilerStageAfter<AstFlattenerCompilerStage>(new DbNamingCompilerStage(platform.NamingStrategy));
             compiler.Compile(astNode, MdlCompilationOptions.All);
 
-            StringBuilder stringBuilder = new StringBuilder();
-
-
-            IDbScriptGenerator scriptGenerator = platform.Dialect.CreateScriptGenerator(new StringWriter(stringBuilder));
+            DbStatementBatchWriter batchWriter = new DbStatementBatchWriter();
+            IDbScriptGenerator scriptGenerator = platform.Dialect.CreateScriptGenerator(batchWriter);
 
             foreach (IVersionNode versionNode in Algorithms.Filter<IAstNode, IVersionNode>(astNode.ChildNodes))
                 versionNode.Accept(scriptGenerator);
@@ -382,7 +377,7 @@ alter table [Forum] drop constraint [FK_FOO];
 drop table [Forum];
 alter table [BlogPostTagJunction] drop constraint [FK4];
 drop table [Tag];
-", stringBuilder.ToString());
+", batchWriter.GetStatementBatches()[0]);
         }
     }
 }

@@ -34,6 +34,6 @@ namespace octalforty.Wizardby.Core.Db
     {
         string EscapeIdentifier(string identifier);
 
-        IDbScriptGenerator CreateScriptGenerator(TextWriter textWriter);
+        IDbScriptGenerator CreateScriptGenerator(IDbStatementBatchWriter statementBatchWriter);
     }
 }

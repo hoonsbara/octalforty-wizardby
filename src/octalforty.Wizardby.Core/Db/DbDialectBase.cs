@@ -37,7 +37,7 @@ namespace octalforty.Wizardby.Core.Db
             return string.Format("[{0}]", identifier);
         }
 
-        public virtual IDbScriptGenerator CreateScriptGenerator(TextWriter textWriter)
+        public virtual IDbScriptGenerator CreateScriptGenerator(IDbStatementBatchWriter statementBatchWriter)
         {
             throw new System.NotImplementedException();
         }

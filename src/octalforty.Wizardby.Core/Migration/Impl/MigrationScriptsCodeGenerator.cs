@@ -36,45 +36,39 @@ namespace octalforty.Wizardby.Core.Migration.Impl
         private readonly IDbPlatform dbPlatform;
         private readonly MigrationMode migrationMode;
         private readonly MigrationScriptCollection migrationScripts = new MigrationScriptCollection();
+        private readonly INativeSqlResourceProvider nativeSqlResourceProvider;
 
         public MigrationScriptCollection MigrationScripts
         {
             get { return migrationScripts; }
         }
 
-        public MigrationScriptsCodeGenerator(IDbPlatform dbPlatform, MigrationMode migrationMode)
+        public MigrationScriptsCodeGenerator(IDbPlatform dbPlatform, INativeSqlResourceProvider nativeSqlResourceProvider, MigrationMode migrationMode)
         {
             this.dbPlatform = dbPlatform;
+            this.nativeSqlResourceProvider = nativeSqlResourceProvider;
             this.migrationMode = migrationMode;
         }
 
         public override void Visit(IMigrationNode migrationNode)
         {
-            StringBuilder sb = new StringBuilder();
-
-            /*IAstNode m = null;
-            if(migrationMode == MigrationMode.Upgrade)
-                m = GetFirst<IUpgradeNode>(migrationNode.ChildNodes);
-            else if (migrationMode == MigrationMode.Downgrade)
-                m = GetFirst<IDowngradeNode>(migrationNode.ChildNodes);*/
-
             foreach(IVersionNode versionNode in Filter<IVersionNode>(migrationNode.ChildNodes))
             {
                 List<string> ddlScripts = new List<string>();
 
                 foreach(IAstNode upgradeNode in GetNode(versionNode, migrationMode).ChildNodes)
                 {
-                    using (TextWriter tw = new StringWriter(sb))
-                    {
-                        IDbScriptGenerator scriptGenerator = dbPlatform.Dialect.CreateScriptGenerator(tw);
-                        scriptGenerator.SetEnvironment(Environment);
+                    DbStatementBatchWriter batchWriter = new DbStatementBatchWriter();
 
-                        upgradeNode.Accept(scriptGenerator);
-                    } // using
+                    IDbScriptGenerator scriptGenerator = dbPlatform.Dialect.CreateScriptGenerator(batchWriter);
+                    scriptGenerator.SetMigrationMode(migrationMode);
+                    scriptGenerator.SetEnvironment(Environment);
+                    scriptGenerator.SetNativeSqlResourceProvider(nativeSqlResourceProvider);
 
-                    ddlScripts.Add(sb.ToString());
-                    sb.Length = 0;
-                }
+                    upgradeNode.Accept(scriptGenerator);
+
+                    ddlScripts.AddRange(batchWriter.GetStatementBatches());
+                } // foreach
 
                 migrationScripts.Add(new MigrationScript(versionNode.Number, ddlScripts.ToArray()));
             } // foreach

@@ -39,6 +39,7 @@ namespace octalforty.Wizardby.Core.Migration.Impl
         private IDbPlatform dbPlatform;
         private IMigrationVersionInfoManager migrationVersionInfoManager;
         private IMigrationScriptExecutive migrationScriptExecutive;
+        private INativeSqlResourceProvider nativeSqlResourceProvider;
         #endregion
         
         #region Public Properties
@@ -75,6 +76,17 @@ namespace octalforty.Wizardby.Core.Migration.Impl
             [DebuggerStepThrough]
             set { migrationScriptExecutive = value; }
         }
+
+        /// <summary>
+        /// Gets or sets a reference to the <see cref="INativeSqlResourceProvider"/> used by this <see cref="MigrationService"/>.
+        /// </summary>
+        public INativeSqlResourceProvider NativeSqlResourceProvider
+        {
+            [DebuggerStepThrough]
+            get { return nativeSqlResourceProvider; }
+            [DebuggerStepThrough]
+            set { nativeSqlResourceProvider = value; }
+        }
         #endregion
 
         /// <summary>
@@ -90,12 +102,14 @@ namespace octalforty.Wizardby.Core.Migration.Impl
         /// <param name="dbPlatform"></param>
         /// <param name="migrationVersionInfoManager"></param>
         /// <param name="migrationScriptExecutive"></param>
+        /// <param name="nativeSqlResourceProvider"></param>
         public MigrationService(IDbPlatform dbPlatform, IMigrationVersionInfoManager migrationVersionInfoManager,
-            IMigrationScriptExecutive migrationScriptExecutive)
+            IMigrationScriptExecutive migrationScriptExecutive, INativeSqlResourceProvider nativeSqlResourceProvider)
         {
             this.dbPlatform = dbPlatform;
             this.migrationVersionInfoManager = migrationVersionInfoManager;
             this.migrationScriptExecutive = migrationScriptExecutive;
+            this.nativeSqlResourceProvider = nativeSqlResourceProvider;
 
             this.migrationScriptExecutive.Migrating +=
                 delegate(object sender, MigrationScriptExecutionEventArgs args)
@@ -151,7 +165,7 @@ namespace octalforty.Wizardby.Core.Migration.Impl
             long targetVersion = GetVersionByOffset(registeredMigrationVersions, step);
 
             MigrateDb(MigrationMode.Downgrade, connectionString, 
-                CompileMigrationScripts(dbPlatform, migrationDefinition, MigrationMode.Downgrade), 
+                CompileMigrationScripts(dbPlatform, nativeSqlResourceProvider, migrationDefinition, MigrationMode.Downgrade), 
                 GetCurrentMigrationVersion(connectionString), targetVersion);
         }
 
@@ -198,7 +212,8 @@ namespace octalforty.Wizardby.Core.Migration.Impl
 
         private void MigrateDb(string connectionString, TextReader migrationDefinition, long currentVersion, long? targetVersion, MigrationMode migrationMode)
         {
-            MigrationScriptCollection migrationScripts = CompileMigrationScripts(dbPlatform, migrationDefinition, migrationMode);
+            MigrationScriptCollection migrationScripts = CompileMigrationScripts(dbPlatform, 
+                nativeSqlResourceProvider, migrationDefinition, migrationMode);
             MigrateDb(migrationMode, connectionString, migrationScripts, currentVersion, targetVersion);
         }
 
@@ -225,10 +240,10 @@ namespace octalforty.Wizardby.Core.Migration.Impl
                 connectionString, migrations, currentVersion, targetVersion, migrationMode);
         }
 
-        private static MigrationScriptCollection CompileMigrationScripts(IDbPlatform dbPlatform, TextReader migrationDefinition, 
-            MigrationMode migrationMode)
+        private static MigrationScriptCollection CompileMigrationScripts(IDbPlatform dbPlatform, INativeSqlResourceProvider nativeSqlResourceProvider,
+            TextReader migrationDefinition, MigrationMode migrationMode)
         {
-            MigrationScriptCompiler migrationScriptCompiler = new MigrationScriptCompiler(dbPlatform, migrationMode);
+            MigrationScriptCompiler migrationScriptCompiler = new MigrationScriptCompiler(dbPlatform, nativeSqlResourceProvider, migrationMode);
             return migrationScriptCompiler.CompileMigrationScripts(migrationDefinition);
         }
 

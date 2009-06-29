@@ -33,10 +33,12 @@ namespace octalforty.Wizardby.Core.Migration.Impl
     {
         private readonly IDbPlatform dbPlatform;
         private readonly MigrationMode migrationMode;
+        private readonly INativeSqlResourceProvider nativeSqlResourceProvider;
 
-        public MigrationScriptCompiler(IDbPlatform dbPlatform, MigrationMode migrationMode)
+        public MigrationScriptCompiler(IDbPlatform dbPlatform, INativeSqlResourceProvider nativeSqlResourceProvider, MigrationMode migrationMode)
         {
             this.dbPlatform = dbPlatform;
+            this.nativeSqlResourceProvider = nativeSqlResourceProvider;
             this.migrationMode = migrationMode;
         }
 
@@ -45,7 +47,7 @@ namespace octalforty.Wizardby.Core.Migration.Impl
             Environment environment = new Environment();
 
             MigrationScriptsCodeGenerator migrationScriptsCodeGenerator =
-                new MigrationScriptsCodeGenerator(dbPlatform, migrationMode);
+                new MigrationScriptsCodeGenerator(dbPlatform, nativeSqlResourceProvider, migrationMode);
             migrationScriptsCodeGenerator.SetEnvironment(environment);
 
             IMdlCompiler mdlCompiler = new MdlCompiler(migrationScriptsCodeGenerator, environment);

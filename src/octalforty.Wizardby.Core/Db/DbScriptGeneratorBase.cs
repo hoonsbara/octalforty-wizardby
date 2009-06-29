@@ -21,30 +21,53 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
+using System;
 using System.CodeDom.Compiler;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
 
 using octalforty.Wizardby.Core.Compiler;
 using octalforty.Wizardby.Core.Compiler.Ast;
+using octalforty.Wizardby.Core.Migration;
 using octalforty.Wizardby.Core.SemanticModel;
 
 namespace octalforty.Wizardby.Core.Db
 {
     public class DbScriptGeneratorBase : CodeGeneratorBase, IDbScriptGenerator
     {
-        private readonly IndentedTextWriter textWriter;
-
+        private readonly IDbStatementBatchWriter statementBatchWriter;
+        private INativeSqlResourceProvider nativeSqlResourceProvider;
+        private MigrationMode migrationMode;
         private IDbPlatform platform;
 
         protected IndentedTextWriter TextWriter
         {
-            get { return textWriter; }
+            [DebuggerStepThrough]
+            get { return statementBatchWriter.BatchWriter; }
         }
 
-        public DbScriptGeneratorBase(TextWriter textWriter)
+        protected IDbStatementBatchWriter StatementBatchWriter
         {
-            this.textWriter = new IndentedTextWriter(textWriter);
+            [DebuggerStepThrough]
+            get { return statementBatchWriter; }
+        }
+
+        protected MigrationMode MigrationMode
+        {
+            [DebuggerStepThrough]
+            get { return migrationMode; }
+        }
+
+        protected INativeSqlResourceProvider NativeSqlResourceProvider
+        {
+            [DebuggerStepThrough]
+            get { return nativeSqlResourceProvider; }
+        }
+
+        public DbScriptGeneratorBase(IDbStatementBatchWriter statementBatchWriter)
+        {
+            this.statementBatchWriter = statementBatchWriter;
         }
 
         public override void Visit(IVersionNode versionNode)
@@ -69,6 +92,16 @@ namespace octalforty.Wizardby.Core.Db
         {
             get { return platform; }
             set { platform = value; }
+        }
+
+        public virtual void SetMigrationMode(MigrationMode migrationMode)
+        {
+            this.migrationMode = migrationMode;
+        }
+
+        public void SetNativeSqlResourceProvider(INativeSqlResourceProvider nativeSqlResourceProvider)
+        {
+            this.nativeSqlResourceProvider = nativeSqlResourceProvider;
         }
 
         string GetFragment(IAstNode astNode)

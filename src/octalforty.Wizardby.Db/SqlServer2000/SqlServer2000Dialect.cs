@@ -38,9 +38,9 @@ namespace octalforty.Wizardby.Db.SqlServer2000
             return string.Format("[{0}]", string.Join("].[", nameParts));
         }
 
-        public override IDbScriptGenerator CreateScriptGenerator(TextWriter textWriter)
+        public override IDbScriptGenerator CreateScriptGenerator(IDbStatementBatchWriter statementBatchWriter)
         {
-            SqlServer2000ScriptGenerator scriptGenerator = new SqlServer2000ScriptGenerator(textWriter);
+            SqlServer2000ScriptGenerator scriptGenerator = new SqlServer2000ScriptGenerator(statementBatchWriter);
             scriptGenerator.Platform = Platform;
 
             return scriptGenerator;

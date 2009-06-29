@@ -24,14 +24,15 @@
 using System.IO;
 
 using octalforty.Wizardby.Core.Compiler.Ast;
+using octalforty.Wizardby.Core.Migration;
 using octalforty.Wizardby.Core.SemanticModel;
 
 namespace octalforty.Wizardby.Core.Db
 {
     public abstract class AnsiDbScriptGeneratorBase : DbScriptGeneratorBase
     {
-        protected AnsiDbScriptGeneratorBase(TextWriter textWriter) : 
-            base(textWriter)
+        protected AnsiDbScriptGeneratorBase(IDbStatementBatchWriter statementBatchWriter) : 
+            base(statementBatchWriter)
         {
         }
 
@@ -59,6 +60,38 @@ namespace octalforty.Wizardby.Core.Db
             } // foreach
 
             TextWriter.WriteLine(");");
+        }
+
+        /// <summary>
+        /// Visits the given <paramref name="executeNativeSqlNode"/>.
+        /// </summary>
+        /// <param name="executeNativeSqlNode"></param>
+        public override void Visit(IExecuteNativeSqlNode executeNativeSqlNode)
+        {
+            IVersionNode versionNode = TraverseToParent<IVersionNode>(executeNativeSqlNode);
+
+            string resourceName = MigrationMode == MigrationMode.Upgrade ?
+                executeNativeSqlNode.UpgradeResource :
+                executeNativeSqlNode.DowngradeResource;
+
+            if(string.IsNullOrEmpty(resourceName))
+                return;
+
+            string[] nativeSqlResources = MigrationMode == MigrationMode.Upgrade ?
+                NativeSqlResourceProvider.GetUpgradeResources(Platform, resourceName, versionNode.Number) :
+                NativeSqlResourceProvider.GetDowngradeResources(Platform, resourceName, versionNode.Number);
+
+            if(nativeSqlResources == null || nativeSqlResources.Length == 0)
+                return;
+
+            StatementBatchWriter.EndBatch();
+            foreach(string nativeSqlResource in nativeSqlResources)
+            {
+                TextWriter.Write(nativeSqlResource);
+                StatementBatchWriter.EndBatch();
+            } // foreach
+
+            StatementBatchWriter.EndBatch();
         }
         #endregion
     }

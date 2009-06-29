@@ -24,6 +24,7 @@
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
@@ -46,6 +47,7 @@ namespace octalforty.Wizardby.Tests.Core.Migration.Impl
         public const string OxiteWithReorderedVersions = "octalforty.Wizardby.Tests.Resources.OxiteWithReorderedVersions.mdl";
         public const string OxiteWithMissingVersion = "octalforty.Wizardby.Tests.Resources.OxiteWithMissingVersion.mdl";
         public const string OxiteWithConstraints = "octalforty.Wizardby.Tests.Resources.OxiteWithConstraints.mdl";
+        public const string OxiteWithNativeSql = "octalforty.Wizardby.Tests.Resources.OxiteWithNativeSql.mdl";
         #endregion
 
         #region Private Fields
@@ -65,7 +67,10 @@ namespace octalforty.Wizardby.Tests.Core.Migration.Impl
             migrationService = new MigrationService(
                 dbPlatform,
                 migrationVersionInfoManager,
-                new DbMigrationScriptExecutive(new DbCommandExecutionStrategy()));
+                new DbMigrationScriptExecutive(new DbCommandExecutionStrategy()),
+                new FileSystemNativeSqlResourceProvider(
+                Path.Combine(
+                    GetAssemblyLocation(Assembly.GetExecutingAssembly()), "Resources")));
         }
 
         [TestFixtureTearDown()]
@@ -204,6 +209,23 @@ namespace octalforty.Wizardby.Tests.Core.Migration.Impl
             }
         }
 
+        [Test()]
+        public void MigrateWithNativeSqlScripts()
+        {
+            try
+            {
+                MigrateTo(OxiteWithNativeSql, null);
+
+                Assert.AreEqual(1, ExecuteScalar("exec dbo.Sample"));
+
+                Redo(OxiteWithNativeSql, 1000);
+            }
+            catch(MigrationException me)
+            {
+                Assert.Fail(string.Format("{0}: {1}", me.Message, me.SqlStatement));
+            }
+        }
+
         private long[] GetRegisteredMigrationVersions()
         {
             return new List<long>(
@@ -251,6 +273,24 @@ namespace octalforty.Wizardby.Tests.Core.Migration.Impl
             {
                 action(resourceStream);
             } // using
+        }
+
+        private object ExecuteScalar(string sql)
+        {
+            return DbUtil.Execute<object>(dbPlatform, connectionString, 
+                delegate(IDbConnection dbConnection)
+                    {
+                        using(IDbCommand dbCommand = dbConnection.CreateCommand())
+                        {
+                            dbCommand.CommandText = sql;
+                            return dbCommand.ExecuteScalar();
+                        } // using
+                    });
+        }
+
+        private static string GetAssemblyLocation(Assembly assembly)
+        {
+            return Path.GetDirectoryName(new Uri(assembly.CodeBase).LocalPath);
         }
     }
 }

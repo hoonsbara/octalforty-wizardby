@@ -270,6 +270,21 @@ namespace octalforty.Wizardby.Core.Compiler.Impl
             downgradeNode.ChildNodes.Insert(0, downgradeAlterTableNode);
         }
 
+        /// <summary>
+        /// Visits the given <paramref name="executeNativeSqlNode"/>.
+        /// </summary>
+        /// <param name="executeNativeSqlNode"></param>
+        public override void Visit(IExecuteNativeSqlNode executeNativeSqlNode)
+        {
+            IDowngradeNode downgradeNode = GetDowngradeNodeFor(executeNativeSqlNode);
+            
+            ExecuteNativeSqlNode nativeSqlNode = new ExecuteNativeSqlNode(downgradeNode);
+            nativeSqlNode.UpgradeResource = executeNativeSqlNode.UpgradeResource;
+            nativeSqlNode.DowngradeResource = executeNativeSqlNode.DowngradeResource;
+
+            downgradeNode.ChildNodes.Insert(0, nativeSqlNode);
+        }
+
         private IDowngradeNode GetDowngradeNodeFor(IAstNode astNode)
         {
             IAstNode currentNode = astNode;

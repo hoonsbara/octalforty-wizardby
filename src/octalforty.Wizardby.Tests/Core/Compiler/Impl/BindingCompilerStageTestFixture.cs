@@ -454,5 +454,24 @@ namespace octalforty.Wizardby.Tests.Core.Compiler.Impl
             Assert.AreEqual(10, addColumnNode.Precision.Value);
             Assert.AreEqual("BlogPost", addColumnNode.Table);
         }
+
+        [Test()]
+        public void BindExecuteNativeSql()
+        {
+            IMdlCompilerStage bindingStage = new BindingCompilerStage();
+            bindingStage.SetEnvironment(new Environment());
+
+            IAstNode astNode = new MdlParser(MdlParserTestFixture.CreateScanner(
+                @"execute native-sql upgrade-resource => ""Upgrade.sql"", downgrade-resource => ""Downgrade.sql""")).Parse();
+
+            astNode.Accept(bindingStage);
+
+            Assert.IsInstanceOfType(typeof(IExecuteNativeSqlNode), astNode);
+
+            IExecuteNativeSqlNode executeNativeSqlNode = (IExecuteNativeSqlNode)astNode;
+
+            Assert.AreEqual("Upgrade.sql", executeNativeSqlNode.UpgradeResource);
+            Assert.AreEqual("Downgrade.sql", executeNativeSqlNode.DowngradeResource);
+        }
     }
 }

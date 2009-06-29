@@ -55,7 +55,8 @@ namespace octalforty.Wizardby.Tests.Db
             migrationService = new MigrationService(
                 dbPlatform,
                 new DbMigrationVersionInfoManager(dbPlatform, new DbCommandExecutionStrategy(), "SchemaInfo"),
-                new DbMigrationScriptExecutive(new DbCommandExecutionStrategy()));
+                new DbMigrationScriptExecutive(new DbCommandExecutionStrategy()),
+                null);
 
             try
             {

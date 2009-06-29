@@ -309,6 +309,7 @@
     <Compile Include="Db\DbPlatformUtil.cs" />
     <Compile Include="Db\DbSchemaProviderBase.cs" />
     <Compile Include="Db\DbScriptGeneratorBase.cs" />
+    <Compile Include="Db\DbStatementBatchWriter.cs" />
     <Compile Include="Db\DbTransactionAction.cs" />
     <Compile Include="Db\DbTypeMapperBase.cs">
       <SubType>Code</SubType>
@@ -316,6 +317,7 @@
     <Compile Include="Db\DbUtil.cs" />
     <Compile Include="Db\DefaultDbNamingStrategy.cs" />
     <Compile Include="Db\EmbeddedDbConnectionStringBuilderBase.cs" />
+    <Compile Include="Db\IDbStatementBatchWriter.cs" />
     <Compile Include="Db\IDbConnectionStringBuilder.cs" />
     <Compile Include="Db\IDbDeploymentManager.cs" />
     <Compile Include="Db\IDbDialect.cs">
@@ -349,7 +351,7 @@
     </Compile>
     <Compile Include="Migration\Impl\DbMigrationVersionInfoManager.cs" />
     <Compile Include="Migration\Impl\DbNamingCompilerStage.cs" />
-    <Compile Include="Migration\Impl\FilesystemNativeSqlResourceProvider.cs" />
+    <Compile Include="Migration\Impl\FileSystemNativeSqlResourceProvider.cs" />
     <Compile Include="Migration\Impl\IDbCommandExecutionStrategy.cs" />
     <Compile Include="Migration\Impl\IMigrationScriptExecutive.cs">
       <SubType>Code</SubType>

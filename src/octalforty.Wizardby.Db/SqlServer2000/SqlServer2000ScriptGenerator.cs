@@ -32,14 +32,14 @@ using octalforty.Wizardby.Core.SemanticModel;
 
 namespace octalforty.Wizardby.Db.SqlServer2000
 {
-    public class SqlServer2000ScriptGenerator : DbScriptGeneratorBase
+    public class SqlServer2000ScriptGenerator : AnsiDbScriptGeneratorBase
     {
         /// <summary>
         /// 
         /// </summary>
         /// <param name="textWriter"></param>
-        public SqlServer2000ScriptGenerator(TextWriter textWriter) : 
-            base(textWriter)
+        public SqlServer2000ScriptGenerator(IDbStatementBatchWriter statementBatchWriter) : 
+            base(statementBatchWriter)
         {
         }
 

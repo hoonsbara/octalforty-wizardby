@@ -64,7 +64,8 @@ namespace octalforty.Wizardby.Console
                     MigrationService migrationService = new MigrationService(
                         sp.GetService<IDbPlatform>(),
                         sp.GetService<IMigrationVersionInfoManager>(),
-                        sp.GetService<IMigrationScriptExecutive>());
+                        sp.GetService<IMigrationScriptExecutive>(),
+                        sp.GetService<INativeSqlResourceProvider>());
 
                     migrationService.Migrating += MigrationServiceMigrating;
                     migrationService.Migrated += MigrationServiceMigrated;

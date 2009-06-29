@@ -73,8 +73,10 @@
     <Compile Include="Core\Compiler\NullCodeGenerator.cs" />
     <Compile Include="Core\Compiler\SourceReaderTestFixture.cs" />
     <Compile Include="Core\Compiler\TokenSequenceTestFixture.cs" />
+    <Compile Include="Core\Db\DbStatementBatchWriterTestFixture.cs" />
     <Compile Include="Core\Db\DbTypeMapperBaseTestFixture.cs" />
     <Compile Include="Core\Migration\Impl\DbMigrationVersionInfoManagerTestFixture.cs" />
+    <Compile Include="Core\Migration\Impl\FileSystemNativeSqlResourceProviderTestFixture.cs" />
     <Compile Include="Core\Migration\Impl\MigrationModeSelectorTestFixture.cs" />
     <Compile Include="Core\Migration\Impl\MigrationScriptExecutive.cs" />
     <Compile Include="Core\Migration\Impl\MigrationScriptSelectorTestFixture.cs" />
@@ -128,6 +130,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="Resources\sqlserver2005\20090331140131\Downgrade.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\sqlserver2005\20090331140131\Upgrade.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <EmbeddedResource Include="Resources\OxiteWithNativeSql.mdl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\OxiteWithConstraints.mdl" />
     <EmbeddedResource Include="Resources\OxiteWithMissingVersion.mdl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

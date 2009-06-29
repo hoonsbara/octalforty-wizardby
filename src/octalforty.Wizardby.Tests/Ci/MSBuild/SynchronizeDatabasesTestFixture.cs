@@ -59,7 +59,7 @@ namespace octalforty.Wizardby.Tests.Ci.MSBuild
             targetConnectionString = ConfigurationManager.AppSettings["secondaryConnectionString"];
 
             migrationService = new MigrationService(dbPlatform, migrationVersionInfoManager,
-                new DbMigrationScriptExecutive(new DbCommandExecutionStrategy()));
+                new DbMigrationScriptExecutive(new DbCommandExecutionStrategy()), null);
         }
 
         [TestFixtureTearDown()]

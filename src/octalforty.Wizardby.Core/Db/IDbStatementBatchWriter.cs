@@ -21,26 +21,15 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
-using System.IO;
+using System.CodeDom.Compiler;
 
-using octalforty.Wizardby.Core.Db;
-using octalforty.Wizardby.Db.SqlServer2000;
-
-namespace octalforty.Wizardby.Db.SqlCe
+namespace octalforty.Wizardby.Core.Db
 {
-    public class SqlCeDialect : SqlServer2000Dialect
+    public interface IDbStatementBatchWriter
     {
-        public override string EscapeIdentifier(string identifier)
-        {
-            return identifier;
-        }
+        IndentedTextWriter BatchWriter
+        { get; }
 
-        public override IDbScriptGenerator CreateScriptGenerator(IDbStatementBatchWriter statementBatchWriter)
-        {
-            SqlCeScriptGenerator sqlCeScriptGenerator = new SqlCeScriptGenerator(statementBatchWriter);
-            sqlCeScriptGenerator.Platform = Platform;
-
-            return sqlCeScriptGenerator;
-        }
+        void EndBatch();
     }
 }

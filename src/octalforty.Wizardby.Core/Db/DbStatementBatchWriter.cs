@@ -21,26 +21,44 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
+using System.CodeDom.Compiler;
+using System.Collections.Generic;
 using System.IO;
+using System.Text;
 
-using octalforty.Wizardby.Core.Db;
-using octalforty.Wizardby.Db.SqlServer2000;
-
-namespace octalforty.Wizardby.Db.SqlCe
+namespace octalforty.Wizardby.Core.Db
 {
-    public class SqlCeDialect : SqlServer2000Dialect
+    public class DbStatementBatchWriter : IDbStatementBatchWriter
     {
-        public override string EscapeIdentifier(string identifier)
+        private readonly IndentedTextWriter batchWriter;
+        private readonly StringBuilder batchStringBuilder = new StringBuilder();
+        private readonly List<string> statementBatches = new List<string>();
+
+        public DbStatementBatchWriter()
         {
-            return identifier;
+            batchWriter = new IndentedTextWriter(new StringWriter(batchStringBuilder));
         }
 
-        public override IDbScriptGenerator CreateScriptGenerator(IDbStatementBatchWriter statementBatchWriter)
+        public IndentedTextWriter BatchWriter
         {
-            SqlCeScriptGenerator sqlCeScriptGenerator = new SqlCeScriptGenerator(statementBatchWriter);
-            sqlCeScriptGenerator.Platform = Platform;
+            get { return batchWriter; }
+        }
 
-            return sqlCeScriptGenerator;
+        public void EndBatch()
+        {
+            if(batchStringBuilder.Length > 0)
+            {
+                statementBatches.Add(batchStringBuilder.ToString());
+                batchStringBuilder.Length = 0;
+            } // if
+        }
+
+        public string[] GetStatementBatches()
+        {
+            if(batchStringBuilder.Length != 0)
+                EndBatch();
+
+            return statementBatches.ToArray();
         }
     }
 }

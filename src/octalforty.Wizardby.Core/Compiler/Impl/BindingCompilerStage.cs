@@ -381,6 +381,21 @@ namespace octalforty.Wizardby.Core.Compiler.Impl
                 removeReferenceNode.Table = table.Name;
             } // if
         }
+
+        /// <summary>
+        /// Visits the given <paramref name="executeNativeSqlNode"/>.
+        /// </summary>
+        /// <param name="executeNativeSqlNode"></param>
+        public override void Visit(IExecuteNativeSqlNode executeNativeSqlNode)
+        {
+            if(executeNativeSqlNode.Properties[MdlSyntax.UpgradeResource] != null)
+                executeNativeSqlNode.UpgradeResource =
+                    AstNodePropertyUtil.AsString(executeNativeSqlNode.Properties[MdlSyntax.UpgradeResource].Value);
+
+            if(executeNativeSqlNode.Properties[MdlSyntax.DowngradeResource] != null)
+                executeNativeSqlNode.DowngradeResource =
+                    AstNodePropertyUtil.AsString(executeNativeSqlNode.Properties[MdlSyntax.DowngradeResource].Value);
+        }
         #endregion
 
         private void BindPrimaryKeyColumns(IAddReferenceNode addReferenceNode, IReferenceDefinition reference)

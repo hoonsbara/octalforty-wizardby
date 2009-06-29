@@ -279,6 +279,15 @@ namespace octalforty.Wizardby.Core.Compiler
         {
             Visit(removeConstraintNode.ChildNodes);
         }
+
+        /// <summary>
+        /// Visits the given <paramref name="executeNativeSqlNode"/>.
+        /// </summary>
+        /// <param name="executeNativeSqlNode"></param>
+        public override void Visit(IExecuteNativeSqlNode executeNativeSqlNode)
+        {
+            Visit(executeNativeSqlNode.ChildNodes);
+        }
         #endregion
 
         #region IMdlCompilerStage Members

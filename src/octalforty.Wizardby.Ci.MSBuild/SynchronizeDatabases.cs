@@ -119,7 +119,8 @@ namespace octalforty.Wizardby.Ci.MSBuild
 
             IMigrationService migrationService =
                 new MigrationService(targetDbPlatform, targetDbMigrationVersionInfoManager,
-                    new DbMigrationScriptExecutive(new DbCommandExecutionStrategy()));
+                    new DbMigrationScriptExecutive(new DbCommandExecutionStrategy()),
+                    new FileSystemNativeSqlResourceProvider(Directory.GetCurrentDirectory()));
             migrationService.Migrated += delegate(object sender, MigrationEventArgs args)
                 {
                     if(BuildEngine != null)

@@ -73,5 +73,7 @@ namespace octalforty.Wizardby.Core.Compiler
         public const string Constraint = "constraint";
         public const string Execute = "execute";
         public const string NativeSql = "native-sql";
+        public const string UpgradeResource = "upgrade-resource";
+        public const string DowngradeResource = "downgrade-resource";
     }
 }

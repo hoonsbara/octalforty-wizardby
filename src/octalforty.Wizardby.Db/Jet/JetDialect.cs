@@ -29,9 +29,9 @@ namespace octalforty.Wizardby.Db.Jet
 {
     public class JetDialect : DbDialectBase
     {
-        public override IDbScriptGenerator CreateScriptGenerator(TextWriter textWriter)
+        public override IDbScriptGenerator CreateScriptGenerator(IDbStatementBatchWriter statementBatchWriter)
         {
-            JetScriptGenerator jetScriptGenerator = new JetScriptGenerator(textWriter);
+            JetScriptGenerator jetScriptGenerator = new JetScriptGenerator(statementBatchWriter);
             jetScriptGenerator.Platform = Platform;
 
             return jetScriptGenerator;
