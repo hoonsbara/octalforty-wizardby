@@ -21,6 +21,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
+
+using System.Data;
 using octalforty.Wizardby.Core.Db;
 
 namespace octalforty.Wizardby.Db.SQLite
@@ -33,5 +35,15 @@ namespace octalforty.Wizardby.Db.SQLite
     /// </remarks>
     public class SQLiteTypeMapper : DbTypeMapperBase
     {
+        /// <summary>
+        /// Initializes a new instance of <see cref="SQLiteTypeMapper"/> class.
+        /// </summary>
+        public SQLiteTypeMapper()
+        {
+            RegisterTypeMapping(DbType.AnsiString, "text");
+            RegisterTypeMapping(DbType.AnsiStringFixedLength, "text");
+            RegisterTypeMapping(DbType.String, "text");
+            RegisterTypeMapping(DbType.StringFixedLength, "text");
+        }
     }
 }
