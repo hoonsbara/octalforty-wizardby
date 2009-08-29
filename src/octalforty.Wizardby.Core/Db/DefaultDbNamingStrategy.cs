@@ -22,6 +22,7 @@
 // THE SOFTWARE.
 #endregion
 using octalforty.Wizardby.Core.SemanticModel;
+using octalforty.Wizardby.Core.Util;
 
 namespace octalforty.Wizardby.Core.Db
 {
@@ -29,17 +30,40 @@ namespace octalforty.Wizardby.Core.Db
     {
         public virtual string GetReferenceName(IReferenceDefinition reference)
         {
-            return reference.Name;
+            string pkColumnNames = Algorithms.Join("", reference.PkColumns,
+                                                   delegate(string s) { return s; });
+            string fkColumnNames = Algorithms.Join("", reference.FkColumns,
+                                                   delegate(string s) { return s; });
+
+            return string.Format("FK_{0}_{1}_{2}_{3}",
+                                 GetBareIdentifier(reference.FkTable), fkColumnNames,
+                                 GetBareIdentifier(reference.PkTable), pkColumnNames);
         }
 
         public virtual string GetIndexName(IIndexDefinition index)
         {
-            return index.Name;
+            string columnNames = Algorithms.Join("", index.Columns,
+                                                 delegate(IIndexColumnDefinition icd) { return icd.Name; });
+
+            return index.Unique ?? false ?
+                string.Format("UQ_{0}", columnNames) :
+                string.Format("IX_{0}", columnNames);
         }
 
         public virtual string GetConstraintName(IConstraintDefinition constraint)
         {
+            if (constraint is IDefaultConstraintDefinition)
+                return string.Format("DF_{0}", constraint.Columns[0]);
+
             return constraint.Name;
+        }
+
+        private static string GetBareIdentifier(string identifier)
+        {
+            if (identifier.Contains("."))
+                return identifier.Substring(identifier.LastIndexOf('.') + 1);
+
+            return identifier;
         }
     }
 }

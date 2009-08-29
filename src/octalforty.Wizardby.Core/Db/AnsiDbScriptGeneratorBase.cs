@@ -21,8 +21,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
-using System.IO;
 
+using System.Collections.Generic;
+using System.IO;
+using System.Text;
 using octalforty.Wizardby.Core.Compiler.Ast;
 using octalforty.Wizardby.Core.Migration;
 using octalforty.Wizardby.Core.SemanticModel;
@@ -92,6 +94,69 @@ namespace octalforty.Wizardby.Core.Db
             } // foreach
 
             StatementBatchWriter.EndBatch();
+        }
+
+        #region Overridables
+        protected virtual bool SupportsClustededIndexes
+        {
+            get { return true; }
+        }
+        #endregion
+
+
+        #region AnsiDbScriptGeneratorBase Members
+        /// <summary>
+        /// Visits the given <paramref name="addIndexNode"/>.
+        /// </summary>
+        /// <param name="addIndexNode"></param>
+        public override void Visit(IAddIndexNode addIndexNode)
+        {
+            StringBuilder createIndexBuilder = new StringBuilder("create ");
+
+            if (addIndexNode.Unique ?? false)
+                createIndexBuilder.Append("unique ");
+
+            if(SupportsClustededIndexes)
+                if(addIndexNode.Clustered ?? false)
+                    createIndexBuilder.Append("clustered ");
+                else
+                    createIndexBuilder.Append("nonclustered ");
+
+            createIndexBuilder.AppendFormat("index {0} on {1} ({2});",
+                Platform.Dialect.EscapeIdentifier(addIndexNode.Name),
+                Platform.Dialect.EscapeIdentifier(addIndexNode.Table),
+                Join(", ", GetIndexColumns(addIndexNode.Columns)));
+
+            TextWriter.WriteLine(createIndexBuilder.ToString());
+        }
+        #endregion
+
+        protected string Join(string separator, IEnumerable<string> strings)
+        {
+            StringBuilder joinBuilder = new StringBuilder();
+
+            foreach(string s in strings)
+            {
+                if(joinBuilder.Length > 0)
+                    joinBuilder.Append(separator);
+
+                joinBuilder.Append(s);
+            } // if
+
+            return joinBuilder.ToString();
+        }
+
+        protected IEnumerable<string> GetIndexColumns(IList<IIndexColumnDefinition> columns)
+        {
+            foreach(IIndexColumnDefinition indexColumnDefinition in columns)
+            {
+                if(indexColumnDefinition.SortDirection.HasValue)
+                    yield return string.Format("{0} {1}",
+                        Platform.Dialect.EscapeIdentifier(indexColumnDefinition.Name),
+                        indexColumnDefinition.SortDirection.Value == SortDirection.Ascending ? "asc" : "desc");
+                else
+                    yield return Platform.Dialect.EscapeIdentifier(indexColumnDefinition.Name);
+            } // foreach
         }
         #endregion
     }

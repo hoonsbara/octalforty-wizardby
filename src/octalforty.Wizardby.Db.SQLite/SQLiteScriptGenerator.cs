@@ -21,7 +21,6 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
-using System.IO;
 
 using octalforty.Wizardby.Core.Db;
 
@@ -33,6 +32,16 @@ namespace octalforty.Wizardby.Db.SQLite
             base(statementBatchWriter)
         {
         }
+
+        #region AnsiDbScriptGeneratorBase Members
+
+        protected override bool SupportsClustededIndexes
+        {
+            get { return false; }
+        }
+
+        #endregion
+
     }
 }
  
