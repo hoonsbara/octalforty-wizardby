@@ -42,6 +42,7 @@ namespace octalforty.Wizardby.Db.SQLite
         {
             RegisterTypeMapping(DbType.AnsiString, "text");
             RegisterTypeMapping(DbType.AnsiStringFixedLength, "text");
+            RegisterTypeMapping(DbType.Binary, "blob");
             RegisterTypeMapping(DbType.String, "text");
             RegisterTypeMapping(DbType.StringFixedLength, "text");
         }
