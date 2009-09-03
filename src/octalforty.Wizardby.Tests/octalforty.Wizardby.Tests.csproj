@@ -41,6 +41,10 @@
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.SQLite, Version=1.0.65.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\SQLite\x86\System.Data.SQLite.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
@@ -90,6 +94,7 @@
     <Compile Include="Db\DbSchemaProviderTestFixtureBase.cs" />
     <Compile Include="Db\Jet\JetConnectionStringBuilderTestFixture.cs" />
     <Compile Include="Db\SqlCe\SqlCeConnectionStringBuilderTestFixture.cs" />
+    <Compile Include="Db\SQLite\SQLitePlatformTestFixture.cs" />
     <Compile Include="Db\SqlServer2000\SqlServer2000ConnectionStringBuilderTestFixture.cs" />
     <Compile Include="Db\SqlServer2000\SqlServer2000DialectTestFixture.cs" />
     <Compile Include="Db\SqlServer2000\SqlServer2000SchemaProviderTestFixture.cs" />
@@ -113,6 +118,10 @@
     <ProjectReference Include="..\octalforty.Wizardby.Core\octalforty.Wizardby.Core.csproj">
       <Project>{31A1F1A5-E685-4C89-929D-FDC93CD12BB0}</Project>
       <Name>octalforty.Wizardby.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\octalforty.Wizardby.Db.SQLite\octalforty.Wizardby.Db.SQLite.csproj">
+      <Project>{3B68C293-E2EC-4783-82D3-49FD2E1FEBDE}</Project>
+      <Name>octalforty.Wizardby.Db.SQLite</Name>
     </ProjectReference>
     <ProjectReference Include="..\octalforty.Wizardby.Db\octalforty.Wizardby.Db.csproj">
       <Project>{735ADA03-27DA-4C9F-BDAF-21DEEC2DD5C8}</Project>
