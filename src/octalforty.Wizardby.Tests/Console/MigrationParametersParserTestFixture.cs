@@ -105,7 +105,7 @@ namespace octalforty.Wizardby.Tests.Console
         }
 
         [Test()]
-        [ExpectedException(typeof(MigrationException), ExpectedMessage = "Ambiguous command 'r'. Could be 'redo', 'reverseengineer', 'rollback'.")]
+        [ExpectedException(typeof(MigrationException), ExpectedMessage = "Ambiguous command 'r'. Could be 'redo', 'register', 'reverseengineer', 'rollback'.")]
         public void ParseAmbiguousCommand()
         {
             MigrationParametersParser parametersParser = new MigrationParametersParser();
