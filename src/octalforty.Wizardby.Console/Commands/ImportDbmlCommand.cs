@@ -1,4 +1,4 @@
-#region The MIT License
+﻿#region The MIT License
 // The MIT License
 // 
 // Copyright (c) 2009 octalforty studios
@@ -21,29 +21,19 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
-using System;
 
-using octalforty.Wizardby.Core.Db;
-using octalforty.Wizardby.Core.Deployment;
-
-namespace octalforty.Wizardby.Console
+namespace octalforty.Wizardby.Console.Commands
 {
-    [MigrationCommand(MigrationCommand.Deploy)]
-    public class DeployMigrationCommand : MigrationCommandBase
+    [MigrationCommand(MigrationCommand.ImportDbml)]
+    public class ImportDbmlCommand : MigrationCommandBase
     {
-        public DeployMigrationCommand() :
-            base(true, false, false, true)
+        public ImportDbmlCommand() :
+            base(false, false, false, false)
         {
         }
 
         protected override void InternalExecute(MigrationParameters parameters)
         {
-            System.Console.WriteLine();
-
-            using(new ConsoleStylingScope(ConsoleColor.Yellow))
-                System.Console.WriteLine("Deploying '{0}'", parameters.ConnectionString);
-
-            ServiceProvider.GetService<IDeploymentService>().Deploy(ServiceProvider.GetService<IDbPlatform>(), parameters.ConnectionString);
         }
     }
 }

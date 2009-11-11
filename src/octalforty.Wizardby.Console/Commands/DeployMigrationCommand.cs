@@ -21,24 +21,29 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
-using System.IO;
+using System;
 
-using octalforty.Wizardby.Core.Migration;
+using octalforty.Wizardby.Core.Db;
+using octalforty.Wizardby.Core.Deployment;
 
-namespace octalforty.Wizardby.Console
+namespace octalforty.Wizardby.Console.Commands
 {
-    /// <summary>
-    /// Implements <see cref="MigrationCommand.Downgrade"/> command logic.
-    /// </summary>
-    [MigrationCommand(MigrationCommand.Downgrade)]
-    public class DowngradeMigrationCommand : GuardedMigrationCommandBase
+    [MigrationCommand(MigrationCommand.Deploy)]
+    public class DeployMigrationCommand : MigrationCommandBase
     {
-        protected override void InternalGuardedExecute(MigrationParameters parameters)
+        public DeployMigrationCommand() :
+            base(true, false, false, true)
+        {
+        }
+
+        protected override void InternalExecute(MigrationParameters parameters)
         {
             System.Console.WriteLine();
 
-            using(StreamReader streamReader = new BufferedStreamReader(parameters.MdlFileName, true))
-                ServiceProvider.GetService<IMigrationService>().Migrate(parameters.ConnectionString, 0, streamReader);
+            using(new ConsoleStylingScope(ConsoleColor.Yellow))
+                System.Console.WriteLine("Deploying '{0}'", parameters.ConnectionString);
+
+            ServiceProvider.GetService<IDeploymentService>().Deploy(ServiceProvider.GetService<IDbPlatform>(), parameters.ConnectionString);
         }
     }
 }

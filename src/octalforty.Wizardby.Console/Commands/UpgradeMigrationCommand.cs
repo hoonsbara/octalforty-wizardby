@@ -25,7 +25,7 @@ using System.IO;
 
 using octalforty.Wizardby.Core.Migration;
 
-namespace octalforty.Wizardby.Console
+namespace octalforty.Wizardby.Console.Commands
 {
     /// <summary>
     /// Implements <see cref="MigrationCommand.Upgrade"/> command logic.

@@ -1,4 +1,4 @@
-﻿#region The MIT License
+#region The MIT License
 // The MIT License
 // 
 // Copyright (c) 2009 octalforty studios
@@ -21,19 +21,24 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
+using System.IO;
 
-namespace octalforty.Wizardby.Console
+using octalforty.Wizardby.Core.Migration;
+
+namespace octalforty.Wizardby.Console.Commands
 {
-    [MigrationCommand(MigrationCommand.ImportDbml)]
-    public class ImportDbmlCommand : MigrationCommandBase
+    /// <summary>
+    /// Implements <see cref="MigrationCommand.Downgrade"/> command logic.
+    /// </summary>
+    [MigrationCommand(MigrationCommand.Downgrade)]
+    public class DowngradeMigrationCommand : GuardedMigrationCommandBase
     {
-        public ImportDbmlCommand() :
-            base(false, false, false, false)
+        protected override void InternalGuardedExecute(MigrationParameters parameters)
         {
-        }
+            System.Console.WriteLine();
 
-        protected override void InternalExecute(MigrationParameters parameters)
-        {
+            using(StreamReader streamReader = new BufferedStreamReader(parameters.MdlFileName, true))
+                ServiceProvider.GetService<IMigrationService>().Migrate(parameters.ConnectionString, 0, streamReader);
         }
     }
 }

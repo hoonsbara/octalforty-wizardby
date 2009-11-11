@@ -28,7 +28,7 @@ using octalforty.Wizardby.Console.Deployment;
 using octalforty.Wizardby.Console.Properties;
 using octalforty.Wizardby.Core.Db;
 
-namespace octalforty.Wizardby.Console
+namespace octalforty.Wizardby.Console.Commands
 {
     [MigrationCommand(MigrationCommand.Generate)]
     public class GenerateMigrationCommand : MigrationCommandBase

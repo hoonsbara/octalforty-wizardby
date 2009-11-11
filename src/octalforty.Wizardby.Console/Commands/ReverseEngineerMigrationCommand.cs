@@ -30,7 +30,7 @@ using octalforty.Wizardby.Core.Compiler.Ast;
 using octalforty.Wizardby.Core.Db;
 using octalforty.Wizardby.Core.ReverseEngineering;
 
-namespace octalforty.Wizardby.Console
+namespace octalforty.Wizardby.Console.Commands
 {
     /// <summary>
     /// Implements <see cref="MigrationCommand.ReverseEngineer"/> command logic.

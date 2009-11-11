@@ -25,20 +25,18 @@ using System.IO;
 
 using octalforty.Wizardby.Core.Migration;
 
-namespace octalforty.Wizardby.Console
+namespace octalforty.Wizardby.Console.Commands
 {
     /// <summary>
-    /// Implements <see cref="MigrationCommand.Migrate"/> command logic.
+    /// Implements <see cref="MigrationCommand.Redo"/> command logic.
     /// </summary>
-    [MigrationCommand(MigrationCommand.Migrate)]
-    public class MigrateMigrationCommand : GuardedMigrationCommandBase
+    [MigrationCommand(MigrationCommand.Redo)]
+    public class RedoMigrationCommand : GuardedMigrationCommandBase
     {
         protected override void InternalGuardedExecute(MigrationParameters parameters)
         {
-            System.Console.WriteLine();
-
-            using(StreamReader streamReader = new BufferedStreamReader(parameters.MdlFileName, true))
-                ServiceProvider.GetService<IMigrationService>().Migrate(parameters.ConnectionString, parameters.VersionOrStep.Value, streamReader);
+            using(StreamReader streamReader = new StreamReader(parameters.MdlFileName, true))
+                ServiceProvider.GetService<IMigrationService>().Redo(parameters.ConnectionString, (int)(parameters.VersionOrStep ?? 1), streamReader);
         }
     }
 }

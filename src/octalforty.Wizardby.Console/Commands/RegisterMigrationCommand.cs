@@ -28,7 +28,7 @@ using octalforty.Wizardby.Console.Properties;
 using octalforty.Wizardby.Core.Db;
 using octalforty.Wizardby.Core.Migration;
 
-namespace octalforty.Wizardby.Console
+namespace octalforty.Wizardby.Console.Commands
 {
     /// <summary>
     /// Implements <see cref="MigrationCommand.Register"/> command logic.

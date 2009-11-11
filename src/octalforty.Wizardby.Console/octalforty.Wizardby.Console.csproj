@@ -43,6 +43,18 @@
   <ItemGroup>
     <Compile Include="AttributeAwareTypeRegistry.cs" />
     <Compile Include="BufferedStreamReader.cs" />
+    <Compile Include="Commands\DeployMigrationCommand.cs" />
+    <Compile Include="Commands\DowngradeMigrationCommand.cs" />
+    <Compile Include="Commands\GenerateMigrationCommand.cs" />
+    <Compile Include="Commands\GuardedMigrationCommandBase.cs" />
+    <Compile Include="Commands\ImportDbmlCommand.cs" />
+    <Compile Include="Commands\InfoMigrationCommand.cs" />
+    <Compile Include="Commands\MigrateMigrationCommand.cs" />
+    <Compile Include="Commands\RedoMigrationCommand.cs" />
+    <Compile Include="Commands\RegisterMigrationCommand.cs" />
+    <Compile Include="Commands\ReverseEngineerMigrationCommand.cs" />
+    <Compile Include="Commands\RollbackMigrationCommand.cs" />
+    <Compile Include="Commands\UpgradeMigrationCommand.cs" />
     <Compile Include="ConsoleStylingScope.cs" />
     <Compile Include="DbPlatformRegistry.cs" />
     <Compile Include="Deployment\DeploymentInfoParser.cs" />
@@ -52,17 +64,10 @@
     <Compile Include="Deployment\IEnvironmentCollection.cs" />
     <Compile Include="Deployment\Impl\DeploymentInfo.cs" />
     <Compile Include="Deployment\Impl\Environment.cs" />
-    <Compile Include="DeployMigrationCommand.cs" />
-    <Compile Include="DowngradeMigrationCommand.cs" />
     <Compile Include="FileDbCommandExecutionStrategy.cs" />
-    <Compile Include="GenerateMigrationCommand.cs" />
-    <Compile Include="GuardedMigrationCommandBase.cs" />
     <Compile Include="IMigrationCommand.cs" />
-    <Compile Include="ImportDbmlCommand.cs" />
-    <Compile Include="InfoMigrationCommand.cs" />
     <Compile Include="IServiceProvider.cs" />
     <Compile Include="ITimestampProvider.cs" />
-    <Compile Include="MigrateMigrationCommand.cs" />
     <Compile Include="MigrationCommand.cs" />
     <Compile Include="MigrationCommandAttribute.cs" />
     <Compile Include="MigrationCommandBase.cs" />
@@ -76,13 +81,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="RedoMigrationCommand.cs" />
-    <Compile Include="RegisterMigrationCommand.cs" />
-    <Compile Include="ReverseEngineerMigrationCommand.cs" />
-    <Compile Include="RollbackMigrationCommand.cs" />
     <Compile Include="ServiceBuilder.cs" />
     <Compile Include="ServiceProvider.cs" />
-    <Compile Include="UpgradeMigrationCommand.cs" />
     <Compile Include="UtcDateTimeTimestampProvider.cs" />
     <Compile Include="Util\ReflectionUtil.cs" />
   </ItemGroup>
