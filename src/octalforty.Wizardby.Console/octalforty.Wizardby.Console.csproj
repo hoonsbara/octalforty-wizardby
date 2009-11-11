@@ -58,6 +58,7 @@
     <Compile Include="GenerateMigrationCommand.cs" />
     <Compile Include="GuardedMigrationCommandBase.cs" />
     <Compile Include="IMigrationCommand.cs" />
+    <Compile Include="ImportDbmlCommand.cs" />
     <Compile Include="InfoMigrationCommand.cs" />
     <Compile Include="IServiceProvider.cs" />
     <Compile Include="ITimestampProvider.cs" />

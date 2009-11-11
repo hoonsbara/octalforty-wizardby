@@ -34,6 +34,7 @@ namespace octalforty.Wizardby.Console
         Generate,
         Deploy,
         ReverseEngineer,
-        Register
+        Register,
+        ImportDbml
     }
 }

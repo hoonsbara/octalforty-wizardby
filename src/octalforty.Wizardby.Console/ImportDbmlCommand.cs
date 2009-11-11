@@ -24,42 +24,16 @@
 
 namespace octalforty.Wizardby.Console
 {
-    public class MigrationParameters
+    [MigrationCommand(MigrationCommand.ImportDbml)]
+    public class ImportDbmlCommand : MigrationCommandBase
     {
-        public string Environment 
-        { get; set; }
-
-        public MigrationCommand Command 
-        { get; set; }
-
-        public long? VersionOrStep 
-        { get; set; }
-
-        public string MdlFileName 
-        { get; set; }
-
-        public string PlatformAlias 
-        { get; set; }
-
-        public string ConnectionString
-        { get; set; }
-
-        public string OutputFileName
-        { get; set; }
-
-        public MigrationParameters()
+        public ImportDbmlCommand() :
+            base(false, false, false, false)
         {
         }
 
-        public MigrationParameters(MigrationCommand command, int? versionOrStep, string mdlFileName, 
-            string platformAlias, string connectionString, string outputFileName)
+        protected override void InternalExecute(MigrationParameters parameters)
         {
-            this.Command = command;
-            this.VersionOrStep = versionOrStep;
-            this.MdlFileName = mdlFileName;
-            this.PlatformAlias = platformAlias;
-            this.ConnectionString = connectionString;
-            this.OutputFileName = outputFileName;
         }
     }
 }
