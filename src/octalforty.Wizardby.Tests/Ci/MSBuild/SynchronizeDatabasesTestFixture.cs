@@ -33,7 +33,7 @@ using octalforty.Wizardby.Ci.MSBuild;
 using octalforty.Wizardby.Core.Db;
 using octalforty.Wizardby.Core.Migration;
 using octalforty.Wizardby.Core.Migration.Impl;
-using octalforty.Wizardby.Db.SqlServer2005;
+using octalforty.Wizardby.Db.SQLite;
 using octalforty.Wizardby.Tests.Core.Migration.Impl;
 using octalforty.Wizardby.Tests.Util;
 
@@ -53,7 +53,7 @@ namespace octalforty.Wizardby.Tests.Ci.MSBuild
         [TestFixtureSetUp()]
         public void TestFixtureSetUp()
         {
-            dbPlatform = new SqlServer2005Platform();
+            dbPlatform = new SQLitePlatform();
             migrationVersionInfoManager = new DbMigrationVersionInfoManager(dbPlatform, new DbCommandExecutionStrategy(), "SchemaInfo");
             sourceConnectionString = ConfigurationManager.AppSettings["connectionString"];
             targetConnectionString = ConfigurationManager.AppSettings["secondaryConnectionString"];
@@ -65,19 +65,15 @@ namespace octalforty.Wizardby.Tests.Ci.MSBuild
         [TestFixtureTearDown()]
         public void TestFixtureTearDown()
         {
-            MigrationServiceUtil.MigrateTo(migrationService, sourceConnectionString,
-                MigrationServiceTestFixture.OxiteWithMissingVersion, 0);
-            MigrationServiceUtil.MigrateTo(migrationService, targetConnectionString,
-                MigrationServiceTestFixture.OxiteWithMissingVersion, 0);
+            dbPlatform.DeploymentManager.Deploy(sourceConnectionString, DbDeploymentMode.Redeploy);
+            dbPlatform.DeploymentManager.Deploy(targetConnectionString, DbDeploymentMode.Redeploy);
         }
 
         [SetUp()]
         public void SetUp()
         {
-            MigrationServiceUtil.MigrateTo(migrationService, sourceConnectionString,
-                MigrationServiceTestFixture.OxiteWithMissingVersion, 0);
-            MigrationServiceUtil.MigrateTo(migrationService, targetConnectionString,
-                MigrationServiceTestFixture.OxiteWithMissingVersion, 0);
+            dbPlatform.DeploymentManager.Deploy(sourceConnectionString, DbDeploymentMode.Redeploy);
+            dbPlatform.DeploymentManager.Deploy(targetConnectionString, DbDeploymentMode.Redeploy);
         }
 
         [TearDown()]
@@ -102,7 +98,7 @@ namespace octalforty.Wizardby.Tests.Ci.MSBuild
                 Path.Combine(Path.Combine(GetAssemblyLocation(Assembly.GetExecutingAssembly()), "Resources"), "OxiteWithMissingVersion.mdl");
             synchronizeDatabases.SourceConnectionString = sourceConnectionString;
             synchronizeDatabases.SourceDbPlatformType = string.Format("{0}, {1}",
-                typeof(SqlServer2005Platform).FullName, typeof(SqlServer2005Platform).Assembly.GetName().Name);
+                typeof(SQLitePlatform).FullName, typeof(SQLitePlatform).Assembly.GetName().Name);
             synchronizeDatabases.TargetConnectionString = targetConnectionString;
 
             Assert.IsTrue(synchronizeDatabases.Execute());
@@ -125,7 +121,7 @@ namespace octalforty.Wizardby.Tests.Ci.MSBuild
                 Path.Combine(Path.Combine(GetAssemblyLocation(Assembly.GetExecutingAssembly()), "Resources"), "OxiteWithMissingVersion.mdl");
             synchronizeDatabases.SourceConnectionString = sourceConnectionString;
             synchronizeDatabases.SourceDbPlatformType = string.Format("{0}, {1}",
-                typeof(SqlServer2005Platform).FullName, typeof(SqlServer2005Platform).Assembly.GetName().Name);
+                typeof(SQLitePlatform).FullName, typeof(SQLitePlatform).Assembly.GetName().Name);
             synchronizeDatabases.TargetConnectionString = targetConnectionString;
 
             Assert.IsTrue(synchronizeDatabases.Execute());
@@ -147,7 +143,7 @@ namespace octalforty.Wizardby.Tests.Ci.MSBuild
                 Path.Combine(Path.Combine(GetAssemblyLocation(Assembly.GetExecutingAssembly()), "Resources"), "OxiteWithMissingVersion.mdl");
             synchronizeDatabases.SourceConnectionString = sourceConnectionString;
             synchronizeDatabases.SourceDbPlatformType = string.Format("{0}, {1}",
-                typeof(SqlServer2005Platform).FullName, typeof(SqlServer2005Platform).Assembly.GetName().Name);
+                typeof(SQLitePlatform).FullName, typeof(SQLitePlatform).Assembly.GetName().Name);
             synchronizeDatabases.TargetConnectionString = targetConnectionString;
 
             Assert.IsFalse(synchronizeDatabases.Execute());

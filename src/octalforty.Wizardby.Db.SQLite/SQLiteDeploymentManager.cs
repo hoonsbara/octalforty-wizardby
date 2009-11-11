@@ -22,7 +22,7 @@
 // THE SOFTWARE.
 #endregion
 using System.Data.SQLite;
-
+using System.IO;
 using octalforty.Wizardby.Core.Db;
 
 namespace octalforty.Wizardby.Db.SQLite
@@ -38,10 +38,14 @@ namespace octalforty.Wizardby.Db.SQLite
         {
         }
 
-        public void Deploy(string connectionString)
+        public void Deploy(string connectionString, DbDeploymentMode deploymentMode)
         {
-            System.Data.SQLite.SQLiteConnectionStringBuilder connectionStringBuilder =
+            var connectionStringBuilder =
                 new System.Data.SQLite.SQLiteConnectionStringBuilder(connectionString);
+
+            if(deploymentMode == DbDeploymentMode.Redeploy && File.Exists(connectionStringBuilder.DataSource))
+                File.Delete(connectionStringBuilder.DataSource);
+
             SQLiteConnection.CreateFile(connectionStringBuilder.DataSource);
         }
     }

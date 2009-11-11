@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.50727</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{CA07D421-EC04-4D9F-8936-CACF513500D9}</ProjectGuid>
     <OutputType>Exe</OutputType>
@@ -97,6 +97,10 @@
     <ProjectReference Include="..\octalforty.Wizardby.Db.SQLite\octalforty.Wizardby.Db.SQLite.csproj">
       <Project>{3B68C293-E2EC-4783-82D3-49FD2E1FEBDE}</Project>
       <Name>octalforty.Wizardby.Db.SQLite</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\octalforty.Wizardby.Db.SqlServer2008\octalforty.Wizardby.Db.SqlServer2008.csproj">
+      <Project>{4D37A7BE-3D5C-4263-B13D-B29A3186B843}</Project>
+      <Name>octalforty.Wizardby.Db.SqlServer2008</Name>
     </ProjectReference>
     <ProjectReference Include="..\octalforty.Wizardby.Db\octalforty.Wizardby.Db.csproj">
       <Project>{735ADA03-27DA-4C9F-BDAF-21DEEC2DD5C8}</Project>

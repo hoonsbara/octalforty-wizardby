@@ -33,7 +33,9 @@ using octalforty.Wizardby.Ci.MSBuild;
 using octalforty.Wizardby.Core.Db;
 using octalforty.Wizardby.Core.Migration;
 using octalforty.Wizardby.Core.Migration.Impl;
+using octalforty.Wizardby.Db.SQLite;
 using octalforty.Wizardby.Db.SqlServer2005;
+using octalforty.Wizardby.Tests.Util;
 
 namespace octalforty.Wizardby.Tests.Ci.MSBuild
 {
@@ -47,19 +49,22 @@ namespace octalforty.Wizardby.Tests.Ci.MSBuild
         [TestFixtureSetUp()]
         public void TestFixtureSetUp()
         {
-            dbPlatform = new SqlServer2005Platform();
+            dbPlatform = new SQLitePlatform();
             migrationVersionInfoManager = new DbMigrationVersionInfoManager(dbPlatform, new DbCommandExecutionStrategy(), "SchemaInfo");
             connectionString = ConfigurationManager.AppSettings["connectionString"];
+
+            dbPlatform.DeploymentManager.Deploy(connectionString, DbDeploymentMode.Redeploy);
         }
 
         [Test()]
         public void Execute()
         {
-            UpgradeDatabase upgradeDatabase = new UpgradeDatabase();
-            upgradeDatabase.DbPlatformType = string.Format("{0}, {1}", 
-                typeof(SqlServer2005Platform).FullName, typeof(SqlServer2005Platform).Assembly.GetName().Name);
-            upgradeDatabase.ConnectionString = connectionString;
-            upgradeDatabase.MigrationDefinitionPath = Path.Combine(Path.Combine(GetAssemblyLocation(Assembly.GetExecutingAssembly()), "Resources"), "Oxite.mdl");
+            var upgradeDatabase = new UpgradeDatabase
+                {
+                    DbPlatformType = dbPlatform.GetType().AssemblyQualifiedName,
+                    ConnectionString = connectionString,
+                    MigrationDefinitionPath = PathUtil.Combine(GetAssemblyLocation(Assembly.GetExecutingAssembly()), "Resources", "Oxite.mdl")
+                };
 
             Assert.IsTrue(upgradeDatabase.Execute());
 

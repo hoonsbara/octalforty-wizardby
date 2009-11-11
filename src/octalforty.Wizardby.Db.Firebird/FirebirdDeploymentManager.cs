@@ -38,7 +38,7 @@ namespace octalforty.Wizardby.Db.Firebird
         {
         }
 
-        public void Deploy(string connectionString)
+        public void Deploy(string connectionString, DbDeploymentMode deploymentMode)
         {
             FbConnection.CreateDatabase(connectionString);
         }

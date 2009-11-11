@@ -1,4 +1,4 @@
-#region The MIT License
+﻿#region The MIT License
 // The MIT License
 // 
 // Copyright (c) 2009 octalforty studios
@@ -22,32 +22,15 @@
 // THE SOFTWARE.
 #endregion
 using System;
-using System.Runtime.InteropServices;
 
-//using ADOX;
-
-using octalforty.Wizardby.Core.Db;
-
-namespace octalforty.Wizardby.Db.Jet
+namespace octalforty.Wizardby.Core.Db
 {
-    public class JetDeploymentManager : DbPlatformDependencyBase, IDbDeploymentManager
+    /// <summary>
+    /// Defines capabilities of a particular <see cref="IDbPlatform"/>.
+    /// </summary>
+    [Flags()]
+    public enum DbPlatformCapabilities : long
     {
-        public void Deploy(string connectionString, DbDeploymentMode deploymentMode)
-        {
-            /*Catalog catalog = (Catalog)new CatalogClass();
-
-            try
-            {
-                string adoxConnectionString = connectionString + "Jet OLEDB;Engine Type=5";
-                Console.WriteLine(adoxConnectionString);
-
-                catalog.Create(adoxConnectionString);
-            } // try
-
-            finally
-            {
-                Marshal.ReleaseComObject(catalog);
-            }*/
-        }
+        SupportsClusteredIndexes = 1
     }
 }

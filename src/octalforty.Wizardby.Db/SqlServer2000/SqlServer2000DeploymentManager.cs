@@ -39,7 +39,7 @@ namespace octalforty.Wizardby.Db.SqlServer2000
         {
         }
 
-        public void Deploy(string connectionString)
+        public void Deploy(string connectionString, DbDeploymentMode deploymentMode)
         {
             SqlConnectionStringBuilder connectionStringBuilder = new SqlConnectionStringBuilder(connectionString);
             

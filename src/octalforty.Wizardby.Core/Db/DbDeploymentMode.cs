@@ -21,33 +21,12 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
-using System;
-using System.Runtime.InteropServices;
-
-//using ADOX;
-
-using octalforty.Wizardby.Core.Db;
-
-namespace octalforty.Wizardby.Db.Jet
+namespace octalforty.Wizardby.Core.Db
 {
-    public class JetDeploymentManager : DbPlatformDependencyBase, IDbDeploymentManager
+    public enum DbDeploymentMode
     {
-        public void Deploy(string connectionString, DbDeploymentMode deploymentMode)
-        {
-            /*Catalog catalog = (Catalog)new CatalogClass();
+        Deploy,
 
-            try
-            {
-                string adoxConnectionString = connectionString + "Jet OLEDB;Engine Type=5";
-                Console.WriteLine(adoxConnectionString);
-
-                catalog.Create(adoxConnectionString);
-            } // try
-
-            finally
-            {
-                Marshal.ReleaseComObject(catalog);
-            }*/
-        }
+        Redeploy
     }
 }

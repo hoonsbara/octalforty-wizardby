@@ -21,7 +21,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
+
+using System;
 using System.Data;
+using octalforty.Wizardby.Core.Db;
 
 namespace octalforty.Wizardby.Core.Migration.Impl
 {
@@ -29,7 +32,14 @@ namespace octalforty.Wizardby.Core.Migration.Impl
     {
         public void Execute(IDbCommand dbCommand)
         {
-            dbCommand.ExecuteNonQuery();
+            try
+            {
+                dbCommand.ExecuteNonQuery();
+            } // try
+            catch(Exception e)
+            {
+                throw new DbPlatformException(string.Format("Could not execute SQL '{0}'", dbCommand.CommandText), e);
+            } // catch
         }
     }
 }

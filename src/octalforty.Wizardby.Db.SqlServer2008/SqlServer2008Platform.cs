@@ -1,4 +1,4 @@
-#region The MIT License
+﻿#region The MIT License
 // The MIT License
 // 
 // Copyright (c) 2009 octalforty studios
@@ -21,33 +21,16 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
-using System;
-using System.Runtime.InteropServices;
-
-//using ADOX;
-
 using octalforty.Wizardby.Core.Db;
+using octalforty.Wizardby.Db.SqlServer2005;
 
-namespace octalforty.Wizardby.Db.Jet
+namespace octalforty.Wizardby.Db.SqlServer2008
 {
-    public class JetDeploymentManager : DbPlatformDependencyBase, IDbDeploymentManager
+    /// <summary>
+    /// A <see cref="IDbPlatform"/> implementation for the Microsoft SQL Server 2008.
+    /// </summary>
+    [DbPlatform("Microsoft SQL Server 2008", "sqlserver2008")]
+    public class SqlServer2008Platform : SqlServer2005Platform
     {
-        public void Deploy(string connectionString, DbDeploymentMode deploymentMode)
-        {
-            /*Catalog catalog = (Catalog)new CatalogClass();
-
-            try
-            {
-                string adoxConnectionString = connectionString + "Jet OLEDB;Engine Type=5";
-                Console.WriteLine(adoxConnectionString);
-
-                catalog.Create(adoxConnectionString);
-            } // try
-
-            finally
-            {
-                Marshal.ReleaseComObject(catalog);
-            }*/
-        }
     }
 }

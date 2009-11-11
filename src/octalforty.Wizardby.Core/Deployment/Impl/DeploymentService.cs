@@ -29,7 +29,7 @@ namespace octalforty.Wizardby.Core.Deployment.Impl
     {
         public void Deploy(IDbPlatform dbPlatform, string connectionString)
         {
-            dbPlatform.DeploymentManager.Deploy(connectionString);
+            dbPlatform.DeploymentManager.Deploy(connectionString, DbDeploymentMode.Deploy);
         }
     }
 }

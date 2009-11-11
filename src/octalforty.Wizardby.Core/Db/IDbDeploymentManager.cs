@@ -25,6 +25,6 @@ namespace octalforty.Wizardby.Core.Db
 {
     public interface IDbDeploymentManager : IDbPlatformDependency
     {
-        void Deploy(string connectionString);
+        void Deploy(string connectionString, DbDeploymentMode deploymentMode);
     }
 }

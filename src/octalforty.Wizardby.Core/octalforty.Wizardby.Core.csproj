@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.50727</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{31A1F1A5-E685-4C89-929D-FDC93CD12BB0}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -300,6 +300,7 @@
     <Compile Include="Db\DbAction.cs" />
     <Compile Include="Db\DbConnectionAction.cs" />
     <Compile Include="Db\DbConnectionStringBuilderBase.cs" />
+    <Compile Include="Db\DbDeploymentMode.cs" />
     <Compile Include="Db\DbDialectBase.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -311,6 +312,7 @@
     <Compile Include="Db\DbPlatformBase.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Db\DbPlatformCapabilities.cs" />
     <Compile Include="Db\DbPlatformDependencyBase.cs" />
     <Compile Include="Db\DbPlatformException.cs" />
     <Compile Include="Db\DbPlatformUtil.cs" />

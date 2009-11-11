@@ -29,7 +29,7 @@ namespace octalforty.Wizardby.Db.SqlCe
 {
     public class SqlCeDeploymentManager : DbPlatformDependencyBase, IDbDeploymentManager
     {
-        public void Deploy(string connectionString)
+        public void Deploy(string connectionString, DbDeploymentMode deploymentMode)
         {
             using(SqlCeEngine sqlCeEngine = new SqlCeEngine(connectionString))
             {

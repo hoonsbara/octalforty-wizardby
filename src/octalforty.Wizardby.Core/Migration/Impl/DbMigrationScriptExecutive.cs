@@ -24,7 +24,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-
+using System.Diagnostics;
 using octalforty.Wizardby.Core.Db;
 using octalforty.Wizardby.Core.Util;
 
@@ -79,7 +79,7 @@ namespace octalforty.Wizardby.Core.Migration.Impl
                                 dbCommand.CommandText = ddlScript;
                                 dbCommand.CommandType = CommandType.Text;
 
-                                //Trace.WriteLine(ddlScript);
+                                Trace.WriteLine(ddlScript);
 
                                 //
                                 // Workaround for Jet
