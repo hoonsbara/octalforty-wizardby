@@ -24,6 +24,7 @@
 using NUnit.Framework;
 
 using octalforty.Wizardby.Console;
+using octalforty.Wizardby.Console.Commands;
 
 namespace octalforty.Wizardby.Tests.Console
 {

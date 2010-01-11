@@ -32,5 +32,9 @@ namespace octalforty.Wizardby.Db.SqlServer2008
     [DbPlatform("Microsoft SQL Server 2008", "sqlserver2008")]
     public class SqlServer2008Platform : SqlServer2005Platform
     {
+        public override IDbSchemaProvider SchemaProvider
+        {
+            get { return new SqlServer2008SchemaProvider(this); }
+        }
     }
 }

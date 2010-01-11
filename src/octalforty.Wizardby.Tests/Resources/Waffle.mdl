@@ -13,12 +13,14 @@
 			
 			index IX_Login columns => [ID, Login], unique => true
 
-	version 1:		
+	version 1:
+		add schema dbo
+				
 		Forum:
 			Name type => String, length => 200, nullable => false
 				
 	version 2:
-	    alter table User:
+	    alter table User schema => dbo:
             remove column Password
             remove index IX_Login
 	        

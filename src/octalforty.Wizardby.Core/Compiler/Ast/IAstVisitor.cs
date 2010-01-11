@@ -186,5 +186,11 @@ namespace octalforty.Wizardby.Core.Compiler.Ast
         /// </summary>
         /// <param name="executeNativeSqlNode"></param>
         void Visit(IExecuteNativeSqlNode executeNativeSqlNode);
+
+        /// <summary>
+        /// Visits the given <paramref name="addSchemaNode"/>.
+        /// </summary>
+        /// <param name="addSchemaNode"></param>
+        void Visit(IAddSchemaNode addSchemaNode);
     }
 }

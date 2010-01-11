@@ -38,6 +38,28 @@ namespace octalforty.Wizardby.Tests.Core.Compiler
     public class MdlParserTestFixture
     {
         [Test()]
+        public void ParseAddSchema()
+        {
+            var parser = new MdlParser(CreateScanner("add schema Foo"));
+            var addSchemaNode = (IAddSchemaNode)parser.Parse();
+
+            Assert.IsNotNull(addSchemaNode);
+
+            Assert.AreEqual("Foo", addSchemaNode.Name);
+        }
+
+        [Test()]
+        public void ParseAddSchema2()
+        {
+            var parser = new MdlParser(CreateScanner("add schema \"Foo\""));
+            var addSchemaNode = (IAddSchemaNode)parser.Parse();
+
+            Assert.IsNotNull(addSchemaNode);
+
+            Assert.AreEqual("Foo", addSchemaNode.Name);
+        }
+
+        [Test()]
         public void ParseNativeSqlNode()
         {
             IMdlParser mdlParser = new MdlParser(CreateScanner("execute native-sql upgrade-resource => UpdateWhateverHappensToBe"));
@@ -784,6 +806,7 @@ namespace octalforty.Wizardby.Tests.Core.Compiler
             mdlScanner.RegisterKeyword("constraint");
             mdlScanner.RegisterKeyword("execute");
             mdlScanner.RegisterKeyword("native-sql");
+            mdlScanner.RegisterKeyword("schema");
 
             return mdlScanner;
         }

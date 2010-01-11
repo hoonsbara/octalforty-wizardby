@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Database Name="componento" Class="ComponentoDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=(local)\sqlexpress;Initial Catalog=componento;Integrated Security=True" SettingsObjectName="octalforty.Wizardby.Tests.Properties.Settings" SettingsPropertyName="componentoConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.Component" Member="Components">
+    <Type Name="Component">
+      <Column Name="ID" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(1000) NOT NULL" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(4000) NOT NULL" CanBeNull="false" />
+      <Column Name="Version" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="ProjectUri" Type="System.String" DbType="NVarChar(1000) NOT NULL" CanBeNull="false" />
+      <Column Name="ProjectLogoUri" Type="System.String" DbType="NVarChar(1000) NOT NULL" CanBeNull="false" />
+      <Column Name="PublishedByProfileID" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Association Name="Component_ComponentCli" Member="ComponentClis" ThisKey="ID" OtherKey="ComponentID" Type="ComponentCli" />
+      <Association Name="Component_ComponentIsa" Member="ComponentIsas" ThisKey="ID" OtherKey="ComponentID" Type="ComponentIsa" />
+      <Association Name="Component_ComponentLicense" Member="ComponentLicenses" ThisKey="ID" OtherKey="ComponentID" Type="ComponentLicense" />
+      <Association Name="Component_ComponentManifest" Member="ComponentManifests" ThisKey="ID" OtherKey="ComponentID" Type="ComponentManifest" />
+      <Association Name="Component_ComponentRequest" Member="ComponentRequests" ThisKey="ID" OtherKey="ComponentID" Type="ComponentRequest" />
+      <Association Name="Profile_Component" Member="Profile" ThisKey="PublishedByProfileID" OtherKey="ID" Type="Profile" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ComponentCli" Member="ComponentClis">
+    <Type Name="ComponentCli">
+      <Column Name="ID" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ComponentID" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="Cli" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="Version" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Association Name="Component_ComponentCli" Member="Component" ThisKey="ComponentID" OtherKey="ID" Type="Component" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ComponentIsa" Member="ComponentIsas">
+    <Type Name="ComponentIsa">
+      <Column Name="ID" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ComponentID" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="Isa" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Association Name="Component_ComponentIsa" Member="Component" ThisKey="ComponentID" OtherKey="ID" Type="Component" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ComponentLicense" Member="ComponentLicenses">
+    <Type Name="ComponentLicense">
+      <Column Name="ID" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ComponentID" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="License" Type="System.String" DbType="NVarChar(1000) NOT NULL" CanBeNull="false" />
+      <Association Name="Component_ComponentLicense" Member="Component" ThisKey="ComponentID" OtherKey="ID" Type="Component" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ComponentManifest" Member="ComponentManifests">
+    <Type Name="ComponentManifest">
+      <Column Name="ID" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ComponentID" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="Manifest" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Association Name="Component_ComponentManifest" Member="Component" ThisKey="ComponentID" OtherKey="ID" Type="Component" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ComponentRequest" Member="ComponentRequests">
+    <Type Name="ComponentRequest">
+      <Column Name="ID" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ComponentID" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="Date" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="Url" Type="System.String" DbType="NVarChar(1000) NOT NULL" CanBeNull="false" />
+      <Column Name="UserHostAddress" Type="System.String" DbType="NVarChar(1000) NOT NULL" CanBeNull="false" />
+      <Column Name="UserHostName" Type="System.String" DbType="NVarChar(1000) NOT NULL" CanBeNull="false" />
+      <Association Name="Component_ComponentRequest" Member="Component" ThisKey="ComponentID" OtherKey="ID" Type="Component" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Profile" Member="Profiles">
+    <Type Name="Profile">
+      <Column Name="ID" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(1000) NOT NULL" CanBeNull="false" />
+      <Column Name="Email" Type="System.String" DbType="NVarChar(1000) NOT NULL" CanBeNull="false" />
+      <Column Name="OpenID" Type="System.String" DbType="NVarChar(1000) NOT NULL" CanBeNull="false" />
+      <Association Name="Profile_Component" Member="Components" ThisKey="ID" OtherKey="PublishedByProfileID" Type="Component" />
+    </Type>
+  </Table>
+</Database>

@@ -14,6 +14,7 @@
     <OldToolsVersion>2.0</OldToolsVersion>
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -36,12 +37,19 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Compiler\Ast\AstBuilder.cs" />
     <Compile Include="Compiler\Ast\AstNodePropertyUtil.cs" />
+    <Compile Include="Compiler\Ast\IAddSchemaNode.cs" />
     <Compile Include="Compiler\Ast\IIntegerAstNodePropertyValue.cs" />
     <Compile Include="Compiler\Ast\IListAstNodePropertyValue.cs" />
     <Compile Include="Compiler\Ast\Impl\AddConstraintNode.cs" />
@@ -52,6 +60,7 @@
     <Compile Include="Compiler\Ast\IAddConstraintNode.cs" />
     <Compile Include="Compiler\Ast\IConstraintNode.cs" />
     <Compile Include="Compiler\Ast\IIndexNode.cs" />
+    <Compile Include="Compiler\Ast\Impl\AddSchemaNode.cs" />
     <Compile Include="Compiler\Ast\Impl\ExecuteNativeSqlNode.cs" />
     <Compile Include="Compiler\Ast\Impl\ListAstNodePropertyValue.cs" />
     <Compile Include="Compiler\Ast\Impl\ColumnNodeBase.cs" />
@@ -155,6 +164,7 @@
     <Compile Include="Compiler\Ast\Impl\RemoveTableNode.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Compiler\Ast\Impl\SchemaNodeBase.cs" />
     <Compile Include="Compiler\Ast\Impl\StringAstNodePropertyValue.cs" />
     <Compile Include="Compiler\Ast\Impl\SymbolAstNodePropertyValue.cs" />
     <Compile Include="Compiler\Ast\Impl\TableNodeBase.cs" />
@@ -185,6 +195,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Compiler\Ast\ISchemaElementNode.cs" />
+    <Compile Include="Compiler\Ast\ISchemaNode.cs" />
     <Compile Include="Compiler\Ast\IStringAstNodePropertyValue.cs" />
     <Compile Include="Compiler\Ast\ISymbolAstNodePropertyValue.cs" />
     <Compile Include="Compiler\Ast\ITableNode.cs" />
@@ -296,6 +307,7 @@
     <Compile Include="Compiler\XmdlScanner.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DbmlImporter.cs" />
     <Compile Include="Db\AnsiDbScriptGeneratorBase.cs" />
     <Compile Include="Db\DbAction.cs" />
     <Compile Include="Db\DbConnectionAction.cs" />

@@ -538,6 +538,9 @@ namespace octalforty.Wizardby.Core.Compiler
             if(tokens.First.Equals(Keyword(MdlSyntax.Constraint)))
                 return ParseAddConstraintNode(tokens, parent, add.Location);
 
+            if(tokens.First.Equals(Keyword(MdlSyntax.Schema)))
+                return ParseAddSchemaNode(tokens, parent, add.Location);
+
             throw CreateMdlParserException(Resources.MdlParser.UnexpectedTokenAt, tokens.First.Lexeme, tokens.First.Type,
                 TranslateLocation(tokens.First.Location));
         }
@@ -580,6 +583,27 @@ namespace octalforty.Wizardby.Core.Compiler
 
             throw CreateMdlParserException(Resources.MdlParser.UnexpectedTokenAt, tokens.First.Lexeme, tokens.First.Type,
                 TranslateLocation(tokens.First.Location));
+        }
+
+        private static IAstNode ParseAddSchemaNode(TokenSequence tokens, IAstNode parent, Location location)
+        {
+            ParseKeyword(tokens, MdlSyntax.Schema);
+            return ParseAddSchemaNodeCore(tokens, parent, location);
+        }
+
+        private static IAstNode ParseAddSchemaNodeCore(TokenSequence tokens, IAstNode parent, Location location)
+        {
+            return ParseNode(tokens, parent, 
+                delegate
+                    {
+                        var token = Parse(tokens, TokenType.Symbol, TokenType.StringConstant);
+                        var name = token.Lexeme;
+
+                        var addSchemaNode = new AddSchemaNode(parent, name);
+                        addSchemaNode.Location = location ?? token.Location;
+
+                        return addSchemaNode;
+                    });
         }
 
         private static IAstNode ParseAddColumnNode(TokenSequence tokens, IAstNode parent, Location location)

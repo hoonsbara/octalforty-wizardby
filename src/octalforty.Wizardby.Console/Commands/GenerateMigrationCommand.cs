@@ -99,6 +99,12 @@ namespace octalforty.Wizardby.Console.Commands
 
                     Directory.CreateDirectory(nativeResourcesPath);
 
+                    var upgradeFilePath = Path.Combine(nativeResourcesPath, "upgrade.sql");
+                    File.WriteAllText(upgradeFilePath, string.Format("/* This is an Upgrade script for {0} for version {1} */", DbPlatformUtil.GetDbPlatformAlias(dbPlatform), timestamp));
+
+                    var downgradeFilePath = Path.Combine(nativeResourcesPath, "downgrade.sql");
+                    File.WriteAllText(downgradeFilePath, string.Format("/* This is a Downgrade script for {0} for version {1} */", DbPlatformUtil.GetDbPlatformAlias(dbPlatform), timestamp));
+
                     using(new ConsoleStylingScope(ConsoleColor.Green))
                         System.Console.WriteLine(Resources.GeneratedNativeSqlResourcesDirectory, nativeResourcesPath);
                 } // if
