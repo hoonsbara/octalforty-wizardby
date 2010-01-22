@@ -25,7 +25,6 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
-using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Text;
@@ -35,7 +34,7 @@ using NUnit.Framework;
 using octalforty.Wizardby.Core.Db;
 using octalforty.Wizardby.Core.Migration;
 using octalforty.Wizardby.Core.Migration.Impl;
-using octalforty.Wizardby.Db.SqlServer2005;
+using octalforty.Wizardby.Db.SQLite;
 
 namespace octalforty.Wizardby.Tests.Core.Migration.Impl
 {
@@ -60,7 +59,7 @@ namespace octalforty.Wizardby.Tests.Core.Migration.Impl
         [TestFixtureSetUp()]
         public void TestFixtureSetUp()
         {
-            dbPlatform = new SqlServer2005Platform();
+            dbPlatform = new SQLitePlatform();
             connectionString = ConfigurationManager.AppSettings["connectionString"];
 
             migrationVersionInfoManager = new DbMigrationVersionInfoManager(dbPlatform, new DbCommandExecutionStrategy(), "SchemaInfo");
@@ -84,6 +83,7 @@ namespace octalforty.Wizardby.Tests.Core.Migration.Impl
         {
             try
             {
+                dbPlatform.DeploymentManager.Deploy(connectionString, DbDeploymentMode.Redeploy);
                 MigrateTo(Oxite, 0);
             } // try
             catch(Exception e)

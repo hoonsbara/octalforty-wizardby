@@ -37,7 +37,9 @@ using octalforty.Wizardby.Core.Migration.Impl;
 using octalforty.Wizardby.Core.ReverseEngineering;
 using octalforty.Wizardby.Core.ReverseEngineering.Impl;
 using octalforty.Wizardby.Core.Util;
-using octalforty.Wizardby.Db.SqlServer2005;
+
+using octalforty.Wizardby.Db.SQLite;
+
 using octalforty.Wizardby.Tests.Core.Compiler;
 using octalforty.Wizardby.Tests.Core.Compiler.Impl;
 
@@ -55,8 +57,9 @@ namespace octalforty.Wizardby.Tests.Core.ReverseEngineering.Impl
         [TestFixtureSetUp()]
         public void TestFixtureSetUp()
         {
-            dbPlatform = new SqlServer2005Platform();
+            dbPlatform = new SQLitePlatform();
             connectionString = ConfigurationManager.AppSettings["connectionString"];
+            dbPlatform.DeploymentManager.Deploy(connectionString, DbDeploymentMode.Redeploy);
 
             migrationService = new MigrationService(
                 dbPlatform,

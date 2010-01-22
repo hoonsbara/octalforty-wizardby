@@ -21,7 +21,6 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
-using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -31,7 +30,7 @@ using NUnit.Framework;
 using octalforty.Wizardby.Core.Db;
 using octalforty.Wizardby.Core.Migration;
 using octalforty.Wizardby.Core.Migration.Impl;
-using octalforty.Wizardby.Db.SqlServer2005;
+using octalforty.Wizardby.Db.SQLite;
 
 namespace octalforty.Wizardby.Tests.Core.Migration.Impl
 {
@@ -47,7 +46,13 @@ namespace octalforty.Wizardby.Tests.Core.Migration.Impl
         public void TextFixtureSetUp()
         {
             connectionString = ConfigurationManager.AppSettings["connectionString"];
-            dbPlatform = new SqlServer2005Platform();
+            dbPlatform = new SQLitePlatform();
+        }
+
+        [SetUp()]
+        public void SetUp()
+        {
+            dbPlatform.DeploymentManager.Deploy(connectionString, DbDeploymentMode.Redeploy);
         }
 
         [Test()]

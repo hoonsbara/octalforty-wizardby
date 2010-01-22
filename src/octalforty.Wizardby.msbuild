@@ -13,7 +13,7 @@
 
   <PropertyGroup>
     <ApplicationVersion>1.0.0</ApplicationVersion>
-    <Milestone>a2</Milestone>
+    <Milestone>a3</Milestone>
   </PropertyGroup>
 
   <!-- Export -->
