@@ -22,7 +22,9 @@
 // THE SOFTWARE.
 #endregion
 using System;
+using System.Globalization;
 using System.IO;
+using System.Text;
 using System.Text.RegularExpressions;
 
 using octalforty.Wizardby.Core.Db;
@@ -50,18 +52,24 @@ namespace octalforty.Wizardby.Core.Migration.Impl
         /// <returns></returns>
         public string[] GetUpgradeResources(IDbPlatform dbPlatform, string name, long version)
         {
-            string alias = DbPlatformUtil.GetDbPlatformAlias(dbPlatform);
-            string resourcePath = 
+            var alias = DbPlatformUtil.GetDbPlatformAlias(dbPlatform);
+            var resourcePath = 
                 Path.Combine(baseDirectory,
                     Path.Combine(alias, version.ToString()));
 
             if(!Directory.Exists(resourcePath))
                 return null;
 
-            string resourceFilePath = Path.Combine(resourcePath, string.Format("{0}.sql", name));
-            string nativeResource = File.ReadAllText(resourceFilePath);
+            var codePage = CultureInfo.CurrentUICulture.TextInfo.ANSICodePage;
+            var encoding = codePage.Equals(0)?
+                Encoding.UTF8:
+                Encoding.GetEncoding(codePage);
+
+            var resourceFilePath = Path.Combine(resourcePath, string.Format("{0}.sql", name));
+            var nativeResource = File.ReadAllText(resourceFilePath, encoding);
             
-            Regex goRegex = new Regex(@"^\s*go\s*", RegexOptions.Multiline);
+            var goRegex = new Regex(@"^\s*go\s*", RegexOptions.Multiline);
+
             return goRegex.Split(nativeResource);
         }
 
