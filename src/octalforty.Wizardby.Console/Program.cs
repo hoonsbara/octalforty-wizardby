@@ -87,6 +87,7 @@ namespace octalforty.Wizardby.Console
             serviceProvider.RegisterService(new DeploymentService());
             serviceProvider.RegisterService(new ReverseEngineeringService());
             serviceProvider.RegisterService(new UtcDateTimeTimestampProvider());
+            serviceProvider.RegisterService(new FileSystemNativeSqlResourceProvider(Directory.GetCurrentDirectory()));
             
             //
             // Prepare Migration Command Registry...
