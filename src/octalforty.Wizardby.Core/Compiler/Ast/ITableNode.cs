@@ -30,5 +30,10 @@ namespace octalforty.Wizardby.Core.Compiler.Ast
     /// </summary>
     public interface ITableNode : ISchemaElementNode, ISchemaElementDefinition
     {
+        /// <summary>
+        /// Gets or sets the name of the schema this table belongs to.
+        /// </summary>
+        string Schema
+        { get; set; }
     }
 }

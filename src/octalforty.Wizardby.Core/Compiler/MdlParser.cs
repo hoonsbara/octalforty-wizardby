@@ -329,11 +329,10 @@ namespace octalforty.Wizardby.Core.Compiler
             return ParseNode(tokens, parent,
                 delegate
                     {
-                        Token token = Parse(tokens, TokenType.Symbol, TokenType.StringConstant);
-                        string name = token.Lexeme;
+                        var token = Parse(tokens, TokenType.Symbol, TokenType.StringConstant);
+                        var name = token.Lexeme;
 
-                        AddTableNode addTableNode = new AddTableNode(parent, name);
-                        addTableNode.Location = location ?? token.Location;
+                        var addTableNode = new AddTableNode(parent, name) {Location = location ?? token.Location};
 
                         return addTableNode;
                     },

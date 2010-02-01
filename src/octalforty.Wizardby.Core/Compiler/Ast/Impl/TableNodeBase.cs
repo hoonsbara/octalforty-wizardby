@@ -25,8 +25,6 @@ namespace octalforty.Wizardby.Core.Compiler.Ast.Impl
 {
     public abstract class TableNodeBase : AstNode, ITableNode
     {
-        private string name;
-
         protected TableNodeBase(IAstNode parent) : base(parent)
         {
         }
@@ -34,13 +32,15 @@ namespace octalforty.Wizardby.Core.Compiler.Ast.Impl
         protected TableNodeBase(IAstNode parent, string name) : 
             this(parent)
         {
-            this.name = name;
+            Name = name;
         }
 
-        public string Name
-        {
-            get { return name; }
-            set { name = value; }
-        }
+        #region ITableNode Members
+        public string Name 
+        { get; set; }
+
+        public string Schema 
+        { get; set; }
+        #endregion
     }
 }

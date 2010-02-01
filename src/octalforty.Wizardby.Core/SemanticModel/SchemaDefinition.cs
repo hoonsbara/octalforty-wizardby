@@ -25,13 +25,23 @@ using System.Diagnostics;
 
 namespace octalforty.Wizardby.Core.SemanticModel
 {
+    /// <summary>
+    /// Standard <see cref="ISchemaDefinition"/> implementation.
+    /// </summary>
     [DebuggerDisplay("{Name}")]
     public class SchemaDefinition : SchemaElementDefinitionBase, ISchemaDefinition
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SchemaDefinition"/> class.
+        /// </summary>
         public SchemaDefinition()
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SchemaDefinition"/> class.
+        /// </summary>
+        /// <param name="name"></param>
         public SchemaDefinition(string name) : 
             base(name)
         {

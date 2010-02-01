@@ -332,13 +332,15 @@ namespace octalforty.Wizardby.Tests.Core.Compiler
         [Test()]
         public void ParseAddTableNode()
         {
-            MdlParser mdlParser = new MdlParser(CreateScanner(@"add table User"));
-            IAstNode astNode = mdlParser.Parse();
+            var mdlParser = new MdlParser(CreateScanner(@"add table User"));
+            var astNode = mdlParser.Parse();
 
             Assert.IsInstanceOfType(typeof(IAddTableNode), astNode);
 
-            IAddTableNode addTableNode = (IAddTableNode)astNode;
+            var addTableNode = (IAddTableNode)astNode;
+            
             Assert.AreEqual("User", addTableNode.Name);
+            Assert.IsNull(addTableNode.Schema);
         }
 
         [Test()]
