@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.50727</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{3B68C293-E2EC-4783-82D3-49FD2E1FEBDE}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -24,6 +24,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
+    <DocumentationFile>octalforty.Wizardby.Db.SQLite.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -33,6 +34,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
+    <DocumentationFile>octalforty.Wizardby.Db.SQLite.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -48,6 +50,7 @@
     <Compile Include="SQLiteConnectionStringBuilder.cs" />
     <Compile Include="SQLiteDeploymentManager.cs" />
     <Compile Include="SQLiteDialect.cs" />
+    <Compile Include="SQLiteNamingStrategy.cs" />
     <Compile Include="SQLitePlatform.cs" />
     <Compile Include="SQLiteScriptGenerator.cs" />
     <Compile Include="SQLiteTypeMapper.cs" />

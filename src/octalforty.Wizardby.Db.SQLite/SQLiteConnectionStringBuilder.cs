@@ -25,7 +25,9 @@ using octalforty.Wizardby.Core.Db;
 
 namespace octalforty.Wizardby.Db.SQLite
 {
+// ReSharper disable InconsistentNaming
     public class SQLiteConnectionStringBuilder : EmbeddedDbConnectionStringBuilderBase
+// ReSharper restore InconsistentNaming
     {
         public SQLiteConnectionStringBuilder() :
             base(true, ".db", true, true)

@@ -21,32 +21,20 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
-using System;
-using System.Data.Common;
-using System.Data.SQLite;
 
 using octalforty.Wizardby.Core.Db;
 
 namespace octalforty.Wizardby.Db.SQLite
 {
-    [DbPlatform("SQLite", "sqlite")]
 // ReSharper disable InconsistentNaming
-    public class SQLitePlatform : DbPlatformBase<SQLiteDialect, SQLiteConnectionStringBuilder, SQLiteNamingStrategy, SQLiteTypeMapper>
+    public class SQLiteNamingStrategy : DefaultDbNamingStrategy
 // ReSharper restore InconsistentNaming
     {
-        public SQLitePlatform() : 
-            base(true)
+        protected override string GetIndexNameForColumns(Core.SemanticModel.IIndexDefinition index, string columnNames)
         {
-        }
-
-        public override DbProviderFactory ProviderFactory
-        {
-            get { return SQLiteFactory.Instance; }
-        }
-
-        public override IDbDeploymentManager DeploymentManager
-        {
-            get { return new SQLiteDeploymentManager(this); }
+            return index.Unique ?? false ?
+                string.Format("UQ_{0}_{1}", index.Table, columnNames) :
+                string.Format("IX_{0}_{1}", index.Table, columnNames);
         }
     }
 }

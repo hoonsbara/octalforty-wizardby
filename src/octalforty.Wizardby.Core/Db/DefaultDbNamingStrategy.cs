@@ -43,8 +43,13 @@ namespace octalforty.Wizardby.Core.Db
         public virtual string GetIndexName(IIndexDefinition index)
         {
             string columnNames = Algorithms.Join("", index.Columns,
-                                                 delegate(IIndexColumnDefinition icd) { return icd.Name; });
+                delegate(IIndexColumnDefinition icd) { return icd.Name; });
 
+            return GetIndexNameForColumns(index, columnNames);
+        }
+
+        protected virtual string GetIndexNameForColumns(IIndexDefinition index, string columnNames)
+        {
             return index.Unique ?? false ?
                 string.Format("UQ_{0}", columnNames) :
                 string.Format("IX_{0}", columnNames);
