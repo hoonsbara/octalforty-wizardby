@@ -22,7 +22,9 @@
 // THE SOFTWARE.
 #endregion
 
+using octalforty.Wizardby.Core.Compiler.Ast;
 using octalforty.Wizardby.Core.Db;
+using octalforty.Wizardby.Core.SemanticModel;
 
 namespace octalforty.Wizardby.Db.SQLite
 {
@@ -38,6 +40,39 @@ namespace octalforty.Wizardby.Db.SQLite
         protected override bool SupportsClustededIndexes
         {
             get { return false; }
+        }
+
+        public override void Visit(IAddTableNode addTableNode)
+        {
+            ITableDefinition table = Environment.Schema.GetTable(addTableNode.Name);
+            TextWriter.WriteLine("create table {0} (", Platform.Dialect.EscapeIdentifier(table.Name));
+
+            bool firstColumn = true;
+
+            foreach(IColumnDefinition column in table.Columns)
+            {
+                if(firstColumn)
+                    firstColumn = false;
+                else
+                    TextWriter.WriteLine(",");
+
+                TextWriter.Write("{0} ", 
+                    Platform.Dialect.EscapeIdentifier(column.Name));
+
+                if((column.Identity.HasValue && column.Identity.Value) && (column.PrimaryKey.HasValue && column.PrimaryKey.Value))
+                    TextWriter.Write("integer primary key autoincrement ");
+                else
+                    TextWriter.Write("{0} ", MapToNativeType(column));
+
+                TextWriter.Write(
+                        column.Nullable.HasValue ?
+                            column.Nullable.Value ? 
+                                "null" : 
+                                "not null" :
+                            "");
+            } // foreach
+
+            TextWriter.WriteLine(");");
         }
 
         #endregion
