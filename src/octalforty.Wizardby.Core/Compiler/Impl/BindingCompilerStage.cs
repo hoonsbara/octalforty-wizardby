@@ -565,11 +565,15 @@ namespace octalforty.Wizardby.Core.Compiler.Impl
             {
                 string textualType = AstNodePropertyUtil.AsString(columnNode.Properties, MdlSyntax.Type);
 
-                if(!Enum.IsDefined(typeof(DbType), textualType))
-                    throw new MdlCompilerException(string.Format(MdlCompilerResources.UnknownType, textualType));
-
-                columnNode.Type = columnDefinition.Type =
-                    (DbType)Enum.Parse(typeof(DbType), textualType);
+                try
+                {
+                    columnNode.Type = columnDefinition.Type =
+                        (DbType)Enum.Parse(typeof(DbType), textualType, true);
+                } // try
+                catch(ArgumentException e)
+                {
+                    throw new MdlCompilerException(string.Format(MdlCompilerResources.UnknownType, textualType), e);
+                } // catch
             } // if
 
             if(columnNode.Properties[MdlSyntax.Scale] != null)

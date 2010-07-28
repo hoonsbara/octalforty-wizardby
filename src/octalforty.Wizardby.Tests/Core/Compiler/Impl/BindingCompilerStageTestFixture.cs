@@ -218,6 +218,21 @@ namespace octalforty.Wizardby.Tests.Core.Compiler.Impl
         }
 
         [Test()]
+        public void InferLowercasedType()
+        {
+            IMdlCompilerStage bindingStage = new BindingCompilerStage();
+            bindingStage.SetEnvironment(new Environment());
+
+            IAstNode astNode = new MdlParser(MdlParserTestFixture.CreateScanner(
+@"migration ""Waffle"" revision => 1:
+    version 1:    
+        add table BlogPost:
+            ID type => int32")).Parse();
+
+            astNode.Accept(bindingStage);
+        }
+
+        [Test()]
         public void BindIndexes()
         {
             Environment environment = new Environment();

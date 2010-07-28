@@ -41,6 +41,11 @@ namespace octalforty.Wizardby.Core.Compiler
         {
         }
 
+        public MdlCompilerException(string message, Exception innerException) : 
+            base(message, innerException)
+        {
+        }
+
         public MdlCompilerException(string message, Location location) : 
             base(message)
         {
