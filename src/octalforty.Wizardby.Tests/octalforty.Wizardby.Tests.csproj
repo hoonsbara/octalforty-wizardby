@@ -83,6 +83,7 @@
     <Compile Include="Core\Compiler\Impl\ShortcutResolutionCompilerStageTestFixture.cs" />
     <Compile Include="Core\Compiler\Impl\TemplateSubstitutionCompilerStageTestFixture.cs" />
     <Compile Include="Core\Compiler\Impl\TypeAliasResolutionCompilerStageTestFixture.cs" />
+    <Compile Include="Core\Compiler\Impl\TypeShortcutExpanderCompilerStageTestFixture.cs" />
     <Compile Include="Core\Compiler\Impl\UpgradeGenerationStageTestFixture.cs" />
     <Compile Include="Core\Compiler\MdlCompilerTestFixture.cs" />
     <Compile Include="Core\Compiler\MdlGeneratorTestFixture.cs" />

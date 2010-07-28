@@ -73,6 +73,7 @@ namespace octalforty.Wizardby.Core.Compiler
             AddCompilerStage(new ShortcutResolutionCompilerStage());
 
             AddCompilerStage(new NamingCompilerStage());
+            AddCompilerStage(new TypeShortcutExpanderCompilerStage());
             AddCompilerStage(new BindingCompilerStage());
             AddCompilerStage(new TypeInferenceCompilerStage());
 

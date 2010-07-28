@@ -258,6 +258,7 @@
     <Compile Include="Compiler\Impl\TypeInferenceCompilerStage.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Compiler\Impl\TypeShortcutExpanderCompilerStage.cs" />
     <Compile Include="Compiler\Impl\UpgradeGenerationStage.cs" />
     <Compile Include="Compiler\Impl\VersionOrdererCompilerStage.cs" />
     <Compile Include="Compiler\Location.cs">
