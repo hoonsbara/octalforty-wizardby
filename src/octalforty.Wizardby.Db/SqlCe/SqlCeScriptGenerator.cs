@@ -50,7 +50,7 @@ namespace octalforty.Wizardby.Db.SqlCe
             } // foreach
 
             TextWriter.WriteLine(string.Join("," + System.Environment.NewLine, columnDefinitions.ToArray()));
-            TextWriter.WriteLine(")");
+            TextWriter.WriteLine(");");
         }
 
         /// <summary>

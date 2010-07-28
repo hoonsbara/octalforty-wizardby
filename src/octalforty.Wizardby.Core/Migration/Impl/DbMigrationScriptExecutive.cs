@@ -97,7 +97,7 @@ namespace octalforty.Wizardby.Core.Migration.Impl
                                     throw new MigrationException(
                                         string.Format(migrationMode == MigrationMode.Upgrade ?
                                             Properties.Resources.ErrorWhileUpgradingToVersion:
-                                            Properties.Resources.ErrorWhileDowngradingToVersion, migrationScript.MigrationVersion, e.Message), 
+                                            Properties.Resources.ErrorWhileDowngradingToVersion, migrationScript.MigrationVersion, e.ToString()), 
                                         ddlScript, e);
                                 } // catch
                                 

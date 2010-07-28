@@ -30,11 +30,6 @@ namespace octalforty.Wizardby.Db.SqlCe
 {
     public class SqlCeDialect : SqlServer2000Dialect
     {
-        public override string EscapeIdentifier(string identifier)
-        {
-            return identifier;
-        }
-
         public override IDbScriptGenerator CreateScriptGenerator(IDbStatementBatchWriter statementBatchWriter)
         {
             SqlCeScriptGenerator sqlCeScriptGenerator = new SqlCeScriptGenerator(statementBatchWriter);

@@ -21,7 +21,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
+using System.Data.SqlClient;
 using System.Data.SqlServerCe;
+using System.IO;
 
 using octalforty.Wizardby.Core.Db;
 
@@ -31,10 +33,20 @@ namespace octalforty.Wizardby.Db.SqlCe
     {
         public void Deploy(string connectionString, DbDeploymentMode deploymentMode)
         {
-            using(SqlCeEngine sqlCeEngine = new SqlCeEngine(connectionString))
+            //
+            // If we're redeploying, delete original database. This is a hack to extract
+            // datasource from SQL CE connection string usinq SqlConnectionStringBuilder, 
+            // which is used for full-blown SQL Server.
+            if(deploymentMode == DbDeploymentMode.Redeploy)
             {
+                var builder = new SqlConnectionStringBuilder(connectionString);
+                var databasePath = builder.DataSource;
+
+                File.Delete(databasePath);
+            } // if
+
+            using(var sqlCeEngine = new SqlCeEngine(connectionString))
                 sqlCeEngine.CreateDatabase();
-            }
         }
     }
 }

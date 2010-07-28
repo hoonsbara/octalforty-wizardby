@@ -1,4 +1,4 @@
-#region The MIT License
+﻿#region The MIT License
 // The MIT License
 // 
 // Copyright (c) 2009 octalforty studios
@@ -21,39 +21,26 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
-using System.Data;
+using System;
+using System.IO;
 
-using octalforty.Wizardby.Db.SqlServer2000;
+using NUnit.Framework;
 
-namespace octalforty.Wizardby.Db.SqlCe
+using octalforty.Wizardby.Db.SqlCe;
+
+namespace octalforty.Wizardby.Tests.Integration
 {
-    /// <summary>
-    /// Maps logical database types (<see cref="DbType"/>) to SQL CE-specific types.
-    /// </summary>
-    /// <remarks>
-    /// See http://msdn.microsoft.com/en-us/library/ms172424(v=SQL.100).aspx
-    /// </remarks>
-    public class SqlCeTypeMapper : SqlServer2000TypeMapper
+    [TestFixture()]
+    public class SqlCeIntegrationTests : DbPlatformIntegrationTestsBase<SqlCePlatform>
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SqlCeTypeMapper"/> class.
-        /// </summary>
-        public SqlCeTypeMapper()
+        protected override string GetConnectionString()
         {
-        }
+            var connectionStringBuilder = new SqlCeConnectionStringBuilder();
+            connectionStringBuilder.AppendKeyValuePair(
+                "database", 
+                Path.Combine(AppDomain.CurrentDomain.SetupInformation.ApplicationBase, "sqlce.sdf"));
 
-        protected override string MapToNativeTypeCore(DbType logicalType, int? length)
-        {
-            if(logicalType == DbType.AnsiString)
-                return "nvarchar";
-
-            if(logicalType == DbType.Binary)
-                return length.HasValue ? "binary" : "image";
-
-            if(logicalType == DbType.String)
-                return length.HasValue ? "nvarchar" : "ntext";
-
-            return base.MapToNativeTypeCore(logicalType, length);
+            return connectionStringBuilder.ToString();
         }
     }
 }
