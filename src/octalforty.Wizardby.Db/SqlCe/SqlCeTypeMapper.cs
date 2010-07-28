@@ -44,13 +44,10 @@ namespace octalforty.Wizardby.Db.SqlCe
 
         protected override string MapToNativeTypeCore(DbType logicalType, int? length)
         {
-            if(logicalType == DbType.AnsiString)
-                return "nvarchar";
-
             if(logicalType == DbType.Binary)
                 return length.HasValue ? "binary" : "image";
 
-            if(logicalType == DbType.String)
+            if(logicalType == DbType.String || logicalType == DbType.AnsiString)
                 return length.HasValue ? "nvarchar" : "ntext";
 
             return base.MapToNativeTypeCore(logicalType, length);
