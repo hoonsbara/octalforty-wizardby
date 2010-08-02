@@ -49,6 +49,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\AssemblyVersion.cs">
+      <Link>AssemblyVersion.cs</Link>
+    </Compile>
     <Compile Include="Compiler\Ast\AstBuilder.cs" />
     <Compile Include="Compiler\Ast\AstNodePropertyUtil.cs" />
     <Compile Include="Compiler\Ast\IAddSchemaNode.cs" />

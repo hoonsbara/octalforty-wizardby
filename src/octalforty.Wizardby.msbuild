@@ -21,25 +21,22 @@
     <RemoveDir Directories="..\octalforty.Wizardby" />
     <SvnExport RepositoryPath="https://octalforty-wizardby.googlecode.com/svn/trunk/" 
         LocalPath="..\octalforty.Wizardby">
-      <Output TaskParameter="Revision" PropertyName="SourceRevision" />
+      <Output TaskParameter="Revision" PropertyName="Revision" />
     </SvnExport>
   </Target>
 
-
-  <!-- Revision of the working copy -->
-  <Target Name="Revision">
-    <SvnVersion LocalPath="..">
-      <Output TaskParameter="Revision" PropertyName="Revision" />
-    </SvnVersion>
+  <Target Name="Version" DependsOnTargets="Export">
+    <WriteLinesToFile File="..\octalforty.Wizardby\src\AssemblyVersion.cs"
+        Lines='[assembly:System.Reflection.AssemblyVersion("$(ApplicationVersion).$(Revision)")]' Overwrite="true" />
   </Target>
 
   <!-- Performs Build -->
-  <Target Name="Build" DependsOnTargets="Revision">
+  <Target Name="Build" DependsOnTargets="Version">
     <MSBuild Projects="octalforty.Wizardby.sln" Properties="Configuration=$(Configuration)" />
   </Target>
 
   <!-- Zips Binaries -->
-  <Target Name="ZipBin" DependsOnTargets="Revision">
+  <Target Name="ZipBin" DependsOnTargets="Build">
     <ItemGroup>
       <BuildArtifacts Include="octalforty.Wizardby.Console\bin\$(Configuration)\**\*.*" Exclude="**\*.pdb;**\*.vshost.exe;**\Microsoft*.*" />
     </ItemGroup>
@@ -51,18 +48,18 @@
   </Target>
 
   <!-- Zips Source -->
-  <Target Name="ZipSrc">
+  <Target Name="ZipSrc" DependsOnTargets="Version">
     <ItemGroup>
       <Source Include="..\octalforty.Wizardby\**\*.*" />
     </ItemGroup>
-    <MakeDir Directories="..\builds\$(SourceRevision)" Condition="!Exists('..\builds\$(SourceRevision)')" />
+    <MakeDir Directories="..\builds\$(Revision)" Condition="!Exists('..\builds\$(Revision)')" />
     <Zip Files="@(Source)"
         WorkingDirectory="octalforty.Wizardby.Console\bin\$(Configuration)"
-        ZipFileName="..\builds\$(SourceRevision)\octalforty-wizardby-$(ApplicationVersion).$(SourceRevision)-$(Milestone)-src.zip"
+        ZipFileName="..\builds\$(Revision)\octalforty-wizardby-$(ApplicationVersion).$(Revision)-$(Milestone)-src.zip"
         ZipLevel="9" />
   </Target>
 
-  <Target Name="PrepareDownloads" DependsOnTargets="Build;ZipBin;Export;ZipSrc">
+  <Target Name="PrepareDownloads" DependsOnTargets="ZipSrc;ZipBin">
   </Target>
 
   <!--Target Name="PreparePublish" DependsOnTargets="Build;ZipBin;ZipSrc" /-->

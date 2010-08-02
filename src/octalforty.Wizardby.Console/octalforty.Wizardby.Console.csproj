@@ -41,6 +41,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\AssemblyVersion.cs">
+      <Link>AssemblyVersion.cs</Link>
+    </Compile>
     <Compile Include="AttributeAwareTypeRegistry.cs" />
     <Compile Include="BufferedStreamReader.cs" />
     <Compile Include="Commands\DeployMigrationCommand.cs" />

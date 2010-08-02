@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.50727</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{4FE2B606-E0CD-468B-B3E6-82B9B454E144}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -44,6 +44,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\AssemblyVersion.cs">
+      <Link>AssemblyVersion.cs</Link>
+    </Compile>
     <Compile Include="FirebirdEmbeddedConnectionStringBuilder.cs" />
     <Compile Include="FirebirdDeploymentManager.cs" />
     <Compile Include="FirebirdEmbeddedPlatform.cs" />
