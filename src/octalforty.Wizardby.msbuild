@@ -32,13 +32,13 @@
 
   <!-- Performs Build -->
   <Target Name="Build" DependsOnTargets="Version">
-    <MSBuild Projects="octalforty.Wizardby.sln" Properties="Configuration=$(Configuration)" />
+    <MSBuild Projects="..\octalforty.Wizardby\octalforty.Wizardby.sln" Properties="Configuration=$(Configuration)" />
   </Target>
 
   <!-- Zips Binaries -->
   <Target Name="ZipBin" DependsOnTargets="Build">
     <ItemGroup>
-      <BuildArtifacts Include="octalforty.Wizardby.Console\bin\$(Configuration)\**\*.*" Exclude="**\*.pdb;**\*.vshost.exe;**\Microsoft*.*" />
+      <BuildArtifacts Include="..\octalforty.Wizardby\octalforty.Wizardby.Console\bin\$(Configuration)\**\*.*" Exclude="**\*.pdb;**\*.vshost.exe;**\Microsoft*.*" />
     </ItemGroup>
     <MakeDir Directories="..\builds\$(Revision)" Condition="!Exists('..\builds\$(Revision)')" />
     <Zip Files="@(BuildArtifacts)"
