@@ -38,11 +38,11 @@
   <!-- Zips Binaries -->
   <Target Name="ZipBin" DependsOnTargets="Build">
     <ItemGroup>
-      <BuildArtifacts Include="..\octalforty.Wizardby\octalforty.Wizardby.Console\bin\$(Configuration)\**\*.*" Exclude="**\*.pdb;**\*.vshost.exe;**\Microsoft*.*" />
+      <BuildArtifacts Include="..\octalforty.Wizardby\src\octalforty.Wizardby.Console\bin\$(Configuration)\**\*.*" Exclude="**\*.pdb;**\*.vshost.exe;**\Microsoft*.*" />
     </ItemGroup>
     <MakeDir Directories="..\builds\$(Revision)" Condition="!Exists('..\builds\$(Revision)')" />
     <Zip Files="@(BuildArtifacts)"
-        WorkingDirectory="octalforty.Wizardby.Console\bin\$(Configuration)"
+        WorkingDirectory="..\octalforty.Wizardby\src\octalforty.Wizardby.Console\bin\$(Configuration)"
         ZipFileName="..\builds\$(Revision)\octalforty-wizardby-$(ApplicationVersion).$(Revision)-$(Milestone)-bin.zip"
         ZipLevel="9" />
   </Target>
@@ -54,7 +54,7 @@
     </ItemGroup>
     <MakeDir Directories="..\builds\$(Revision)" Condition="!Exists('..\builds\$(Revision)')" />
     <Zip Files="@(Source)"
-        WorkingDirectory="octalforty.Wizardby.Console\bin\$(Configuration)"
+        WorkingDirectory="..\octalforty.Wizardby"
         ZipFileName="..\builds\$(Revision)\octalforty-wizardby-$(ApplicationVersion).$(Revision)-$(Milestone)-src.zip"
         ZipLevel="9" />
   </Target>
