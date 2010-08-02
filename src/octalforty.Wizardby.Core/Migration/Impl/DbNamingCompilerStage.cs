@@ -50,11 +50,15 @@ namespace octalforty.Wizardby.Core.Migration.Impl
             if(!Environment.IsAnonymousIdentifier(addIndexNode.Name))
                 return;
 
-            ITableDefinition table = Environment.Schema.GetTable(addIndexNode.Table);
-            /*if(table == null)
-                throw new MdlCompilerException();*/
+            var table = Environment.Schema.GetTable(addIndexNode.Table);
+            if(table == null)
+                throw new MdlCompilerException(string.Format("Could not resolve table '{0}' (at {1})",
+                    addIndexNode.Table, addIndexNode.Location));
 
-            IIndexDefinition index = table.GetIndex(addIndexNode.Name);
+            var index = table.GetIndex(addIndexNode.Name);
+            if(index == null)
+                throw new MdlCompilerException(string.Format("Could not resolve index '{0}' for table '{1}' (at {2})",
+                    addIndexNode.Name, addIndexNode.Table, addIndexNode.Location));
 
             //
             // Remove index...
