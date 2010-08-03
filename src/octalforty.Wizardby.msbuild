@@ -28,7 +28,7 @@
 
   <Target Name="Version" DependsOnTargets="Export">
     <WriteLinesToFile File="..\octalforty.Wizardby\src\AssemblyVersion.cs"
-        Lines='[assembly:System.Reflection.AssemblyVersion("$(ApplicationVersion).$(Revision)")] public static class ApplicationInfo { public static readonly string Milestone = "$(DisplayMilestone)"%3B }' Overwrite="true" />
+        Lines='[assembly:System.Reflection.AssemblyVersion("$(ApplicationVersion).$(Revision)")] internal static class ApplicationInfo { public static readonly string Milestone = "$(DisplayMilestone)"%3B }' Overwrite="true" />
   </Target>
 
   <!-- Performs Build -->
