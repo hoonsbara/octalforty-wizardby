@@ -14,6 +14,7 @@
   <PropertyGroup>
     <ApplicationVersion>1.0.0</ApplicationVersion>
     <Milestone>a3</Milestone>
+    <DisplayMilestone>Alpha 3</DisplayMilestone>
   </PropertyGroup>
 
   <!-- Export -->
@@ -27,7 +28,7 @@
 
   <Target Name="Version" DependsOnTargets="Export">
     <WriteLinesToFile File="..\octalforty.Wizardby\src\AssemblyVersion.cs"
-        Lines='[assembly:System.Reflection.AssemblyVersion("$(ApplicationVersion).$(Revision)")]' Overwrite="true" />
+        Lines='[assembly:System.Reflection.AssemblyVersion("$(ApplicationVersion).$(Revision)")] public static class ApplicationInfo { public static readonly string Milestone = "$(DisplayMilestone)"; }' Overwrite="true" />
   </Target>
 
   <!-- Performs Build -->

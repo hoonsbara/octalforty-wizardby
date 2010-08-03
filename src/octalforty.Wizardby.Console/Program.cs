@@ -47,7 +47,8 @@ namespace octalforty.Wizardby.Console
         static void Main(string[] args)
         {
             System.Console.WriteLine(Resources.CopyrightInformation, 
-                Assembly.GetExecutingAssembly().GetName().Version.ToString(2));
+                Assembly.GetExecutingAssembly().GetName().Version.ToString(4),
+                ApplicationInfo.Milestone);
 
             if(args.Length == 0 || (args.Length == 1 && args[0] == "/?"))
             {

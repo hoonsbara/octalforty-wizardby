@@ -124,7 +124,7 @@
     <value>Connection string: {0}</value>
   </data>
   <data name="CopyrightInformation" xml:space="preserve">
-    <value>octalforty Wizardby {0} Alpha 2
+    <value>octalforty Wizardby {0} {1}
 Copyright (c) 2009 octalforty studios</value>
   </data>
   <data name="CouldNotFindDatabaseWdi" xml:space="preserve">
