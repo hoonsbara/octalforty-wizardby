@@ -49,6 +49,15 @@ namespace octalforty.Wizardby.Db.SqlServer2000
             DbUtil.Execute(Platform, connectionStringBuilder.ToString(),
                 delegate(IDbConnection connection)
                     {
+                        if(deploymentMode == DbDeploymentMode.Redeploy)
+                        {
+                            using(IDbCommand dbCommand = connection.CreateCommand())
+                            {
+                                dbCommand.CommandText = string.Format("if exists(select * from sys.databases where name = '{0}') drop database [{0}]", originalInitialCatalog);
+                                dbCommand.ExecuteNonQuery();
+                            } // using
+                        } // if
+
                         using(IDbCommand dbCommand = connection.CreateCommand())
                         {
                             dbCommand.CommandText = string.Format("create database [{0}]", originalInitialCatalog);

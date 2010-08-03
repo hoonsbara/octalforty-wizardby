@@ -24,6 +24,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 
 namespace octalforty.Wizardby.Core.SemanticModel
 {
@@ -234,19 +235,17 @@ namespace octalforty.Wizardby.Core.SemanticModel
         {
             RemoveSchemaElementDefinition(constraints, name);
         }
-
-        /// <summary>
-        /// Gets a reference to the <see cref="IColumnDefinition"/> which represents the 
-        /// primary key column of the current table.
-        /// </summary>
-        /// <returns></returns>
-        public IColumnDefinition GetPrimaryKeyColumn()
+        
+        public IColumnDefinition[] GetPrimaryKeyColumns()
         {
-            foreach(IColumnDefinition column in columns)
-                if(column.PrimaryKey ?? false)
-                    return column;
+            var primaryKeyColumns =
+                from column in columns
+                where column.PrimaryKey ?? false
+                select column;
 
-            return null;
+            return primaryKeyColumns.Any() ?
+                primaryKeyColumns.ToArray() :
+                null;
         }
         #endregion
 

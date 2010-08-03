@@ -34,7 +34,7 @@ using NUnit.Framework;
 using octalforty.Wizardby.Core.Db;
 using octalforty.Wizardby.Core.Migration;
 using octalforty.Wizardby.Core.Migration.Impl;
-using octalforty.Wizardby.Db.SQLite;
+using octalforty.Wizardby.Db.SqlCe;
 
 namespace octalforty.Wizardby.Tests.Core.Migration.Impl
 {
@@ -59,7 +59,7 @@ namespace octalforty.Wizardby.Tests.Core.Migration.Impl
         [TestFixtureSetUp()]
         public void TestFixtureSetUp()
         {
-            dbPlatform = new SQLitePlatform();
+            dbPlatform = new SqlCePlatform();
             connectionString = ConfigurationManager.AppSettings["connectionString"];
 
             migrationVersionInfoManager = new DbMigrationVersionInfoManager(dbPlatform, new DbCommandExecutionStrategy(), "SchemaInfo");
@@ -216,13 +216,13 @@ namespace octalforty.Wizardby.Tests.Core.Migration.Impl
             {
                 MigrateTo(OxiteWithNativeSql, null);
 
-                Assert.AreEqual(1, ExecuteScalar("exec dbo.Sample"));
+                Assert.AreEqual(1, ExecuteScalar("select count(*) from oxite_Language"));
 
                 Redo(OxiteWithNativeSql, 1000);
             }
             catch(MigrationException me)
             {
-                Assert.Fail(string.Format("{0}: {1}", me.Message, me.SqlStatement));
+                Assert.Fail(string.Format("{0}: {1}", me.ToString(), me.SqlStatement));
             }
         }
 

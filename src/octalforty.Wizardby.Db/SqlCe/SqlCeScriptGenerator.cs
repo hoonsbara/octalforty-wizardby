@@ -38,7 +38,7 @@ namespace octalforty.Wizardby.Db.SqlCe
         {
         }
 
-        public override void Visit(IAddTableNode addTableNode)
+        /*public override void Visit(IAddTableNode addTableNode)
         {
             TextWriter.WriteLine("create table {0} (", Platform.Dialect.EscapeIdentifier(addTableNode.Name));
 
@@ -51,7 +51,7 @@ namespace octalforty.Wizardby.Db.SqlCe
 
             TextWriter.WriteLine(string.Join("," + System.Environment.NewLine, columnDefinitions.ToArray()));
             TextWriter.WriteLine(");");
-        }
+        }*/
 
         /// <summary>
         /// Visits the given <paramref name="addIndexNode"/>.
@@ -70,7 +70,7 @@ namespace octalforty.Wizardby.Db.SqlCe
             createIndexBuilder.AppendFormat("index {0} on {1} ({2});",
                 Platform.Dialect.EscapeIdentifier(addIndexNode.Name),
                 Platform.Dialect.EscapeIdentifier(addIndexNode.Table),
-                Join(", ", GetIndexColumns(addIndexNode.Columns)));
+                Join(", ", GetIndexColumnsDefinitions(addIndexNode.Columns)));
 
             TextWriter.WriteLine(createIndexBuilder.ToString());
         }

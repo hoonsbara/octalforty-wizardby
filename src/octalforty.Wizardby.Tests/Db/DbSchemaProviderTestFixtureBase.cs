@@ -84,7 +84,7 @@ namespace octalforty.Wizardby.Tests.Db
 
             ITableDefinition authorTable = schema.GetTable("dbo", "Author");
          
-            IColumnDefinition primaryKeyColumn = authorTable.GetPrimaryKeyColumn();
+            var primaryKeyColumn = authorTable.GetPrimaryKeyColumns()[0];
             
             Assert.AreSame(authorTable.GetColumn("ID"), primaryKeyColumn);
             Assert.AreEqual(DbType.Int32, primaryKeyColumn.Type.Value);

@@ -31,10 +31,10 @@ namespace octalforty.Wizardby.Core.Db
     public interface IDbPlatform
     {
         /// <summary>
-        /// Gets a value which indicates whether the current platform supports transactional
-        /// DDL statements.
+        /// Gets a combination of <see cref="DbPlatformCapabilities"/> flags, which define
+        /// the capabilities of the current <see cref="IDbPlatform"/>.
         /// </summary>
-        bool SupportsTransactionalDdl
+        DbPlatformCapabilities Capabilities
         { get; }
 
         IDbTypeMapper TypeMapper

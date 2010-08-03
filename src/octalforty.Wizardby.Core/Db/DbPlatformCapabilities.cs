@@ -31,6 +31,24 @@ namespace octalforty.Wizardby.Core.Db
     [Flags()]
     public enum DbPlatformCapabilities : long
     {
-        SupportsClusteredIndexes = 1
+        /// <summary>
+        /// None.
+        /// </summary>
+        None = 0,
+
+        /// <summary>
+        /// The <see cref="IDbPlatform"/> supports clustered indexes.
+        /// </summary>
+        SupportsClusteredIndexes = 1,
+
+        /// <summary>
+        /// The <see cref="IDbPlatform"/> supports composite primary keys.
+        /// </summary>
+        SupportsCompositePrimaryKeys = 2,
+
+        /// <summary>
+        /// The <see cref="IDbPlatform"/> supports transactional DDL.
+        /// </summary>
+        SupportsTransactionalDdl = 2048,
     }
 }

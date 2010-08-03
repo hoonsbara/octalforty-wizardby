@@ -45,23 +45,6 @@ namespace octalforty.Wizardby.Db.SqlServer2000
 
         #region DbScriptGeneratorBase
         /// <summary>
-        /// Visits the given <paramref name="addTableNode"/>.
-        /// </summary>
-        /// <param name="addTableNode"></param>
-        public override void Visit(IAddTableNode addTableNode)
-        {
-            TextWriter.WriteLine("create table {0} (", Platform.Dialect.EscapeIdentifier(addTableNode.Name));
-
-            foreach(IAddColumnNode addColumnNode in (Filter<IAddColumnNode>(addTableNode.ChildNodes)))
-            {
-                string columnDefinition = GetColumnDefinition(addColumnNode);
-                TextWriter.WriteLine("{0},", columnDefinition);
-            } // foreach
-
-            TextWriter.WriteLine(");");
-        }
-
-        /// <summary>
         /// Visits the given <paramref name="addReferenceNode"/>.
         /// </summary>
         /// <param name="addReferenceNode"></param>

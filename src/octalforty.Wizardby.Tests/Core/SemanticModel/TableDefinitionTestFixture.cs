@@ -77,7 +77,7 @@ namespace octalforty.Wizardby.Tests.Core.SemanticModel
         }
 
         [Test()]
-        public void GetPrimaryKeyColumn()
+        public void GetPrimaryKeyColumns()
         {
             TableDefinition table = new TableDefinition();
             
@@ -85,11 +85,28 @@ namespace octalforty.Wizardby.Tests.Core.SemanticModel
             table.AddColumn(new ColumnDefinition("ID"));
             table.AddColumn(new ColumnDefinition("Bar"));
             
-            Assert.IsNull(table.GetPrimaryKeyColumn());
+            Assert.IsNull(table.GetPrimaryKeyColumns());
 
             table.Columns[1].PrimaryKey = true;
 
-            Assert.AreSame(table.Columns[1], table.GetPrimaryKeyColumn());
+            Assert.AreSame(table.Columns[1], table.GetPrimaryKeyColumns()[0]);
+        }
+
+        [Test()]
+        public void GetCompositePrimaryKeyColumn()
+        {
+            TableDefinition table = new TableDefinition();
+
+            table.AddColumn(new ColumnDefinition("Foo"));
+            table.AddColumn(new ColumnDefinition("ID"));
+            table.AddColumn(new ColumnDefinition("Bar"));
+
+            Assert.IsNull(table.GetPrimaryKeyColumns());
+
+            table.Columns[1].PrimaryKey = true;
+            table.Columns[2].PrimaryKey = true;
+
+            CollectionAssert.AreEqual(new[] { table.Columns[1], table.Columns[2] }, table.GetPrimaryKeyColumns());
         }
 
         [Test()]

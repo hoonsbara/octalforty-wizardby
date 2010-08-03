@@ -33,7 +33,7 @@ namespace octalforty.Wizardby.Db.SqlCe
     public class SqlCePlatform : DbPlatformBase<SqlCeDialect, SqlCeConnectionStringBuilder, SqlServer2000NamingStrategy, SqlCeTypeMapper>
     {
         public SqlCePlatform() : 
-            base(true)
+            base(DbPlatformCapabilities.SupportsTransactionalDdl)
         {
         }
 

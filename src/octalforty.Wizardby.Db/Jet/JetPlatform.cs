@@ -38,7 +38,7 @@ namespace octalforty.Wizardby.Db.Jet
         /// Initializes a new instance of the <see cref="JetPlatform"/> class.
         /// </summary>
         public JetPlatform() : 
-            base(false)
+            base(DbPlatformCapabilities.None)
         {
         }
 

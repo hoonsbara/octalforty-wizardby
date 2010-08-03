@@ -29,13 +29,17 @@ using octalforty.Wizardby.Core.Db;
 
 namespace octalforty.Wizardby.Db.SQLite
 {
+    /// <summary>
+    /// A <see cref="IDbPlatform"/> implementation for SQLite.
+    /// </summary>
     [DbPlatform("SQLite", "sqlite")]
-// ReSharper disable InconsistentNaming
     public class SQLitePlatform : DbPlatformBase<SQLiteDialect, SQLiteConnectionStringBuilder, SQLiteNamingStrategy, SQLiteTypeMapper>
-// ReSharper restore InconsistentNaming
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SQLitePlatform"/> class.
+        /// </summary>
         public SQLitePlatform() : 
-            base(true)
+            base(DbPlatformCapabilities.SupportsTransactionalDdl)
         {
         }
 

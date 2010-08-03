@@ -141,7 +141,7 @@ namespace octalforty.Wizardby.Core.Migration.Impl
 
         private static IDbTransaction BeginDdlTransaction(IDbPlatform dbPlatform, IDbConnection connection)
         {
-            return dbPlatform.SupportsTransactionalDdl ? 
+            return dbPlatform.Capabilities.IsSupported(DbPlatformCapabilities.SupportsTransactionalDdl) ? 
                 connection.BeginTransaction() :
                 new NullDbTransaction(connection);
         }

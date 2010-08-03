@@ -31,9 +31,9 @@ namespace octalforty.Wizardby.Core.Db
         public virtual string GetReferenceName(IReferenceDefinition reference)
         {
             string pkColumnNames = Algorithms.Join("", reference.PkColumns,
-                                                   delegate(string s) { return s; });
+                                                   s => s);
             string fkColumnNames = Algorithms.Join("", reference.FkColumns,
-                                                   delegate(string s) { return s; });
+                                                   s => s);
 
             return string.Format("FK_{0}_{1}_{2}_{3}",
                                  GetBareIdentifier(reference.FkTable), fkColumnNames,

@@ -1,0 +1,6 @@
+migration "CompositePk" revision => 1:
+    version 20090226100407:
+	    add table Foo:
+			FooPk1 type => "int32!", primary-key => true
+			FooPk2 type => "int32!", primary-key => true
+			Foo type => "int64?"

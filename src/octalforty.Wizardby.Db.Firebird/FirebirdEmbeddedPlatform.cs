@@ -34,7 +34,7 @@ namespace octalforty.Wizardby.Db.Firebird
         DefaultDbNamingStrategy, FirebirdTypeMapper>
     {
         public FirebirdEmbeddedPlatform() : 
-            base(true)
+            base(DbPlatformCapabilities.SupportsTransactionalDdl)
         {
         }
 

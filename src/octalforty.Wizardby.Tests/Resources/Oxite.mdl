@@ -24,11 +24,9 @@ migration "Oxite" revision => 1:
             Status type => Byte, nullable => false
             
         oxite_UserLanguage:
-            UserID references => oxite_User
-            LanguageID references => oxite_Language
+            UserID references => oxite_User, primary-key => true
+            LanguageID references => oxite_Language, primary-key => true
 
-            index "" columns => [UserID, LanguageID], unique => true, clustered => true
-            
             index "" column => [UserID, asc]
 
     version 20090331135627:
@@ -38,8 +36,8 @@ migration "Oxite" revision => 1:
             RoleName type => LongName
 
         oxite_UserRoleRelationship:
-            UserID references => oxite_User
-            RoleID references => oxite_Role    
+            UserID references => oxite_User, primary-key => true
+            RoleID references => oxite_Role, primary-key => true
 
     version 20090331140131:
         oxite_FileResource:

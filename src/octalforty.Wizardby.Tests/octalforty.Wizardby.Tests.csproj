@@ -122,6 +122,7 @@
     <Compile Include="Integration\DbPlatformIntegrationTestsBase.cs" />
     <Compile Include="Integration\SqlCeIntegrationTests.cs" />
     <Compile Include="Integration\SQLiteIntegrationTests.cs" />
+    <Compile Include="Integration\SqlServer2005IntegrationTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -172,6 +173,14 @@
       <LastGenOutput>Componento.designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Resources\CompositePk.mdl" />
+    <EmbeddedResource Include="Resources\SimpleBlog.mdl" />
+    <None Include="Resources\sqlce\20090331140131\Downgrade.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\sqlce\20090331140131\Upgrade.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Resources\sqlserver2005\20090331140131\Downgrade.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

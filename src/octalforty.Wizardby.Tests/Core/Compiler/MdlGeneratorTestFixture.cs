@@ -76,8 +76,8 @@ namespace octalforty.Wizardby.Tests.Core.Compiler
             add column DefaultLanguageID references => oxite_Language
             add column Status type => Byte, nullable => false
         add table oxite_UserLanguage:
-            add column UserID references => oxite_User
-            add column LanguageID references => oxite_Language
+            add column UserID references => oxite_User, primary-key => true
+            add column LanguageID references => oxite_Language, primary-key => true
             add index """" columns => [UserID, LanguageID], unique => true, clustered => true
             add index """" column => [UserID, asc]
     version 20090331135627:
@@ -86,8 +86,8 @@ namespace octalforty.Wizardby.Tests.Core.Compiler
             add column ParentRoleID references => oxite_Role, nullable => true
             add column RoleName type => LongName
         add table oxite_UserRoleRelationship:
-            add column UserID references => oxite_User
-            add column RoleID references => oxite_Role
+            add column UserID references => oxite_User, primary-key => true
+            add column RoleID references => oxite_Role, primary-key => true
     version 20090331140131:
         add table oxite_FileResource:
             add column FileResourceID type => PK, primary-key => true

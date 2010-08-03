@@ -142,13 +142,17 @@ namespace octalforty.Wizardby.Core.SemanticModel
         /// </summary>
         /// <param name="name"></param>
         void RemoveConstraint(string name);
-
-    
+        
         /// <summary>
-        /// Gets a reference to the <see cref="IColumnDefinition"/> which represents the 
-        /// primary key column of the current table.
+        /// Gets a reference to the array of <see cref="IColumnDefinition"/> which represent the 
+        /// primary key columns of the current table.
         /// </summary>
-        /// <returns></returns>
-        IColumnDefinition GetPrimaryKeyColumn();
+        /// <remarks>
+        /// <see cref="GetPrimaryKeyColumns"/> returns more than one <see cref="IColumnDefinition"/> only if
+        /// this table has composite key defined.
+        /// <para />
+        /// If this table does not have a PK defined, <see cref="GetPrimaryKeyColumns"/> returns <c>null</c>.
+        /// </remarks>
+        IColumnDefinition[] GetPrimaryKeyColumns();
     }
 }

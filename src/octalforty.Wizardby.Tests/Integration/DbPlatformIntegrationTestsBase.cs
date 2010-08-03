@@ -38,6 +38,8 @@ namespace octalforty.Wizardby.Tests.Integration
         where TDbPlatform : class, IDbPlatform, new()
     {
         public const string Oxite = "octalforty.Wizardby.Tests.Resources.Oxite.mdl";
+        public const string SimpleBlog = "octalforty.Wizardby.Tests.Resources.SimpleBlog.mdl";
+        public const string CompositePk = "octalforty.Wizardby.Tests.Resources.CompositePk.mdl";
 
         #region Private Fields
         private string connectionString;
@@ -61,32 +63,38 @@ namespace octalforty.Wizardby.Tests.Integration
                 migrationVersionInfoManager,
                 new DbMigrationScriptExecutive(new DbCommandExecutionStrategy()),
                 null);
+
+            dbPlatform.DeploymentManager.Deploy(connectionString, DbDeploymentMode.Redeploy);
+        }
+        
+        [Test()]
+        public void Migrate()
+        {
+            Migrate(Oxite);
         }
 
-        [SetUp()]
-        public void SetUp()
+        [Test()]
+        public void MigrateCompositePk()
+        {
+            Migrate(CompositePk);
+        }
+
+        [Test()]
+        public void MigrateSimpleBlog()
+        {
+            Migrate(SimpleBlog);
+        }
+
+        private void Migrate(string migrationDefinition)
         {
             try
             {
-                dbPlatform.DeploymentManager.Deploy(connectionString, DbDeploymentMode.Redeploy);
-                MigrateTo(Oxite, 0);
+                MigrateTo(migrationDefinition, null);
+                MigrateTo(migrationDefinition, 0);
             } // try
             catch(Exception e)
             {
                 Assert.Fail(e.ToString());
-            } // catch
-        }
-
-        [Test()]
-        public void Migrate()
-        {
-            try
-            {
-                MigrateTo(Oxite, null);
-            } // try
-            catch(Exception e)
-            {
-                Assert.Fail(e.Message);
             } // catch
         }
 

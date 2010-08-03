@@ -53,6 +53,7 @@
       <Link>AssemblyVersion.cs</Link>
     </Compile>
     <Compile Include="Compiler\Ast\AstBuilder.cs" />
+    <Compile Include="Compiler\Ast\AstNodePropertyCollectionExtensions.cs" />
     <Compile Include="Compiler\Ast\AstNodePropertyUtil.cs" />
     <Compile Include="Compiler\Ast\IAddSchemaNode.cs" />
     <Compile Include="Compiler\Ast\IIntegerAstNodePropertyValue.cs" />
@@ -331,6 +332,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Db\DbPlatformCapabilities.cs" />
+    <Compile Include="Db\DbPlatformCapabilitiesExtensions.cs" />
     <Compile Include="Db\DbPlatformDependencyBase.cs" />
     <Compile Include="Db\DbPlatformException.cs" />
     <Compile Include="Db\DbPlatformUtil.cs" />

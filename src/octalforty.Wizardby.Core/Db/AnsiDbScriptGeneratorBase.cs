@@ -23,6 +23,7 @@
 #endregion
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using octalforty.Wizardby.Core.Compiler.Ast;
 using octalforty.Wizardby.Core.Migration;
@@ -40,25 +41,20 @@ namespace octalforty.Wizardby.Core.Db
         #region DbScriptGeneratorBase Members
         public override void Visit(IAddTableNode addTableNode)
         {
-            ITableDefinition table = Environment.Schema.GetTable(addTableNode.Name);
-            TextWriter.WriteLine("create table {0} (", Platform.Dialect.EscapeIdentifier(table.Name));
+            var table = Environment.Schema.GetTable(addTableNode.Name);
+            if(table == null)
+                throw new MigrationException(string.Format("Could not resolve table '{0}' (at {1})",
+                    addTableNode.Name, addTableNode.Location));
 
-            bool firstColumn = true;
+            TextWriter.WriteLine("create table {0} (", EscapeIdentifier(table.Name));
 
-            foreach(IColumnDefinition column in table.Columns)
-            {
-                if(firstColumn)
-                    firstColumn = false;
-                else
-                    TextWriter.WriteLine(",");
+            var definitions = 
+                Join("," + System.Environment.NewLine,
+                    table.Columns.
+                        Select(c => GetAddColumnDefinition(c)).
+                    Union(GetConstraintsDefinitions(table)));
 
-                TextWriter.Write("{0} {1} {2}", 
-                    Platform.Dialect.EscapeIdentifier(column.Name),
-                    MapToNativeType(column),
-                    column.Nullable.HasValue ?
-                        column.Nullable.Value ? "null" : "not null" :
-                        "");
-            } // foreach
+            TextWriter.WriteLine(definitions);
 
             TextWriter.WriteLine(");");
         }
@@ -95,15 +91,6 @@ namespace octalforty.Wizardby.Core.Db
             StatementBatchWriter.EndBatch();
         }
 
-        #region Overridables
-        protected virtual bool SupportsClustededIndexes
-        {
-            get { return true; }
-        }
-        #endregion
-
-
-        #region AnsiDbScriptGeneratorBase Members
         /// <summary>
         /// Visits the given <paramref name="addIndexNode"/>.
         /// </summary>
@@ -115,7 +102,7 @@ namespace octalforty.Wizardby.Core.Db
             if (addIndexNode.Unique ?? false)
                 createIndexBuilder.Append("unique ");
 
-            if(SupportsClustededIndexes)
+            if(Platform.Capabilities.IsSupported(DbPlatformCapabilities.SupportsClusteredIndexes))
                 if(addIndexNode.Clustered ?? false)
                     createIndexBuilder.Append("clustered ");
                 else
@@ -124,9 +111,50 @@ namespace octalforty.Wizardby.Core.Db
             createIndexBuilder.AppendFormat("index {0} on {1} ({2});",
                 Platform.Dialect.EscapeIdentifier(addIndexNode.Name),
                 Platform.Dialect.EscapeIdentifier(addIndexNode.Table),
-                Join(", ", GetIndexColumns(addIndexNode.Columns)));
+                Join(", ", GetIndexColumnsDefinitions(addIndexNode.Columns)));
 
             TextWriter.WriteLine(createIndexBuilder.ToString());
+        }
+
+        public override void Visit(IRemoveTableNode removeTableNode)
+        {
+            TextWriter.WriteLine("drop table {0};", Platform.Dialect.EscapeIdentifier(removeTableNode.Name));
+        }
+
+        public override void Visit(IRemoveReferenceNode removeReferenceNode)
+        {
+            TextWriter.WriteLine("alter table {0} drop constraint {1};",
+                Platform.Dialect.EscapeIdentifier(removeReferenceNode.Table),
+                Platform.Dialect.EscapeIdentifier(removeReferenceNode.Name));
+        }
+
+        public override void Visit(IRemoveIndexNode removeIndexNode)
+        {
+            TextWriter.WriteLine("drop index {0} on {1};", 
+                Platform.Dialect.EscapeIdentifier(removeIndexNode.Name),
+                Platform.Dialect.EscapeIdentifier(removeIndexNode.Table));
+        }
+        #endregion
+
+        #region Overridables
+        protected virtual string GetAddColumnDefinition(IColumnDefinition column)
+        {
+            var builder = new StringBuilder();
+            builder.AppendFormat("\t{0} {1} {2} ", 
+                EscapeIdentifier(column.Name),
+                MapToNativeType(column),
+                GetNullabilitySpecification(column));
+
+            return builder.ToString();
+        }
+
+        protected virtual string GetNullabilitySpecification(IColumnDefinition column)
+        {
+            return column.Nullable.HasValue ?
+                column.Nullable.Value ? 
+                    "null" : 
+                    "not null" :
+                "";
         }
         #endregion
 
@@ -145,7 +173,7 @@ namespace octalforty.Wizardby.Core.Db
             return joinBuilder.ToString();
         }
 
-        protected IEnumerable<string> GetIndexColumns(IList<IIndexColumnDefinition> columns)
+        protected IEnumerable<string> GetIndexColumnsDefinitions(IList<IIndexColumnDefinition> columns)
         {
             foreach(IIndexColumnDefinition indexColumnDefinition in columns)
             {
@@ -157,6 +185,21 @@ namespace octalforty.Wizardby.Core.Db
                     yield return Platform.Dialect.EscapeIdentifier(indexColumnDefinition.Name);
             } // foreach
         }
-        #endregion
+
+        private IEnumerable<string> GetConstraintsDefinitions(ITableDefinition table)
+        {
+            //
+            // First, collect all PKs
+            if(table.GetPrimaryKeyColumns() == null) yield break;
+
+            yield return
+                string.Format("\tprimary key ({0})",
+                    Join(", ", table.GetPrimaryKeyColumns().Select(c => c.Name)));
+        }
+
+        protected string EscapeIdentifier(string identifier)
+        {
+            return Platform.Dialect.EscapeIdentifier(identifier);
+        }
     }
 }

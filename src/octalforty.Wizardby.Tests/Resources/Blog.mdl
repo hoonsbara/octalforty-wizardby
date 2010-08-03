@@ -15,7 +15,7 @@ migration "Blog" revision => 1:
 			    index "IX_Login" unique => true
 		    Password type => Binary, length => 64, nullable => true		    
 		    		
-	    add table Tag:
+		add table Tag:
 		    Name type => N		    
     		
 	    add table Blog:

@@ -29,7 +29,7 @@ using octalforty.Wizardby.Core.Db;
 namespace octalforty.Wizardby.Db.SqlServer2000
 {
     /// <summary>
-    /// A <see cref="IDbPlatform"/> implementation for the Microsoft SQL Server 2000.
+    /// A <see cref="IDbPlatform"/> implementation for Microsoft SQL Server 2000.
     /// </summary>
     [DbPlatform("Microsoft SQL Server 2000", "sqlserver2000")]
     public class SqlServer2000Platform : DbPlatformBase<SqlServer2000Dialect, SqlServer2000ConnectionStringBuilder, 
@@ -39,7 +39,7 @@ namespace octalforty.Wizardby.Db.SqlServer2000
         /// Initializes a new instance of the <see cref="SqlServer2000Platform"/> class.
         /// </summary>
         public SqlServer2000Platform() : 
-            base(true)
+            base(DbPlatformCapabilities.SupportsClusteredIndexes | DbPlatformCapabilities.SupportsTransactionalDdl) 
         {
         }
 

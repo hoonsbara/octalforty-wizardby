@@ -128,12 +128,7 @@ order by t.table_schema, t.table_name, k.ordinal_position",
                         ITableDefinition table = databaseSchema.GetTable(schemaName, tableName);
                         if(table == null)
                             return;
-
-                        //
-                        // We do not support composite primary keys yet
-                        if(table.GetPrimaryKeyColumn() != null)
-                            return;
-
+                        
                         IColumnDefinition column = table.GetColumn(As<string>(dr, "column_name"));
                         column.PrimaryKey = true;
                     });

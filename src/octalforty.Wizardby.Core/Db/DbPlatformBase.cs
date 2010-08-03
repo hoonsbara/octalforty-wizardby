@@ -39,7 +39,7 @@ namespace octalforty.Wizardby.Core.Db
         where TDbTypeMapper : IDbTypeMapper, new()
     {
         #region Private Fields
-        private readonly bool supportsTransactionalDdl;
+        private readonly DbPlatformCapabilities capabilities;
         private readonly IDbTypeMapper typeMapper;
         private readonly IDbDialect dialect;
         private readonly IDbNamingStrategy namingStrategy;
@@ -49,10 +49,10 @@ namespace octalforty.Wizardby.Core.Db
         /// Initializes a new instance of the 
         /// <see cref="DbPlatformBase{TDbDialect, IDbConnectionStringBuilder, TDbNamingStrategy, TDbTypeMapper}"/> class.
         /// </summary>
-        /// <param name="supportsTransactionalDdl"></param>
-        protected DbPlatformBase(bool supportsTransactionalDdl)
+        /// <param name="capabilities"></param>
+        protected DbPlatformBase(DbPlatformCapabilities capabilities)
         {
-            this.supportsTransactionalDdl = supportsTransactionalDdl;
+            this.capabilities = capabilities;
 
             typeMapper = new TDbTypeMapper();
             typeMapper.Platform = this;
@@ -65,15 +65,12 @@ namespace octalforty.Wizardby.Core.Db
         }
 
         #region IDbPlatform Members
-        /// <summary>
-        /// Gets a value which indicates whether the current platform supports transactional
-        /// DDL statements.
-        /// </summary>
-        public virtual bool SupportsTransactionalDdl
+
+        public DbPlatformCapabilities Capabilities
         {
-            get { return supportsTransactionalDdl; }
+            get { return capabilities; }
         }
-        
+
         public virtual IDbConnectionStringBuilder CreateConnectionStringBuilder()
         {
             IDbConnectionStringBuilder connectionStringBuilder = new TDbConnectionStringBuilder();

@@ -23,6 +23,7 @@
 #endregion
 using octalforty.Wizardby.Core.Compiler.Ast;
 using octalforty.Wizardby.Core.Db;
+using octalforty.Wizardby.Core.Migration;
 using octalforty.Wizardby.Core.SemanticModel;
 
 namespace octalforty.Wizardby.Db.SQLite
@@ -35,15 +36,13 @@ namespace octalforty.Wizardby.Db.SQLite
         }
 
         #region AnsiDbScriptGeneratorBase Members
-
-        protected override bool SupportsClustededIndexes
-        {
-            get { return false; }
-        }
-
         public override void Visit(IAddTableNode addTableNode)
         {
-            ITableDefinition table = Environment.Schema.GetTable(addTableNode.Name);
+            var table = Environment.Schema.GetTable(addTableNode.Name);
+            if(table == null)
+                throw new MigrationException(string.Format("Could not resolve table '{0}' (at {1})",
+                    addTableNode.Name, addTableNode.Location));
+
             TextWriter.WriteLine("create table {0} (", Platform.Dialect.EscapeIdentifier(table.Name));
 
             bool firstColumn = true;
@@ -74,6 +73,15 @@ namespace octalforty.Wizardby.Db.SQLite
             TextWriter.WriteLine(");");
         }
 
+        public override void Visit(IRemoveIndexNode removeIndexNode)
+        {
+            TextWriter.WriteLine("drop index {0};",
+                Platform.Dialect.EscapeIdentifier(removeIndexNode.Name));
+        }
+
+        public override void Visit(IRemoveReferenceNode removeReferenceNode)
+        {
+        }
         #endregion
 
     }

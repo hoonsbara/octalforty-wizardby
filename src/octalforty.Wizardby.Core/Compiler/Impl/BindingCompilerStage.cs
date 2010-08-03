@@ -418,10 +418,17 @@ namespace octalforty.Wizardby.Core.Compiler.Impl
                 //
                 // Neither pk-column nor pk-columns were specified, so we assume
                 // that this is a reference to the primary key of the pk-table
-                IColumnDefinition pkColumn = Environment.Schema.GetTable(reference.PkTable).GetPrimaryKeyColumn();
+                var pkColumns = Environment.Schema.GetTable(reference.PkTable).GetPrimaryKeyColumns();
+                if(pkColumns == null)
+                    throw new MigrationException(string.Format("Table '{0}' has not Primary Key defined", reference.PkTable));
+
+                if(pkColumns.Length > 1)
+                    throw new MigrationException(
+                        string.Format("Table '{0}' has Composite Primary Key defined. You have to explicitly specify 'pk-column` property", 
+                            reference.PkTable));
                 
-                addReferenceNode.PkColumns.Add(pkColumn.Name);
-                reference.PkColumns.Add(pkColumn.Name);
+                addReferenceNode.PkColumns.Add(pkColumns[0].Name);
+                reference.PkColumns.Add(pkColumns[0].Name);
             }
         }
 
@@ -549,12 +556,12 @@ namespace octalforty.Wizardby.Core.Compiler.Impl
         private static void BindColumnProperties(IColumnNode columnNode, IColumnDefinition columnDefinition)
         {
             if(columnNode.Properties[MdlSyntax.PrimaryKey] != null)
-                columnNode.PrimaryKey = columnDefinition.PrimaryKey =
-                    Convert.ToBoolean(AstNodePropertyUtil.AsString(columnNode.Properties, MdlSyntax.PrimaryKey));
+                columnNode.PrimaryKey = columnDefinition.PrimaryKey = 
+                    columnNode.Properties.AsBoolean(MdlSyntax.PrimaryKey);
 
             if (columnNode.Properties[MdlSyntax.Nullable] != null)
                 columnNode.Nullable = columnDefinition.Nullable =
-                    Convert.ToBoolean(AstNodePropertyUtil.AsString(columnNode.Properties, MdlSyntax.Nullable));
+                    columnNode.Properties.AsBoolean(MdlSyntax.Nullable);
 
             if (columnNode.Properties[MdlSyntax.Length] != null)
                 columnNode.Length = columnDefinition.Length =
