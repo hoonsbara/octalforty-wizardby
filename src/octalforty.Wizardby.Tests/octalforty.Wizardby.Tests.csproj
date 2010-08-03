@@ -175,6 +175,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\CompositePk.mdl" />
     <EmbeddedResource Include="Resources\SimpleBlog.mdl" />
+    <EmbeddedResource Include="Resources\BackAndForth.mdl" />
     <None Include="Resources\sqlce\20090331140131\Downgrade.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

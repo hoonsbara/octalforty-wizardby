@@ -39,6 +39,7 @@ namespace octalforty.Wizardby.Tests.Integration
     {
         public const string Oxite = "octalforty.Wizardby.Tests.Resources.Oxite.mdl";
         public const string SimpleBlog = "octalforty.Wizardby.Tests.Resources.SimpleBlog.mdl";
+        public const string BackAndForth = "octalforty.Wizardby.Tests.Resources.BackAndForth.mdl";
         public const string CompositePk = "octalforty.Wizardby.Tests.Resources.CompositePk.mdl";
 
         #region Private Fields
@@ -83,6 +84,12 @@ namespace octalforty.Wizardby.Tests.Integration
         public void MigrateSimpleBlog()
         {
             Migrate(SimpleBlog);
+        }
+
+        [Test()]
+        public void MigrateBackAndForth()
+        {
+            Migrate(BackAndForth);
         }
 
         private void Migrate(string migrationDefinition)

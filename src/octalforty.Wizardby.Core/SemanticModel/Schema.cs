@@ -26,24 +26,43 @@ using System.Collections.ObjectModel;
 
 namespace octalforty.Wizardby.Core.SemanticModel
 {
+    /// <summary>
+    /// Represents a point-in-time schema of a database.
+    /// </summary>
     public class Schema
     {
+        #region Private Fields
         private readonly IDictionary<string, ITableDefinition> tables = new Dictionary<string, ITableDefinition>();
         private readonly IDictionary<string, ISchemaDefinition> schemas = new Dictionary<string, ISchemaDefinition>();
+        #endregion
 
+        #region Public Properties
+        /// <summary>
+        /// Gets a read-only collection of all tables in this schema.
+        /// </summary>
         public ReadOnlyCollection<ITableDefinition> Tables
         {
             get { return new ReadOnlyCollection<ITableDefinition>(new List<ITableDefinition>(tables.Values)); }
         }
 
+        /// <summary>
+        /// Gets a read-only collection of all schemas in this schema.
+        /// </summary>
         public ReadOnlyCollection<ISchemaDefinition> Schemas
         {
             get { return new ReadOnlyCollection<ISchemaDefinition>(new List<ISchemaDefinition>(schemas.Values)); }
         }
+        #endregion
 
         public void AddSchema(ISchemaDefinition schema)
         {
             schemas[GetInvariantName(schema.Name)] = schema;
+        }
+
+        public ISchemaDefinition GetSchema(string name)
+        {
+            string invariantName = GetInvariantName(name);
+            return InternalGetSchema(invariantName);
         }
 
         public void AddTable(ITableDefinition table)
@@ -57,10 +76,19 @@ namespace octalforty.Wizardby.Core.SemanticModel
             return InternalGetTable(invariantName);
         }
 
-        public ISchemaDefinition GetSchema(string name)
+        public ITableDefinition GetTable(ISchemaDefinition schema, string tableName)
         {
-            string invariantName = GetInvariantName(name);
-            return InternalGetSchema(invariantName);
+            return GetTable(schema == null ? null : schema.Name, tableName);
+        }
+
+        public ITableDefinition GetTable(string schemaName, string tableName)
+        {
+            return InternalGetTable(GetSchemaQualifiedTableName(schemaName, tableName));
+        }
+
+        public void RemoveTable(string name)
+        {
+            tables.Remove(GetInvariantName(name));
         }
 
         private ISchemaDefinition InternalGetSchema(string name)
@@ -81,11 +109,6 @@ namespace octalforty.Wizardby.Core.SemanticModel
                 null;
         }
 
-        public void RemoveTable(string name)
-        {
-            tables.Remove(GetInvariantName(name));
-        }
-
         private static string GetInvariantName(ITableDefinition table)
         {
             return GetSchemaQualifiedTableName((table.Schema ?? new SchemaDefinition()).Name, table.Name);
@@ -101,16 +124,6 @@ namespace octalforty.Wizardby.Core.SemanticModel
             return string.IsNullOrEmpty(schemaName) ? 
                 GetInvariantName(tableName) : 
                 string.Format("{0}.{1}", GetInvariantName(schemaName), GetInvariantName(tableName));
-        }
-
-        public ITableDefinition GetTable(string schemaName, string tableName)
-        {
-            return InternalGetTable(GetSchemaQualifiedTableName(schemaName, tableName));
-        }
-
-        public ITableDefinition GetTable(ISchemaDefinition schema, string tableName)
-        {
-            return GetTable(schema == null ? null : schema.Name, tableName);
         }
     }
 }

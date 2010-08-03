@@ -1,0 +1,21 @@
+﻿migration "BackAndForth" revision => 1:
+	version 1:
+		User:
+			ID type => "int32!", primary-key => true
+			Age type => "int32!"
+			Name type => "string!(200)"
+			
+			index "IX_Name" column => Name
+			
+	version 2:
+		alter table User:
+			remove index "IX_Name"
+			
+		alter table User:
+			add column BirthDate type => "DateTime?"
+			
+	version 3:
+		alter table User:
+			add index "IX_Name" column => Name
+			
+		
