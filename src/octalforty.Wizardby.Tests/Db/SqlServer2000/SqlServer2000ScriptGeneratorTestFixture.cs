@@ -63,7 +63,7 @@ namespace octalforty.Wizardby.Tests.Db.SqlServer2000
 
             DbStatementBatchWriter batchWriter = new DbStatementBatchWriter();
             IDbScriptGenerator scriptGenerator = platform.Dialect.CreateScriptGenerator(batchWriter);
-            scriptGenerator.SetEnvironment(environment);
+            //scriptGenerator.SetEnvironment(environment);
 
             foreach(IVersionNode versionNode in Algorithms.Filter<IAstNode, IVersionNode>(astNode.ChildNodes))
                 versionNode.Accept(scriptGenerator);

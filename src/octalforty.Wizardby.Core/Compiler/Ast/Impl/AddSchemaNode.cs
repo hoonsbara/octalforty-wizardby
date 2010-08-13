@@ -23,7 +23,7 @@
 #endregion
 namespace octalforty.Wizardby.Core.Compiler.Ast.Impl
 {
-    public class AddSchemaNode : SchemaNodeBase, IAddSchemaNode
+    internal class AddSchemaNode : SchemaNodeBase, IAddSchemaNode
     {
         public AddSchemaNode(IAstNode parent) : 
             base(parent)

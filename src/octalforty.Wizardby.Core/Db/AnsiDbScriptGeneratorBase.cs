@@ -41,18 +41,19 @@ namespace octalforty.Wizardby.Core.Db
         #region DbScriptGeneratorBase Members
         public override void Visit(IAddTableNode addTableNode)
         {
-            var table = Environment.Schema.GetTable(addTableNode.Name);
+            /*var table = Environment.Schema.GetTable(addTableNode.Name);
             if(table == null)
                 throw new MigrationException(string.Format("Could not resolve table '{0}' (at {1})",
-                    addTableNode.Name, addTableNode.Location));
+                    addTableNode.Name, addTableNode.Location));*/
 
-            TextWriter.WriteLine("create table {0} (", EscapeIdentifier(table.Name));
+            TextWriter.WriteLine("create table {0} (", EscapeIdentifier(addTableNode.Name));
 
             var definitions = 
                 Join("," + System.Environment.NewLine,
-                    table.Columns.
+                    addTableNode.
+                        ChildNodes.OfType<IAddColumnNode>().
                         Select(c => GetAddColumnDefinition(c)).
-                    Union(GetConstraintsDefinitions(table)));
+                        Union(GetConstraintsDefinitions(addTableNode)));
 
             TextWriter.WriteLine(definitions);
 
@@ -186,15 +187,15 @@ namespace octalforty.Wizardby.Core.Db
             } // foreach
         }
 
-        private IEnumerable<string> GetConstraintsDefinitions(ITableDefinition table)
+        private IEnumerable<string> GetConstraintsDefinitions(ITableNode table)
         {
             //
             // First, collect all PKs
-            if(table.GetPrimaryKeyColumns() == null) yield break;
+            if(!table.ChildNodes.OfType<IAddColumnNode>().Where(acn => acn.PrimaryKey ?? false).Any()) yield break;
 
             yield return
                 string.Format("\tprimary key ({0})",
-                    Join(", ", table.GetPrimaryKeyColumns().Select(c => c.Name)));
+                    Join(", ", table.ChildNodes.OfType<IAddColumnNode>().Where(acn => acn.PrimaryKey ?? false).Select(c => c.Name)));
         }
 
         protected string EscapeIdentifier(string identifier)

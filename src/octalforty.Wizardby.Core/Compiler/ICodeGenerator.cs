@@ -31,6 +31,6 @@ namespace octalforty.Wizardby.Core.Compiler
         /// Sets <paramref name="environment"/> for the current compilation session.
         /// </summary>
         /// <param name="environment"></param>
-        void SetEnvironment(Environment environment);
+        //void SetEnvironment(Environment environment);
     }
 }

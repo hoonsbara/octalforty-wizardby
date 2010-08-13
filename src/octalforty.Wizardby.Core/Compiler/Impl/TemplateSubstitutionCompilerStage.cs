@@ -27,6 +27,9 @@ using octalforty.Wizardby.Core.Compiler.Ast;
 
 namespace octalforty.Wizardby.Core.Compiler.Impl
 {
+    /// <summary>
+    /// Injects templates into appropriate "add table" nodes.
+    /// </summary>
     public class TemplateSubstitutionCompilerStage : MdlCompilerStageBase
     {
         #region Private Fields

@@ -48,7 +48,7 @@ namespace octalforty.Wizardby.Core.Migration.Impl
 
             MigrationScriptsCodeGenerator migrationScriptsCodeGenerator =
                 new MigrationScriptsCodeGenerator(dbPlatform, nativeSqlResourceProvider, migrationMode);
-            migrationScriptsCodeGenerator.SetEnvironment(environment);
+            //migrationScriptsCodeGenerator.SetEnvironment(environment);
 
             IMdlCompiler mdlCompiler = new MdlCompiler(migrationScriptsCodeGenerator, environment);
             mdlCompiler.AddCompilerStageAfter<AstFlattenerCompilerStage>(new DbNamingCompilerStage(dbPlatform.NamingStrategy));

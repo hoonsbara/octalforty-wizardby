@@ -38,7 +38,7 @@ namespace octalforty.Wizardby.Db.SQLite
         #region AnsiDbScriptGeneratorBase Members
         public override void Visit(IAddTableNode addTableNode)
         {
-            var table = Environment.Schema.GetTable(addTableNode.Name);
+            /*var table = Environment.Schema.GetTable(addTableNode.Name);
             if(table == null)
                 throw new MigrationException(string.Format("Could not resolve table '{0}' (at {1})",
                     addTableNode.Name, addTableNode.Location));
@@ -70,7 +70,7 @@ namespace octalforty.Wizardby.Db.SQLite
                             "");
             } // foreach
 
-            TextWriter.WriteLine(");");
+            TextWriter.WriteLine(");");*/
         }
 
         public override void Visit(IRemoveIndexNode removeIndexNode)

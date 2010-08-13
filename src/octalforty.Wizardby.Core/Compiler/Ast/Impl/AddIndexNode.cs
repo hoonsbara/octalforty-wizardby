@@ -29,7 +29,7 @@ using octalforty.Wizardby.Core.SemanticModel;
 namespace octalforty.Wizardby.Core.Compiler.Ast.Impl
 {
     [DebuggerDisplay("add index {Name} ({Location})")]
-    public class AddIndexNode : IndexNodeBase, IAddIndexNode
+    internal class AddIndexNode : IndexNodeBase, IAddIndexNode
     {
         #region Private Fields
         private readonly IList<IIndexColumnDefinition> columns = new List<IIndexColumnDefinition>();

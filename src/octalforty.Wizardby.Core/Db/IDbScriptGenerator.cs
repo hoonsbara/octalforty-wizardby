@@ -26,10 +26,23 @@ using octalforty.Wizardby.Core.Migration;
 
 namespace octalforty.Wizardby.Core.Db
 {
+    /// <summary>
+    /// Defines a contract for a code generator which generates SQL DDL script.
+    /// </summary>
     public interface IDbScriptGenerator : ICodeGenerator, IDbPlatformDependency
     {
+        /// <summary>
+        /// Sets current <paramref name="migrationMode"/> for the given
+        /// code generation session.
+        /// </summary>
+        /// <param name="migrationMode"></param>
         void SetMigrationMode(MigrationMode migrationMode);
 
+        /// <summary>
+        /// Sets a reference to <see cref="INativeSqlResourceProvider"/>, which is
+        /// used to retrieve Native SQL Resources for the given code generation session.
+        /// </summary>
+        /// <param name="nativeSqlResourceProvider"></param>
         void SetNativeSqlResourceProvider(INativeSqlResourceProvider nativeSqlResourceProvider);
     }
 }

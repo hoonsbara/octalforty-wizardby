@@ -62,7 +62,7 @@ namespace octalforty.Wizardby.Core.Migration.Impl
 
                     IDbScriptGenerator scriptGenerator = dbPlatform.Dialect.CreateScriptGenerator(batchWriter);
                     scriptGenerator.SetMigrationMode(migrationMode);
-                    scriptGenerator.SetEnvironment(Environment);
+                    //scriptGenerator.SetEnvironment(Environment);
                     scriptGenerator.SetNativeSqlResourceProvider(nativeSqlResourceProvider);
 
                     upgradeNode.Accept(scriptGenerator);

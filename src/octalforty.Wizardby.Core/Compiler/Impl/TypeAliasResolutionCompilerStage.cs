@@ -29,6 +29,10 @@ using octalforty.Wizardby.Core.Compiler.Ast.Impl;
 
 namespace octalforty.Wizardby.Core.Compiler.Impl
 {
+    /// <summary>
+    /// Resolves type aliases by substituting type specifications from <c>type-alias</c> nodes to
+    /// appropriate <c>add column</c> nodes.
+    /// </summary>
     public class TypeAliasResolutionCompilerStage : MdlCompilerStageBase
     {
         #region Private Constants

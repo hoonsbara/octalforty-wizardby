@@ -100,11 +100,18 @@ namespace octalforty.Wizardby.Db.SqlServer2000
             {
                 if(astNode is IAddColumnNode)
                 {
-                    IAddColumnNode addColumnNode = (IAddColumnNode)astNode;
+                    //
+                    // Here's the situation: when downgrading, we potentially may encounter
+                    // a situation when we restore a previously deleted column. If table
+                    // in question contains data and column being added is non-nullable,
+                    // we won't be able to do so. To circumvent this problem, enforce
+                    // column to be nullable.
+                    var addColumnNode = (IAddColumnNode)astNode;
                     TextWriter.WriteLine("alter table {0} add {1};",
                         Platform.Dialect.EscapeIdentifier(alterTableNode.Name), 
-                        GetColumnDefinition(addColumnNode));
+                        GetColumnDefinition(addColumnNode, alterTableNode.Parent is IDowngradeNode));
                 } // if
+                
                 if(astNode is IRemoveColumnNode)
                 {
                     IRemoveColumnNode removeColumnNode = (IRemoveColumnNode)astNode;
@@ -112,9 +119,10 @@ namespace octalforty.Wizardby.Db.SqlServer2000
                         Platform.Dialect.EscapeIdentifier(alterTableNode.Name),
                         Platform.Dialect.EscapeIdentifier(removeColumnNode.Name));
                 } // if
+
                 if(astNode is IAlterColumnNode)
                 {
-                    IAlterColumnNode alterColumnNode = (IAlterColumnNode)astNode;
+                    var alterColumnNode = (IAlterColumnNode)astNode;
                     TextWriter.WriteLine("alter table {0} alter column {1};",
                         Platform.Dialect.EscapeIdentifier(alterTableNode.Name),
                         GetAlterColumnDefinition(alterColumnNode));
@@ -124,8 +132,8 @@ namespace octalforty.Wizardby.Db.SqlServer2000
 
         public override void Visit(IAddConstraintNode addConstraintNode)
         {
-            IConstraintDefinition constraint =
-                Environment.Schema.GetTable(addConstraintNode.Table).GetConstraint(addConstraintNode.Name);
+            IConstraintDefinition constraint = addConstraintNode;
+                //Environment.Schema.GetTable(addConstraintNode.Table).GetConstraint(addConstraintNode.Name);
 
             if(constraint is IDefaultConstraintDefinition)
             {
@@ -152,15 +160,17 @@ namespace octalforty.Wizardby.Db.SqlServer2000
 
         
 
-        protected virtual string GetColumnDefinition(IColumnDefinition columnDefinition)
+        protected virtual string GetColumnDefinition(IColumnDefinition columnDefinition, bool enforceNullable)
         {
             StringBuilder columnDefinitionBuilder = new StringBuilder();
             columnDefinitionBuilder.AppendFormat("{0} {1} {2}", 
                 Platform.Dialect.EscapeIdentifier(columnDefinition.Name),
                 MapToNativeType(columnDefinition),
-                columnDefinition.Nullable.HasValue ?
-                    columnDefinition.Nullable.Value ? "null" : "not null" :
-                    "");
+                    enforceNullable ? 
+                        "null" :
+                        columnDefinition.Nullable.HasValue ?
+                            columnDefinition.Nullable.Value ? "null" : "not null" :
+                            "");
 
             if(columnDefinition.Identity.HasValue && columnDefinition.Identity.Value)
                 columnDefinitionBuilder.Append(" identity");

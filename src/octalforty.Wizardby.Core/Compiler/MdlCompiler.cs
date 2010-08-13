@@ -159,7 +159,7 @@ namespace octalforty.Wizardby.Core.Compiler
 
             if((compilationOptions & MdlCompilationOptions.GenerateCode) == MdlCompilationOptions.GenerateCode)
             {
-                codeGenerator.SetEnvironment(environment);
+                //codeGenerator.SetEnvironment(environment);
                 astNode.Accept(codeGenerator);
             } // if
 

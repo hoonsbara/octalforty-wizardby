@@ -36,12 +36,12 @@ namespace octalforty.Wizardby.Db.Jet
         {
         }
 
-        protected override string GetColumnDefinition(IColumnDefinition columnDefinition)
+        protected override string GetColumnDefinition(IColumnDefinition columnDefinition, bool enforceNullable)
         {
             bool? pk = columnDefinition.PrimaryKey;
             columnDefinition.PrimaryKey = false;
 
-            string definition = base.GetColumnDefinition(columnDefinition);
+            string definition = base.GetColumnDefinition(columnDefinition, enforceNullable);
 
             columnDefinition.PrimaryKey = pk;
 

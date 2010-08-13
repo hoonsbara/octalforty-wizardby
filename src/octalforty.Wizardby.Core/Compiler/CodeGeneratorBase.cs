@@ -27,7 +27,7 @@ namespace octalforty.Wizardby.Core.Compiler
 {
     public abstract class CodeGeneratorBase : AstVisitorBase, ICodeGenerator
     {
-        private Environment environment;
+        /*private Environment environment;
 
         protected Environment Environment
         {
@@ -41,6 +41,6 @@ namespace octalforty.Wizardby.Core.Compiler
         public virtual void SetEnvironment(Environment environment)
         {
             this.environment = environment;
-        }
+        }*/
     }
 }

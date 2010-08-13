@@ -27,7 +27,7 @@ using System.Diagnostics;
 namespace octalforty.Wizardby.Core.Compiler.Ast.Impl
 {
     [DebuggerDisplay("add constraint {Name}")]
-    public class AddConstraintNode : AstNode, IAddConstraintNode
+    internal class AddConstraintNode : AstNode, IAddConstraintNode
     {
         #region Private Fields
         private readonly IList<string> columns = new List<string>();

@@ -26,7 +26,7 @@ using System.Diagnostics;
 namespace octalforty.Wizardby.Core.Compiler.Ast.Impl
 {
     [DebuggerDisplay("add column {Name} ({Location})")]
-    public class AddColumnNode : ColumnNodeBase, IAddColumnNode
+    internal class AddColumnNode : ColumnNodeBase, IAddColumnNode
     {
         public AddColumnNode(IAstNode parent, string name) : 
             base(parent, name)

@@ -34,13 +34,18 @@ using octalforty.Wizardby.Core.SemanticModel;
 
 namespace octalforty.Wizardby.Core.Db
 {
+    /// <summary>
+    /// Represents abase class for <see cref="IDbScriptGenerator"/> implementors.
+    /// </summary>
     public class DbScriptGeneratorBase : CodeGeneratorBase, IDbScriptGenerator
     {
+        #region Private Fields
         private readonly IDbStatementBatchWriter statementBatchWriter;
         private INativeSqlResourceProvider nativeSqlResourceProvider;
         private MigrationMode migrationMode;
-        private IDbPlatform platform;
+        #endregion
 
+        #region Protected Properties
         protected IndentedTextWriter TextWriter
         {
             [DebuggerStepThrough]
@@ -64,7 +69,12 @@ namespace octalforty.Wizardby.Core.Db
             [DebuggerStepThrough]
             get { return nativeSqlResourceProvider; }
         }
+        #endregion
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DbScriptGeneratorBase"/> class.
+        /// </summary>
+        /// <param name="statementBatchWriter"></param>
         public DbScriptGeneratorBase(IDbStatementBatchWriter statementBatchWriter)
         {
             this.statementBatchWriter = statementBatchWriter;
@@ -88,12 +98,12 @@ namespace octalforty.Wizardby.Core.Db
                 Platform.TypeMapper.MapToNativeType(columnDefinition.Type.Value, columnDefinition.Scale, columnDefinition.Precision);
         }
 
-        public virtual IDbPlatform Platform
-        {
-            get { return platform; }
-            set { platform = value; }
-        }
+        #region IDbPlatformDependency Members
+        public virtual IDbPlatform Platform 
+        { get; set; }
+        #endregion
 
+        #region IDbScriptGenerator Members
         public virtual void SetMigrationMode(MigrationMode migrationMode)
         {
             this.migrationMode = migrationMode;
@@ -103,6 +113,7 @@ namespace octalforty.Wizardby.Core.Db
         {
             this.nativeSqlResourceProvider = nativeSqlResourceProvider;
         }
+        #endregion
 
         string GetFragment(IAstNode astNode)
         {
