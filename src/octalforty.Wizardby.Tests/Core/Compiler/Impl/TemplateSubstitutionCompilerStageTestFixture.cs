@@ -49,10 +49,12 @@ namespace octalforty.Wizardby.Tests.Core.Compiler.Impl
 
         table template U:
             Foo type => String, length => 200
+            Abc type => String
 
     version 1:
         add table Foo:
             include-template T
+            include-template U
             Baz type => Int32
 
         add table Bar templates = [T, U]")).Parse();
@@ -63,11 +65,14 @@ namespace octalforty.Wizardby.Tests.Core.Compiler.Impl
             
             AssertAddTable(version1Node.ChildNodes[0], "Foo",
                 new ColumnDefinition("ID"),
+                new ColumnDefinition("Foo"),
+                new ColumnDefinition("Abc"),
                 new ColumnDefinition("Baz"));
 
             AssertAddTable(version1Node.ChildNodes[1], "Bar",
                 new ColumnDefinition("ID"),
-                new ColumnDefinition("Foo"));
+                new ColumnDefinition("Foo"),
+                new ColumnDefinition("Abc"));
         }
     }
 }

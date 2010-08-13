@@ -98,7 +98,7 @@ namespace octalforty.Wizardby.Core.Compiler.Impl
                 //
                 // Insert cloned nodes immediately after includeTemplateNode. We're processing
                 // these nodes in reverse order to simplify things
-                foreach(var templateNode in GetTemplateNodes(tableNode, includeTemplateNode.Name))
+                foreach(var templateNode in GetTemplateNodes(tableNode, includeTemplateNode.Name).Reverse())
                     tableNode.ChildNodes.Insert(includeTemplateNodeIndex, templateNode);
 
                 //
