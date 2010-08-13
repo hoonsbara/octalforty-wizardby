@@ -156,6 +156,10 @@ namespace octalforty.Wizardby.Core.Compiler.Ast
         {
         }
 
+        public virtual void Visit(IIncludeTemplateNode includeTemplateNode)
+        {
+        }
+
         protected virtual void Visit(IList<IAstNode> astNodes)
         {
             List<IAstNode> nodes = new List<IAstNode>(astNodes);

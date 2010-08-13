@@ -21,7 +21,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
+
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 using octalforty.Wizardby.Core.Compiler.Ast;
 
@@ -57,6 +60,8 @@ namespace octalforty.Wizardby.Core.Compiler.Impl
         /// <param name="addTableNode"></param>
         public override void Visit(IAddTableNode addTableNode)
         {
+            IncludeTemplates(addTableNode);
+
             //
             // If neither "template" nor "templates" properties specified on the node, skip it
             if(addTableNode.Properties[MdlSyntax.Template] == null &&
@@ -74,7 +79,33 @@ namespace octalforty.Wizardby.Core.Compiler.Impl
             foreach(IAstNodePropertyValue templateName in templateNames)
                 SubstituteTemplate(addTableNode, ((IStringAstNodePropertyValue)templateName).Value);
         }
+
+        public override void Visit(IAlterTableNode alterTableNode)
+        {
+            IncludeTemplates(alterTableNode);
+        }
         #endregion
+
+        private void IncludeTemplates(ITableNode tableNode)
+        {
+            //
+            // If child nodes contain IIncludeTemplateNodes, process them first
+            while(tableNode.ChildNodes.Any(n => n is IIncludeTemplateNode))
+            {
+                var includeTemplateNode = (IIncludeTemplateNode)tableNode.ChildNodes.First(n => n is IIncludeTemplateNode);
+                var includeTemplateNodeIndex = tableNode.ChildNodes.IndexOf(includeTemplateNode);
+                
+                //
+                // Insert cloned nodes immediately after includeTemplateNode. We're processing
+                // these nodes in reverse order to simplify things
+                foreach(var templateNode in GetTemplateNodes(tableNode, includeTemplateNode.Name))
+                    tableNode.ChildNodes.Insert(includeTemplateNodeIndex, templateNode);
+
+                //
+                // And then delete the includeTemplateNode
+                tableNode.ChildNodes.Remove(includeTemplateNode);
+            } // if
+        }
 
         private void SubstituteTemplate(IAddTableNode addTableNode, string templateName)
         {
@@ -87,6 +118,17 @@ namespace octalforty.Wizardby.Core.Compiler.Impl
                 
                 astNode.Parent = addTableNode;
                 addTableNode.ChildNodes.Add(astNode);
+            } // foreach
+        }
+
+        private IEnumerable<IAstNode> GetTemplateNodes(IAstNode parent, string templateName)
+        {
+            foreach(var childNode in tableTemplateNodes[templateName].ChildNodes)
+            {
+                var astNode = AstUtil.Clone(childNode);
+                astNode.Parent = parent;
+                
+                yield return astNode;
             } // foreach
         }
     }

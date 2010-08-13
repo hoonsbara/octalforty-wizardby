@@ -346,8 +346,9 @@ namespace octalforty.Wizardby.Tests.Core.Compiler
         {
             MdlParser mdlParser = new MdlParser(CreateScanner(@"add table User:
     Foo
-    reference Bar
-    index Baz"));
+    reference Bar    
+    index Baz
+    include-template Tpl"));
             IAstNode astNode = mdlParser.Parse();
 
             Assert.IsInstanceOfType(typeof(IAddTableNode), astNode);
@@ -358,6 +359,11 @@ namespace octalforty.Wizardby.Tests.Core.Compiler
             Assert.IsInstanceOfType(typeof(IAddColumnNode), astNode.ChildNodes[0]);
             Assert.IsInstanceOfType(typeof(IAddReferenceNode), astNode.ChildNodes[1]);
             Assert.IsInstanceOfType(typeof(IAddIndexNode), astNode.ChildNodes[2]);
+            
+            var includeTemplateNode = (IIncludeTemplateNode)astNode.ChildNodes[3];
+            Assert.IsNotNull(includeTemplateNode);
+            Assert.AreEqual("Tpl", includeTemplateNode.Name);
+
         }
 
         [Test()]
@@ -377,7 +383,8 @@ namespace octalforty.Wizardby.Tests.Core.Compiler
         {
             MdlParser mdlParser = new MdlParser(CreateScanner(@"alter table User:
     remove index ID
-    remove constraint DFID"));
+    remove constraint DFID
+    include-template Tpl"));
             IAstNode astNode = mdlParser.Parse();
 
             Assert.IsInstanceOfType(typeof(IAlterTableNode), astNode);
@@ -387,6 +394,10 @@ namespace octalforty.Wizardby.Tests.Core.Compiler
 
             Assert.IsInstanceOfType(typeof(IRemoveIndexNode), astNode.ChildNodes[0]);
             Assert.IsInstanceOfType(typeof(IRemoveConstraintNode), astNode.ChildNodes[1]);
+
+             var includeTemplateNode = (IIncludeTemplateNode)astNode.ChildNodes[2];
+            Assert.IsNotNull(includeTemplateNode);
+            Assert.AreEqual("Tpl", includeTemplateNode.Name);
         }
 
         [Test()]
@@ -807,6 +818,7 @@ namespace octalforty.Wizardby.Tests.Core.Compiler
             mdlScanner.RegisterKeyword("execute");
             mdlScanner.RegisterKeyword("native-sql");
             mdlScanner.RegisterKeyword("schema");
+            mdlScanner.RegisterKeyword(MdlSyntax.IncludeTemplate);
 
             return mdlScanner;
         }

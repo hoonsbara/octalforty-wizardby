@@ -205,6 +205,7 @@ namespace octalforty.Wizardby.Core.Compiler
             mdlScanner.RegisterKeyword("execute");
             mdlScanner.RegisterKeyword(MdlSyntax.NativeSql);
             mdlScanner.RegisterKeyword(MdlSyntax.Schema);
+            mdlScanner.RegisterKeyword(MdlSyntax.IncludeTemplate);
 
             IMdlParser mdlParser = new MdlParser(mdlScanner);
             IAstNode astNode = mdlParser.Parse();

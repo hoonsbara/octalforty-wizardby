@@ -76,6 +76,8 @@ namespace octalforty.Wizardby.Core.Compiler
         public const string UpgradeResource = "upgrade-resource";
         public const string DowngradeResource = "downgrade-resource";
 
+        public const string IncludeTemplate = "include-template";
+
         public const string Schema = "schema";
     }
 }

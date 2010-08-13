@@ -103,8 +103,10 @@ namespace octalforty.Wizardby.Core.Compiler
                 return ParseTemplatesNode(tokens, parent);
             if(tokens.First.Equals(Keyword(MdlSyntax.Refactor)))
                 return ParseRefactorNode(tokens, parent);
-            if (tokens.First.Equals(Keyword(MdlSyntax.Execute)))
+            if(tokens.First.Equals(Keyword(MdlSyntax.Execute)))
                 return ParseExecuteNode(tokens, parent);
+            if(tokens.First.Equals(Keyword(MdlSyntax.IncludeTemplate)))
+                return ParseIncludeTemplateNode(tokens, parent, null);
              
             throw CreateMdlParserException(Resources.MdlParser.UnexpectedTokenAt, tokens.First.Lexeme, tokens.First.Type,
                 TranslateLocation(tokens.First.Location));
@@ -455,8 +457,26 @@ namespace octalforty.Wizardby.Core.Compiler
             if(tokens.First.Equals(Keyword(MdlSyntax.Constraint)))
                 return ParseAddConstraintNode(tokens, parent, null);
 
+            if(tokens.First.Equals(Keyword(MdlSyntax.IncludeTemplate)))
+                return ParseIncludeTemplateNode(tokens, parent, null);
+
             throw CreateMdlParserException(Resources.MdlParser.UnexpectedTokenAt, tokens.First.Lexeme, tokens.First.Type,
                 TranslateLocation(tokens.First.Location));
+        }
+
+        private static IAstNode ParseIncludeTemplateNode(TokenSequence tokens, IAstNode parent, Location location)
+        {
+            return ParseNode(tokens, parent,
+                delegate
+                {
+                    var template = ParseKeyword(tokens, MdlSyntax.IncludeTemplate);
+                    var name = Parse(tokens, TokenType.Symbol, TokenType.StringConstant).Lexeme;
+
+                    var includeTemplateNode = new IncludeTemplateNode(parent, name)
+                        { Location = location ?? template.Location };
+
+                    return includeTemplateNode;
+                });
         }
 
         private static IAstNode ParseImplicitAddIndexNode(TokenSequence tokens, IAstNode parent, Location location)

@@ -21,8 +21,12 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
+
 namespace octalforty.Wizardby.Core.Compiler.Ast
 {
+    /// <summary>
+    /// Defines a contract for an AST Visitor.
+    /// </summary>
     public interface IAstVisitor
     {
         /// <summary>
@@ -192,5 +196,11 @@ namespace octalforty.Wizardby.Core.Compiler.Ast
         /// </summary>
         /// <param name="addSchemaNode"></param>
         void Visit(IAddSchemaNode addSchemaNode);
+
+        /// <summary>
+        /// Visits the given <paramref name="includeTemplateNode"/>.
+        /// </summary>
+        /// <param name="includeTemplateNode"></param>
+        void Visit(IIncludeTemplateNode includeTemplateNode);
     }
 }

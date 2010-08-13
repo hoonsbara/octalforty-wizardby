@@ -56,6 +56,7 @@
     <Compile Include="Compiler\Ast\AstNodePropertyCollectionExtensions.cs" />
     <Compile Include="Compiler\Ast\AstNodePropertyUtil.cs" />
     <Compile Include="Compiler\Ast\IAddSchemaNode.cs" />
+    <Compile Include="Compiler\Ast\IIncludeTemplateNode.cs" />
     <Compile Include="Compiler\Ast\IIntegerAstNodePropertyValue.cs" />
     <Compile Include="Compiler\Ast\IListAstNodePropertyValue.cs" />
     <Compile Include="Compiler\Ast\Impl\AddConstraintNode.cs" />
@@ -187,6 +188,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Compiler\Ast\IExecuteNativeSqlNode.cs" />
+    <Compile Include="Compiler\Ast\Impl\IncludeTemplateNode.cs" />
     <Compile Include="Compiler\Ast\IRefactorNode.cs" />
     <Compile Include="Compiler\Ast\IReferenceNode.cs" />
     <Compile Include="Compiler\Ast\IRemoveColumnNode.cs" />
