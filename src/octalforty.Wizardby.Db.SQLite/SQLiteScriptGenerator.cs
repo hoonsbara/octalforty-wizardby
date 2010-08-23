@@ -36,43 +36,6 @@ namespace octalforty.Wizardby.Db.SQLite
         }
 
         #region AnsiDbScriptGeneratorBase Members
-        public override void Visit(IAddTableNode addTableNode)
-        {
-            /*var table = Environment.Schema.GetTable(addTableNode.Name);
-            if(table == null)
-                throw new MigrationException(string.Format("Could not resolve table '{0}' (at {1})",
-                    addTableNode.Name, addTableNode.Location));
-
-            TextWriter.WriteLine("create table {0} (", Platform.Dialect.EscapeIdentifier(table.Name));
-
-            bool firstColumn = true;
-
-            foreach(IColumnDefinition column in table.Columns)
-            {
-                if(firstColumn)
-                    firstColumn = false;
-                else
-                    TextWriter.WriteLine(",");
-
-                TextWriter.Write("{0} ", 
-                    Platform.Dialect.EscapeIdentifier(column.Name));
-
-                if((column.Identity.HasValue && column.Identity.Value) && (column.PrimaryKey.HasValue && column.PrimaryKey.Value))
-                    TextWriter.Write("integer primary key autoincrement ");
-                else
-                    TextWriter.Write("{0} ", MapToNativeType(column));
-
-                TextWriter.Write(
-                        column.Nullable.HasValue ?
-                            column.Nullable.Value ? 
-                                "null" : 
-                                "not null" :
-                            "");
-            } // foreach
-
-            TextWriter.WriteLine(");");*/
-        }
-
         public override void Visit(IRemoveIndexNode removeIndexNode)
         {
             TextWriter.WriteLine("drop index {0};",

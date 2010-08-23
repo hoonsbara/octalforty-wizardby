@@ -73,7 +73,7 @@ namespace octalforty.Wizardby.Core.Compiler.Impl
         {
             if(IsImmediateChildOf<IAlterColumnNode>(removeIndexNode))
                 MoveNodeTo(removeIndexNode, removeIndexNode.Parent.Parent.Parent);
-            else if(IsImmediateChildOf<IAlterTableNode>(removeIndexNode.Parent))
+            else if(IsImmediateChildOf<IAlterTableNode>(removeIndexNode))
                 MoveNodeTo(removeIndexNode, removeIndexNode.Parent.Parent);
         }
 
