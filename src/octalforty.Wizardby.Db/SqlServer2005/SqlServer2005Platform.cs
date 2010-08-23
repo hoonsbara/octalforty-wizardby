@@ -41,5 +41,10 @@ namespace octalforty.Wizardby.Db.SqlServer2005
         {
             get { return new SqlServer2005SchemaProvider(this); }
         }
+
+        public override IDbTypeMapper TypeMapper
+        {
+            get { return new SqlServer2005TypeMapper(); }
+        }
     }
 }
