@@ -60,7 +60,7 @@ namespace octalforty.Wizardby.Db.SqlServer2000
 
                         using(IDbCommand dbCommand = connection.CreateCommand())
                         {
-                            dbCommand.CommandText = string.Format("create database [{0}]", originalInitialCatalog);
+                            dbCommand.CommandText = string.Format("if not exists(select * from sys.databases where name = '{0}') create database [{0}]", originalInitialCatalog);
                             dbCommand.ExecuteNonQuery();
                         } // using
                     });
