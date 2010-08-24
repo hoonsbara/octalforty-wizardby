@@ -22,7 +22,9 @@
 // THE SOFTWARE.
 #endregion
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
+using System.Linq;
 
 namespace octalforty.Wizardby.Core.Util
 {
@@ -40,6 +42,26 @@ namespace octalforty.Wizardby.Core.Util
             } // foreach
 
             return stringBuilder.ToString();
+        }
+    }
+
+    public static class StreamUtil
+    {
+        public static byte[] ReadAllBytes(Stream stream)
+        {
+            const int BufferSize = 4096;
+
+            var buffer = new byte[BufferSize];
+            var result = new List<byte>();
+
+            var bytesRead = 0;
+            do
+            {
+                bytesRead = stream.Read(buffer, 0, BufferSize);
+                result.AddRange(buffer.Take(bytesRead));
+            } while(bytesRead != 0);
+
+            return result.ToArray();
         }
     }
 }

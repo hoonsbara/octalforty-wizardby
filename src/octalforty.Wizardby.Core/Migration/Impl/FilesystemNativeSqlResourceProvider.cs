@@ -29,6 +29,10 @@ using System.Text.RegularExpressions;
 
 using octalforty.Wizardby.Core.Db;
 
+using System.Linq;
+
+using octalforty.Wizardby.Core.Util;
+
 namespace octalforty.Wizardby.Core.Migration.Impl
 {
     public class FileSystemNativeSqlResourceProvider : INativeSqlResourceProvider
@@ -52,22 +56,30 @@ namespace octalforty.Wizardby.Core.Migration.Impl
         /// <returns></returns>
         public string[] GetUpgradeResources(IDbPlatform dbPlatform, string name, long version)
         {
+            var resourceFileName = string.Format("{0}.sql", name);
             var alias = DbPlatformUtil.GetDbPlatformAlias(dbPlatform);
-            var resourcePath = 
-                Path.Combine(baseDirectory,
-                    Path.Combine(alias, version.ToString()));
+            var potentialPaths = new[]
+                {
+                    Path.Combine(Path.Combine(baseDirectory, Path.Combine(alias, version.ToString())), resourceFileName),
+                    Path.Combine(Path.Combine(baseDirectory, Path.Combine("shared", version.ToString())), resourceFileName)
+                };
+            
+            var resourceFilePath = potentialPaths.FirstOrDefault(File.Exists);
 
-            if(!Directory.Exists(resourcePath))
-                return null;
+            if(string.IsNullOrEmpty(resourceFilePath)) return null;
 
             var codePage = CultureInfo.CurrentUICulture.TextInfo.ANSICodePage;
-            var encoding = codePage.Equals(0)?
-                Encoding.UTF8:
+            var encoding = codePage.Equals(0) ?
+                Encoding.UTF8 :
                 Encoding.GetEncoding(codePage);
 
-            var resourceFilePath = Path.Combine(resourcePath, string.Format("{0}.sql", name));
-            var nativeResource = File.ReadAllText(resourceFilePath, encoding);
-            
+            string nativeResource;
+            using(var fileStream = File.Open(resourceFilePath, FileMode.Open, FileAccess.Read))
+            {
+                var bytes = StreamUtil.ReadAllBytes(fileStream);
+                nativeResource = encoding.GetString(bytes);
+            } // using
+
             var goRegex = new Regex(@"^\s*go\s*", RegexOptions.Multiline);
 
             return goRegex.Split(nativeResource);
