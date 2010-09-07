@@ -45,6 +45,10 @@ namespace octalforty.Wizardby.Db.SQLite
         public override void Visit(IRemoveReferenceNode removeReferenceNode)
         {
         }
+
+        protected override void AlterTableRemoveColumn(IAlterTableNode alterTableNode, IRemoveColumnNode removeColumnNode)
+        {
+        }
         #endregion
 
     }

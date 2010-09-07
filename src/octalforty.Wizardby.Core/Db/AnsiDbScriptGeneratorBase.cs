@@ -135,9 +135,86 @@ namespace octalforty.Wizardby.Core.Db
                 Platform.Dialect.EscapeIdentifier(removeIndexNode.Name),
                 Platform.Dialect.EscapeIdentifier(removeIndexNode.Table));
         }
+
+        public override void Visit(IAlterTableNode alterTableNode)
+        {
+            foreach(IAstNode astNode in alterTableNode.ChildNodes)
+            {
+                if(astNode is IAddColumnNode)
+                {
+                    //
+                    // Here's the situation: when downgrading, we potentially may encounter
+                    // a situation when we restore a previously deleted column. If table
+                    // in question contains data and column being added is non-nullable,
+                    // we won't be able to do so. To circumvent this problem, enforce
+                    // column to be nullable.
+                    var addColumnNode = (IAddColumnNode)astNode;
+                    TextWriter.WriteLine("alter table {0} add {1};",
+                        Platform.Dialect.EscapeIdentifier(alterTableNode.Name), 
+                        GetColumnDefinition(addColumnNode, alterTableNode.Parent is IDowngradeNode));
+                } // if
+                
+                if(astNode is IRemoveColumnNode)
+                {
+                    var removeColumnNode = (IRemoveColumnNode)astNode;
+                    AlterTableRemoveColumn(alterTableNode, removeColumnNode);
+                } // if
+
+                if(astNode is IAlterColumnNode)
+                {
+                    var alterColumnNode = (IAlterColumnNode)astNode;
+                    TextWriter.WriteLine("alter table {0} alter column {1};",
+                        Platform.Dialect.EscapeIdentifier(alterTableNode.Name),
+                        GetAlterColumnDefinition(alterColumnNode));
+                } // if
+            } // foreach
+        }
         #endregion
 
         #region Overridables
+        protected virtual void AlterTableRemoveColumn(IAlterTableNode alterTableNode, IRemoveColumnNode removeColumnNode)
+        {
+            TextWriter.WriteLine("alter table {0} drop column {1};",
+                                 Platform.Dialect.EscapeIdentifier(alterTableNode.Name),
+                                 Platform.Dialect.EscapeIdentifier(removeColumnNode.Name));
+        }
+
+        protected virtual string GetColumnDefinition(IColumnDefinition columnDefinition, bool enforceNullable)
+        {
+            StringBuilder columnDefinitionBuilder = new StringBuilder();
+            columnDefinitionBuilder.AppendFormat("{0} {1} {2}", 
+                Platform.Dialect.EscapeIdentifier(columnDefinition.Name),
+                MapToNativeType(columnDefinition),
+                    enforceNullable ? 
+                        "null" :
+                        columnDefinition.Nullable.HasValue ?
+                            columnDefinition.Nullable.Value ? "null" : "not null" :
+                            "");
+
+            if(columnDefinition.Identity.HasValue && columnDefinition.Identity.Value)
+                columnDefinitionBuilder.Append(" identity");
+
+            if(columnDefinition.PrimaryKey.HasValue && columnDefinition.PrimaryKey.Value)
+                columnDefinitionBuilder.Append(" primary key");
+            else
+                columnDefinitionBuilder.Append("");
+
+            return columnDefinitionBuilder.ToString();
+        }
+
+        protected virtual string GetAlterColumnDefinition(IColumnDefinition columnDefinition)
+        {
+            StringBuilder columnDefinitionBuilder = new StringBuilder();
+            columnDefinitionBuilder.Append(Platform.Dialect.EscapeIdentifier(columnDefinition.Name));
+
+            columnDefinitionBuilder.AppendFormat(" {0}", MapToNativeType(columnDefinition));
+
+            if(columnDefinition.Nullable.HasValue)
+                columnDefinitionBuilder.AppendFormat(" {0}", columnDefinition.Nullable.Value ? "null" : "not null");
+
+            return columnDefinitionBuilder.ToString();
+        }
+
         protected virtual string GetAddColumnDefinition(IColumnDefinition column)
         {
             var builder = new StringBuilder();

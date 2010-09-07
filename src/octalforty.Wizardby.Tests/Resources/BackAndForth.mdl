@@ -3,7 +3,7 @@
 		User:
 			ID type => "int32!", primary-key => true
 			Age type => "int32!"
-			Name type => "string!(200)"
+			Name type => "string!(200)", unique => true
 			
 			index "IX_Name" column => Name
 			
