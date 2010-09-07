@@ -163,15 +163,20 @@ namespace octalforty.Wizardby.Core.Db
                 if(astNode is IAlterColumnNode)
                 {
                     var alterColumnNode = (IAlterColumnNode)astNode;
-                    TextWriter.WriteLine("alter table {0} alter column {1};",
-                        Platform.Dialect.EscapeIdentifier(alterTableNode.Name),
-                        GetAlterColumnDefinition(alterColumnNode));
+                    AlterTableAlterColumn(alterTableNode, alterColumnNode);
                 } // if
             } // foreach
         }
         #endregion
 
         #region Overridables
+        protected virtual void AlterTableAlterColumn(IAlterTableNode alterTableNode, IAlterColumnNode alterColumnNode)
+        {
+            TextWriter.WriteLine("alter table {0} alter column {1};",
+                                 Platform.Dialect.EscapeIdentifier(alterTableNode.Name),
+                                 GetAlterColumnDefinition(alterColumnNode));
+        }
+
         protected virtual void AlterTableRemoveColumn(IAlterTableNode alterTableNode, IRemoveColumnNode removeColumnNode)
         {
             TextWriter.WriteLine("alter table {0} drop column {1};",

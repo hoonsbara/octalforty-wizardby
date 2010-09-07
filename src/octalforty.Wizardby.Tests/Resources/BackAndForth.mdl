@@ -16,6 +16,10 @@
 			
 	version 3:
 		alter table User:
+			alter column Age nullable => true
+			
+	version 4:
+		alter table User:
 			add index "IX_Name" column => Name
 			
 		
