@@ -33,7 +33,8 @@
 
   <!-- Performs Build -->
   <Target Name="Build" DependsOnTargets="Version">
-    <MSBuild Projects="..\octalforty.Wizardby\src\octalforty.Wizardby.sln" Properties="Configuration=$(Configuration)" />
+    <MSBuild Projects="..\octalforty.Wizardby\src\octalforty.Wizardby.sln" Properties="Configuration=$(Configuration);Platform=x64" />
+    <MSBuild Projects="..\octalforty.Wizardby\src\octalforty.Wizardby.sln" Properties="Configuration=$(Configuration);Platform=x86" />
   </Target>
 
   <!-- Zips Binaries -->
