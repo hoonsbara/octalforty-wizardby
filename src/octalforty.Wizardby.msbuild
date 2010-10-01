@@ -40,12 +40,17 @@
   <!-- Zips Binaries -->
   <Target Name="ZipBin" DependsOnTargets="Build">
     <ItemGroup>
-      <BuildArtifacts Include="..\octalforty.Wizardby\src\octalforty.Wizardby.Console\bin\$(Configuration)\**\*.*" Exclude="**\*.pdb;**\*.vshost.exe;**\Microsoft*.*" />
+      <x64BuildArtifacts Include="..\octalforty.Wizardby\src\octalforty.Wizardby.Console\bin\x64\$(Configuration)\**\*.*" Exclude="**\*.pdb;**\*.vshost.exe;**\Microsoft*.*" />
+      <x86BuildArtifacts Include="..\octalforty.Wizardby\src\octalforty.Wizardby.Console\bin\x86\$(Configuration)\**\*.*" Exclude="**\*.pdb;**\*.vshost.exe;**\Microsoft*.*" />
     </ItemGroup>
     <MakeDir Directories="..\builds\$(Revision)" Condition="!Exists('..\builds\$(Revision)')" />
-    <Zip Files="@(BuildArtifacts)"
+    <Zip Files="@(x64BuildArtifacts)"
         WorkingDirectory="..\octalforty.Wizardby\src\octalforty.Wizardby.Console\bin\$(Configuration)"
-        ZipFileName="..\builds\$(Revision)\octalforty-wizardby-$(ApplicationVersion).$(Revision)-$(Milestone)-bin.zip"
+        ZipFileName="..\builds\$(Revision)\octalforty-wizardby-$(ApplicationVersion).$(Revision)-$(Milestone)-x64-bin.zip"
+        ZipLevel="9" />
+    <Zip Files="@(x86BuildArtifacts)"
+        WorkingDirectory="..\octalforty.Wizardby\src\octalforty.Wizardby.Console\bin\$(Configuration)"
+        ZipFileName="..\builds\$(Revision)\octalforty-wizardby-$(ApplicationVersion).$(Revision)-$(Milestone)-x86-bin.zip"
         ZipLevel="9" />
   </Target>
 
