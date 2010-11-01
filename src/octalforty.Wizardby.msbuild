@@ -28,7 +28,7 @@
 
   <Target Name="Version" DependsOnTargets="Export">
     <WriteLinesToFile File="..\octalforty.Wizardby\src\AssemblyVersion.cs"
-        Lines='[assembly:System.Reflection.AssemblyVersion("$(ApplicationVersion).$(Revision)")] internal static class ApplicationInfo { public static readonly string Milestone = "$(DisplayMilestone)"%3B }' Overwrite="true" />
+        Lines='[assembly:System.Reflection.AssemblyVersion("$(ApplicationVersion).$(Revision)")] [assembly:System.Reflection.AssemblyConfiguration("$(Configuration) $(Platform)")] internal static class ApplicationInfo { public static readonly string Milestone = "$(DisplayMilestone)"%3B }' Overwrite="true" />
   </Target>
 
   <!-- Performs Build -->
@@ -45,11 +45,11 @@
     </ItemGroup>
     <MakeDir Directories="..\builds\$(Revision)" Condition="!Exists('..\builds\$(Revision)')" />
     <Zip Files="@(x64BuildArtifacts)"
-        WorkingDirectory="..\octalforty.Wizardby\src\octalforty.Wizardby.Console\bin\$(Configuration)"
+        
         ZipFileName="..\builds\$(Revision)\octalforty-wizardby-$(ApplicationVersion).$(Revision)-$(Milestone)-x64-bin.zip"
         ZipLevel="9" />
     <Zip Files="@(x86BuildArtifacts)"
-        WorkingDirectory="..\octalforty.Wizardby\src\octalforty.Wizardby.Console\bin\$(Configuration)"
+        
         ZipFileName="..\builds\$(Revision)\octalforty-wizardby-$(ApplicationVersion).$(Revision)-$(Milestone)-x86-bin.zip"
         ZipLevel="9" />
   </Target>
