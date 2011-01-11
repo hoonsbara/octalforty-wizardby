@@ -46,9 +46,7 @@ namespace octalforty.Wizardby.Tests.Core.Migration.Impl
             string[] upgradeResources =
                 nativeSqlResourceProvider.GetUpgradeResources(new SqlServer2005Platform(), "Upgrade", 20090331140131);
 
-            Assert.AreEqual(2, upgradeResources.Length);
-            Assert.IsTrue(upgradeResources[0].StartsWith(@"if exists(select * from sys.objects where object_id = object_id(N'dbo.Sample') and type in (N'P', N'PC'))"));
-            Assert.IsTrue(upgradeResources[1].StartsWith(@"create procedure dbo.Sample"));
+            Assert.AreEqual(1, upgradeResources.Length);
         }
 
         [Test()]

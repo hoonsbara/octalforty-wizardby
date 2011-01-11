@@ -68,17 +68,10 @@ namespace octalforty.Wizardby.Core.Migration.Impl
 
             if(string.IsNullOrEmpty(resourceFilePath)) return null;
 
-            var codePage = CultureInfo.CurrentUICulture.TextInfo.ANSICodePage;
-            var encoding = codePage.Equals(0) ?
-                Encoding.UTF8 :
-                Encoding.GetEncoding(codePage);
-
             string nativeResource;
             using(var fileStream = File.Open(resourceFilePath, FileMode.Open, FileAccess.Read))
-            {
-                var bytes = StreamUtil.ReadAllBytes(fileStream);
-                nativeResource = encoding.GetString(bytes);
-            } // using
+                using(var streamReader = new StreamReader(fileStream, true))
+                    nativeResource = streamReader.ReadToEnd();
 
             var goRegex = new Regex(@"^\s*go\s*", RegexOptions.Multiline);
 
