@@ -29,13 +29,13 @@ namespace octalforty.Wizardby.Core.Migration.Impl
 {
     public class DbCommandExecutionStrategy : IDbCommandExecutionStrategy
     {
-        public void Execute(IDbCommand dbCommand)
+        public void Execute(IDbPlatform dbPlatform, IDbCommand dbCommand)
         {
             try
             {
-                dbCommand.ExecuteNonQuery();
+                dbPlatform.ExceptionTranslator.Execute(() => dbCommand.ExecuteNonQuery());
             } // try
-            catch(Exception e)
+            catch(DbPlatformException e)
             {
                 throw new DbPlatformException(string.Format("Could not execute SQL '{0}'", dbCommand.CommandText), e);
             } // catch

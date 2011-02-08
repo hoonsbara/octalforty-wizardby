@@ -24,6 +24,7 @@
 using System.Data;
 using System.IO;
 
+using octalforty.Wizardby.Core.Db;
 using octalforty.Wizardby.Core.Migration.Impl;
 
 namespace octalforty.Wizardby.Console
@@ -37,7 +38,7 @@ namespace octalforty.Wizardby.Console
             this.fileName = fileName;
         }
 
-        public void Execute(IDbCommand dbCommand)
+        public void Execute(IDbPlatform dbPlatform, IDbCommand dbCommand)
         {
             using(StreamWriter sw = new StreamWriter(fileName, true))
                 sw.WriteLine(dbCommand.CommandText);

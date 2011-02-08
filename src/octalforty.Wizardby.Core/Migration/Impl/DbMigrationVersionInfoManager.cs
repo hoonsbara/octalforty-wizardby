@@ -137,7 +137,7 @@ namespace octalforty.Wizardby.Core.Migration.Impl
 
         private void ExecuteRegisterMigrationVersionCommand(IDbCommand dbCommand)
         {
-            dbCommandExecutionStrategy.Execute(dbCommand);
+            dbCommandExecutionStrategy.Execute(dbPlatform, dbCommand);
         }
 
         private IDbCommand PrepareRegisterDowngradeMigrationVersionCommand(IDbTransaction dbTransaction, long version)

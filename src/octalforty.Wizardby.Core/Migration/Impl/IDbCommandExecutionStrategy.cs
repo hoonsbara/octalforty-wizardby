@@ -23,10 +23,12 @@
 #endregion
 using System.Data;
 
+using octalforty.Wizardby.Core.Db;
+
 namespace octalforty.Wizardby.Core.Migration.Impl
 {
     public interface IDbCommandExecutionStrategy
     {
-        void Execute(IDbCommand dbCommand);
+        void Execute(IDbPlatform dbPlatform, IDbCommand dbCommand);
     }
 }

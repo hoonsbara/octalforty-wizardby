@@ -21,6 +21,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
+
 using System.Data.Common;
 using System.Data.SqlClient;
 
@@ -57,6 +58,11 @@ namespace octalforty.Wizardby.Db.SqlServer2000
         public override IDbDeploymentManager DeploymentManager
         {
             get { return new SqlServer2000DeploymentManager(this); }
+        }
+
+        public override IDbExceptionTranslator ExceptionTranslator
+        {
+            get { return new SqlServer2000ExceptionTranslator(this); }
         }
         #endregion
     }

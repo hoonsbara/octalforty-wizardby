@@ -133,6 +133,7 @@
     <Compile Include="SqlServer2000\SqlServer2000ConnectionStringBuilder.cs" />
     <Compile Include="SqlServer2000\SqlServer2000DeploymentManager.cs" />
     <Compile Include="SqlServer2000\SqlServer2000Dialect.cs" />
+    <Compile Include="SqlServer2000\SqlServer2000ExceptionTranslator.cs" />
     <Compile Include="SqlServer2000\SqlServer2000NamingStrategy.cs" />
     <Compile Include="SqlServer2000\SqlServer2000Platform.cs" />
     <Compile Include="SqlServer2000\SqlServer2000SchemaProvider.cs" />

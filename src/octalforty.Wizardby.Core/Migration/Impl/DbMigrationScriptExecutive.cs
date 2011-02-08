@@ -88,10 +88,10 @@ namespace octalforty.Wizardby.Core.Migration.Impl
 
                                 try
                                 {
-                                    dbCommandExecutionStrategy.Execute(dbCommand);
+                                    dbCommandExecutionStrategy.Execute(dbPlatform, dbCommand);
                                 } // try
 
-                                // TOOD: Replace with DbPlatformException or something
+                                // TODO: Replace with DbPlatformException or something
                                 catch(Exception e)
                                 {
                                     throw new MigrationException(
