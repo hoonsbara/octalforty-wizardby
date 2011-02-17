@@ -23,8 +23,6 @@
 #endregion
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Text;
 
 using octalforty.Wizardby.Core.Compiler.Ast;
 using octalforty.Wizardby.Core.Db;
@@ -32,12 +30,15 @@ using octalforty.Wizardby.Core.SemanticModel;
 
 namespace octalforty.Wizardby.Db.SqlServer2000
 {
+    /// <summary>
+    /// Provides Microsoft SQL Server 2000-specific DDL generation.
+    /// </summary>
     public class SqlServer2000ScriptGenerator : AnsiDbScriptGeneratorBase
     {
         /// <summary>
-        /// 
+        /// Initializes a new instance of the <see cref="SqlServer2000ScriptGenerator"/>.
         /// </summary>
-        /// <param name="textWriter"></param>
+        /// <param name="statementBatchWriter"></param>
         public SqlServer2000ScriptGenerator(IDbStatementBatchWriter statementBatchWriter) : 
             base(statementBatchWriter)
         {
@@ -127,10 +128,13 @@ namespace octalforty.Wizardby.Db.SqlServer2000
                 yield return Platform.Dialect.EscapeIdentifier(identifier);
         }
 
-        
+        protected override string GetAddColumnDefinition(IColumnDefinition column)
+        {
+            var addColumn = base.GetAddColumnDefinition(column);
+            if(column.Identity ?? false)
+                addColumn += "identity ";
 
-        
-
-        
+            return addColumn;
+        }
     }
 }

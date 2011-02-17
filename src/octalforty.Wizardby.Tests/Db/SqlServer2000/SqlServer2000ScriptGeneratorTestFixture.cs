@@ -69,31 +69,35 @@ namespace octalforty.Wizardby.Tests.Db.SqlServer2000
                 versionNode.Accept(scriptGenerator);
 
             Assert.AreEqual(@"create table [SchemaInfo] (
-[Version] bigint not null,
+[Version] bigint not null  
 );
 create table [Author] (
-[ID] int not null identity primary key,
-[FirstName] nvarchar(200) not null,
-[LastName] nvarchar(200) not null,
-[EmailAddress] nvarchar(200) not null,
-[Login] nvarchar(200) not null,
-[Password] varbinary(64) null,
+[ID] int not null identity ,
+[FirstName] nvarchar(200) not null ,
+[LastName] nvarchar(200) not null ,
+[EmailAddress] nvarchar(200) not null ,
+[Login] nvarchar(200) not null ,
+[Password] varbinary(64) null ,
+primary key (ID)
 );
 create table [Tag] (
-[ID] int not null identity primary key,
-[Name] nvarchar(200) not null,
+[ID] int not null identity ,
+[Name] nvarchar(200) not null ,
+primary key (ID)
 );
 create table [Blog] (
-[ID] int not null identity primary key,
-[Name] nvarchar(200) not null,
-[Description] nvarchar(max) not null,
+[ID] int not null identity ,
+[Name] nvarchar(200) not null ,
+[Description] nvarchar(max) not null ,
+primary key (ID)
 );
 create table [BlogPost] (
-[ID] int not null identity primary key,
-[Title] nvarchar(200) not null,
-[Slug] nvarchar(200) not null,
-[BlogID] int not null,
-[AuthorID] int not null,
+[ID] int not null identity ,
+[Title] nvarchar(200) not null ,
+[Slug] nvarchar(200) not null ,
+[BlogID] int not null ,
+[AuthorID] int not null ,
+primary key (ID)
 );
 create table [BlogPostTagJunction] (
 [BlogPostID] int not null,
@@ -153,7 +157,7 @@ alter table [Forum] drop constraint [FK_FOO];
 drop table [Forum];
 alter table [BlogPostTagJunction] drop constraint [FK4];
 drop table [Tag];
-", batchWriter.GetStatementBatches()[0]);
+".Clean(), batchWriter.GetStatementBatches()[0].Clean());
         }
 
         [Test()]
@@ -378,6 +382,19 @@ drop table [Forum];
 alter table [BlogPostTagJunction] drop constraint [FK4];
 drop table [Tag];
 ", batchWriter.GetStatementBatches()[0]);
+        }
+    }
+
+    public static class StringExtensions
+    {
+        public static string Clean(this string s)
+        {
+            var sb = new StringBuilder(s);
+            sb.Replace("\n\r", " ").Replace("\t", "");
+
+            while(sb.Length != sb.Replace("  ", " ").Length) { };
+
+            return sb.ToString();
         }
     }
 }
