@@ -22,6 +22,8 @@
 // THE SOFTWARE.
 #endregion
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using octalforty.Wizardby.Console.Deployment;
 using octalforty.Wizardby.Console.Properties;
@@ -150,17 +152,31 @@ namespace octalforty.Wizardby.Console
 
         private static IEnvironment GetEnvironment(MigrationParameters parameters, IDeploymentInfo deploymentInfo)
         {
-            IEnvironment environment = null;
-            foreach (IEnvironment env in deploymentInfo.Environments)
-                if (env.Name.ToLowerInvariant().StartsWith(parameters.Environment.ToLowerInvariant()))
+            foreach(var e in deploymentInfo.Environments)
+                if(e.Name.ToLowerInvariant().StartsWith(parameters.Environment.ToLowerInvariant()))
                 {
-                    parameters.Environment = env.Name;
-                    environment = env;
-                    break;
+                    parameters.Environment = e.Name;
+                    return ProcessSystemEnvironmentOverrides(e);
                 } // if
 
-            if (environment == null)
-                throw new Exception();
+            throw new Exception();
+        }
+
+        private static IEnvironment ProcessSystemEnvironmentOverrides(IEnvironment environment)
+        {
+            var environmentVariables = Environment.GetEnvironmentVariables();
+            var vars = new Dictionary<string, string>();
+            
+            foreach(DictionaryEntry e in environmentVariables)
+                vars[e.Key.ToString().ToLowerInvariant()] = e.Value.ToString();
+
+            foreach(var k in environment.Properties.AllKeys)
+            {
+                var n = string.Format("wizardby_{0}", k.ToLowerInvariant().Replace("-", "_"));
+                if(vars.ContainsKey(n))
+                    environment.Properties[k] = vars[n];
+            } // foreach
+
             return environment;
         }
 
