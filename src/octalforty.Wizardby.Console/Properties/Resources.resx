@@ -181,7 +181,7 @@ Copyright (c) 2009 octalforty studios</value>
     <value>    {0}</value>
   </data>
   <data name="RegisteredDatabaseVersionsInfo" xml:space="preserve">
-    <value>Registered versions:</value>
+    <value>These migrations were applied:</value>
   </data>
   <data name="RegisteredVersion" xml:space="preserve">
     <value>Registered version {0}</value>
@@ -290,5 +290,8 @@ Abbreviations:
         host                =&gt; "(local)\sqlexpress"
         database            =&gt; {0}_production
         integrated-security =&gt; true</value>
+  </data>
+  <data name="UnregisteredVersion" xml:space="preserve">
+    <value>These migrations were not applied:</value>
   </data>
 </root>

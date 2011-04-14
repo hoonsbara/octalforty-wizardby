@@ -39,7 +39,7 @@ namespace octalforty.Wizardby.Console
         #endregion
 
         #region Private Fields
-        private IServiceProvider serviceProvider;
+
         private readonly bool resolveDbPlatform;
         private readonly bool resolveMigrationDefinition;
         private readonly bool ensureMigrationDefinitionExists;
@@ -61,15 +61,13 @@ namespace octalforty.Wizardby.Console
         }
 
         #region IMigrationCommand Members
+
         /// <summary>
         /// Set or sets a reference to the <see cref="IServiceProvider"/> which is
         /// used to retrieve service objects.
         /// </summary>
-        public IServiceProvider ServiceProvider
-        {
-            get { return serviceProvider; }
-            set { serviceProvider = value; }
-        }
+        public IServiceProvider ServiceProvider 
+        { get; set; }
 
         /// <summary>
         /// Executes the current command.
@@ -189,7 +187,7 @@ namespace octalforty.Wizardby.Console
             // hoping it's the only one there
             if(string.IsNullOrEmpty(parameters.MdlFileName))
             {
-                FileInfo[] mdlFiles = new DirectoryInfo(Directory.GetCurrentDirectory()).GetFiles("*.mdl");
+                var mdlFiles = new DirectoryInfo(Directory.GetCurrentDirectory()).GetFiles("*.mdl");
                 if(mdlFiles.Length == 0 && ensureMigrationDefinitionExists)
                     throw new MigrationException(string.Format(Resources.NoMigrationDefinition, Directory.GetCurrentDirectory()));
 

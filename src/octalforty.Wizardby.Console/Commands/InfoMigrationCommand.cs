@@ -23,10 +23,11 @@
 #endregion
 using System;
 using System.Collections.Generic;
-
+using System.IO;
 using octalforty.Wizardby.Console.Properties;
 using octalforty.Wizardby.Core.Db;
 using octalforty.Wizardby.Core.Migration;
+using octalforty.Wizardby.Core.Migration.Impl;
 
 namespace octalforty.Wizardby.Console.Commands
 {
@@ -37,7 +38,7 @@ namespace octalforty.Wizardby.Console.Commands
     public class InfoMigrationCommand : MigrationCommandBase
     {
         public InfoMigrationCommand() :
-            base(true, false, false, true)
+            base(true, true, false, true)
         {
         }
 
@@ -48,12 +49,16 @@ namespace octalforty.Wizardby.Console.Commands
         /// <param name="parameters"></param>
         protected override void InternalExecute(MigrationParameters parameters)
         {
-            long currentMigrationVersion = MigrationVersionInfoManagerUtil.GetCurrentMigrationVersion(
-                   ServiceProvider.GetService<IMigrationVersionInfoManager>(),
-                   ServiceProvider.GetService<IDbPlatform>(), parameters.ConnectionString);
-            IList<long> registeredMigrationVersions = MigrationVersionInfoManagerUtil.GetRegisteredMigrationVersions(
-                   ServiceProvider.GetService<IMigrationVersionInfoManager>(),
-                   ServiceProvider.GetService<IDbPlatform>(), parameters.ConnectionString);
+            var migrationVersionInfoManager = ServiceProvider.GetService<IMigrationVersionInfoManager>();
+            var dbPlatform = ServiceProvider.GetService<IDbPlatform>();
+
+            var currentMigrationVersion = MigrationVersionInfoManagerUtil.GetCurrentMigrationVersion(
+                   migrationVersionInfoManager,
+                   dbPlatform, parameters.ConnectionString);
+
+            var registeredMigrationVersions = MigrationVersionInfoManagerUtil.GetRegisteredMigrationVersions(
+                   migrationVersionInfoManager,
+                   dbPlatform, parameters.ConnectionString);
 
             if(currentMigrationVersion == 0)
             {
@@ -72,9 +77,30 @@ namespace octalforty.Wizardby.Console.Commands
                     return;
 
                 System.Console.WriteLine(Resources.RegisteredDatabaseVersionsInfo);
-                foreach(long registeredVersion in registeredMigrationVersions)
+                foreach(var registeredVersion in registeredMigrationVersions)
                     System.Console.WriteLine(Resources.RegisteredDatabaseVersionInfo, registeredVersion);
             } // using
+
+            if(string.IsNullOrEmpty(parameters.MdlFileName)) return;
+
+            var msc = new MigrationScriptCompiler(dbPlatform, new FileSystemNativeSqlResourceProvider(Directory.GetCurrentDirectory()), MigrationMode.Upgrade);
+            var scripts = msc.CompileMigrationScripts(File.OpenText(parameters.MdlFileName));
+
+            var first = true;
+
+            using(new ConsoleStylingScope(ConsoleColor.Yellow))
+                foreach(var s in scripts)
+                {
+                    if(registeredMigrationVersions.Contains(s.MigrationVersion)) continue;
+                    
+                    if(first)
+                    {
+                        System.Console.WriteLine(Resources.UnregisteredVersion);
+                        first = false;
+                    } // if
+
+                    System.Console.WriteLine(@"    " + s.MigrationVersion);
+                } // foreach
         }
         #endregion
     }

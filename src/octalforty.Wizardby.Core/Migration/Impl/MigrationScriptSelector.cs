@@ -44,9 +44,9 @@ namespace octalforty.Wizardby.Core.Migration.Impl
         public MigrationScriptCollection SelectMigrationScripts(long currentVersion, long? targetVersion, MigrationMode migrationMode,
             long[] registeredVersions, IEnumerable<MigrationScript> migrationScripts)
         {
-            MigrationScriptCollection selectedMigrationScripts = new MigrationScriptCollection();
+            var selectedMigrationScripts = new MigrationScriptCollection();
 
-            foreach(MigrationScript migrationScript in migrationScripts)
+            foreach(var migrationScript in migrationScripts)
             {
                 if(migrationMode == MigrationMode.Upgrade)
                 {
