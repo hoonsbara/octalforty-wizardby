@@ -21,6 +21,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -100,6 +102,10 @@ namespace octalforty.Wizardby.Core.Db
         {
             StringBuilder createIndexBuilder = new StringBuilder("create ");
 
+            Console.WriteLine(createIndexScript);
+            var tableDefinition = Schema.GetTable(addIndexNode.Table);
+            if(tableDefinition != null)
+                tableDefinition.AddIndex(new IndexDefinition(addIndexNode));
             if (addIndexNode.Unique ?? false)
                 createIndexBuilder.Append("unique ");
 

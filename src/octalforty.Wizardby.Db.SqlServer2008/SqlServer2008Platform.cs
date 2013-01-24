@@ -36,5 +36,10 @@ namespace octalforty.Wizardby.Db.SqlServer2008
         {
             get { return new SqlServer2008SchemaProvider(this); }
         }
+
+        public override IDbTypeMapper TypeMapper
+        {
+            get { return new SqlServer2008TypeMapper(); }
+        }
     }
 }

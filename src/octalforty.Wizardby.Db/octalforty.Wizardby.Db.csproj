@@ -15,7 +15,8 @@
     <OldToolsVersion>3.5</OldToolsVersion>
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -147,17 +148,17 @@
     <Compile Include="SqlServer2005\SqlServer2005TypeMapper.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\octalforty.Wizardby.Core\octalforty.Wizardby.Core.csproj">
-      <Project>{31A1F1A5-E685-4C89-929D-FDC93CD12BB0}</Project>
-      <Name>octalforty.Wizardby.Core</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
       <SubType>Designer</SubType>
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\octalforty.Wizardby.Core\octalforty.Wizardby.Core.csproj">
+      <Project>{31A1F1A5-E685-4C89-929D-FDC93CD12BB0}</Project>
+      <Name>octalforty.Wizardby.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

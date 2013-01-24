@@ -21,6 +21,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
+
+using System;
 using System.Data;
 
 using octalforty.Wizardby.Core.Compiler.Ast;
@@ -43,6 +45,8 @@ namespace octalforty.Wizardby.Core.Compiler.Impl
             // to the first IVersionNode we encounter 
             if(builtSchemaInfo)
                 return;
+
+            Console.WriteLine("SIBCS " + versionNode.Number);
 
             IAddTableNode addSchemaInfoTableNode = new AddTableNode(versionNode, "SchemaInfo");
             

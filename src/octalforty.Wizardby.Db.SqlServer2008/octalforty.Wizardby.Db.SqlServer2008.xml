@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>octalforty.Wizardby.Db.SqlServer2008</name>
+    </assembly>
+    <members>
+        <member name="T:octalforty.Wizardby.Db.SqlServer2008.SqlServer2008Platform">
+            <summary>
+            A <see cref="T:octalforty.Wizardby.Core.Db.IDbPlatform"/> implementation for the Microsoft SQL Server 2008.
+            </summary>
+        </member>
+        <member name="T:octalforty.Wizardby.Db.SqlServer2008.SqlServer2008SchemaProvider">
+            <summary>
+            A <see cref="T:octalforty.Wizardby.Core.Db.IDbSchemaProvider"/> for Microsoft SQL Server 2008.
+            </summary>
+        </member>
+        <member name="M:octalforty.Wizardby.Db.SqlServer2008.SqlServer2008SchemaProvider.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:octalforty.Wizardby.Db.SqlServer2008.SqlServer2008SchemaProvider"/> class.
+            </summary>
+        </member>
+        <member name="M:octalforty.Wizardby.Db.SqlServer2008.SqlServer2008SchemaProvider.#ctor(octalforty.Wizardby.Core.Db.IDbPlatform)">
+            <summary>
+            Initializes a new instance of the <see cref="T:octalforty.Wizardby.Db.SqlServer2008.SqlServer2008SchemaProvider"/> class.
+            </summary>
+            <param name="platform"></param>
+        </member>
+        <member name="M:octalforty.Wizardby.Db.SqlServer2008.SqlServer2008SchemaProvider.GetReferenceDefinitions(System.String,octalforty.Wizardby.Core.SemanticModel.Schema)">
+            <summary>
+            When overriden in derived class, retrieves a collection of all
+            references in the database defined by the <see cref="!:connectionString"/>.
+            </summary>
+            <param name="connectionString"></param>
+            <param name="databaseSchema"></param>
+        </member>
+        <member name="M:octalforty.Wizardby.Db.SqlServer2008.SqlServer2008SchemaProvider.GetIndexDefinitions(System.String,octalforty.Wizardby.Core.SemanticModel.Schema)">
+            <summary>
+            When overriden in derived class, retrieves a collection of all
+            indexes in the database defined by the <see cref="!:connectionString"/>.
+            </summary>
+            <param name="connectionString"></param>
+            <param name="databaseSchema"></param>
+        </member>
+    </members>
+</doc>

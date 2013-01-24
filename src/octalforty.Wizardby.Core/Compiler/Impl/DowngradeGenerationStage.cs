@@ -23,6 +23,8 @@
 #endregion
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Text;
 
 using octalforty.Wizardby.Core.Compiler.Ast;
 using octalforty.Wizardby.Core.Compiler.Ast.Impl;
@@ -32,7 +34,7 @@ using octalforty.Wizardby.Core.Util;
 
 namespace octalforty.Wizardby.Core.Compiler.Impl
 {
-    public class DowngradeGenerationStage : MdlCompilerStageBase
+    public class DowngradeGenerationStage : SchemaBuilderCompilerStageBase
     {
         /// <summary>
         /// Sets <paramref name="environment"/> for the current compilation session.
@@ -86,6 +88,8 @@ namespace octalforty.Wizardby.Core.Compiler.Impl
         /// <param name="addTableNode"></param>
         public override void Visit(IAddTableNode addTableNode)
         {
+            base.Visit(addTableNode);
+
             BuildSchemaDefinitionFor(addTableNode);
 
             //
@@ -307,6 +311,11 @@ namespace octalforty.Wizardby.Core.Compiler.Impl
 
         private void BuildSchemaDefinitionFor(IAstNode astNode)
         {
+            var mg = new MdlGenerator();
+            var sb = new StringBuilder();
+            var sw = new StringWriter(sb);
+            mg.Generate(astNode, sw);
+            Console.WriteLine("bsd " + sb.ToString());
             SchemaDefinitionBuilderVisitor schemaDefinitionBuilder = new SchemaDefinitionBuilderVisitor(Environment.Schema);
             astNode.Accept(schemaDefinitionBuilder);
         }

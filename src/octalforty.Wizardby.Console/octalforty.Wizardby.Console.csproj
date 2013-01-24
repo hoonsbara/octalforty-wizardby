@@ -9,14 +9,15 @@
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>octalforty.Wizardby.Console</RootNamespace>
-    <AssemblyName>wizardby</AssemblyName>
+    <AssemblyName>wz</AssemblyName>
     <ApplicationIcon>Wizardby.ico</ApplicationIcon>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <OldToolsVersion>3.5</OldToolsVersion>
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -132,13 +133,23 @@
     <Compile Include="Util\ReflectionUtil.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Usage.txt" />
+    <Content Include="Wizardby.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\octalforty.Wizardby.Core\octalforty.Wizardby.Core.csproj">
       <Project>{31A1F1A5-E685-4C89-929D-FDC93CD12BB0}</Project>
       <Name>octalforty.Wizardby.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\octalforty.Wizardby.Db.Firebird\octalforty.Wizardby.Db.Firebird.csproj">
-      <Project>{4FE2B606-E0CD-468B-B3E6-82B9B454E144}</Project>
-      <Name>octalforty.Wizardby.Db.Firebird</Name>
     </ProjectReference>
     <ProjectReference Include="..\octalforty.Wizardby.Db.SQLite\octalforty.Wizardby.Db.SQLite.csproj">
       <Project>{3B68C293-E2EC-4783-82D3-49FD2E1FEBDE}</Project>
@@ -152,17 +163,6 @@
       <Project>{735ADA03-27DA-4C9F-BDAF-21DEEC2DD5C8}</Project>
       <Name>octalforty.Wizardby.Db</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Usage.txt" />
-    <Content Include="Wizardby.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <SubType>Designer</SubType>
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

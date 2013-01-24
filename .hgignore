@@ -42,5 +42,8 @@ supportyapp.txt
 ToDoList.ini
 hgsharp-test
 
+src/octalforty.Wizardby.ncrunchsolution
+src/octalforty.Wizardby.Db/octalforty.Wizardby.Db.xml
+src/octalforty.Wizardby.Core/octalforty.Wizardby.Core.xml
 syntax: regexp
 Web\.config$

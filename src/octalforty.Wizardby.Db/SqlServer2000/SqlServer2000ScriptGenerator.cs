@@ -51,6 +51,8 @@ namespace octalforty.Wizardby.Db.SqlServer2000
         /// <param name="addReferenceNode"></param>
         public override void Visit(IAddReferenceNode addReferenceNode)
         {
+            Console.WriteLine("add reference to " + addReferenceNode.FkTable + " from " + addReferenceNode.PkTable);
+
             TextWriter.WriteLine("alter table {0} add constraint {1} foreign key ({2}) references {3} ({4});",
                 Platform.Dialect.EscapeIdentifier(addReferenceNode.FkTable), 
                 Platform.Dialect.EscapeIdentifier(addReferenceNode.Name),

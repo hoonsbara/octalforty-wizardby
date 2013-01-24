@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>octalforty.Wizardby.Db.SQLite</name>
+    </assembly>
+    <members>
+        <member name="T:octalforty.Wizardby.Db.SQLite.SQLiteTypeMapper">
+            <summary>
+            
+            </summary>
+            <remarks>
+            See http://sqlite.phxsoftware.com/forums/t/31.aspx
+            </remarks>
+        </member>
+        <member name="M:octalforty.Wizardby.Db.SQLite.SQLiteTypeMapper.#ctor">
+            <summary>
+            Initializes a new instance of <see cref="T:octalforty.Wizardby.Db.SQLite.SQLiteTypeMapper"/> class.
+            </summary>
+        </member>
+        <member name="T:octalforty.Wizardby.Db.SQLite.SQLitePlatform">
+            <summary>
+            A <see cref="T:octalforty.Wizardby.Core.Db.IDbPlatform"/> implementation for SQLite.
+            </summary>
+        </member>
+        <member name="M:octalforty.Wizardby.Db.SQLite.SQLitePlatform.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:octalforty.Wizardby.Db.SQLite.SQLitePlatform"/> class.
+            </summary>
+        </member>
+    </members>
+</doc>
