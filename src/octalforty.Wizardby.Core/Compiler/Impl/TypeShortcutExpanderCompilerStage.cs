@@ -80,10 +80,42 @@ namespace octalforty.Wizardby.Core.Compiler.Impl
 
         public override void Visit(octalforty.Wizardby.Core.Compiler.Ast.IAlterColumnNode alterColumnNode)
         {
-            base.Visit(alterColumnNode);
+            if(alterColumnNode.Properties[MdlSyntax.Type] == null)
+                return;
+
+            var type = AstNodePropertyUtil.AsString(alterColumnNode.Properties[MdlSyntax.Type].Value);
+            
+            //
+            // If we match against something like "decimal!(18,2)"
+            var typeWithScaleAndPrecision = TypeWithScaleAndPrecision.Match(type);
+            if(typeWithScaleAndPrecision.Success)
+            {
+                ExpandTypeAndNullability(alterColumnNode, typeWithScaleAndPrecision);
+
+                alterColumnNode.Properties.AddProperty(
+                    AstNodeProperty.Integer(MdlSyntax.Scale, int.Parse(typeWithScaleAndPrecision.Groups["Scale"].Value)));
+                alterColumnNode.Properties.AddProperty(
+                    AstNodeProperty.Integer(MdlSyntax.Precision, int.Parse(typeWithScaleAndPrecision.Groups["Precision"].Value)));
+
+                return;
+            } // if
+
+            //
+            // If we match against something like "int32!" or "string?(300)", make it so.
+            var typeWithOptionalLength = TypeWithOptionalLength.Match(type);
+            if(typeWithOptionalLength.Success)
+            {
+                ExpandTypeAndNullability(alterColumnNode, typeWithOptionalLength);
+
+                if(typeWithOptionalLength.Groups["Length"].Success)
+                {
+                    alterColumnNode.Properties.AddProperty(
+                        AstNodeProperty.Integer(MdlSyntax.Length, int.Parse(typeWithOptionalLength.Groups["Length"].Value)));
+                } // if
+            }
         }
 
-        private void ExpandTypeAndNullability(IAddColumnNode addColumnNode, Match match)
+        private void ExpandTypeAndNullability(IAstNode addColumnNode, Match match)
         {
             addColumnNode.Properties.AddProperty(
                 AstNodeProperty.Symbol(MdlSyntax.Type, match.Groups["TypeName"].Value));
