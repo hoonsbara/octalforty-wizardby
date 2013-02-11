@@ -9,7 +9,7 @@
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>octalforty.Wizardby.Console</RootNamespace>
-    <AssemblyName>wz</AssemblyName>
+    <AssemblyName>wizardby</AssemblyName>
     <ApplicationIcon>Wizardby.ico</ApplicationIcon>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
