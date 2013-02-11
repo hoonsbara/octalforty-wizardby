@@ -71,14 +71,11 @@ namespace octalforty.Wizardby.Core.SemanticModel
         {
             var invariantName = GetInvariantName(table);
 
-            Console.WriteLine("  schema.addtable(" + invariantName + ")");
-            
             tables[invariantName] = table;
         }
 
         public ITableDefinition GetTable(string name)
         {
-            Console.WriteLine("  schema.gettable(" + name + ")");
             string invariantName = GetInvariantName(name);
             return InternalGetTable(invariantName);
         }
@@ -111,7 +108,6 @@ namespace octalforty.Wizardby.Core.SemanticModel
         private static T GetSchemaElement<T>(IDictionary<string, T> elements, string invariantName)
             where T : class
         {
-            Console.WriteLine("     schema.getschemaelement(" + invariantName + ")");
             return elements.ContainsKey(invariantName) ?
                 elements[invariantName] :
                 null;
