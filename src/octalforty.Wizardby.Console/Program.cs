@@ -44,7 +44,7 @@ namespace octalforty.Wizardby.Console
         private static IServiceProvider serviceProvider;
         private static MigrationParameters parameters;
 
-        static void Main(string[] args)
+        static int Main(string[] args)
         {
             System.Console.WriteLine(Resources.CopyrightInformation, 
                 Assembly.GetExecutingAssembly().GetName().Version.ToString(4),
@@ -55,7 +55,7 @@ namespace octalforty.Wizardby.Console
                 System.Console.WriteLine();
                 System.Console.WriteLine(Resources.UsageInformation);
 
-                return;
+                return 1;
             } // if
 
             serviceProvider = new ServiceProvider();
@@ -121,6 +121,8 @@ namespace octalforty.Wizardby.Console
             {
                 using(new ConsoleStylingScope(ConsoleColor.Red))
                     System.Console.WriteLine(System.Environment.NewLine + "Compilation Exception: {0}", e.Message);
+
+                return 2;
             } // catch
 
             catch(MdlCompilerException e)
@@ -128,12 +130,16 @@ namespace octalforty.Wizardby.Console
                 using(new ConsoleStylingScope(ConsoleColor.Red))
                     System.Console.WriteLine(System.Environment.NewLine + "Compilation Exception: {0} ({1})", e.Message,
                         e.Location);
+
+                return 3;
             } // catch
 
             catch(MigrationException e)
             {
                 using(new ConsoleStylingScope(ConsoleColor.Red))
                     System.Console.WriteLine(System.Environment.NewLine + "Migration Exception: {0} ({1})", e.Message, e.SqlStatement);
+
+                return 4;
             } // catch
 
             catch(DbPlatformException e)
@@ -142,6 +148,8 @@ namespace octalforty.Wizardby.Console
                 using(new ConsoleStylingScope(ConsoleColor.Red))
                     System.Console.WriteLine(System.Environment.NewLine + "{0} Exception: {1}", 
                         serviceProvider.GetService<DbPlatformRegistry>().GetPlatformName(dbPlatform), e.Message + e.StackTrace.ToString());
+                
+                return 5;
             } // catch
 
             catch(DbException e)
@@ -150,13 +158,19 @@ namespace octalforty.Wizardby.Console
                 using (new ConsoleStylingScope(ConsoleColor.Red))
                     System.Console.WriteLine(System.Environment.NewLine + "{0} Exception: {1}",
                         serviceProvider.GetService<DbPlatformRegistry>().GetPlatformName(dbPlatform), e.Message + e.StackTrace.ToString());
+
+                return 6;
             } // catch
 
             catch(Exception e)
             {
                 using(new ConsoleStylingScope(ConsoleColor.Red))
                     System.Console.WriteLine(System.Environment.NewLine + "Unknown Exception: {0}", e.ToString());
+
+                return 100;
             } // catch
+
+            return 0;
         }
 
         private static void MigrationServiceMigrated(object sender, MigrationEventArgs args)
