@@ -507,6 +507,7 @@
     <Compile Include="SemanticModel\ISchemaElementDefinitionCollection.cs" />
     <Compile Include="SemanticModel\ISchemaElementDefinition.cs" />
     <Compile Include="SemanticModel\ITableDefinition.cs" />
+    <Compile Include="SemanticModel\ReferenceCascadeAction.cs" />
     <Compile Include="SemanticModel\ReferenceDefinition.cs">
       <SubType>Code</SubType>
     </Compile>

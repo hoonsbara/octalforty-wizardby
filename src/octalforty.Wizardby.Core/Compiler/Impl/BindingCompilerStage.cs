@@ -132,6 +132,24 @@ namespace octalforty.Wizardby.Core.Compiler.Impl
             BindPrimaryKeyTable(addReferenceNode, reference);
             BindPrimaryKeyColumns(addReferenceNode, reference);
 
+            if(addReferenceNode.Properties["on-update"] != null)
+            {
+                var onUpdate = AstNodePropertyUtil.AsString(addReferenceNode.Properties["on-update"].Value);
+                addReferenceNode.OnUpdate = (ReferenceCascadeAction)Enum.Parse(
+                    typeof(ReferenceCascadeAction),
+                    onUpdate,
+                    true);
+            } // if
+
+            if(addReferenceNode.Properties["on-delete"] != null)
+            {
+                var onDelete = AstNodePropertyUtil.AsString(addReferenceNode.Properties["on-delete"].Value);
+                addReferenceNode.OnDelete = (ReferenceCascadeAction)Enum.Parse(
+                    typeof(ReferenceCascadeAction),
+                    onDelete,
+                    true);
+            } // if
+
             ITableDefinition table = Environment.Schema.GetTable(reference.FkTable);
             table.AddReference(reference);
         }

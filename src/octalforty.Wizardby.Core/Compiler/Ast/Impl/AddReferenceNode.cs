@@ -24,6 +24,8 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 
+using octalforty.Wizardby.Core.SemanticModel;
+
 namespace octalforty.Wizardby.Core.Compiler.Ast.Impl
 {
     [DebuggerDisplay("add reference {Name} ({FkTable} to {PkTable}) ({Location})")]
@@ -98,6 +100,10 @@ namespace octalforty.Wizardby.Core.Compiler.Ast.Impl
             get { return fkTableSchema; }
             set { fkTableSchema = value; }
         }
+
+        public ReferenceCascadeAction? OnUpdate { get; set; }
+
+        public ReferenceCascadeAction? OnDelete { get; set; }
         #endregion
     }
 }

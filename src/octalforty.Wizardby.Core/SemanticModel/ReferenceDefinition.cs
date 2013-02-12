@@ -72,6 +72,10 @@ namespace octalforty.Wizardby.Core.SemanticModel
             set { fkTableSchema = value; }
         }
 
+        public ReferenceCascadeAction? OnUpdate { get; set; }
+
+        public ReferenceCascadeAction? OnDelete { get; set; }
+
         public ReferenceDefinition()
         {
         }

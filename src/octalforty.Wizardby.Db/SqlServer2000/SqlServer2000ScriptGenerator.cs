@@ -51,15 +51,45 @@ namespace octalforty.Wizardby.Db.SqlServer2000
         /// <param name="addReferenceNode"></param>
         public override void Visit(IAddReferenceNode addReferenceNode)
         {
-            Console.WriteLine("add reference to " + addReferenceNode.FkTable + " from " + addReferenceNode.PkTable);
-
-            TextWriter.WriteLine("alter table {0} add constraint {1} foreign key ({2}) references {3} ({4});",
+            TextWriter.Write("alter table {0} add constraint {1} foreign key ({2}) references {3} ({4})",
                 Platform.Dialect.EscapeIdentifier(addReferenceNode.FkTable), 
                 Platform.Dialect.EscapeIdentifier(addReferenceNode.Name),
                 Join(", ", EscapeIdentifiers(addReferenceNode.FkColumns)),
                 Platform.Dialect.EscapeIdentifier(addReferenceNode.PkTable),
                 Join(", ", EscapeIdentifiers(addReferenceNode.PkColumns)));
-                
+
+            if(addReferenceNode.OnUpdate.HasValue)
+            {
+                var onUpdate = GetReferenceCascadeAction(addReferenceNode.OnUpdate.Value);
+                TextWriter.Write(" on update {0}", onUpdate);
+            } // if
+
+            if(addReferenceNode.OnDelete.HasValue)
+            {
+                var onDelete = GetReferenceCascadeAction(addReferenceNode.OnDelete.Value);
+                TextWriter.Write(" on delete {0}", onDelete);
+            } // if
+
+            TextWriter.WriteLine(";");
+        }
+
+        private string GetReferenceCascadeAction(ReferenceCascadeAction referenceCascadeAction)
+        {
+            switch(referenceCascadeAction)
+            {
+                case ReferenceCascadeAction.NoAction:
+                    return "no action";
+                case ReferenceCascadeAction.Cascade:
+                    return "cascade";
+                case ReferenceCascadeAction.Restrict:
+                    return "restrict";
+                case ReferenceCascadeAction.SetNull:
+                    return "set null";
+                case ReferenceCascadeAction.SetDefault:
+                    return "set default";
+                default:
+                    throw new ArgumentOutOfRangeException("referenceCascadeAction");
+            } // switch
         }
 
         /// <summary>

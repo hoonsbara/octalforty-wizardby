@@ -55,6 +55,16 @@ namespace octalforty.Wizardby.Core.Compiler.Impl
                 addReferenceNode.Location = referencesProperty.Location;
                 addReferenceNode.Properties.AddProperty(AstNodeProperty.String(MdlSyntax.PkTable, references));
 
+                //
+                // Propagate on-delete and on-update
+                var onDelete = addColumnNode.Properties["on-delete"];
+                if(onDelete != null)
+                    addReferenceNode.Properties.AddProperty(onDelete);
+
+                var onUpdate = addColumnNode.Properties["on-update"];
+                if(onUpdate != null)
+                    addReferenceNode.Properties.AddProperty(onUpdate);
+
                 addColumnNode.ChildNodes.Add(addReferenceNode);
             } // if
 
