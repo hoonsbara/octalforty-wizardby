@@ -627,6 +627,10 @@ namespace octalforty.Wizardby.Core.Compiler.Impl
             if(addIndexNode.Properties[MdlSyntax.Clustered] != null)
                 addIndexNode.Clustered = indexDefinition.Clustered =
                     Convert.ToBoolean(((IStringAstNodePropertyValue)addIndexNode.Properties[MdlSyntax.Clustered].Value).Value);
+
+            if(addIndexNode.Properties["where"] != null)
+                addIndexNode.Where = indexDefinition.Where = 
+                    AstNodePropertyUtil.AsString(addIndexNode.Properties["where"].Value);
         }
 
         private static MdlCompilerException CreateMdlCompilerException(string format, params object[] args)

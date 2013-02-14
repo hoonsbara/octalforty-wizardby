@@ -41,5 +41,18 @@ namespace octalforty.Wizardby.Db.SqlServer2008
         {
             get { return new SqlServer2008TypeMapper(); }
         }
+
+        public override IDbDialect Dialect
+        {
+            get
+            {
+                var sqlServer2008Dialect = new SqlServer2008Dialect();
+                sqlServer2008Dialect.Platform = this;
+
+                return sqlServer2008Dialect;
+            }
+        }
+
+        
     }
 }

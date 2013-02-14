@@ -32,6 +32,10 @@ using NUnit.Framework;
 
 using octalforty.Wizardby.Core.Compiler;
 using octalforty.Wizardby.Core.Compiler.Ast;
+using octalforty.Wizardby.Core.Db;
+using octalforty.Wizardby.Core.Migration;
+using octalforty.Wizardby.Core.Migration.Impl;
+using octalforty.Wizardby.Db.SqlServer2008;
 
 namespace octalforty.Wizardby.Tests.Core.Compiler
 {
@@ -72,11 +76,26 @@ namespace octalforty.Wizardby.Tests.Core.Compiler
             using (Stream resourceStream =
                 Assembly.GetExecutingAssembly().GetManifestResourceStream("octalforty.Wizardby.Tests.Resources.Blog.mdl"))
             {
-                IMdlParser mdlParser = new MdlParser(MdlParserTestFixture.CreateScanner(new StreamReader(resourceStream, Encoding.UTF8)));
+                var msc = new MigrationScriptCompiler(
+                    new SqlServer2008Platform(),
+                    new FileSystemNativeSqlResourceProvider("."),
+                    MigrationMode.Upgrade);
+
+                var scripts = msc.CompileMigrationScripts(new StreamReader(resourceStream));
+                /*IMdlParser mdlParser = new MdlParser(MdlParserTestFixture.CreateScanner(new StreamReader(resourceStream, Encoding.UTF8)));
                 astNode = mdlParser.Parse();
 
-                IMdlCompiler mdlCompiler = new MdlCompiler(new NullCodeGenerator(), environment);
-                mdlCompiler.Compile(astNode, MdlCompilationOptions.All);
+                var dbStatementBatchWriter = new DbStatementBatchWriter();
+                var codeGenerator = new SqlServer2008ScriptGenerator(dbStatementBatchWriter);
+                IMdlCompiler mdlCompiler = new MdlCompiler(codeGenerator, environment);
+                mdlCompiler.Compile(astNode, MdlCompilationOptions.All | MdlCompilationOptions.GenerateCode);
+
+                foreach(var batch in dbStatementBatchWriter.GetStatementBatches())
+                    System.Console.WriteLine(batch);*/
+
+                foreach(var script in scripts)
+                    foreach(var ddlScript in script.DdlScripts)
+                        System.Console.WriteLine(ddlScript);
             } // using
         }
 

@@ -102,9 +102,6 @@ namespace octalforty.Wizardby.Core.Db
         {
             StringBuilder createIndexBuilder = new StringBuilder("create ");
 
-            /*var tableDefinition = Schema.GetTable(addIndexNode.Table);
-            if(tableDefinition != null)
-                tableDefinition.AddIndex(new IndexDefinition(addIndexNode));*/
             if (addIndexNode.Unique ?? false)
                 createIndexBuilder.Append("unique ");
 

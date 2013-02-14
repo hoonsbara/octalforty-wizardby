@@ -32,7 +32,7 @@ migration "Blog" revision => 1:
     			
 	    add table BlogPostTagJunction primary-key => false:
 		    BlogPostID type => Int32, nullable => false:
-			    reference "FK3" pk-table => BlogPost
+			    reference "FK3" pk-table => BlogPost, on-delete => cascade
 		    TagID:
 			    reference "FK4" pk-table => Tag
     			
@@ -45,7 +45,8 @@ migration "Blog" revision => 1:
     		
     version 20090226100409:
 	    add table Media:
-		    TypeID type => Int32
+		    TypeID type => Int32:
+				index "" where => "TypeID is not null"
 		    Name type => N
 		    MimeType type => N, default => "'text/xml'"
 		    Length type => Int32

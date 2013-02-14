@@ -103,6 +103,9 @@ namespace octalforty.Wizardby.Core.SemanticModel
             get { return clustered; }
             set { clustered = value; }
         }
+
+        public virtual string Where { get; set; }
+
         #endregion
     }
 }

@@ -83,6 +83,9 @@ namespace octalforty.Wizardby.Core.Compiler.Ast.Impl
             get { return clustered; }
             set { clustered = value; }
         }
+
+        public string Where { get; set; }
+
         #endregion
     }
 }

@@ -54,5 +54,7 @@ namespace octalforty.Wizardby.Core.SemanticModel
         /// </summary>
         bool? Clustered
         { get; set; }
+
+        string Where { get; set; }
     }
 }
