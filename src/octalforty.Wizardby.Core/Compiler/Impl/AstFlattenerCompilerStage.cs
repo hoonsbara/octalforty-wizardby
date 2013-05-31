@@ -81,13 +81,13 @@ namespace octalforty.Wizardby.Core.Compiler.Impl
         /// Visits the given <paramref name="addConstraintNode"/>.
         /// </summary>
         /// <param name="addConstraintNode"></param>
-        public override void Visit(IAddConstraintNode addConstraintNode)
+        /*public override void Visit(IAddConstraintNode addConstraintNode)
         {
             if(IsImmediateChildOf<IColumnNode>(addConstraintNode))
                 MoveNodeTo(addConstraintNode, addConstraintNode.Parent.Parent.Parent);
             else if(IsImmediateChildOf<IAddTableNode>(addConstraintNode) || IsImmediateChildOf<IAlterTableNode>(addConstraintNode))
                 MoveNodeTo(addConstraintNode, addConstraintNode.Parent.Parent);
-        }
+        }*/
 
         /// <summary>
         /// Visits the given <paramref name="removeConstraintNode"/>.

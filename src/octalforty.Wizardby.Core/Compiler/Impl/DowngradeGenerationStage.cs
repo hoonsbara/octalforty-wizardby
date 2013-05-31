@@ -315,7 +315,6 @@ namespace octalforty.Wizardby.Core.Compiler.Impl
             var sb = new StringBuilder();
             var sw = new StringWriter(sb);
             mg.Generate(astNode, sw);
-            Console.WriteLine("bsd " + sb.ToString());
             SchemaDefinitionBuilderVisitor schemaDefinitionBuilder = new SchemaDefinitionBuilderVisitor(Environment.Schema);
             astNode.Accept(schemaDefinitionBuilder);
         }

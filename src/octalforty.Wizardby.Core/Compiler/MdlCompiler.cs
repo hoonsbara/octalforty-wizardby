@@ -153,10 +153,6 @@ namespace octalforty.Wizardby.Core.Compiler
             // Passing through the pipeline
             foreach(IMdlCompilerStage compilerStage in compilerStages)
             {
-                Console.WriteLine();
-                Console.WriteLine("*** " + compilerStage.GetType().FullName);
-                Console.WriteLine();
-
                 compilerStage.SetEnvironment(environment);
                 astNode.Accept(compilerStage);
             } // foreach

@@ -160,7 +160,7 @@ namespace octalforty.Wizardby.Db.SqlServer2000
                 yield return Platform.Dialect.EscapeIdentifier(identifier);
         }
 
-        protected override string GetAddColumnDefinition(IColumnDefinition column)
+        protected override string GetAddColumnDefinition(IAddColumnNode column)
         {
             var addColumn = base.GetAddColumnDefinition(column);
             if(column.Identity ?? false)

@@ -27,6 +27,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+
+using octalforty.Wizardby.Core.Compiler;
 using octalforty.Wizardby.Core.Compiler.Ast;
 using octalforty.Wizardby.Core.Migration;
 using octalforty.Wizardby.Core.SemanticModel;
@@ -186,7 +188,7 @@ namespace octalforty.Wizardby.Core.Db
                                  Platform.Dialect.EscapeIdentifier(removeColumnNode.Name));
         }
 
-        protected virtual string GetColumnDefinition(IColumnDefinition columnDefinition, bool enforceNullable)
+        protected virtual string GetColumnDefinition(IAddColumnNode columnDefinition, bool enforceNullable)
         {
             StringBuilder columnDefinitionBuilder = new StringBuilder();
             columnDefinitionBuilder.AppendFormat("{0} {1} {2}", 
@@ -206,6 +208,13 @@ namespace octalforty.Wizardby.Core.Db
             else
                 columnDefinitionBuilder.Append("");
 
+            var @default = columnDefinition. Properties[MdlSyntax.Default];
+            if(@default != null)
+                columnDefinitionBuilder.AppendFormat(" default '{0}'", 
+                    @default.Value is IStringAstNodePropertyValue ? 
+                        AstNodePropertyUtil.AsString(@default.Value) :
+                        AstNodePropertyUtil.AsInteger(@default.Value).ToString());
+
             return columnDefinitionBuilder.ToString();
         }
 
@@ -222,7 +231,7 @@ namespace octalforty.Wizardby.Core.Db
             return columnDefinitionBuilder.ToString();
         }
 
-        protected virtual string GetAddColumnDefinition(IColumnDefinition column)
+        protected virtual string GetAddColumnDefinition(IAddColumnNode column)
         {
             var builder = new StringBuilder();
             builder.AppendFormat("\t{0} {1} {2} ", 
@@ -230,6 +239,13 @@ namespace octalforty.Wizardby.Core.Db
                 MapToNativeType(column),
                 GetNullabilitySpecification(column));
 
+            var @default = column. Properties[MdlSyntax.Default];
+            if(@default != null)
+                builder.AppendFormat(" default '{0}'", 
+                    @default.Value is IStringAstNodePropertyValue ? 
+                        AstNodePropertyUtil.AsString(@default.Value) :
+                        AstNodePropertyUtil.AsInteger(@default.Value).ToString());
+             
             return builder.ToString();
         }
 

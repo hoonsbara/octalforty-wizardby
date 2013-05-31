@@ -68,6 +68,8 @@ namespace octalforty.Wizardby.Tests.Db.SqlServer2000
             foreach(IVersionNode versionNode in Algorithms.Filter<IAstNode, IVersionNode>(astNode.ChildNodes))
                 versionNode.Accept(scriptGenerator);
 
+            System.Console.WriteLine(batchWriter.GetStatementBatches()[0].Clean());
+
             Assert.AreEqual(@"create table [SchemaInfo] (
 [Version] bigint not null  
 );

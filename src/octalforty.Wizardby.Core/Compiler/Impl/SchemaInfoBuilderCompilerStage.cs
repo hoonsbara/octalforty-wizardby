@@ -46,8 +46,6 @@ namespace octalforty.Wizardby.Core.Compiler.Impl
             if(builtSchemaInfo)
                 return;
 
-            Console.WriteLine("SIBCS " + versionNode.Number);
-
             IAddTableNode addSchemaInfoTableNode = new AddTableNode(versionNode, "SchemaInfo");
             
             IAddColumnNode addVersionColumnNode = new AddColumnNode(addSchemaInfoTableNode, "Version");

@@ -23,6 +23,7 @@
 #endregion
 using System.IO;
 
+using octalforty.Wizardby.Core.Compiler.Ast;
 using octalforty.Wizardby.Core.Db;
 using octalforty.Wizardby.Core.SemanticModel;
 using octalforty.Wizardby.Db.SqlServer2000;
@@ -36,7 +37,7 @@ namespace octalforty.Wizardby.Db.Jet
         {
         }
 
-        protected override string GetColumnDefinition(IColumnDefinition columnDefinition, bool enforceNullable)
+        protected override string GetColumnDefinition(IAddColumnNode columnDefinition, bool enforceNullable)
         {
             bool? pk = columnDefinition.PrimaryKey;
             columnDefinition.PrimaryKey = false;
